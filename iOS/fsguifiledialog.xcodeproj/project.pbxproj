@@ -1,0 +1,296 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F314344A1C0951FD00E914E9 /* fsguifiledialog_nodialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31434481C0951FD00E914E9 /* fsguifiledialog_nodialog.cpp */; };
+		F314345C1C09521C00E914E9 /* libfsguilib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F314345B1C09520D00E914E9 /* libfsguilib.a */; };
+		F314345D1C09522200E914E9 /* fsguifiledialog.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31434491C0951FD00E914E9 /* fsguifiledialog.h */; };
+		F31437AE1C0A15FE00E914E9 /* fsguifiledialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31437AD1C0A15FE00E914E9 /* fsguifiledialog.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F314345A1C09520D00E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F314344B1C09520C00E914E9 /* fsguilib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F3BD0EC61C07DA40006B1C96;
+			remoteInfo = fsguilib;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F314343A1C09518C00E914E9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F314345D1C09522200E914E9 /* fsguifiledialog.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F314343C1C09518C00E914E9 /* libfsguifiledialog.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfsguifiledialog.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F31434481C0951FD00E914E9 /* fsguifiledialog_nodialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsguifiledialog_nodialog.cpp; path = ../src/fsguilib/filedialog/fsguifiledialog_nodialog.cpp; sourceTree = "<group>"; };
+		F31434491C0951FD00E914E9 /* fsguifiledialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fsguifiledialog.h; path = ../src/fsguilib/filedialog/fsguifiledialog.h; sourceTree = "<group>"; };
+		F314344B1C09520C00E914E9 /* fsguilib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = fsguilib.xcodeproj; sourceTree = "<group>"; };
+		F31437AD1C0A15FE00E914E9 /* fsguifiledialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsguifiledialog.cpp; path = ../src/fsguilib/filedialog/fsguifiledialog.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F31434391C09518C00E914E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F314345C1C09521C00E914E9 /* libfsguilib.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F31434331C09518C00E914E9 = {
+			isa = PBXGroup;
+			children = (
+				F314344B1C09520C00E914E9 /* fsguilib.xcodeproj */,
+				F31434481C0951FD00E914E9 /* fsguifiledialog_nodialog.cpp */,
+				F31434491C0951FD00E914E9 /* fsguifiledialog.h */,
+				F31437AD1C0A15FE00E914E9 /* fsguifiledialog.cpp */,
+				F314343E1C09518C00E914E9 /* fsguifiledialog */,
+				F314343D1C09518C00E914E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F314343D1C09518C00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F314343C1C09518C00E914E9 /* libfsguifiledialog.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F314343E1C09518C00E914E9 /* fsguifiledialog */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = fsguifiledialog;
+			sourceTree = "<group>";
+		};
+		F314344C1C09520C00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F314345B1C09520D00E914E9 /* libfsguilib.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F314343B1C09518C00E914E9 /* fsguifiledialog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F31434451C09518C00E914E9 /* Build configuration list for PBXNativeTarget "fsguifiledialog" */;
+			buildPhases = (
+				F31434381C09518C00E914E9 /* Sources */,
+				F31434391C09518C00E914E9 /* Frameworks */,
+				F314343A1C09518C00E914E9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = fsguifiledialog;
+			productName = fsguifiledialog;
+			productReference = F314343C1C09518C00E914E9 /* libfsguifiledialog.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F31434341C09518C00E914E9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F314343B1C09518C00E914E9 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F31434371C09518C00E914E9 /* Build configuration list for PBXProject "fsguifiledialog" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F31434331C09518C00E914E9;
+			productRefGroup = F314343D1C09518C00E914E9 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F314344C1C09520C00E914E9 /* Products */;
+					ProjectRef = F314344B1C09520C00E914E9 /* fsguilib.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F314343B1C09518C00E914E9 /* fsguifiledialog */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F314345B1C09520D00E914E9 /* libfsguilib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfsguilib.a;
+			remoteRef = F314345A1C09520D00E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F31434381C09518C00E914E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31437AE1C0A15FE00E914E9 /* fsguifiledialog.cpp in Sources */,
+				F314344A1C0951FD00E914E9 /* fsguifiledialog_nodialog.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F31434431C09518C00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F31434441C09518C00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F31434461C09518C00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F31434471C09518C00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F31434371C09518C00E914E9 /* Build configuration list for PBXProject "fsguifiledialog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31434431C09518C00E914E9 /* Debug */,
+				F31434441C09518C00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F31434451C09518C00E914E9 /* Build configuration list for PBXNativeTarget "fsguifiledialog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31434461C09518C00E914E9 /* Debug */,
+				F31434471C09518C00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F31434341C09518C00E914E9 /* Project object */;
+}

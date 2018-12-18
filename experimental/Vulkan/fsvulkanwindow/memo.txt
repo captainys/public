@@ -1,0 +1,6 @@
+Goal:
+
+- Create a library that can open a Vulkan-ready window with a single call to a function.
+- Interchangeable with fssimplewindow library, which creates an OpenGL-ready window.
+- Source code will reside under fssimplewindow directory so that common sources are not duplicated.
+- Isolate OpenGL part and Vulkan part from fssimplewindow source files and create separate CMakeLists.txt for fssimplewindow and fsvulkanwindow libraries.

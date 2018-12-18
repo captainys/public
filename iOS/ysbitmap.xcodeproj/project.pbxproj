@@ -1,0 +1,287 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F3BD0F471C07DBBD006B1C96 /* ysbitmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0F3E1C07DBBD006B1C96 /* ysbitmap.cpp */; };
+		F3BD0F481C07DBBD006B1C96 /* ysbitmaparray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0F401C07DBBD006B1C96 /* ysbitmaparray.cpp */; };
+		F3BD0F491C07DBBD006B1C96 /* ysbitmappngif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0F421C07DBBD006B1C96 /* ysbitmappngif.cpp */; };
+		F3BD0F4A1C07DBBD006B1C96 /* yspng.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0F431C07DBBD006B1C96 /* yspng.cpp */; };
+		F3BD0F4B1C07DBBD006B1C96 /* yspngenc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0F451C07DBBD006B1C96 /* yspngenc.cpp */; };
+		F3BD0F4C1C07DBCA006B1C96 /* ysbitmap.h in Copy Files */ = {isa = PBXBuildFile; fileRef = F3BD0F3F1C07DBBD006B1C96 /* ysbitmap.h */; };
+		F3BD0F4D1C07DBCA006B1C96 /* ysbitmaparray.h in Copy Files */ = {isa = PBXBuildFile; fileRef = F3BD0F411C07DBBD006B1C96 /* ysbitmaparray.h */; };
+		F3BD0F4E1C07DBCA006B1C96 /* yspng.h in Copy Files */ = {isa = PBXBuildFile; fileRef = F3BD0F441C07DBBD006B1C96 /* yspng.h */; };
+		F3BD0F4F1C07DBCA006B1C96 /* yspngenc.h in Copy Files */ = {isa = PBXBuildFile; fileRef = F3BD0F461C07DBBD006B1C96 /* yspngenc.h */; };
+		F3D850891E74E26A0031A915 /* ysbitmaptemplate.h in Copy Files */ = {isa = PBXBuildFile; fileRef = F3D850201E74DF630031A915 /* ysbitmaptemplate.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3BD0F301C07DB51006B1C96 /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F3D850891E74E26A0031A915 /* ysbitmaptemplate.h in Copy Files */,
+				F3BD0F4C1C07DBCA006B1C96 /* ysbitmap.h in Copy Files */,
+				F3BD0F4D1C07DBCA006B1C96 /* ysbitmaparray.h in Copy Files */,
+				F3BD0F4E1C07DBCA006B1C96 /* yspng.h in Copy Files */,
+				F3BD0F4F1C07DBCA006B1C96 /* yspngenc.h in Copy Files */,
+			);
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F3BD0F321C07DB51006B1C96 /* libysbitmap.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libysbitmap.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3BD0F3E1C07DBBD006B1C96 /* ysbitmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysbitmap.cpp; path = ../src/ysbitmap/src/ysbitmap.cpp; sourceTree = "<group>"; };
+		F3BD0F3F1C07DBBD006B1C96 /* ysbitmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysbitmap.h; path = ../src/ysbitmap/src/ysbitmap.h; sourceTree = "<group>"; };
+		F3BD0F401C07DBBD006B1C96 /* ysbitmaparray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysbitmaparray.cpp; path = ../src/ysbitmap/src/ysbitmaparray.cpp; sourceTree = "<group>"; };
+		F3BD0F411C07DBBD006B1C96 /* ysbitmaparray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysbitmaparray.h; path = ../src/ysbitmap/src/ysbitmaparray.h; sourceTree = "<group>"; };
+		F3BD0F421C07DBBD006B1C96 /* ysbitmappngif.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysbitmappngif.cpp; path = ../src/ysbitmap/src/ysbitmappngif.cpp; sourceTree = "<group>"; };
+		F3BD0F431C07DBBD006B1C96 /* yspng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yspng.cpp; path = ../src/ysbitmap/src/yspng.cpp; sourceTree = "<group>"; };
+		F3BD0F441C07DBBD006B1C96 /* yspng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yspng.h; path = ../src/ysbitmap/src/yspng.h; sourceTree = "<group>"; };
+		F3BD0F451C07DBBD006B1C96 /* yspngenc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yspngenc.cpp; path = ../src/ysbitmap/src/yspngenc.cpp; sourceTree = "<group>"; };
+		F3BD0F461C07DBBD006B1C96 /* yspngenc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yspngenc.h; path = ../src/ysbitmap/src/yspngenc.h; sourceTree = "<group>"; };
+		F3D850201E74DF630031A915 /* ysbitmaptemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysbitmaptemplate.h; path = ../src/ysbitmap/src/ysbitmaptemplate.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F3BD0F2F1C07DB51006B1C96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F3BD0F291C07DB51006B1C96 = {
+			isa = PBXGroup;
+			children = (
+				F3D850201E74DF630031A915 /* ysbitmaptemplate.h */,
+				F3BD0F3E1C07DBBD006B1C96 /* ysbitmap.cpp */,
+				F3BD0F3F1C07DBBD006B1C96 /* ysbitmap.h */,
+				F3BD0F401C07DBBD006B1C96 /* ysbitmaparray.cpp */,
+				F3BD0F411C07DBBD006B1C96 /* ysbitmaparray.h */,
+				F3BD0F421C07DBBD006B1C96 /* ysbitmappngif.cpp */,
+				F3BD0F431C07DBBD006B1C96 /* yspng.cpp */,
+				F3BD0F441C07DBBD006B1C96 /* yspng.h */,
+				F3BD0F451C07DBBD006B1C96 /* yspngenc.cpp */,
+				F3BD0F461C07DBBD006B1C96 /* yspngenc.h */,
+				F3BD0F341C07DB51006B1C96 /* ysbitmap */,
+				F3BD0F331C07DB51006B1C96 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F3BD0F331C07DB51006B1C96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3BD0F321C07DB51006B1C96 /* libysbitmap.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3BD0F341C07DB51006B1C96 /* ysbitmap */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ysbitmap;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F3BD0F311C07DB51006B1C96 /* ysbitmap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3BD0F3B1C07DB51006B1C96 /* Build configuration list for PBXNativeTarget "ysbitmap" */;
+			buildPhases = (
+				F3BD0F2E1C07DB51006B1C96 /* Sources */,
+				F3BD0F2F1C07DB51006B1C96 /* Frameworks */,
+				F3BD0F301C07DB51006B1C96 /* Copy Files */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ysbitmap;
+			productName = ysbitmap;
+			productReference = F3BD0F321C07DB51006B1C96 /* libysbitmap.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F3BD0F2A1C07DB51006B1C96 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F3BD0F311C07DB51006B1C96 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F3BD0F2D1C07DB51006B1C96 /* Build configuration list for PBXProject "ysbitmap" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F3BD0F291C07DB51006B1C96;
+			productRefGroup = F3BD0F331C07DB51006B1C96 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F3BD0F311C07DB51006B1C96 /* ysbitmap */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F3BD0F2E1C07DB51006B1C96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3BD0F481C07DBBD006B1C96 /* ysbitmaparray.cpp in Sources */,
+				F3BD0F4B1C07DBBD006B1C96 /* yspngenc.cpp in Sources */,
+				F3BD0F491C07DBBD006B1C96 /* ysbitmappngif.cpp in Sources */,
+				F3BD0F471C07DBBD006B1C96 /* ysbitmap.cpp in Sources */,
+				F3BD0F4A1C07DBBD006B1C96 /* yspng.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F3BD0F391C07DB51006B1C96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F3BD0F3A1C07DB51006B1C96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F3BD0F3C1C07DB51006B1C96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F3BD0F3D1C07DB51006B1C96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F3BD0F2D1C07DB51006B1C96 /* Build configuration list for PBXProject "ysbitmap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3BD0F391C07DB51006B1C96 /* Debug */,
+				F3BD0F3A1C07DB51006B1C96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3BD0F3B1C07DB51006B1C96 /* Build configuration list for PBXNativeTarget "ysbitmap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3BD0F3C1C07DB51006B1C96 /* Debug */,
+				F3BD0F3D1C07DB51006B1C96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F3BD0F2A1C07DB51006B1C96 /* Project object */;
+}

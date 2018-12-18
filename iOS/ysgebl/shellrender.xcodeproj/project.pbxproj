@@ -1,0 +1,334 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F31434271C082F0200E914E9 /* libgeblkernel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434231C082EF200E914E9 /* libgeblkernel.a */; };
+		F31434281C082F0200E914E9 /* libgeblutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434261C082EF200E914E9 /* libgeblutil.a */; };
+		F314342D1C082F2500E914E9 /* ysshellextgl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31434291C082F2500E914E9 /* ysshellextgl.cpp */; };
+		F314342E1C082F2500E914E9 /* ysvisual.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314342B1C082F2500E914E9 /* ysvisual.cpp */; };
+		F31434301C082F5900E914E9 /* ysshellextgl_gl2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314342F1C082F5900E914E9 /* ysshellextgl_gl2.cpp */; };
+		F31434311C082F7C00E914E9 /* ysshellextgl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314342A1C082F2500E914E9 /* ysshellextgl.h */; };
+		F31434321C082F7C00E914E9 /* ysvisual.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314342C1C082F2500E914E9 /* ysvisual.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F31434221C082EF200E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31434131C082EF200E914E9 /* geblkernel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F314328B1C08288300E914E9;
+			remoteInfo = geblkernel;
+		};
+		F31434251C082EF200E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F314341D1C082EF200E914E9 /* geblutil.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F314330C1C082ABE00E914E9;
+			remoteInfo = geblutil;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F31434051C082E9D00E914E9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F31434311C082F7C00E914E9 /* ysshellextgl.h in CopyFiles */,
+				F31434321C082F7C00E914E9 /* ysvisual.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F31434071C082E9D00E914E9 /* libshellrender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libshellrender.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F31434131C082EF200E914E9 /* geblkernel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = geblkernel.xcodeproj; sourceTree = "<group>"; };
+		F314341D1C082EF200E914E9 /* geblutil.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = geblutil.xcodeproj; sourceTree = "<group>"; };
+		F31434291C082F2500E914E9 /* ysshellextgl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextgl.cpp; path = ../../src/ysgebl/src/shellrender/ysshellextgl.cpp; sourceTree = "<group>"; };
+		F314342A1C082F2500E914E9 /* ysshellextgl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextgl.h; path = ../../src/ysgebl/src/shellrender/ysshellextgl.h; sourceTree = "<group>"; };
+		F314342B1C082F2500E914E9 /* ysvisual.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysvisual.cpp; path = ../../src/ysgebl/src/shellrender/ysvisual.cpp; sourceTree = "<group>"; };
+		F314342C1C082F2500E914E9 /* ysvisual.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysvisual.h; path = ../../src/ysgebl/src/shellrender/ysvisual.h; sourceTree = "<group>"; };
+		F314342F1C082F5900E914E9 /* ysshellextgl_gl2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextgl_gl2.cpp; path = ../../src/ysgebl/src/shellrender/gl2/ysshellextgl_gl2.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F31434041C082E9D00E914E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31434271C082F0200E914E9 /* libgeblkernel.a in Frameworks */,
+				F31434281C082F0200E914E9 /* libgeblutil.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F31433FE1C082E9D00E914E9 = {
+			isa = PBXGroup;
+			children = (
+				F314342F1C082F5900E914E9 /* ysshellextgl_gl2.cpp */,
+				F31434291C082F2500E914E9 /* ysshellextgl.cpp */,
+				F314342A1C082F2500E914E9 /* ysshellextgl.h */,
+				F314342B1C082F2500E914E9 /* ysvisual.cpp */,
+				F314342C1C082F2500E914E9 /* ysvisual.h */,
+				F31434131C082EF200E914E9 /* geblkernel.xcodeproj */,
+				F314341D1C082EF200E914E9 /* geblutil.xcodeproj */,
+				F31434091C082E9D00E914E9 /* shellrender */,
+				F31434081C082E9D00E914E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F31434081C082E9D00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31434071C082E9D00E914E9 /* libshellrender.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31434091C082E9D00E914E9 /* shellrender */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = shellrender;
+			sourceTree = "<group>";
+		};
+		F31434141C082EF200E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31434231C082EF200E914E9 /* libgeblkernel.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F314341E1C082EF200E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31434261C082EF200E914E9 /* libgeblutil.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F31434061C082E9D00E914E9 /* shellrender */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F31434101C082E9D00E914E9 /* Build configuration list for PBXNativeTarget "shellrender" */;
+			buildPhases = (
+				F31434031C082E9D00E914E9 /* Sources */,
+				F31434041C082E9D00E914E9 /* Frameworks */,
+				F31434051C082E9D00E914E9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = shellrender;
+			productName = shellrender;
+			productReference = F31434071C082E9D00E914E9 /* libshellrender.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F31433FF1C082E9D00E914E9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F31434061C082E9D00E914E9 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F31434021C082E9D00E914E9 /* Build configuration list for PBXProject "shellrender" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F31433FE1C082E9D00E914E9;
+			productRefGroup = F31434081C082E9D00E914E9 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F31434141C082EF200E914E9 /* Products */;
+					ProjectRef = F31434131C082EF200E914E9 /* geblkernel.xcodeproj */;
+				},
+				{
+					ProductGroup = F314341E1C082EF200E914E9 /* Products */;
+					ProjectRef = F314341D1C082EF200E914E9 /* geblutil.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F31434061C082E9D00E914E9 /* shellrender */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F31434231C082EF200E914E9 /* libgeblkernel.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgeblkernel.a;
+			remoteRef = F31434221C082EF200E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31434261C082EF200E914E9 /* libgeblutil.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgeblutil.a;
+			remoteRef = F31434251C082EF200E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F31434031C082E9D00E914E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F314342D1C082F2500E914E9 /* ysshellextgl.cpp in Sources */,
+				F314342E1C082F2500E914E9 /* ysvisual.cpp in Sources */,
+				F31434301C082F5900E914E9 /* ysshellextgl_gl2.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F314340E1C082E9D00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F314340F1C082E9D00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F31434111C082E9D00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F31434121C082E9D00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F31434021C082E9D00E914E9 /* Build configuration list for PBXProject "shellrender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F314340E1C082E9D00E914E9 /* Debug */,
+				F314340F1C082E9D00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F31434101C082E9D00E914E9 /* Build configuration list for PBXNativeTarget "shellrender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31434111C082E9D00E914E9 /* Debug */,
+				F31434121C082E9D00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F31433FF1C082E9D00E914E9 /* Project object */;
+}

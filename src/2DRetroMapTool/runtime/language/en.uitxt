@@ -1,0 +1,152 @@
+YSFLIGHT_LOCALIZATION_INFO_FILE
+
+*Needs to be encoded in UTF-8
+
+$LABEL "English"
+$FGCOL 255
+$BGCOL 0
+
+
+
++common/apply                                      #Apply
++common/clear                                      #Clear
++common/cutplane                                   #Cutting Plane
++common/distthr                                    #Distance Threshold
++common/g0continuous                               #G0 continuous
++common/g1continuous                               #G1 continuous
++common/g2continuous                               #G2 continuous
++common/help                                       #Help
++common/insert                                     #Insert
++common/length                                     #Length
++common/normal                                     #Normal
++common/ok                                         #OK
++common/cancel                                     #Cancel
++common/close                                      #Close
++common/delete                                     #Delete
++common/properties                                 #Properties
++common/reverse                                    #Reverse
++common/tangent                                    #Tangent
++common/type                                       #Type
++common/yes                                        #Yes
++common/no                                         #No
++common/error                                      #Error!
++common/angle                                      #Angle
+
+
++dlg/about/donateline1                             #Rinzo-Mamiya is a free and open-source polygon editor.\nBut, I appreicate if you can donate some money for supporting the development.
++dlg/about/donateline2                             #If you don't mind making some donation, please send money\nvia PayPal from the following button.
++dlg/about/donateline3                             #...
++dlg/about/donatepaypal                            #Donate via PayPal
++dlg/about/donatevector                            #Donate via Vector ShareReg
+
+
++dlg/comment/fontsize                              #Font Size
++dlg/comment/transparent_background                #Transparent Background
++dlg/common/ask_overwrite                          #Overwrite the existing file?
++dlg/common/file_already_exist                     #File Already Exists.
++dlg/common/need_select_one_mappiece               #One map piece must be selected.
++dlg/common/too_many_selected                      #Too many map pieces are selected.
++dlg/config/browse                                 #Browse
++dlg/config/browse_message                         #Please select one .png file to select a directory.
++dlg/config/foldername                             #Screenshot Folder Locations
++dlg/confirm_quit/message                          #The map has been modified.\nThe changes will be discarded if you quit.\nDo you really want to quit?
++dlg/confirm_quit/title                            #Really Quit?
++dlg/control/add_comment                           #Add Comment
++dlg/control/add_image_file                        #Add Image
++dlg/control/add_new_scrnshot                      #Add New Screenshot
++dlg/control/adjustment                            #Make Adjustment
++dlg/control/diffthr                               #Threshold
++dlg/control/down                                  #Down
++dlg/control/left                                  #Left
++dlg/control/right                                 #Right
++dlg/control/showdiff                              #Show Diff
++dlg/control/up                                    #Up
++dlg/drawing/autoanchor                            #Auto Anchor
++dlg/drawing/fill                                  #Fill
++dlg/drawing/line                                  #Line
++dlg/drawing/linestrip                             #LineStrip
++dlg/drawing/multipleelem                          #Multiple Elements
++dlg/drawing/none                                  #None
++dlg/exportpng/include_markup                      #Include Mark Up
++dlg/field/confirm_delete                          #Really delete this field?
++dlg/fieldorder/down                               #Down
++dlg/fieldorder/up                                 #Up
++dlg/fieldprop/fieldname                           #Field Name
++dlg/need_configure_scrnshotdir                    #Please select screen-shot directory from Config.
++dlg/open/confirm_discard_changes                  #The map has been modified.\nOpening a file will discard changes.\nDo you really want to discard changes and open a file?
++dlg/save/saved                                    #Saved.
++dlg/scaling/all                                   #Scale All Map Pieces
++dlg/scaling/maintain_aspect                       #Maintain Aspect Ratio
++dlg/scaling/this_and_new                          #Scale This and New Map Pieces
++dlg/scaling/this_only                             #Scale This Map Piece Only
++dlg/search/case_sensitive                         #Case Sensitive
++dlg/search/select                                 #Select
++dlg/setunit/set                                   #Set
++dlg/setunit/set_and_apply_all                     #Set and Apply to All
++dlg/trim/apply_all                                #All Map Pieces
++dlg/trim/this_mappiece_only                       #This Map Piece Only
++dlg/trim/trim_this_and_new                        #This Map Piece and New Map Pieces
++dlg/trim/use_unit                                 #Use Unit
++dlg/worldprop/name                                #Name
++error/cannot_write_file                           #Cannot write to file.
++error/crash_while_cache                           #The program crashed or forcibly terminated while making a screenshot file cache.\nPlease check if you have specified a correct directory in the config dialog.\nSpecifying root directory of the root drive may cause the program to crash or stop responding.
++error/need_select_markup                          #Please select a mark up(s)
++menu/config                                       #Config
++menu/config/config                                #Config
++menu/edit                                         #Edit
++menu/edit/clear_ui_mode                           #Clear UI Mode
++menu/edit/copy                                    #Copy
++menu/edit/delete                                  #Delete
++menu/edit/insert                                  #Insert
++menu/edit/insert/comment                          #Comment
++menu/edit/paste                                   #Paste
++menu/edit/redo                                    #Redo\tCtrl+Y
++menu/edit/scaling                                 #Scaling
++menu/edit/search                                  #Search
++menu/edit/search/exact_match                      #Exact Match
++menu/edit/search/partial_match                    #Partial Match
++menu/edit/trim                                    #Trim
++menu/edit/undo                                    #Undo\tCtrl+Z
++menu/field                                        #Field
++menu/field/change_order                           #Change Order
++menu/field/newfield                               #Add New Field
++menu/field/nextfield                              #Next Field\tCtrl+Tab
++menu/field/prevfield                              #Previous Field\tCtrl+Shift+Tab
++menu/file                                         #File
++menu/file/exit                                    #Exit
++menu/file/export_as_bitmap                        #Export As Bitmap
++menu/file/export_as_bitmap_all_field              #Export All Fields as PNG
++menu/file/insert_image                            #Insert Image
++menu/file/open                                    #Open
++menu/file/recent                                  #Recent Files...
++menu/file/save                                    #Save
++menu/file/saveas                                  #Save As
++menu/lookat                                       #Look At...
++menu/lookat/selection                             #Selection\tHOME
++menu/mappiece                                     #Map Piece
++menu/mappiece/insert/newscrnshot                  #Insert New Screen Shot
++menu/mappiece/move_to_back                        #Move to Back
++menu/mappiece/move_to_front                       #Move to Front
++menu/mappiece/reapplyunitall                      #Reapply Unit to All Map Pieces
++menu/mappiece/trim_selection_with_large_rectangle #Trim Selected Map Pieces with a Large Rectangle
++menu/mappiece/untrim                              #Untrim
++menu/mappiece/update_scrnshot_cache               #Update Screenshot Cache
++menu/markup                                       #Mark Up
++menu/markup/anchor_by_picking                     #Anchor by Picking
++menu/markup/anchor_selected                       #Anchor Selected Mark Ups
++menu/markup/open_drawing_dialog                   #Open Drawing Dialog
++menu/markup/reapply_anchor                        #Reapply Anchors
++menu/markup/snap                                  #Snap to Unit
++menu/markup/unanchor_by_picking                   #Unanchor by Picking
++menu/markup/unanchor_selected                     #Unanchor Selected Mark Ups.
++menu/select                                       #Select
++menu/select/selectall                             #Select All
++menu/select/unselectall                           #Unselect All\tT
++menu/view                                         #View
++menu/view/draw_markup                             #Show Mark Ups
++menu/view/fit                                     #Fit
++menu/view/move_position_reference_marker          #Move Position Reference Marker
++menu/view/restore_view_per_field                  #Restore Viewpoint when Switching Field
++menu/view/show_position_reference_marker          #Show Position Reference Marker
++menu/world                                        #World
++menu/world/setunit                                #Set Unit

@@ -1,0 +1,297 @@
+What's good?
+  Windows Universal App Supports OpenGL ES 2.0!
+  Bravo!
+
+What's bad?
+  Libraries need to be downloaded from the internet per solution.
+    ANGLE.WindowsStore by Microsoft
+  Hope Microsoft to support this as long as Windows 10....
+
+  NuGet Package must be assigned for the projects that uses OpenGL ES 2.0.
+  How to do it (or if it is possible) from CMake is not yet known.
+
+
+
+CMake (According to http://stackoverflow.com/questions/31857315/how-can-i-use-cmake-to-generate-windows-10-universal-project)
+    CMake -G "Visual Studio 14 2015" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0 
+
+  CMake needs to be version 3.5 or newer, apparently.
+
+
+
+Installing NuGet Command-Line Tools
+  1. Open Visual Studio
+  2. Tools -> NuGet Package Manager -> Package Manager Console
+  3. Type:
+     Install-Package NuGet.CommandLine
+  According to the NuGet web site....   Which turned out useless.
+  I want to install it as a common tool.  Not as a project/solution specific tool.
+
+  Download nuget.exe from nuget.org.  How easy is that?
+
+  Command to get ANGLE.WindowsStore
+  > nuget install ANGLE.WindowsStore
+
+  Problem: I can get files.  It needs to be recognized as a package.
+
+
+
+
+
+OK.  By typing nuget.exe command, I can directly download a package.  In the top-level CMakeLists.txt,
+
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "WindowsStore")
+	find_program(NUGET_EXE nuget)
+	if(NOT NUGET_EXE)
+		message("NUGET.EXE not found.")
+		message("Unfortunatelly as of 09/13/2016, you cannot install NUGET.EXE as a globally-available command")
+		message("from Visual Studio 2015, or from Add/Remove Programs.  I spent about 30 minutes to search for")
+		message("the way, but didn't find one.")
+		message("You can download NUGET.EXE from:")
+		message("    https://dist.nuget.org/index.html")
+		message("and copy it to a directory where PATH is pointing.")
+		message(FATAL_ERROR "Please install this executable, and run CMake again.")
+	endif()
+	message("NUGET.EXE found at ${NUGET_EXE}")
+
+	exec_program(${NUGET_EXE}
+	             ARGS install "ANGLE.WindowsStore" -ExcludeVersion -OutputDirectory ${CMAKE_BINARY_DIR}/nuget_packages)
+	find_path(YS_ANGLE_UWP_INCLUDE gl2.h HINTS ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/Include/GLES2)
+	if(YS_ANGLE_UWP_INCLUDE)
+		message("OpenGL ES header is found in ${YS_ANGLE_UWP_INCLUDE}")
+	else()
+		message(FATAL_ERROR "OpenGL ES header not found in the package.")
+	endif()
+endif()
+
+This downloads OpenGL ES libraries in the CMAKE_BINARY_DIR/nuget_packages.  But it is not recognized by Visual Studio.  Useless again.
+
+
+
+
+If I manually add Nuget package to YSGL library, what happened was:
+
+(1) packages.config is added as a source file of YSGL library.
+(2) In YSGL.vcxproj, the following two lines:
+
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+
+    are replaced with:
+
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\..\..\packages\ANGLE.WindowsStore.2.1.10\build\native\ANGLE.WindowsStore.targets" Condition="Exists('..\..\..\..\packages\ANGLE.WindowsStore.2.1.10\build\native\ANGLE.WindowsStore.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\..\packages\ANGLE.WindowsStore.2.1.10\build\native\ANGLE.WindowsStore.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\ANGLE.WindowsStore.2.1.10\build\native\ANGLE.WindowsStore.targets'))" />
+  </Target>
+
+
+    which defines what needs to be imported, and how the packages must be restored every build.
+
+    Wait, if I directly download ANGLE.WindowsStore.?.?.?, can I just define <Import Project=..">  ?  Then nuget.exe may become less useless.
+
+
+
+
+
+OK.  I experimented with adding commands in the public/CMakeLists.txt, and then ran cmake for UWP.  Then, manually inserted:
+
+    <Import Project="..\..\..\..\nuget_packages\ANGLE.WindowsStore\build\native\ANGLE.WindowsStore.targets" Condition="Exists('..\..\..\..\nuget_packages\ANGLE.WindowsStore\build\native\ANGLE.WindowsStore.targets')" />
+
+in ysgl.vcxproj begween   <ImportGroup Label="ExtensionTargets">   and </ImportGroup>.
+
+
+Works!  Now, the last question.  How can I insert it when I run CMake?
+
+
+
+
+
+Tried to create a minimum UWP app, and got 'Windows' is not a class or namespace name error.  Stackoverflow tells:
+http://stackoverflow.com/questions/16698949/how-to-access-namespace-windows
+
+It needs /ZW option.
+
+Yes, /ZW option it is.  I like Microsoft supporting OpenGL ES.  Microsoft was the enemy of cross-platform development.  Now they are moving toward the right direction.  But, I don't like them making such a selfish extension to C++.,,,
+
+
+
+
+Now, trying to run.  Got an error:
+DEP0100: Please ensure that target device has developer mode enabled.  Could not obtain a developer license due to error 800704C7.
+
+Solution: Settings -> Update & Security -> For developers -> Developer mode
+
+
+
+Then got:
+DEP0100: Cannot copy file "resource.pri" to layout "...."
+What's resource.pri?
+
+https://msdn.microsoft.com/en-us/library/hh694557.aspx
+
+Probably, this link helps.
+
+(Error code)
+Severity	Code	Description	Project	File	Line	Suppression State
+Error		DEP1000 : Cannot copy file "resources.pri" to layout "D:\Users\soji\ysbin\uwp\exe\Release\AppX\resources.pri". 
+Could not find file 'resources.pri'.	UWP_00_MinimumApp			
+
+VS2015 seems to be creating a dummy or empty resources.pri where the .vcxproj file is located, but probably the current working directory is different.  I need to find the way to let the .vcxproj looks for resource.pri with full-path, or make the current working directory the directory of .vcxproj.
+
+Oops, looks like a bug in CMake?  In UWP_00_MinimumApp.vcxproj,
+    <ProjectPriFullPath>$(TargetDir)resources.pri</ProjectPriFullPath>
+
+Yes, it does look like a CMake bug.  If I delete <ProjectPriFullPath>...</ProjectPriFullPath>, it works.  It starts and crashes (as expected.)  The problem looks to be that the variable $(TargetDir) is empty.  Confirmed with CMake 3.6.2.
+
+Submitted an issue to the CMake issue tracker.  Almost immediately got a reply saying it is fixed in the nightly build.  So, should be fixed in the next release.
+
+
+
+
+
+Looks like <Import Project...> tag can be outside <ImportGroup></ImportGroup> block.  It can be just a matter of adding a line before </Project>
+
+Confirmed!  At least I can compile YSGL library if I add the following line.  Just before </Project>
+
+<Import Project="..\..\..\..\nuget_packages\ANGLE.WindowsStore\build\native\ANGLE.WindowsStore.targets" Condition="Exists('..\..\..\..\nuget_packages\ANGLE.WindowsStore\build\native\ANGLE.WindowsStore.targets')" />
+
+Next question:  Do I need Condition= ?   =>  No I don't.
+
+<Import Project="..\..\..\..\nuget_packages\ANGLE.WindowsStore\build\native\ANGLE.WindowsStore.targets" />
+
+This is good enough.  Now.  Is it possible to add it as VS_GLOBAL property for ysgl project from CMakeLists.txt ?
+
+
+
+OK.  By using set_target_properties with VS_GLOBAL_Import, I get
+
+    <Import>Project='..\..\..\..\nuget_packages\ANGLE.WindowsStore\build\native\ANGLE.WindowsStore.targets'</Import>
+
+in the vcxproj.  Does it work?  (I guess not....)
+
+It did not, and even if I change it to <Import Project='...' />, VS refuses to recognize it.  So, it must not be a property.
+
+
+
+
+....  How about https://cmake.org/Wiki/CMake/Tutorials/Exporting_and_Importing_Targets?
+
+
+    add_library(ANGLE_WindowsStore STATIC IMPORTED)
+    set_property(TARGET ANGLE_WindowsStore PROPERTY IMPORTED_LOCATION d:\\Users\\soji\\ysbin\\uwp\\nuget_packages\\ANGLE.WindowsStore\\build\\native\\ANGLE.WindowsStore.targets)
+    target_link_libraries(${TARGET_NAME} ANGLE_WindowsStore)
+
+
+No, it didn't work.  It might, if I directly specify .lib and .dll files, but the directory structure of the nuget package may change.  The safest way must be point to the .targets file.
+
+
+
+
+
+What worked as a temporary solution is:
+
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "WindowsStore")
+	add_library(ANGLE_WindowsStore_EGL SHARED IMPORTED)
+	add_library(ANGLE_WindowsStore_GLES2 SHARED IMPORTED)
+	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+		set_property(TARGET ANGLE_WindowsStore_EGL PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/UAP/x64/libEGL.dll)
+		set_property(TARGET ANGLE_WindowsStore_EGL PROPERTY IMPORTED_IMPLIB ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/UAP/x64/libEGL.lib)
+		set_property(TARGET ANGLE_WindowsStore_GLES2 PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/UAP/x64/libGLESv2.dll)
+		set_property(TARGET ANGLE_WindowsStore_GLES2 PROPERTY IMPORTED_IMPLIB ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/UAP/x64/libGLESv2.lib)
+	else()
+		set_property(TARGET ANGLE_WindowsStore_EGL PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/UAP/Win32/libEGL.dll)
+		set_property(TARGET ANGLE_WindowsStore_EGL PROPERTY IMPORTED_IMPLIB ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/UAP/Win32/libEGL.lib)
+		set_property(TARGET ANGLE_WindowsStore_GLES2 PROPERTY IMPORTED_LOCATION ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/UAP/Win32/libGLESv2.dll)
+		set_property(TARGET ANGLE_WindowsStore_GLES2 PROPERTY IMPORTED_IMPLIB ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/UAP/Win32/libGLESv2.lib)
+	endif()
+
+	target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/Include)
+
+	target_link_libraries(${TARGET_NAME} ANGLE_WindowsStore_EGL ANGLE_WindowsStore_GLES2)
+endif()
+
+TARGET_NAME is in my case, "ysgl".  It is a library that wraps around OpenGL 2.0/ES 2.0.
+
+It is not a permanent solution because it only supports x64 and Win32.  The OpenGLES package supports ARM architecture as well, but this CMakeLists.txt does not work for ARM.
+
+
+
+
+
+OK.  I'm going forward with the temporary fix.  Looks promising.  I am now able to compile and link OpenGL ES2.0 libraries.  Still not drawing anything, but will be soon.
+
+
+
+
+Now, if I manually edit .vcxproj, I can compile and run.  The next problem.  When I used OpenGL ES2 DLLs, I get an error saying dependent DLL not found.  Turned out OpenGL ES2 DLLs are not copied to the AppX folder.  Damn!  I specified it in CMakeLists.txt!  I need to do something.
+
+Also, #version 120 in GLSL is giving errors.  Version number not supported.
+
+OK.  Looks like it's my ysglslutil.c problem.  I don't know exactly what version for GLSL2, but for MacOSX and Windows, I needed #version 120.  So, I was checking if it was for iOS or not by macro.  Now, in addition to iOS, UWP programs use GLES2.  I need to change that.
+
+The problem is CMake-generated project doesn't copy DLLs.
+
+
+
+So far, what I know is:
+  (1) OpenGL ES package can be downloaded to the CMAKE_BINARY_DIR by execute_command.  So, that part can be automated.
+  (2) If let CMake download OpenGL ES package, I can use target_include_directories to add the header path to the programs and/or the libraries that use OpenGL ES.
+  (3) I need to manually modify .vcxproj file of the program so that, correct resources.pri file is created and referred.  (CMake's bug)
+  (4) I also need to manually add  <Import Project=... /> tag so that the OpenGL ES DLLs will be copied to the AppX package.
+
+
+(1) and (2) is just one-time things.  (3) and (4) need to be done every time CMake is re-run, which is a problem. There is a hope that (3) is fixed in the next release, but (4) has little hope.
+
+Looking at the example OpenGL ES app, libEGL.dll and libGLESv2.dll need to be copied directly in AppX folder.....  Seriously?  Isn't it possible to create a package that is good for x86, x64, and ARM?
+
+
+
+
+Maybe, DLLs should be marked as VS_DEPLOYMENT_CONTENT.
+   https://cmake.org/cmake/help/v3.6/manual/cmake-properties.7.html
+Yes!  It works.  Not very elegant though.  I need to first find OpenGL ES DLLs like:
+
+	if(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
+		find_path(YS_ANGLE_UWP_LIBDIR libEGL.dll HINTS 
+			"${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/uap/win32")
+	elseif(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+		find_path(YS_ANGLE_UWP_LIBDIR libEGL.dll HINTS 
+			"${CMAKE_BINARY_DIR}/nuget_packages/ANGLE.WindowsStore/bin/uap/x64")
+	endif()
+	# How can I identify ARM?
+	if(YS_ANGLE_UWP_LIBDIR)
+		message("OpenGL ES DLLs are found in ${YS_ANGLE_UWP_LIBDIR}")
+	else()
+		message(FATAL_ERROR "OpenGL ES DLLs are not found")
+	endif()
+
+	set(YS_ANGLE_UWP_LIBDIR ${YS_ANGLE_UWP_LIBDIR} PARENT_SCOPE)
+	set(YS_ANGLE_UWP_DLL "${YS_ANGLE_UWP_LIBDIR}/libEGL.dll" "${YS_ANGLE_UWP_LIBDIR}/libGLESv2.dll" PARENT_SCOPE)
+
+And then I need to add ${YS_ANGLE_UWP_DLL} to the source files of each UWP projects, and then set source properties as:
+
+	# This needs to be done in every UWP project.
+	set_property(SOURCE ${YS_ANGLE_UWP_DLL} PROPERTY VS_DEPLOYMENT_CONTENT 1)
+	set_property(SOURCE ${ASSET_FILES} PROPERTY VS_DEPLOYMENT_LOCATION "")
+
+At least it compiles and run.
+
+
+
+One last thing.  I need to automate bug-fix for CMake 3.6.3.  Actually deleting <ProjectPriFullPath> causes a problem.  It doesn't generate a .pri file.
+
+    <ProjectPriFullPath>$(ProjectDir)$(IntDir)resources.pri</ProjectPriFullPath>
+
+Actually, OpenGL ES 2.0 sample project generates .pri file without this <ProjectPriFullPath> tag.  But, if I delete it, VS doesn't create for me.  What's the difference?
+
+(Properties https://msdn.microsoft.com/en-us/library/c02as0cs.aspx)
+
+
+
+
+If I forget modifying .vcxproj and OpenGL DLLs are not copied to the AppX directory, the error will be "Failed to activate".  It is not like "unable to load DLL".  If you see "Failed to activate" kind of, suspect .vcxproj.

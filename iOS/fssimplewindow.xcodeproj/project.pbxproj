@@ -1,0 +1,266 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F3B243311C03DCF5002B652F /* fssimplewindowcommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3B243301C03DCF5002B652F /* fssimplewindowcommon.cpp */; };
+		F3B243351C03DD07002B652F /* fssimplewindowios_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3B243321C03DD07002B652F /* fssimplewindowios_cpp.cpp */; };
+		F3B243361C03DD07002B652F /* fssimplewindowios_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B243331C03DD07002B652F /* fssimplewindowios_objc.m */; };
+		F3B243371C03DD18002B652F /* fssimplewindowios.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3B243341C03DD07002B652F /* fssimplewindowios.h */; };
+		F3B243381C03DD18002B652F /* fssimplewindow.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3B2432F1C03DCF5002B652F /* fssimplewindow.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3B243211C03DCA6002B652F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F3B243371C03DD18002B652F /* fssimplewindowios.h in CopyFiles */,
+				F3B243381C03DD18002B652F /* fssimplewindow.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F3B243231C03DCA6002B652F /* libfssimplewindow.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfssimplewindow.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3B2432F1C03DCF5002B652F /* fssimplewindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fssimplewindow.h; path = ../src/fssimplewindow/src/fssimplewindow.h; sourceTree = "<group>"; };
+		F3B243301C03DCF5002B652F /* fssimplewindowcommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fssimplewindowcommon.cpp; path = ../src/fssimplewindow/src/fssimplewindowcommon.cpp; sourceTree = "<group>"; };
+		F3B243321C03DD07002B652F /* fssimplewindowios_cpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fssimplewindowios_cpp.cpp; path = ../src/fssimplewindow/src/ios/fssimplewindowios_cpp.cpp; sourceTree = "<group>"; };
+		F3B243331C03DD07002B652F /* fssimplewindowios_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = fssimplewindowios_objc.m; path = ../src/fssimplewindow/src/ios/fssimplewindowios_objc.m; sourceTree = "<group>"; };
+		F3B243341C03DD07002B652F /* fssimplewindowios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fssimplewindowios.h; path = ../src/fssimplewindow/src/ios/fssimplewindowios.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F3B243201C03DCA6002B652F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F3B2431A1C03DCA6002B652F = {
+			isa = PBXGroup;
+			children = (
+				F3B243321C03DD07002B652F /* fssimplewindowios_cpp.cpp */,
+				F3B243331C03DD07002B652F /* fssimplewindowios_objc.m */,
+				F3B243341C03DD07002B652F /* fssimplewindowios.h */,
+				F3B2432F1C03DCF5002B652F /* fssimplewindow.h */,
+				F3B243301C03DCF5002B652F /* fssimplewindowcommon.cpp */,
+				F3B243251C03DCA6002B652F /* fssimplewindow */,
+				F3B243241C03DCA6002B652F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F3B243241C03DCA6002B652F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3B243231C03DCA6002B652F /* libfssimplewindow.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3B243251C03DCA6002B652F /* fssimplewindow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = fssimplewindow;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F3B243221C03DCA6002B652F /* fssimplewindow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3B2432C1C03DCA6002B652F /* Build configuration list for PBXNativeTarget "fssimplewindow" */;
+			buildPhases = (
+				F3B2431F1C03DCA6002B652F /* Sources */,
+				F3B243201C03DCA6002B652F /* Frameworks */,
+				F3B243211C03DCA6002B652F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = fssimplewindow;
+			productName = fssimplewindow;
+			productReference = F3B243231C03DCA6002B652F /* libfssimplewindow.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F3B2431B1C03DCA6002B652F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F3B243221C03DCA6002B652F = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F3B2431E1C03DCA6002B652F /* Build configuration list for PBXProject "fssimplewindow" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F3B2431A1C03DCA6002B652F;
+			productRefGroup = F3B243241C03DCA6002B652F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F3B243221C03DCA6002B652F /* fssimplewindow */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F3B2431F1C03DCA6002B652F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3B243361C03DD07002B652F /* fssimplewindowios_objc.m in Sources */,
+				F3B243351C03DD07002B652F /* fssimplewindowios_cpp.cpp in Sources */,
+				F3B243311C03DCF5002B652F /* fssimplewindowcommon.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F3B2432A1C03DCA6002B652F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F3B2432B1C03DCA6002B652F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F3B2432D1C03DCA6002B652F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F3B2432E1C03DCA6002B652F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F3B2431E1C03DCA6002B652F /* Build configuration list for PBXProject "fssimplewindow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3B2432A1C03DCA6002B652F /* Debug */,
+				F3B2432B1C03DCA6002B652F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3B2432C1C03DCA6002B652F /* Build configuration list for PBXNativeTarget "fssimplewindow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3B2432D1C03DCA6002B652F /* Debug */,
+				F3B2432E1C03DCA6002B652F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F3B2431B1C03DCA6002B652F /* Project object */;
+}

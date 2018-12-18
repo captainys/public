@@ -1,0 +1,1 @@
+varying HIGHP vec3 shadowCoord[YSGLSL_SHADOWMAP_MAX_NUM_TEXTURE];

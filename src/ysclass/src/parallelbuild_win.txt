@@ -1,0 +1,4 @@
+nmake -nologo -f makefile.win objset0
+nmake -nologo -f makefile.win objset1
+nmake -nologo -f makefile.win objset2
+nmake -nologo -f makefile.win objset3

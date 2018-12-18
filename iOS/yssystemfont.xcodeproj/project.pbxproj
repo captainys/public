@@ -1,0 +1,258 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F3BD0CAD1C064637006B1C96 /* ysiossystemfont_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0CAB1C064637006B1C96 /* ysiossystemfont_objc.m */; };
+		F3BD0CAE1C064637006B1C96 /* ysiossystemfont.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0CAC1C064637006B1C96 /* ysiossystemfont.cpp */; };
+		F3BD0CB01C06466A006B1C96 /* yssystemfont.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3BD0CAF1C064655006B1C96 /* yssystemfont.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3BD0C251C053143006B1C96 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F3BD0CB01C06466A006B1C96 /* yssystemfont.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F3BD0C271C053143006B1C96 /* libyssystemfont.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libyssystemfont.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3BD0CAB1C064637006B1C96 /* ysiossystemfont_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ysiossystemfont_objc.m; path = ../src/yssystemfont/src/iOS/ysiossystemfont_objc.m; sourceTree = "<group>"; };
+		F3BD0CAC1C064637006B1C96 /* ysiossystemfont.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysiossystemfont.cpp; path = ../src/yssystemfont/src/iOS/ysiossystemfont.cpp; sourceTree = "<group>"; };
+		F3BD0CAF1C064655006B1C96 /* yssystemfont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yssystemfont.h; path = ../src/yssystemfont/src/yssystemfont.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F3BD0C241C053143006B1C96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F3BD0C1E1C053143006B1C96 = {
+			isa = PBXGroup;
+			children = (
+				F3BD0CAF1C064655006B1C96 /* yssystemfont.h */,
+				F3BD0CAB1C064637006B1C96 /* ysiossystemfont_objc.m */,
+				F3BD0CAC1C064637006B1C96 /* ysiossystemfont.cpp */,
+				F3BD0C291C053143006B1C96 /* yssystemfont */,
+				F3BD0C281C053143006B1C96 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F3BD0C281C053143006B1C96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3BD0C271C053143006B1C96 /* libyssystemfont.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3BD0C291C053143006B1C96 /* yssystemfont */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = yssystemfont;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F3BD0C261C053143006B1C96 /* yssystemfont */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3BD0C301C053143006B1C96 /* Build configuration list for PBXNativeTarget "yssystemfont" */;
+			buildPhases = (
+				F3BD0C231C053143006B1C96 /* Sources */,
+				F3BD0C241C053143006B1C96 /* Frameworks */,
+				F3BD0C251C053143006B1C96 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = yssystemfont;
+			productName = yssystemfont;
+			productReference = F3BD0C271C053143006B1C96 /* libyssystemfont.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F3BD0C1F1C053143006B1C96 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F3BD0C261C053143006B1C96 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F3BD0C221C053143006B1C96 /* Build configuration list for PBXProject "yssystemfont" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F3BD0C1E1C053143006B1C96;
+			productRefGroup = F3BD0C281C053143006B1C96 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F3BD0C261C053143006B1C96 /* yssystemfont */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F3BD0C231C053143006B1C96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3BD0CAD1C064637006B1C96 /* ysiossystemfont_objc.m in Sources */,
+				F3BD0CAE1C064637006B1C96 /* ysiossystemfont.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F3BD0C2E1C053143006B1C96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F3BD0C2F1C053143006B1C96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F3BD0C311C053143006B1C96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F3BD0C321C053143006B1C96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F3BD0C221C053143006B1C96 /* Build configuration list for PBXProject "yssystemfont" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3BD0C2E1C053143006B1C96 /* Debug */,
+				F3BD0C2F1C053143006B1C96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3BD0C301C053143006B1C96 /* Build configuration list for PBXNativeTarget "yssystemfont" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3BD0C311C053143006B1C96 /* Debug */,
+				F3BD0C321C053143006B1C96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F3BD0C1F1C053143006B1C96 /* Project object */;
+}

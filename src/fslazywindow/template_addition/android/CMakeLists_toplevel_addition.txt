@@ -1,0 +1,4 @@
+add_subdirectory(somewhere/public/src ${CMAKE_BINARY_DIR}/public_src)
+add_subdirectory(somewhere/public/tests ${CMAKE_BINARY_DIR}/public_tests)
+add_library(ysgles2lib SHARED src/main/cpp/ysgles2view.cpp)
+target_link_libraries(ysgles2lib sample00_bouncingBall fssimplewindow fslazywindow ysclass ysgl ysglcpp ysglcpp_gl2)

@@ -1,0 +1,114 @@
+[Build macOS and iOS framework]
+http://a244.hateblo.jp/entry/2016/09/05/063000
+
+
+mkdir OpenCV
+cd OpenCV
+unzip (download)/opencv-3.2.0.zip
+git clone https://github.com/opencv/opencv_contrib.git
+mkdir macOS_framework
+python2.7 opencv-3.2.0/platforms/osx/build_framework.py --opencv opencv-3.2.0 --contrib opencv_contrib macOS_framework
+mkdir iOS_framework
+python2.7 opencv-3.2.0/platforms/ios/build_framework.py --opencv opencv-3.2.0 --contrib opencv_contrib iOS_framework
+
+
+According to:
+https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPFrameworks/Tasks/InstallingFrameworks.html#//apple_ref/doc/uid/20002261-BBCCFBJA
+Framework Search Path must explicitly be added in the project property in Project Build Setting.
+
+
+Necessary Frameworks
+  AVFoundation.framework
+  CoreMedia.framework
+
+
+
+
+[Build for Windows with contrib]
+mkdir OpenCV
+cd OpenCV
+(Extract downloads)
+mkdir build64
+cd build64
+cmake "-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules" ../opencv -G "Visual Studio 14 2015 Win64" -DBUILD_PERF_TESTS="OFF" -DBUILD_TESTS="OFF"
+msbuild OpenCV.sln /p:Configuration=Release /maxcpucount
+msbuild OpenCV.sln /p:Configuration=Debug /maxcpucount
+
+
+
+
+
+[Build for Linux on Raspberry Pi]
+cmake "-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules" ../opencv/sources -DBUILD_PERF_TESTS="OFF" -DBUILD_TESTS="OFF" -DWITH_LAPACK="OFF"
+
+
+
+
+
+
+[Build for Windows 10 Universal (OpenCV 3.2)]
+According to http://docs.opencv.org/trunk/dd/d01/group__videoio__winrt.html, it may be impossible to do something useful with OpenCV in Universal Windows app at this moment.  Video capture needs to be done in a message loop (while(1)), which I believe is not in a separate thread.  There seems to be no way of getting user input.  One thing for sure is the program needs to be specially written for Universal Windows.  It is impossible to write a same FsLazyWindowApplication for other platforms and re-use it for Universal Windows.
+
+Probably I can write my own.
+https://docs.microsoft.com/en-us/windows/uwp/audio-video-camera/basic-photo-video-and-audio-capture-with-mediacapture
+
+
+cmake "-DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules" ../opencv/sources -G "Visual Studio 14 2015" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION="10.0" -DCMAKE_CROSSCOMPILING="OFF" -DBUILD_PERF_TESTS="OFF" -DBUILD_TESTS="OFF" -DBUILD_opencv_ts="OFF" -DBUILD_opencv_highgui="OFF"
+msbuild OpenCV.sln /p:Configuration=Release /p:Platform=Win32 /m
+msbuild OpenCV.sln /p:Configuration=Debug/p:Platform=Win32 /m
+
+Broken Modules: highgui, ts, videoio
+
+Just exclude highgui and ts.  But, I need videoio!  
+
+
+
+In modules\videoio\src\cap_winrt\CaptureFrameGrabber.cpp
+Error:
+void Media::CaptureFrameGrabber::ShowCameraSettings()
+{
+#if WINAPI_FAMILY!=WINAPI_FAMILY_PHONE_APP
+
+Correct:
+void Media::CaptureFrameGrabber::ShowCameraSettings()
+{
+#if WINAPI_FAMILY==WINAPI_FAMILY_DESKTOP_APP
+
+Or, maybe
+
+#if WINAPI_FAMILY!=WINAPI_FAMILY_PHONE_APP && WINAPI_FAMILY!=WINAPI_FAMILY_APP
+
+No, it's not.  This showsomething function is only available in Desktop apps.
+
+
+
+
+In sources/CMakeLists.txt, it defines a macro WINRT and NO_GETENV.  It is not HAVE_WINRT.
+In modules\highgui\window.cpp
+Wrong:
+int cv::waitKey(int delay)
+{
+    int code = waitKeyEx(delay);
+#ifndef HAVE_WINRT
+
+Correct:
+int cv::waitKey(int delay)
+{
+    int code = waitKeyEx(delay);
+#ifndef NO_GETENV
+
+
+
+
+In OpenCVModule.cmake,
+    if("${the_module}" STREQUAL "opencv_ts")
+      # copy required dll files; WinRT apps need these dlls that are usually substituted by Visual Studio
+      # however they are not on path and need to be placed with executables to run from console w/o APPCONTAINER
+      add_custom_command(TARGET ${the_module}
+        POST_BUILD
+        COMMAND copy /y "\"$(VCInstallDir)redist\\$(PlatformTarget)\\Microsoft.VC$(PlatformToolsetVersion).CRT\\msvcp$(PlatformToolsetVersion).dll\"" "\"${CMAKE_BINARY_DIR}\\bin\\$(Configuration)\\msvcp$(PlatformToolsetVersion)_app.dll\""
+        COMMAND copy /y "\"$(VCInstallDir)redist\\$(PlatformTarget)\\Microsoft.VC$(PlatformToolsetVersion).CRT\\msvcr$(PlatformToolsetVersion).dll\"" "\"${CMAKE_BINARY_DIR}\\bin\\$(Configuration)\\msvcr$(PlatformToolsetVersion)_app.dll\""
+        COMMAND copy /y "\"$(VCInstallDir)redist\\$(PlatformTarget)\\Microsoft.VC$(PlatformToolsetVersion).CRT\\vccorlib$(PlatformToolsetVersion).dll\"" "\"${CMAKE_BINARY_DIR}\\bin\\$(Configuration)\\vccorlib$(PlatformToolsetVersion)_app.dll\"")
+    endif()
+
+Copy of msvcr$(PlatformToolsetVersion).dll (the second command) should be removed because msvcr140.dll no longer exists.  I don't know if it should be replaced by something else.  If needed, it should check the generator version and copy appropriate dlls.

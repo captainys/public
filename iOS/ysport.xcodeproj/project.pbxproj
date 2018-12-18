@@ -1,0 +1,404 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F314311A1C0807CF00E914E9 /* ysfileinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314310B1C0807CF00E914E9 /* ysfileinfo.cpp */; };
+		F314311B1C0807CF00E914E9 /* ysfileio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314310D1C0807CF00E914E9 /* ysfileio.cpp */; };
+		F314311C1C0807CF00E914E9 /* yslocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314310F1C0807CF00E914E9 /* yslocale.cpp */; };
+		F314311D1C0807CF00E914E9 /* ysspecialpath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31431141C0807CF00E914E9 /* ysspecialpath.cpp */; };
+		F314311E1C0807CF00E914E9 /* yssubsectimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31431161C0807CF00E914E9 /* yssubsectimer.cpp */; };
+		F314311F1C0807CF00E914E9 /* ysthread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31431181C0807CF00E914E9 /* ysthread.cpp */; };
+		F31431261C0807F800E914E9 /* ysencoding.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314310A1C0807CF00E914E9 /* ysencoding.h */; };
+		F31431271C0807F800E914E9 /* ysfileinfo.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314310C1C0807CF00E914E9 /* ysfileinfo.h */; };
+		F31431281C0807F800E914E9 /* ysfileio.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314310E1C0807CF00E914E9 /* ysfileio.h */; };
+		F31431291C0807F800E914E9 /* yslocale.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31431101C0807CF00E914E9 /* yslocale.h */; };
+		F314312A1C0807F800E914E9 /* ysopenurl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31431111C0807CF00E914E9 /* ysopenurl.h */; };
+		F314312B1C0807F800E914E9 /* ysport.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31431121C0807CF00E914E9 /* ysport.h */; };
+		F314312C1C0807F800E914E9 /* ysrunprocess.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31431131C0807CF00E914E9 /* ysrunprocess.h */; };
+		F314312D1C0807F800E914E9 /* ysspecialpath.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31431151C0807CF00E914E9 /* ysspecialpath.h */; };
+		F314312E1C0807F800E914E9 /* yssubsectimer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31431171C0807CF00E914E9 /* yssubsectimer.h */; };
+		F314312F1C0807F800E914E9 /* ysthread.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31431191C0807CF00E914E9 /* ysthread.h */; };
+		F31431301C0807FE00E914E9 /* libysclass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31431251C0807E200E914E9 /* libysclass.a */; };
+		F314313E1C0808A700E914E9 /* ysmacosxencoding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31431311C0808A700E914E9 /* ysmacosxencoding.cpp */; };
+		F314313F1C0808A700E914E9 /* ysmacosxfileinfo_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = F31431321C0808A700E914E9 /* ysmacosxfileinfo_objc.m */; };
+		F31431401C0808A700E914E9 /* ysmacosxfileinfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31431331C0808A700E914E9 /* ysmacosxfileinfo.cpp */; };
+		F31431411C0808A700E914E9 /* ysmacosxlocale_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = F31431341C0808A700E914E9 /* ysmacosxlocale_objc.m */; };
+		F31431421C0808A700E914E9 /* ysmacosxlocale.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31431351C0808A700E914E9 /* ysmacosxlocale.cpp */; };
+		F31431431C0808A700E914E9 /* ysmacosxrunprocess_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = F31431361C0808A700E914E9 /* ysmacosxrunprocess_objc.m */; };
+		F31431441C0808A700E914E9 /* ysmacosxrunprocess.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31431371C0808A700E914E9 /* ysmacosxrunprocess.cpp */; };
+		F31431451C0808A700E914E9 /* ysmacosxspecialpath_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = F31431381C0808A700E914E9 /* ysmacosxspecialpath_objc.m */; };
+		F31431461C0808A700E914E9 /* ysmacosxspecialpath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31431391C0808A700E914E9 /* ysmacosxspecialpath.cpp */; };
+		F31431471C0808A700E914E9 /* ysmacosxsubsectimer_objc.m in Sources */ = {isa = PBXBuildFile; fileRef = F314313A1C0808A700E914E9 /* ysmacosxsubsectimer_objc.m */; };
+		F31431481C0808A700E914E9 /* ysmacosxsubsectimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314313B1C0808A700E914E9 /* ysmacosxsubsectimer.cpp */; };
+		F31431491C0808A700E914E9 /* ysopenurlcpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314313C1C0808A700E914E9 /* ysopenurlcpp.cpp */; };
+		F314314A1C0808A700E914E9 /* ysopenurlobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = F314313D1C0808A700E914E9 /* ysopenurlobjc.m */; };
+		F31437B11C0A185400E914E9 /* ysunixfileio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31437B01C0A185400E914E9 /* ysunixfileio.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F31431241C0807E200E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31431201C0807E100E914E9 /* ysclass.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F35B507B1C02CECF004E6B0A;
+			remoteInfo = ysclass;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3C403871C08075D0000C02C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F31431261C0807F800E914E9 /* ysencoding.h in CopyFiles */,
+				F31431271C0807F800E914E9 /* ysfileinfo.h in CopyFiles */,
+				F31431281C0807F800E914E9 /* ysfileio.h in CopyFiles */,
+				F31431291C0807F800E914E9 /* yslocale.h in CopyFiles */,
+				F314312A1C0807F800E914E9 /* ysopenurl.h in CopyFiles */,
+				F314312B1C0807F800E914E9 /* ysport.h in CopyFiles */,
+				F314312C1C0807F800E914E9 /* ysrunprocess.h in CopyFiles */,
+				F314312D1C0807F800E914E9 /* ysspecialpath.h in CopyFiles */,
+				F314312E1C0807F800E914E9 /* yssubsectimer.h in CopyFiles */,
+				F314312F1C0807F800E914E9 /* ysthread.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F314310A1C0807CF00E914E9 /* ysencoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysencoding.h; path = ../src/ysport/src/ysencoding.h; sourceTree = "<group>"; };
+		F314310B1C0807CF00E914E9 /* ysfileinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysfileinfo.cpp; path = ../src/ysport/src/ysfileinfo.cpp; sourceTree = "<group>"; };
+		F314310C1C0807CF00E914E9 /* ysfileinfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysfileinfo.h; path = ../src/ysport/src/ysfileinfo.h; sourceTree = "<group>"; };
+		F314310D1C0807CF00E914E9 /* ysfileio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysfileio.cpp; path = ../src/ysport/src/ysfileio.cpp; sourceTree = "<group>"; };
+		F314310E1C0807CF00E914E9 /* ysfileio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysfileio.h; path = ../src/ysport/src/ysfileio.h; sourceTree = "<group>"; };
+		F314310F1C0807CF00E914E9 /* yslocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yslocale.cpp; path = ../src/ysport/src/yslocale.cpp; sourceTree = "<group>"; };
+		F31431101C0807CF00E914E9 /* yslocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yslocale.h; path = ../src/ysport/src/yslocale.h; sourceTree = "<group>"; };
+		F31431111C0807CF00E914E9 /* ysopenurl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysopenurl.h; path = ../src/ysport/src/ysopenurl.h; sourceTree = "<group>"; };
+		F31431121C0807CF00E914E9 /* ysport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysport.h; path = ../src/ysport/src/ysport.h; sourceTree = "<group>"; };
+		F31431131C0807CF00E914E9 /* ysrunprocess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysrunprocess.h; path = ../src/ysport/src/ysrunprocess.h; sourceTree = "<group>"; };
+		F31431141C0807CF00E914E9 /* ysspecialpath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysspecialpath.cpp; path = ../src/ysport/src/ysspecialpath.cpp; sourceTree = "<group>"; };
+		F31431151C0807CF00E914E9 /* ysspecialpath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysspecialpath.h; path = ../src/ysport/src/ysspecialpath.h; sourceTree = "<group>"; };
+		F31431161C0807CF00E914E9 /* yssubsectimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yssubsectimer.cpp; path = ../src/ysport/src/yssubsectimer.cpp; sourceTree = "<group>"; };
+		F31431171C0807CF00E914E9 /* yssubsectimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yssubsectimer.h; path = ../src/ysport/src/yssubsectimer.h; sourceTree = "<group>"; };
+		F31431181C0807CF00E914E9 /* ysthread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysthread.cpp; path = ../src/ysport/src/ysthread.cpp; sourceTree = "<group>"; };
+		F31431191C0807CF00E914E9 /* ysthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysthread.h; path = ../src/ysport/src/ysthread.h; sourceTree = "<group>"; };
+		F31431201C0807E100E914E9 /* ysclass.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ysclass.xcodeproj; sourceTree = "<group>"; };
+		F31431311C0808A700E914E9 /* ysmacosxencoding.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmacosxencoding.cpp; path = ../src/ysport/src/iOS/ysmacosxencoding.cpp; sourceTree = "<group>"; };
+		F31431321C0808A700E914E9 /* ysmacosxfileinfo_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ysmacosxfileinfo_objc.m; path = ../src/ysport/src/iOS/ysmacosxfileinfo_objc.m; sourceTree = "<group>"; };
+		F31431331C0808A700E914E9 /* ysmacosxfileinfo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmacosxfileinfo.cpp; path = ../src/ysport/src/iOS/ysmacosxfileinfo.cpp; sourceTree = "<group>"; };
+		F31431341C0808A700E914E9 /* ysmacosxlocale_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ysmacosxlocale_objc.m; path = ../src/ysport/src/iOS/ysmacosxlocale_objc.m; sourceTree = "<group>"; };
+		F31431351C0808A700E914E9 /* ysmacosxlocale.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmacosxlocale.cpp; path = ../src/ysport/src/iOS/ysmacosxlocale.cpp; sourceTree = "<group>"; };
+		F31431361C0808A700E914E9 /* ysmacosxrunprocess_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ysmacosxrunprocess_objc.m; path = ../src/ysport/src/iOS/ysmacosxrunprocess_objc.m; sourceTree = "<group>"; };
+		F31431371C0808A700E914E9 /* ysmacosxrunprocess.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmacosxrunprocess.cpp; path = ../src/ysport/src/iOS/ysmacosxrunprocess.cpp; sourceTree = "<group>"; };
+		F31431381C0808A700E914E9 /* ysmacosxspecialpath_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ysmacosxspecialpath_objc.m; path = ../src/ysport/src/iOS/ysmacosxspecialpath_objc.m; sourceTree = "<group>"; };
+		F31431391C0808A700E914E9 /* ysmacosxspecialpath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmacosxspecialpath.cpp; path = ../src/ysport/src/iOS/ysmacosxspecialpath.cpp; sourceTree = "<group>"; };
+		F314313A1C0808A700E914E9 /* ysmacosxsubsectimer_objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ysmacosxsubsectimer_objc.m; path = ../src/ysport/src/iOS/ysmacosxsubsectimer_objc.m; sourceTree = "<group>"; };
+		F314313B1C0808A700E914E9 /* ysmacosxsubsectimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmacosxsubsectimer.cpp; path = ../src/ysport/src/iOS/ysmacosxsubsectimer.cpp; sourceTree = "<group>"; };
+		F314313C1C0808A700E914E9 /* ysopenurlcpp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysopenurlcpp.cpp; path = ../src/ysport/src/iOS/ysopenurlcpp.cpp; sourceTree = "<group>"; };
+		F314313D1C0808A700E914E9 /* ysopenurlobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ysopenurlobjc.m; path = ../src/ysport/src/iOS/ysopenurlobjc.m; sourceTree = "<group>"; };
+		F31437B01C0A185400E914E9 /* ysunixfileio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysunixfileio.cpp; path = ../src/ysport/src/linux/ysunixfileio.cpp; sourceTree = "<group>"; };
+		F3C403891C08075D0000C02C /* libysport.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libysport.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F3C403861C08075D0000C02C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31431301C0807FE00E914E9 /* libysclass.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F31431211C0807E100E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31431251C0807E200E914E9 /* libysclass.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3C403801C08075D0000C02C = {
+			isa = PBXGroup;
+			children = (
+				F31437B01C0A185400E914E9 /* ysunixfileio.cpp */,
+				F31431311C0808A700E914E9 /* ysmacosxencoding.cpp */,
+				F31431321C0808A700E914E9 /* ysmacosxfileinfo_objc.m */,
+				F31431331C0808A700E914E9 /* ysmacosxfileinfo.cpp */,
+				F31431341C0808A700E914E9 /* ysmacosxlocale_objc.m */,
+				F31431351C0808A700E914E9 /* ysmacosxlocale.cpp */,
+				F31431361C0808A700E914E9 /* ysmacosxrunprocess_objc.m */,
+				F31431371C0808A700E914E9 /* ysmacosxrunprocess.cpp */,
+				F31431381C0808A700E914E9 /* ysmacosxspecialpath_objc.m */,
+				F31431391C0808A700E914E9 /* ysmacosxspecialpath.cpp */,
+				F314313A1C0808A700E914E9 /* ysmacosxsubsectimer_objc.m */,
+				F314313B1C0808A700E914E9 /* ysmacosxsubsectimer.cpp */,
+				F314313C1C0808A700E914E9 /* ysopenurlcpp.cpp */,
+				F314313D1C0808A700E914E9 /* ysopenurlobjc.m */,
+				F31431201C0807E100E914E9 /* ysclass.xcodeproj */,
+				F314310A1C0807CF00E914E9 /* ysencoding.h */,
+				F314310B1C0807CF00E914E9 /* ysfileinfo.cpp */,
+				F314310C1C0807CF00E914E9 /* ysfileinfo.h */,
+				F314310D1C0807CF00E914E9 /* ysfileio.cpp */,
+				F314310E1C0807CF00E914E9 /* ysfileio.h */,
+				F314310F1C0807CF00E914E9 /* yslocale.cpp */,
+				F31431101C0807CF00E914E9 /* yslocale.h */,
+				F31431111C0807CF00E914E9 /* ysopenurl.h */,
+				F31431121C0807CF00E914E9 /* ysport.h */,
+				F31431131C0807CF00E914E9 /* ysrunprocess.h */,
+				F31431141C0807CF00E914E9 /* ysspecialpath.cpp */,
+				F31431151C0807CF00E914E9 /* ysspecialpath.h */,
+				F31431161C0807CF00E914E9 /* yssubsectimer.cpp */,
+				F31431171C0807CF00E914E9 /* yssubsectimer.h */,
+				F31431181C0807CF00E914E9 /* ysthread.cpp */,
+				F31431191C0807CF00E914E9 /* ysthread.h */,
+				F3C4038B1C08075D0000C02C /* ysport */,
+				F3C4038A1C08075D0000C02C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F3C4038A1C08075D0000C02C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3C403891C08075D0000C02C /* libysport.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3C4038B1C08075D0000C02C /* ysport */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ysport;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F3C403881C08075D0000C02C /* ysport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3C403921C08075D0000C02C /* Build configuration list for PBXNativeTarget "ysport" */;
+			buildPhases = (
+				F3C403851C08075D0000C02C /* Sources */,
+				F3C403861C08075D0000C02C /* Frameworks */,
+				F3C403871C08075D0000C02C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ysport;
+			productName = ysport;
+			productReference = F3C403891C08075D0000C02C /* libysport.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F3C403811C08075D0000C02C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F3C403881C08075D0000C02C = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F3C403841C08075D0000C02C /* Build configuration list for PBXProject "ysport" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F3C403801C08075D0000C02C;
+			productRefGroup = F3C4038A1C08075D0000C02C /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F31431211C0807E100E914E9 /* Products */;
+					ProjectRef = F31431201C0807E100E914E9 /* ysclass.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F3C403881C08075D0000C02C /* ysport */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F31431251C0807E200E914E9 /* libysclass.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysclass.a;
+			remoteRef = F31431241C0807E200E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F3C403851C08075D0000C02C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31431431C0808A700E914E9 /* ysmacosxrunprocess_objc.m in Sources */,
+				F314311E1C0807CF00E914E9 /* yssubsectimer.cpp in Sources */,
+				F31431421C0808A700E914E9 /* ysmacosxlocale.cpp in Sources */,
+				F314314A1C0808A700E914E9 /* ysopenurlobjc.m in Sources */,
+				F31431401C0808A700E914E9 /* ysmacosxfileinfo.cpp in Sources */,
+				F31431411C0808A700E914E9 /* ysmacosxlocale_objc.m in Sources */,
+				F31431461C0808A700E914E9 /* ysmacosxspecialpath.cpp in Sources */,
+				F31431481C0808A700E914E9 /* ysmacosxsubsectimer.cpp in Sources */,
+				F314311D1C0807CF00E914E9 /* ysspecialpath.cpp in Sources */,
+				F314313F1C0808A700E914E9 /* ysmacosxfileinfo_objc.m in Sources */,
+				F31431491C0808A700E914E9 /* ysopenurlcpp.cpp in Sources */,
+				F314311C1C0807CF00E914E9 /* yslocale.cpp in Sources */,
+				F314311A1C0807CF00E914E9 /* ysfileinfo.cpp in Sources */,
+				F31431451C0808A700E914E9 /* ysmacosxspecialpath_objc.m in Sources */,
+				F314313E1C0808A700E914E9 /* ysmacosxencoding.cpp in Sources */,
+				F31431441C0808A700E914E9 /* ysmacosxrunprocess.cpp in Sources */,
+				F314311B1C0807CF00E914E9 /* ysfileio.cpp in Sources */,
+				F31437B11C0A185400E914E9 /* ysunixfileio.cpp in Sources */,
+				F314311F1C0807CF00E914E9 /* ysthread.cpp in Sources */,
+				F31431471C0808A700E914E9 /* ysmacosxsubsectimer_objc.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F3C403901C08075D0000C02C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F3C403911C08075D0000C02C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F3C403931C08075D0000C02C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F3C403941C08075D0000C02C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F3C403841C08075D0000C02C /* Build configuration list for PBXProject "ysport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3C403901C08075D0000C02C /* Debug */,
+				F3C403911C08075D0000C02C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3C403921C08075D0000C02C /* Build configuration list for PBXNativeTarget "ysport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3C403931C08075D0000C02C /* Debug */,
+				F3C403941C08075D0000C02C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F3C403811C08075D0000C02C /* Project object */;
+}

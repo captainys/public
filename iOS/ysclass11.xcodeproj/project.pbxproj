@@ -1,0 +1,308 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F31432ED1C0829E900E914E9 /* libysclass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31432EA1C0829C600E914E9 /* libysclass.a */; };
+		F31432F11C0829FA00E914E9 /* ysthread11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432EF1C0829FA00E914E9 /* ysthread11.cpp */; };
+		F31432F21C082A0200E914E9 /* ysclass11.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432EE1C0829FA00E914E9 /* ysclass11.h */; };
+		F31432F31C082A0200E914E9 /* ysthread11.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432F01C0829FA00E914E9 /* ysthread11.h */; };
+		F3CA3C722075CC5200F07A36 /* ysthreadpool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3CA3C702075CC5200F07A36 /* ysthreadpool.cpp */; };
+		F3CA3C732075CC6200F07A36 /* ysparallelmergesort.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3CA3C6E2075CC5200F07A36 /* ysparallelmergesort.h */; };
+		F3CA3C742075CC6200F07A36 /* ysthreadpool.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3CA3C712075CC5200F07A36 /* ysthreadpool.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F31432E91C0829C600E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31432E51C0829C600E914E9 /* ysclass.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F35B507B1C02CECF004E6B0A;
+			remoteInfo = ysclass;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F31432D71C08295A00E914E9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F3CA3C732075CC6200F07A36 /* ysparallelmergesort.h in CopyFiles */,
+				F3CA3C742075CC6200F07A36 /* ysthreadpool.h in CopyFiles */,
+				F31432F21C082A0200E914E9 /* ysclass11.h in CopyFiles */,
+				F31432F31C082A0200E914E9 /* ysthread11.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F31432D91C08295A00E914E9 /* libysclass11.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libysclass11.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F31432E51C0829C600E914E9 /* ysclass.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ysclass.xcodeproj; sourceTree = "<group>"; };
+		F31432EE1C0829FA00E914E9 /* ysclass11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysclass11.h; path = ../src/ysclass11/src/ysclass11.h; sourceTree = "<group>"; };
+		F31432EF1C0829FA00E914E9 /* ysthread11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysthread11.cpp; path = ../src/ysclass11/src/ysthread11.cpp; sourceTree = "<group>"; };
+		F31432F01C0829FA00E914E9 /* ysthread11.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysthread11.h; path = ../src/ysclass11/src/ysthread11.h; sourceTree = "<group>"; };
+		F3CA3C6E2075CC5200F07A36 /* ysparallelmergesort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysparallelmergesort.h; path = ../src/ysclass11/src/ysparallelmergesort.h; sourceTree = "<group>"; };
+		F3CA3C702075CC5200F07A36 /* ysthreadpool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysthreadpool.cpp; path = ../src/ysclass11/src/ysthreadpool.cpp; sourceTree = "<group>"; };
+		F3CA3C712075CC5200F07A36 /* ysthreadpool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysthreadpool.h; path = ../src/ysclass11/src/ysthreadpool.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F31432D61C08295A00E914E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31432ED1C0829E900E914E9 /* libysclass.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F31432D01C08295A00E914E9 = {
+			isa = PBXGroup;
+			children = (
+				F3CA3C6E2075CC5200F07A36 /* ysparallelmergesort.h */,
+				F3CA3C702075CC5200F07A36 /* ysthreadpool.cpp */,
+				F3CA3C712075CC5200F07A36 /* ysthreadpool.h */,
+				F31432EE1C0829FA00E914E9 /* ysclass11.h */,
+				F31432EF1C0829FA00E914E9 /* ysthread11.cpp */,
+				F31432F01C0829FA00E914E9 /* ysthread11.h */,
+				F31432E51C0829C600E914E9 /* ysclass.xcodeproj */,
+				F31432DB1C08295A00E914E9 /* ysclass11 */,
+				F31432DA1C08295A00E914E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F31432DA1C08295A00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31432D91C08295A00E914E9 /* libysclass11.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31432DB1C08295A00E914E9 /* ysclass11 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ysclass11;
+			sourceTree = "<group>";
+		};
+		F31432E61C0829C600E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31432EA1C0829C600E914E9 /* libysclass.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F31432D81C08295A00E914E9 /* ysclass11 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F31432E21C08295A00E914E9 /* Build configuration list for PBXNativeTarget "ysclass11" */;
+			buildPhases = (
+				F31432D51C08295A00E914E9 /* Sources */,
+				F31432D61C08295A00E914E9 /* Frameworks */,
+				F31432D71C08295A00E914E9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ysclass11;
+			productName = ysclass11;
+			productReference = F31432D91C08295A00E914E9 /* libysclass11.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F31432D11C08295A00E914E9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F31432D81C08295A00E914E9 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F31432D41C08295A00E914E9 /* Build configuration list for PBXProject "ysclass11" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F31432D01C08295A00E914E9;
+			productRefGroup = F31432DA1C08295A00E914E9 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F31432E61C0829C600E914E9 /* Products */;
+					ProjectRef = F31432E51C0829C600E914E9 /* ysclass.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F31432D81C08295A00E914E9 /* ysclass11 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F31432EA1C0829C600E914E9 /* libysclass.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysclass.a;
+			remoteRef = F31432E91C0829C600E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F31432D51C08295A00E914E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31432F11C0829FA00E914E9 /* ysthread11.cpp in Sources */,
+				F3CA3C722075CC5200F07A36 /* ysthreadpool.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F31432E01C08295A00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F31432E11C08295A00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F31432E31C08295A00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F31432E41C08295A00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F31432D41C08295A00E914E9 /* Build configuration list for PBXProject "ysclass11" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31432E01C08295A00E914E9 /* Debug */,
+				F31432E11C08295A00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F31432E21C08295A00E914E9 /* Build configuration list for PBXNativeTarget "ysclass11" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31432E31C08295A00E914E9 /* Debug */,
+				F31432E41C08295A00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F31432D11C08295A00E914E9 /* Project object */;
+}

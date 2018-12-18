@@ -1,0 +1,776 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F314386B1C0A863100E914E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F314386A1C0A863100E914E9 /* main.m */; };
+		F314386E1C0A863100E914E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F314386D1C0A863100E914E9 /* AppDelegate.m */; };
+		F31438711C0A863100E914E9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F31438701C0A863100E914E9 /* ViewController.m */; };
+		F31438741C0A863100E914E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F31438721C0A863100E914E9 /* Main.storyboard */; };
+		F31438771C0A863100E914E9 /* sample00_bouncingBall.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F31438751C0A863100E914E9 /* sample00_bouncingBall.xcdatamodeld */; };
+		F31438791C0A863100E914E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F31438781C0A863100E914E9 /* Assets.xcassets */; };
+		F314387C1C0A863100E914E9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F314387A1C0A863100E914E9 /* LaunchScreen.storyboard */; };
+		F31438D41C0A873300E914E9 /* libfslazywindow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31438BE1C0A872000E914E9 /* libfslazywindow.a */; };
+		F31438D51C0A873300E914E9 /* libfssimplewindow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31438C11C0A872000E914E9 /* libfssimplewindow.a */; };
+		F31438D61C0A873300E914E9 /* libysbitmap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31438C41C0A872000E914E9 /* libysbitmap.a */; };
+		F31438D71C0A873300E914E9 /* libysbitmapfont.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31438C71C0A872000E914E9 /* libysbitmapfont.a */; };
+		F31438D81C0A873300E914E9 /* libysclass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31438CA1C0A872000E914E9 /* libysclass.a */; };
+		F31438D91C0A873300E914E9 /* libysclass11.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31438CD1C0A872000E914E9 /* libysclass11.a */; };
+		F31438DA1C0A873300E914E9 /* libysgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31438D01C0A872000E914E9 /* libysgl.a */; };
+		F31438DB1C0A873300E914E9 /* libysglcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31438D31C0A872000E914E9 /* libysglcpp.a */; };
+		F31438DD1C0A878000E914E9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31438DC1C0A878000E914E9 /* main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F31438831C0A863100E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F314385E1C0A863100E914E9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F31438651C0A863100E914E9;
+			remoteInfo = "sample00-bouncingBall";
+		};
+		F314388E1C0A863100E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F314385E1C0A863100E914E9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F31438651C0A863100E914E9;
+			remoteInfo = "sample00-bouncingBall";
+		};
+		F31438BD1C0A872000E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F314389F1C0A871F00E914E9 /* fslazywindow.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F3B243421C03EDF6002B652F;
+			remoteInfo = fslazywindow;
+		};
+		F31438C01C0A872000E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31438A31C0A871F00E914E9 /* fssimplewindow.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F3B243231C03DCA6002B652F;
+			remoteInfo = fssimplewindow;
+		};
+		F31438C31C0A872000E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31438A61C0A871F00E914E9 /* ysbitmap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F3BD0F321C07DB51006B1C96;
+			remoteInfo = ysbitmap;
+		};
+		F31438C61C0A872000E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31438A91C0A872000E914E9 /* ysbitmapfont.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F3B243D01C03F993002B652F;
+			remoteInfo = ysbitmapfont;
+		};
+		F31438C91C0A872000E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31438AC1C0A872000E914E9 /* ysclass.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F35B507B1C02CECF004E6B0A;
+			remoteInfo = ysclass;
+		};
+		F31438CC1C0A872000E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31438AF1C0A872000E914E9 /* ysclass11.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F31432D91C08295A00E914E9;
+			remoteInfo = ysclass11;
+		};
+		F31438CF1C0A872000E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31438B31C0A872000E914E9 /* ysgl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F35B4FF61C02C0FC004E6B0A;
+			remoteInfo = ysgl;
+		};
+		F31438D21C0A872000E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31438B61C0A872000E914E9 /* ysglcpp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F3B243891C03F374002B652F;
+			remoteInfo = ysglcpp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F31438661C0A863100E914E9 /* sample00-bouncingBall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sample00-bouncingBall.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F314386A1C0A863100E914E9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F314386C1C0A863100E914E9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F314386D1C0A863100E914E9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F314386F1C0A863100E914E9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		F31438701C0A863100E914E9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		F31438731C0A863100E914E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F31438761C0A863100E914E9 /* sample00_bouncingBall.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = sample00_bouncingBall.xcdatamodel; sourceTree = "<group>"; };
+		F31438781C0A863100E914E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F314387B1C0A863100E914E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F314387D1C0A863100E914E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F31438821C0A863100E914E9 /* sample00-bouncingBallTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "sample00-bouncingBallTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F314388D1C0A863100E914E9 /* sample00-bouncingBallUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "sample00-bouncingBallUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F314389F1C0A871F00E914E9 /* fslazywindow.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fslazywindow.xcodeproj; path = ../../../../../../iOS/fslazywindow.xcodeproj; sourceTree = "<group>"; };
+		F31438A31C0A871F00E914E9 /* fssimplewindow.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fssimplewindow.xcodeproj; path = ../../../../../../iOS/fssimplewindow.xcodeproj; sourceTree = "<group>"; };
+		F31438A61C0A871F00E914E9 /* ysbitmap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ysbitmap.xcodeproj; path = ../../../../../../iOS/ysbitmap.xcodeproj; sourceTree = "<group>"; };
+		F31438A91C0A872000E914E9 /* ysbitmapfont.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ysbitmapfont.xcodeproj; path = ../../../../../../iOS/ysbitmapfont.xcodeproj; sourceTree = "<group>"; };
+		F31438AC1C0A872000E914E9 /* ysclass.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ysclass.xcodeproj; path = ../../../../../../iOS/ysclass.xcodeproj; sourceTree = "<group>"; };
+		F31438AF1C0A872000E914E9 /* ysclass11.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ysclass11.xcodeproj; path = ../../../../../../iOS/ysclass11.xcodeproj; sourceTree = "<group>"; };
+		F31438B31C0A872000E914E9 /* ysgl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ysgl.xcodeproj; path = ../../../../../../iOS/ysgl.xcodeproj; sourceTree = "<group>"; };
+		F31438B61C0A872000E914E9 /* ysglcpp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ysglcpp.xcodeproj; path = ../../../../../../iOS/ysglcpp.xcodeproj; sourceTree = "<group>"; };
+		F31438DC1C0A878000E914E9 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../main.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F31438631C0A863100E914E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31438D41C0A873300E914E9 /* libfslazywindow.a in Frameworks */,
+				F31438D51C0A873300E914E9 /* libfssimplewindow.a in Frameworks */,
+				F31438D61C0A873300E914E9 /* libysbitmap.a in Frameworks */,
+				F31438D71C0A873300E914E9 /* libysbitmapfont.a in Frameworks */,
+				F31438D81C0A873300E914E9 /* libysclass.a in Frameworks */,
+				F31438D91C0A873300E914E9 /* libysclass11.a in Frameworks */,
+				F31438DA1C0A873300E914E9 /* libysgl.a in Frameworks */,
+				F31438DB1C0A873300E914E9 /* libysglcpp.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F314387F1C0A863100E914E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F314388A1C0A863100E914E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F314385D1C0A863100E914E9 = {
+			isa = PBXGroup;
+			children = (
+				F31438681C0A863100E914E9 /* sample00-bouncingBall */,
+				F31438671C0A863100E914E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F31438671C0A863100E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31438661C0A863100E914E9 /* sample00-bouncingBall.app */,
+				F31438821C0A863100E914E9 /* sample00-bouncingBallTests.xctest */,
+				F314388D1C0A863100E914E9 /* sample00-bouncingBallUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31438681C0A863100E914E9 /* sample00-bouncingBall */ = {
+			isa = PBXGroup;
+			children = (
+				F31438DC1C0A878000E914E9 /* main.cpp */,
+				F314389F1C0A871F00E914E9 /* fslazywindow.xcodeproj */,
+				F31438A31C0A871F00E914E9 /* fssimplewindow.xcodeproj */,
+				F31438A61C0A871F00E914E9 /* ysbitmap.xcodeproj */,
+				F31438A91C0A872000E914E9 /* ysbitmapfont.xcodeproj */,
+				F31438AC1C0A872000E914E9 /* ysclass.xcodeproj */,
+				F31438AF1C0A872000E914E9 /* ysclass11.xcodeproj */,
+				F31438B31C0A872000E914E9 /* ysgl.xcodeproj */,
+				F31438B61C0A872000E914E9 /* ysglcpp.xcodeproj */,
+				F314386C1C0A863100E914E9 /* AppDelegate.h */,
+				F314386D1C0A863100E914E9 /* AppDelegate.m */,
+				F314386F1C0A863100E914E9 /* ViewController.h */,
+				F31438701C0A863100E914E9 /* ViewController.m */,
+				F31438721C0A863100E914E9 /* Main.storyboard */,
+				F31438781C0A863100E914E9 /* Assets.xcassets */,
+				F314387A1C0A863100E914E9 /* LaunchScreen.storyboard */,
+				F314387D1C0A863100E914E9 /* Info.plist */,
+				F31438751C0A863100E914E9 /* sample00_bouncingBall.xcdatamodeld */,
+				F31438691C0A863100E914E9 /* Supporting Files */,
+			);
+			path = "sample00-bouncingBall";
+			sourceTree = "<group>";
+		};
+		F31438691C0A863100E914E9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F314386A1C0A863100E914E9 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F31438A01C0A871F00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31438BE1C0A872000E914E9 /* libfslazywindow.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31438A41C0A871F00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31438C11C0A872000E914E9 /* libfssimplewindow.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31438A71C0A871F00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31438C41C0A872000E914E9 /* libysbitmap.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31438AA1C0A872000E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31438C71C0A872000E914E9 /* libysbitmapfont.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31438AD1C0A872000E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31438CA1C0A872000E914E9 /* libysclass.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31438B01C0A872000E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31438CD1C0A872000E914E9 /* libysclass11.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31438B41C0A872000E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31438D01C0A872000E914E9 /* libysgl.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31438B71C0A872000E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31438D31C0A872000E914E9 /* libysglcpp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F31438651C0A863100E914E9 /* sample00-bouncingBall */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F31438961C0A863100E914E9 /* Build configuration list for PBXNativeTarget "sample00-bouncingBall" */;
+			buildPhases = (
+				F31438621C0A863100E914E9 /* Sources */,
+				F31438631C0A863100E914E9 /* Frameworks */,
+				F31438641C0A863100E914E9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "sample00-bouncingBall";
+			productName = "sample00-bouncingBall";
+			productReference = F31438661C0A863100E914E9 /* sample00-bouncingBall.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F31438811C0A863100E914E9 /* sample00-bouncingBallTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F31438991C0A863100E914E9 /* Build configuration list for PBXNativeTarget "sample00-bouncingBallTests" */;
+			buildPhases = (
+				F314387E1C0A863100E914E9 /* Sources */,
+				F314387F1C0A863100E914E9 /* Frameworks */,
+				F31438801C0A863100E914E9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F31438841C0A863100E914E9 /* PBXTargetDependency */,
+			);
+			name = "sample00-bouncingBallTests";
+			productName = "sample00-bouncingBallTests";
+			productReference = F31438821C0A863100E914E9 /* sample00-bouncingBallTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F314388C1C0A863100E914E9 /* sample00-bouncingBallUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F314389C1C0A863100E914E9 /* Build configuration list for PBXNativeTarget "sample00-bouncingBallUITests" */;
+			buildPhases = (
+				F31438891C0A863100E914E9 /* Sources */,
+				F314388A1C0A863100E914E9 /* Frameworks */,
+				F314388B1C0A863100E914E9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F314388F1C0A863100E914E9 /* PBXTargetDependency */,
+			);
+			name = "sample00-bouncingBallUITests";
+			productName = "sample00-bouncingBallUITests";
+			productReference = F314388D1C0A863100E914E9 /* sample00-bouncingBallUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F314385E1C0A863100E914E9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F31438651C0A863100E914E9 = {
+						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = AT3TQDS4JQ;
+						ProvisioningStyle = Automatic;
+					};
+					F31438811C0A863100E914E9 = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = F31438651C0A863100E914E9;
+					};
+					F314388C1C0A863100E914E9 = {
+						CreatedOnToolsVersion = 7.1.1;
+						TestTargetID = F31438651C0A863100E914E9;
+					};
+				};
+			};
+			buildConfigurationList = F31438611C0A863100E914E9 /* Build configuration list for PBXProject "sample00-bouncingBall" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F314385D1C0A863100E914E9;
+			productRefGroup = F31438671C0A863100E914E9 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F31438A01C0A871F00E914E9 /* Products */;
+					ProjectRef = F314389F1C0A871F00E914E9 /* fslazywindow.xcodeproj */;
+				},
+				{
+					ProductGroup = F31438A41C0A871F00E914E9 /* Products */;
+					ProjectRef = F31438A31C0A871F00E914E9 /* fssimplewindow.xcodeproj */;
+				},
+				{
+					ProductGroup = F31438A71C0A871F00E914E9 /* Products */;
+					ProjectRef = F31438A61C0A871F00E914E9 /* ysbitmap.xcodeproj */;
+				},
+				{
+					ProductGroup = F31438AA1C0A872000E914E9 /* Products */;
+					ProjectRef = F31438A91C0A872000E914E9 /* ysbitmapfont.xcodeproj */;
+				},
+				{
+					ProductGroup = F31438AD1C0A872000E914E9 /* Products */;
+					ProjectRef = F31438AC1C0A872000E914E9 /* ysclass.xcodeproj */;
+				},
+				{
+					ProductGroup = F31438B01C0A872000E914E9 /* Products */;
+					ProjectRef = F31438AF1C0A872000E914E9 /* ysclass11.xcodeproj */;
+				},
+				{
+					ProductGroup = F31438B41C0A872000E914E9 /* Products */;
+					ProjectRef = F31438B31C0A872000E914E9 /* ysgl.xcodeproj */;
+				},
+				{
+					ProductGroup = F31438B71C0A872000E914E9 /* Products */;
+					ProjectRef = F31438B61C0A872000E914E9 /* ysglcpp.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F31438651C0A863100E914E9 /* sample00-bouncingBall */,
+				F31438811C0A863100E914E9 /* sample00-bouncingBallTests */,
+				F314388C1C0A863100E914E9 /* sample00-bouncingBallUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F31438BE1C0A872000E914E9 /* libfslazywindow.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfslazywindow.a;
+			remoteRef = F31438BD1C0A872000E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31438C11C0A872000E914E9 /* libfssimplewindow.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfssimplewindow.a;
+			remoteRef = F31438C01C0A872000E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31438C41C0A872000E914E9 /* libysbitmap.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysbitmap.a;
+			remoteRef = F31438C31C0A872000E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31438C71C0A872000E914E9 /* libysbitmapfont.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysbitmapfont.a;
+			remoteRef = F31438C61C0A872000E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31438CA1C0A872000E914E9 /* libysclass.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysclass.a;
+			remoteRef = F31438C91C0A872000E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31438CD1C0A872000E914E9 /* libysclass11.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysclass11.a;
+			remoteRef = F31438CC1C0A872000E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31438D01C0A872000E914E9 /* libysgl.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysgl.a;
+			remoteRef = F31438CF1C0A872000E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31438D31C0A872000E914E9 /* libysglcpp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysglcpp.a;
+			remoteRef = F31438D21C0A872000E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F31438641C0A863100E914E9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F314387C1C0A863100E914E9 /* LaunchScreen.storyboard in Resources */,
+				F31438791C0A863100E914E9 /* Assets.xcassets in Resources */,
+				F31438741C0A863100E914E9 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F31438801C0A863100E914E9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F314388B1C0A863100E914E9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F31438621C0A863100E914E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31438711C0A863100E914E9 /* ViewController.m in Sources */,
+				F314386E1C0A863100E914E9 /* AppDelegate.m in Sources */,
+				F314386B1C0A863100E914E9 /* main.m in Sources */,
+				F31438DD1C0A878000E914E9 /* main.cpp in Sources */,
+				F31438771C0A863100E914E9 /* sample00_bouncingBall.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F314387E1C0A863100E914E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F31438891C0A863100E914E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F31438841C0A863100E914E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F31438651C0A863100E914E9 /* sample00-bouncingBall */;
+			targetProxy = F31438831C0A863100E914E9 /* PBXContainerItemProxy */;
+		};
+		F314388F1C0A863100E914E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F31438651C0A863100E914E9 /* sample00-bouncingBall */;
+			targetProxy = F314388E1C0A863100E914E9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F31438721C0A863100E914E9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F31438731C0A863100E914E9 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F314387A1C0A863100E914E9 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F314387B1C0A863100E914E9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F31438941C0A863100E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F31438951C0A863100E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F31438971C0A863100E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Soji Yamakawa (2B57M8726K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = AT3TQDS4JQ;
+				INFOPLIST_FILE = "sample00-bouncingBall/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ysflight.com.sample00-bouncingBall";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F31438981C0A863100E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Soji Yamakawa (2B57M8726K)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = AT3TQDS4JQ;
+				INFOPLIST_FILE = "sample00-bouncingBall/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ysflight.com.sample00-bouncingBall";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F314389A1C0A863100E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "sample00-bouncingBallTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ysflight.com.sample00-bouncingBallTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sample00-bouncingBall.app/sample00-bouncingBall";
+			};
+			name = Debug;
+		};
+		F314389B1C0A863100E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = "sample00-bouncingBallTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ysflight.com.sample00-bouncingBallTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/sample00-bouncingBall.app/sample00-bouncingBall";
+			};
+			name = Release;
+		};
+		F314389D1C0A863100E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "sample00-bouncingBallUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ysflight.com.sample00-bouncingBallUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "sample00-bouncingBall";
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		F314389E1C0A863100E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = "sample00-bouncingBallUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "ysflight.com.sample00-bouncingBallUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = "sample00-bouncingBall";
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F31438611C0A863100E914E9 /* Build configuration list for PBXProject "sample00-bouncingBall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31438941C0A863100E914E9 /* Debug */,
+				F31438951C0A863100E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F31438961C0A863100E914E9 /* Build configuration list for PBXNativeTarget "sample00-bouncingBall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31438971C0A863100E914E9 /* Debug */,
+				F31438981C0A863100E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F31438991C0A863100E914E9 /* Build configuration list for PBXNativeTarget "sample00-bouncingBallTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F314389A1C0A863100E914E9 /* Debug */,
+				F314389B1C0A863100E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F314389C1C0A863100E914E9 /* Build configuration list for PBXNativeTarget "sample00-bouncingBallUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F314389D1C0A863100E914E9 /* Debug */,
+				F314389E1C0A863100E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F31438751C0A863100E914E9 /* sample00_bouncingBall.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F31438761C0A863100E914E9 /* sample00_bouncingBall.xcdatamodel */,
+			);
+			currentVersion = F31438761C0A863100E914E9 /* sample00_bouncingBall.xcdatamodel */;
+			path = sample00_bouncingBall.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = F314385E1C0A863100E914E9 /* Project object */;
+}

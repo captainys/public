@@ -1,0 +1,364 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F3BD0FE01C07DF83006B1C96 /* fsgui3d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0FD61C07DF83006B1C96 /* fsgui3d.cpp */; };
+		F3BD0FE11C07DF83006B1C96 /* fsgui3dicon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0FD81C07DF83006B1C96 /* fsgui3dicon.cpp */; };
+		F3BD0FE21C07DF83006B1C96 /* fsgui3dutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0FDA1C07DF83006B1C96 /* fsgui3dutil.cpp */; };
+		F3BD0FE31C07DF83006B1C96 /* fsgui3dviewcontrol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0FDC1C07DF83006B1C96 /* fsgui3dviewcontrol.cpp */; };
+		F3BD0FE41C07DF83006B1C96 /* fsgui3dviewcontroldialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0FDE1C07DF83006B1C96 /* fsgui3dviewcontroldialog.cpp */; };
+		F3BD0FE61C07DF8F006B1C96 /* fsgui3dgl2.0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3BD0FE51C07DF8F006B1C96 /* fsgui3dgl2.0.cpp */; };
+		F3BD0FF81C07DFA9006B1C96 /* libfsguilib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BD0FF71C07DF9C006B1C96 /* libfsguilib.a */; };
+		F3BD10001C07DFA9006B1C96 /* libfssimplewindow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BD0FF91C07DFA9006B1C96 /* libfssimplewindow.a */; };
+		F3BD10011C07DFA9006B1C96 /* libysbitmap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BD0FFA1C07DFA9006B1C96 /* libysbitmap.a */; };
+		F3BD10021C07DFA9006B1C96 /* libysbitmapfont.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BD0FFB1C07DFA9006B1C96 /* libysbitmapfont.a */; };
+		F3BD10031C07DFA9006B1C96 /* libysclass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BD0FFC1C07DFA9006B1C96 /* libysclass.a */; };
+		F3BD10041C07DFA9006B1C96 /* libysfontrenderer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BD0FFD1C07DFA9006B1C96 /* libysfontrenderer.a */; };
+		F3BD10051C07DFA9006B1C96 /* libysgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BD0FFE1C07DFA9006B1C96 /* libysgl.a */; };
+		F3BD10061C07DFA9006B1C96 /* libyssystemfont.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3BD0FFF1C07DFA9006B1C96 /* libyssystemfont.a */; };
+		F3BD10071C07DFB8006B1C96 /* fsgui3d.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3BD0FD71C07DF83006B1C96 /* fsgui3d.h */; };
+		F3BD10081C07DFB8006B1C96 /* fsgui3dicon.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3BD0FD91C07DF83006B1C96 /* fsgui3dicon.h */; };
+		F3BD10091C07DFB8006B1C96 /* fsgui3dutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3BD0FDB1C07DF83006B1C96 /* fsgui3dutil.h */; };
+		F3BD100A1C07DFB8006B1C96 /* fsgui3dviewcontrol.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3BD0FDD1C07DF83006B1C96 /* fsgui3dviewcontrol.h */; };
+		F3BD100B1C07DFB8006B1C96 /* fsgui3dviewcontroldialog.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3BD0FDF1C07DF83006B1C96 /* fsgui3dviewcontroldialog.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F3BD0FF61C07DF9C006B1C96 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F3BD0FE71C07DF9C006B1C96 /* fsguilib.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F3BD0EC61C07DA40006B1C96;
+			remoteInfo = fsguilib;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3BD0FC81C07DF2D006B1C96 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F3BD10071C07DFB8006B1C96 /* fsgui3d.h in CopyFiles */,
+				F3BD10081C07DFB8006B1C96 /* fsgui3dicon.h in CopyFiles */,
+				F3BD10091C07DFB8006B1C96 /* fsgui3dutil.h in CopyFiles */,
+				F3BD100A1C07DFB8006B1C96 /* fsgui3dviewcontrol.h in CopyFiles */,
+				F3BD100B1C07DFB8006B1C96 /* fsgui3dviewcontroldialog.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F3BD0FCA1C07DF2D006B1C96 /* libfsgui3d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libfsgui3d.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3BD0FD61C07DF83006B1C96 /* fsgui3d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3d.cpp; path = ../src/fsgui3d/src/fsgui3d.cpp; sourceTree = "<group>"; };
+		F3BD0FD71C07DF83006B1C96 /* fsgui3d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fsgui3d.h; path = ../src/fsgui3d/src/fsgui3d.h; sourceTree = "<group>"; };
+		F3BD0FD81C07DF83006B1C96 /* fsgui3dicon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3dicon.cpp; path = ../src/fsgui3d/src/fsgui3dicon.cpp; sourceTree = "<group>"; };
+		F3BD0FD91C07DF83006B1C96 /* fsgui3dicon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fsgui3dicon.h; path = ../src/fsgui3d/src/fsgui3dicon.h; sourceTree = "<group>"; };
+		F3BD0FDA1C07DF83006B1C96 /* fsgui3dutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3dutil.cpp; path = ../src/fsgui3d/src/fsgui3dutil.cpp; sourceTree = "<group>"; };
+		F3BD0FDB1C07DF83006B1C96 /* fsgui3dutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fsgui3dutil.h; path = ../src/fsgui3d/src/fsgui3dutil.h; sourceTree = "<group>"; };
+		F3BD0FDC1C07DF83006B1C96 /* fsgui3dviewcontrol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3dviewcontrol.cpp; path = ../src/fsgui3d/src/fsgui3dviewcontrol.cpp; sourceTree = "<group>"; };
+		F3BD0FDD1C07DF83006B1C96 /* fsgui3dviewcontrol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fsgui3dviewcontrol.h; path = ../src/fsgui3d/src/fsgui3dviewcontrol.h; sourceTree = "<group>"; };
+		F3BD0FDE1C07DF83006B1C96 /* fsgui3dviewcontroldialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3dviewcontroldialog.cpp; path = ../src/fsgui3d/src/fsgui3dviewcontroldialog.cpp; sourceTree = "<group>"; };
+		F3BD0FDF1C07DF83006B1C96 /* fsgui3dviewcontroldialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fsgui3dviewcontroldialog.h; path = ../src/fsgui3d/src/fsgui3dviewcontroldialog.h; sourceTree = "<group>"; };
+		F3BD0FE51C07DF8F006B1C96 /* fsgui3dgl2.0.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3dgl2.0.cpp; path = ../src/fsgui3d/src/gl2/fsgui3dgl2.0.cpp; sourceTree = "<group>"; };
+		F3BD0FE71C07DF9C006B1C96 /* fsguilib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = fsguilib.xcodeproj; sourceTree = "<group>"; };
+		F3BD0FF91C07DFA9006B1C96 /* libfssimplewindow.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfssimplewindow.a; path = "build/Debug-iphoneos/libfssimplewindow.a"; sourceTree = "<group>"; };
+		F3BD0FFA1C07DFA9006B1C96 /* libysbitmap.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysbitmap.a; path = "build/Debug-iphoneos/libysbitmap.a"; sourceTree = "<group>"; };
+		F3BD0FFB1C07DFA9006B1C96 /* libysbitmapfont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysbitmapfont.a; path = "build/Debug-iphoneos/libysbitmapfont.a"; sourceTree = "<group>"; };
+		F3BD0FFC1C07DFA9006B1C96 /* libysclass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysclass.a; path = "build/Debug-iphoneos/libysclass.a"; sourceTree = "<group>"; };
+		F3BD0FFD1C07DFA9006B1C96 /* libysfontrenderer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysfontrenderer.a; path = "build/Debug-iphoneos/libysfontrenderer.a"; sourceTree = "<group>"; };
+		F3BD0FFE1C07DFA9006B1C96 /* libysgl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysgl.a; path = "build/Debug-iphoneos/libysgl.a"; sourceTree = "<group>"; };
+		F3BD0FFF1C07DFA9006B1C96 /* libyssystemfont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libyssystemfont.a; path = "build/Debug-iphoneos/libyssystemfont.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F3BD0FC71C07DF2D006B1C96 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3BD10001C07DFA9006B1C96 /* libfssimplewindow.a in Frameworks */,
+				F3BD10011C07DFA9006B1C96 /* libysbitmap.a in Frameworks */,
+				F3BD10021C07DFA9006B1C96 /* libysbitmapfont.a in Frameworks */,
+				F3BD10031C07DFA9006B1C96 /* libysclass.a in Frameworks */,
+				F3BD10041C07DFA9006B1C96 /* libysfontrenderer.a in Frameworks */,
+				F3BD10051C07DFA9006B1C96 /* libysgl.a in Frameworks */,
+				F3BD10061C07DFA9006B1C96 /* libyssystemfont.a in Frameworks */,
+				F3BD0FF81C07DFA9006B1C96 /* libfsguilib.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F3BD0FC11C07DF2D006B1C96 = {
+			isa = PBXGroup;
+			children = (
+				F3BD0FF91C07DFA9006B1C96 /* libfssimplewindow.a */,
+				F3BD0FFA1C07DFA9006B1C96 /* libysbitmap.a */,
+				F3BD0FFB1C07DFA9006B1C96 /* libysbitmapfont.a */,
+				F3BD0FFC1C07DFA9006B1C96 /* libysclass.a */,
+				F3BD0FFD1C07DFA9006B1C96 /* libysfontrenderer.a */,
+				F3BD0FFE1C07DFA9006B1C96 /* libysgl.a */,
+				F3BD0FFF1C07DFA9006B1C96 /* libyssystemfont.a */,
+				F3BD0FE71C07DF9C006B1C96 /* fsguilib.xcodeproj */,
+				F3BD0FE51C07DF8F006B1C96 /* fsgui3dgl2.0.cpp */,
+				F3BD0FD61C07DF83006B1C96 /* fsgui3d.cpp */,
+				F3BD0FD71C07DF83006B1C96 /* fsgui3d.h */,
+				F3BD0FD81C07DF83006B1C96 /* fsgui3dicon.cpp */,
+				F3BD0FD91C07DF83006B1C96 /* fsgui3dicon.h */,
+				F3BD0FDA1C07DF83006B1C96 /* fsgui3dutil.cpp */,
+				F3BD0FDB1C07DF83006B1C96 /* fsgui3dutil.h */,
+				F3BD0FDC1C07DF83006B1C96 /* fsgui3dviewcontrol.cpp */,
+				F3BD0FDD1C07DF83006B1C96 /* fsgui3dviewcontrol.h */,
+				F3BD0FDE1C07DF83006B1C96 /* fsgui3dviewcontroldialog.cpp */,
+				F3BD0FDF1C07DF83006B1C96 /* fsgui3dviewcontroldialog.h */,
+				F3BD0FCC1C07DF2D006B1C96 /* fsgui3d */,
+				F3BD0FCB1C07DF2D006B1C96 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F3BD0FCB1C07DF2D006B1C96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3BD0FCA1C07DF2D006B1C96 /* libfsgui3d.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3BD0FCC1C07DF2D006B1C96 /* fsgui3d */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = fsgui3d;
+			sourceTree = "<group>";
+		};
+		F3BD0FE81C07DF9C006B1C96 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3BD0FF71C07DF9C006B1C96 /* libfsguilib.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F3BD0FC91C07DF2D006B1C96 /* fsgui3d */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3BD0FD31C07DF2D006B1C96 /* Build configuration list for PBXNativeTarget "fsgui3d" */;
+			buildPhases = (
+				F3BD0FC61C07DF2D006B1C96 /* Sources */,
+				F3BD0FC71C07DF2D006B1C96 /* Frameworks */,
+				F3BD0FC81C07DF2D006B1C96 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = fsgui3d;
+			productName = fsgui3d;
+			productReference = F3BD0FCA1C07DF2D006B1C96 /* libfsgui3d.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F3BD0FC21C07DF2D006B1C96 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F3BD0FC91C07DF2D006B1C96 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F3BD0FC51C07DF2D006B1C96 /* Build configuration list for PBXProject "fsgui3d" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F3BD0FC11C07DF2D006B1C96;
+			productRefGroup = F3BD0FCB1C07DF2D006B1C96 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F3BD0FE81C07DF9C006B1C96 /* Products */;
+					ProjectRef = F3BD0FE71C07DF9C006B1C96 /* fsguilib.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F3BD0FC91C07DF2D006B1C96 /* fsgui3d */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F3BD0FF71C07DF9C006B1C96 /* libfsguilib.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfsguilib.a;
+			remoteRef = F3BD0FF61C07DF9C006B1C96 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F3BD0FC61C07DF2D006B1C96 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3BD0FE31C07DF83006B1C96 /* fsgui3dviewcontrol.cpp in Sources */,
+				F3BD0FE21C07DF83006B1C96 /* fsgui3dutil.cpp in Sources */,
+				F3BD0FE11C07DF83006B1C96 /* fsgui3dicon.cpp in Sources */,
+				F3BD0FE41C07DF83006B1C96 /* fsgui3dviewcontroldialog.cpp in Sources */,
+				F3BD0FE01C07DF83006B1C96 /* fsgui3d.cpp in Sources */,
+				F3BD0FE61C07DF8F006B1C96 /* fsgui3dgl2.0.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F3BD0FD11C07DF2D006B1C96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F3BD0FD21C07DF2D006B1C96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F3BD0FD41C07DF2D006B1C96 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F3BD0FD51C07DF2D006B1C96 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F3BD0FC51C07DF2D006B1C96 /* Build configuration list for PBXProject "fsgui3d" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3BD0FD11C07DF2D006B1C96 /* Debug */,
+				F3BD0FD21C07DF2D006B1C96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3BD0FD31C07DF2D006B1C96 /* Build configuration list for PBXNativeTarget "fsgui3d" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3BD0FD41C07DF2D006B1C96 /* Debug */,
+				F3BD0FD51C07DF2D006B1C96 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F3BD0FC21C07DF2D006B1C96 /* Project object */;
+}

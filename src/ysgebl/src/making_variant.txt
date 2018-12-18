@@ -1,0 +1,4 @@
+(1) Make a copy of main
+(2) Change the target name in CMakeLists.txt
+(3) Customize ysgebl_gui_extension.cpp/.h
+

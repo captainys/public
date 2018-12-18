@@ -1,0 +1,9 @@
+import lib.ysflight.YsGLES2View;
+
+
+    YsGLES2View ysView;
+
+
+        super.onCreate(savedInstanceState);
+        ysView=new YsGLES2View(getApplication());
+        setContentView(ysView);

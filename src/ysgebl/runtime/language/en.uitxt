@@ -1,0 +1,535 @@
+YSFLIGHT_LOCALIZATION_INFO_FILE
+
+*Needs to be encoded in UTF-8
+
+$LABEL "English"
+$FGCOL 255
+$BGCOL 0
+
+
+
++common/automatic                                  #Automatic
++common/bbxcenter                                  #Bounding-Box Center
++common/center                                     #Center
++common/clear                                      #Clear
++common/constedge                                  #Const-Edge
++common/cutplane                                   #Cutting Plane
++common/distthr                                    #Distance Threshold
++common/g0continuous                               #G0 continuous
++common/g1continuous                               #G1 continuous
++common/g2continuous                               #G2 continuous
++common/help                                       #Help
++common/insert                                     #Insert
++common/length                                     #Length
++common/normal                                     #Normal
++common/ok                                         #OK
++common/cancel                                     #Cancel
++common/close                                      #Close
++common/delete                                     #Delete
++common/origin                                     #Origin
++common/polygon                                    #Polygon
++common/quadrilateral                              #Quadrilateral
++common/reverse                                    #Reverse
++common/tangent                                    #Tangent
++common/triangle                                   #Triangle
++common/type                                       #Type
++common/xaxis                                      #X-Axis
++common/yaxis                                      #Y-Axis
++common/yes                                        #Yes
++common/no                                         #No
++common/error                                      #Error!
++common/angle                                      #Angle
+
+
++common/zaxis                                      #Z-Axis
++dlg/about/donateline1                             #Polygon Crest is a free and open-source polygon editor.\nBut, I appreicate if you can donate some money for supporting the development.
++dlg/about/donateline2                             #If you don't mind making some donation, please send money\nvia PayPal from the following button.
++dlg/about/donateline3                             #...
++dlg/about/donatepaypal                            #Donate via PayPal
++dlg/about/donatevector                            #Donate via Vector ShareReg
++dlg/airfoil/create                                #Create
++dlg/airfoil/naca4/matchtail                       #Match Tail
++dlg/airfoil/naca6/modifiedmeanline                #Modified Mean Line
++dlg/airfoil/supercritical/matchtail               #Match Tail
++dlg/bool/clickonshell                             #Click on the model that the boolean operation is calculated with the current model.
++dlg/bool/currentshell                             #[Current model]
++dlg/bool/defectexplanation                        #Models need to be closed solids for a boolean operation to succeed.\nEach edge needs to be used from two polygons.  \nNon-neighboring polygons must not intersect with each other.\n \nDue to these defects, the calculation may fail.\nAre you sure to proceed with the boolean operation?
++dlg/bool/defectfound                              #Defects found
++dlg/bool/diagnose                                 #Diagnose before Boolean Calculation
++dlg/bool/nonmanifold                              # > Non-Manifold Edges - Use View->Highlight->Non-Manifold Edges to look for the problematic edges
++dlg/bool/pickedshell                              #[Picked model]
++dlg/bool/potentialproblems                        #Potential Problems
++dlg/bool/recalcnormal                             #Recalculate Normal Vector before Boolean Calculation
++dlg/bool/selfintersection                         # > Self Intersections
++dlg/bool/triangulatenonplanar                     #Triangulate Non-Planar Polygons before Calculation
++dlg/chopoff/3vertex                               #Three Selected Vertices
++dlg/chopoff/copytobuffer                          #Copy Dropped Part to the Cut Buffer
++dlg/chopoff/dontdrop                              #Don't do anything.  Just make cutting.
++dlg/chopoff/droplastvertexside                    #Drop Last-Vertex Side
++dlg/chopoff/dropselvertexside                     #Drop Selected-Vertex Side
++dlg/chopoff/leavelastvertexside                   #Leave Last-Vertex Side
++dlg/chopoff/leaveselvertexside                    #Leave Selected-Vertex Side
++dlg/chopoff/onlyintersectingpart                  #Only Intersecting Part
++dlg/chopoff/polygonorconstedge                    #Selected Polygon or Constraint Edge
++dlg/chopoff/wholemodel                            #Whole Model
++dlg/chopoff/xyplane                               #XY-Plane
++dlg/chopoff/xyplanefirstvertex                    #Parallel to XY-Plane Passing through the First Vertex
++dlg/chopoff/xzplane                               #XZ-Plane
++dlg/chopoff/xzplanefirstvertex                    #Parallel to XZ-Plane Passing through the First Vertex
++dlg/chopoff/yzplane                               #YZ-Plane
++dlg/chopoff/yzplanefirstvertex                    #Parallel to YZ-Plane Passing through the First Vertex
++dlg/common/2selectedvtx                           #Two Selected Vertices
++dlg/common/askcopytoclipboard                     #Do you want to copy to clipboard instead?
++dlg/common/center                                 #Center
++dlg/common/copytoclipboard                        #Copy to Clipboard
++dlg/common/create                                 #Create
++dlg/common/divcount                               #Division
++dlg/common/rotate                                 #Rotate
++dlg/common/scalingfactor                          #Scaling Factor
++dlg/common/selectedvtx                            #Selected Vertices
++dlg/common/show                                   #Show
++dlg/config/autoadjusttolerance                    #Adjust Tolerance when Opening a File.
++dlg/config/autofixdnmorientation                  #Fix Polygon Orientation in DNM when opening
++dlg/config/lefthandcoord                          #Left-Hand Cooreinate (Direct3D, YSFLIGHT)
++dlg/config/righthandcoord                         #Right-Hand Cooreinate (OpenGL)
++dlg/config/savebinarystl                          #Save STL in binary format
++dlg/config/savewindowpos                          #Save Window Position and Size
++dlg/config/setdefault                             #Set Default
++dlg/config/whyautofixdnmorientation               #Polygons in legacy DNM files may not be oriented correctly.\nBy checking this option, the program will fix polygon orientation based on the\nassigned normal vectors when the file is opened.
++dlg/confirmclose/message                          #The model has been modified.  Really close?
++dlg/confirmclose/title                            #Confirm Close?
++dlg/confirmexit/message                           #Some models have been modified. Exit anyway?
++dlg/confirmexit/title                             #Confirm Exit?
++dlg/confirmoverwrite/message                      #File Exists. Overwrite?
++dlg/confirmoverwrite/title                        #Confirm Overwrite?
++dlg/createprimitiveshape/box                      #Box
++dlg/createprimitiveshape/changeorientation        #Change Orientation
++dlg/createprimitiveshape/cone                     #Cone
++dlg/createprimitiveshape/cylinder                 #Cylinder
++dlg/createprimitiveshape/ellipsoid                #Sphere/Ellipsoid
++dlg/ellipsefromvtx/covertex_center_vertex         #Covertex-Center-Vertex
++dlg/ellipsefromvtx/diameter_covertex              #Diameter-Covertex
++dlg/ellipsefromvtx/partial                        #Partial
++dlg/ellipsefromvtx/usevertexas                    #Use Vertices As:
++dlg/ellipsefromvtx/whole                          #Whole
++dlg/equilateral/1stvertex                         #First Vertes Is:
++dlg/equilateral/border                            #On the border
++dlg/equilateral/center                            #Center
++dlg/equilateral/cursor_as                         #Cursor As:
++dlg/equilateral/cursor_as_normal                  #Normal
++dlg/equilateral/cursor_as_passingpoint            #Passing Point
++dlg/equilateral/cursor_as_tangent                 #Tangent
++dlg/equilateral/ellipse                           #Ellipse
++dlg/equilateral/equilateral                       #Equilateral/Circle
++dlg/equilateral/firsthalf                         #First Half
++dlg/equilateral/include2nd                        #Include 2nd Vertex
++dlg/equilateral/includecursor                     #Include Cursor Position
++dlg/equilateral/lasthalf                          #Last Half
++dlg/equilateral/whole                             #Whole
++dlg/facegrouponame/name                           #Face Group Name
++dlg/help/helpmsg                                  #Help can be found in the following URL.
++dlg/help/helpurl                                  #http://polycre.help.en.ysflight.com
++dlg/insertvertex/addvertextoselection             #Add New Vertices to Selection
++dlg/insertvertex/changescheme                     #Change Point-Input Scheme
++dlg/opendnm/confirmclose/message                  #All changes will be discarded when a DNM file is opened.\nAre you ok with discarding changes?
++dlg/opendnm/confirmclose/title                    #Confirm discard changes
++dlg/parallelogram/cancellast                      #Cancel Last
++dlg/parallelogram/closeloop                       #Close Loop
++dlg/parallelogram/closeloopfloorceiling           #Close Loop, Floor, and Ceiling
++dlg/paste_w_trans/cursor_direction                #Cursor Direction
++dlg/paste_w_trans/point_is/first                  #First Copy
++dlg/paste_w_trans/point_is/last                   #Last Copy
++dlg/refbmp/discardimage                           #Discard Image
++dlg/refbmp/loadimage                              #Load PNG/BMP Image
++dlg/refbmp/movescale                              #Move/Scale
++dlg/refbmp/xy                                     #XY(Front)
++dlg/refbmp/xz                                     #XZ(Top)
++dlg/refbmp/yz                                     #YZ(Side)
++dlg/saved/title                                   #Saved.
++dlg/scale_in_direction/factor                     #Scaling Factor
++dlg/scale_in_direction/title                      #Scaling in Specified Direction
++dlg/scaling/centeratorigin                        #Set Scaling Center at Origin
++dlg/scaling/isotropicscaling                      #Isotropic Scaling
++dlg/selectbyprop/addselectbtn                     #Add to Selection
++dlg/selectbyprop/cebyid                           #Const-Edge Id
++dlg/selectbyprop/cebylabel                        #Const-Edge Label
++dlg/selectbyprop/cekey                            #Const-Edge Hash Key
++dlg/selectbyprop/fgbyid                           #Face-Group Id
++dlg/selectbyprop/fgbylabel                        #Face-Group Label
++dlg/selectbyprop/fgkey                            #Face-Group Hash Key
++dlg/selectbyprop/highaspectpolygon                #High Aspect-Ratio Polygon
++dlg/selectbyprop/plgidbtn                         #Polygon Index
++dlg/selectbyprop/plgkeybtn                        #Polygon Hash Key
++dlg/selectbyprop/removeselectbtn                  #Remove from Selection
++dlg/selectbyprop/selectbtn                        #Select
++dlg/selectbyprop/shortconstedge                   #Const-Edge Shorter Than Threshold
++dlg/selectbyprop/vtkeybtn                         #Vertex Internal Hash Key
++dlg/selectbyprop/vtxidbtn                         #Vertex Index
++dlg/setalpha/solid                                #Solid
++dlg/setalpha/transparent                          #Transparent
++dlg/slideshow/changeview                          #Change View for Each File
++dlg/slideshow/next                                #Next>>
++dlg/slideshow/prev                                #<<Previous
++dlg/solrev/angle                                  #Angle
++dlg/solrev/closed                                 #Closed
++dlg/solrev/displacement                           #Displacement
++dlg/solrev/stepangle                              #Step Angle
++dlg/sweep/delsrcplg                               #Delete Source Polygons
++dlg/sweepconstedge/delete_mid                     #Delete Mid Polygons
++dlg/sweepconstedge/delete_nonmanifold             #Delete Non-Manifold Polygons
++dlg/sweepconstedge/do_not_delete                  #Do Not Delete Polygons
++dlg/sweepconstedge/invert                         #Invert Normal Vectors
++dlg/sweepconstedge/sweep                          #Sweep
++dlg/sweepconstedge/usequad                        #Use Quads instead of Triangles
++dlg/sweepconstedge_delete_source                  #Delete Source Polygons
++dlg/vertexposition/vertexposition                 #Vertex Position
++edit/sweep/rotational_with_path                   #Rotational Sweep with Path
++error/atleast_2plgorce_plus_1ce_needed            #At least 2 polygons or const-edges and 1 const-edge must be selected.
++error/cannotcalculateintersection                 #Cannot calculate intersection
++error/cannotcalculatenearestpoint                 #Cannot calculate nearest point(s).
++error/cannotcalculatenormal                       #Cannot calculate normal vector.
++error/cannotcalculatevector                       #Cannot calculate a vector
++error/cannotidentifywhichsidetodrop               #Cannot identify which side to drop.
++error/cannotmakeconstedgechain                    #Cannot make a const-edge chain
++error/cannotroundplgboundary                      #Cannot round specified polygon boundary.
++error/cannotroundvtx                              #Cannot round specified vertices
++error/divcountoutof1and256                        #Division count needs to be between 1 and 256.
++error/dnm/axis/verticesorconstedgerequired        #Please select 2,3,4 vertices, or a const-edge.\nIf 2 vertices are selected, the pivot will be the mid point, and the axis the 2nd-1st.\nIf 3 vertices are selected, the pivot will be the center, and the axis the 3rd-mid(1st,2nd).\nIf 4 vertices are selected, the pivot will be the center, and the axis the mid(3rd,4th)-mid(1st,2nd).\nIf a const edge is selected, the pivot will be the mid point of the first and the last points \nof the const edge, and the axis the last point minus the first point.\n
+
++error/dnm/mustbe_dnmedit_mode                     #This function is only available in the DNM-editing mode.
++error/dnm/show_hide_cannot_be_set_for_static_state #Show/Hide cannot be set for the static state.
++error/leastsquareplane                            #Cannot calculate a least-square fitting plane.
++error/need_1or2_vertex                            #Need 1 or 2 vertices selected.
++error/needselect1polygon                          #Please select 1 polygon and try again.
++error/needselect2polygon                          #Please select 2 polygons and try again.
++error/needselect2vertex                           #Please select 2 vertices and tri again.
++error/needselect3vertex                           #Please select 3 vertices and try again.
++error/needselect4vertex                           #Please select 4 vertices and try again.
++error/needselect_1polygon_or_1constedge           #Please select one polygon or one const-edge.
++error/needselect_1vtx3plg                         #Please select 1 vertex and 3 polygons
++error/needselectatleast1constedge                 #At least 1 const-edge must be selected.
++error/needselectatleast1vertex                    #At least 1 vertex must be selected
++error/needselectatleast2vertex                    #At least 2 vertices must be selected
++error/needselectatleast3vertex                    #At least 3 vertices must be selected
++error/needselectatleast4vertex                    #At least 4 vertices must be selected
++error/needselectconstedge                         #At least one const-edge must be selected.
++error/needselectoneplgorconstedge                 #Please select at least one polygon or const-edge
++error/needselectvtxandplgorfgorce                 #At least 1 vertex and a polygon, const-edge, or face group must be selected
++error/needselectvtxorconstedge                    #Select either vertices or const edges.
++error/noplce_connect_first_last_vtx               #No const-edge and polygon is connecting the first and last vertices.
++error/rotationalsweep/cannotextractsharedparts    #Cannot extract shared parts.
++error/solrev/selection                            #Please select source (polygons or const-edges)\nand then axis (a const-edge or two vertices), and try again.
++error/sweep/needpathandsrc                        #Please select source (polygons and/or face group)\nand path (one constraint edge)\nYou can also select an additional constraint edge as a guide rail.
++error/toomanyselection                            #Too Many Elements are Selected
++error/triangulationerror                          #Some polygons could not be triangulated.
++menu/bool/intersection                            #Intersection
++menu/bool/merge                                   #Merge
++menu/bool/openandsolid                            #Open Surface AND Solid
++menu/bool/openminussolid                          #Open Surface minus Solid
++menu/bool/openplussolid                           #Open Surface plus Solid
++menu/bool/separate                                #Separate
++menu/bool/subtraction                             #Subtraction
++menu/bool/union                                   #Union
++menu/boolean                                      #Boolean
++menu/dnm/auto                                     #Automatic Setting
++menu/dnm/dnmeditmode                              #DNM-Editing Mode
++menu/dnm/editstate                                #Edit DNM State
++menu/dnm/edittreestructure                        #Edit Tree Structure
++menu/dnm/hide                                     #Hide
++menu/dnm/loadstate0                               #Load State 0
++menu/dnm/loadstate1                               #Load State 1
++menu/dnm/loadstate2                               #Load State 2
++menu/dnm/loadstate3                               #Load State 3
++menu/dnm/loadstaticmode                           #Load Static Mode
++menu/dnm/preview                                  #Preview
++menu/dnm/rotate                                   #Rotate
++menu/dnm/setaxis                                  #Set Rotation Axis
++menu/dnm/setname                                  #Set Name and Attributes
++menu/dnm/setpivot                                 #Set Pivot
++menu/dnm/show                                     #Show
++menu/dnm/translate                                #Translate
++menu/dynamicmodel                                 #Dynamic Model
++menu/edit                                         #Edit
++menu/edit/align                                   #Align
++menu/edit/align/centerx                           #Center X
++menu/edit/align/centery                           #Center Y
++menu/edit/align/centerz                           #Center Z
++menu/edit/align/maximumx                          #Maximum X
++menu/edit/align/maximumy                          #Maximum Y
++menu/edit/align/maximumz                          #Maximum Z
++menu/edit/align/minimumx                          #Minimum X
++menu/edit/align/minimumy                          #Minimum Y
++menu/edit/align/minimumz                          #Minimum Z
++menu/edit/clearuimode                             #Clear UI mode\tESC
++menu/edit/copy                                    #Copy\tCtrl+C
++menu/edit/create                                  #Create
++menu/edit/create/airfoil                          #Airfoil
++menu/edit/create/beziercurve                      #Bezier Curve
++menu/edit/create/conefromvtxandplg                #Cone from Selected Vertex and Polygon, Face Group, or Const-Edge
++menu/edit/create/ellipse_from_vtx                 #Ellipse from Selected Vertices
++menu/edit/create/equilateral                      #Equilateral/Circle/Ellipse
++menu/edit/create/mirrorimage                      #Mirror Image
++menu/edit/create/parallelogramfromthreevtx        #Parallelogram from Three Selected Vertices
++menu/edit/create/parallelogramfromtwovtx          #Parallelogram from Two Selected Vertices
++menu/edit/create/primitiveshape                   #Primitive Shape
++menu/edit/create/solidofrevolution                #Solid of Revolution
++menu/edit/delete                                  #Delete
++menu/edit/delete/allselection                     #All Selection\tDEL
++menu/edit/flatshadeselectedvertex                 #Flat-Shade Selected Vertices
++menu/edit/forcedeleteselection                    #Force Delete All Selection\tShift+DEL
++menu/edit/insert                                  #Insert
++menu/edit/insert/constedge                        #Constraint Edge\tE
++menu/edit/insert/facegroup                        #Face Group
++menu/edit/insert/polygon                          #Polygon\tF
++menu/edit/insert/vertex                           #Vertex\tV
++menu/edit/insert/vertexat                         #Vertex At
++menu/edit/insert/vertexat/nearestof2line          #Nearest Point of 2 Lines Defined by 4 Vertices
++menu/edit/intersection                            #Intersection
++menu/edit/intersection/chopoff                    #Chop Off
++menu/edit/intersection/cutbyplane                 #Cut by Plane 
++menu/edit/local                                   #Local Modification
++menu/edit/local/hemmingaroundplg                  #Hemming - Around Selected Polygons
++menu/edit/local/hemmingonesidevtxseq              #Hemming - One Side of a Vertex Sequence
++menu/edit/local/hemmingoutsideplg                 #Hemming - Outside of Selected Polygons
++menu/edit/local/invertconstedge                   #Invert Const Edge
++menu/edit/local/invertselectedpolygon             #Invert Selected Polygons
++menu/edit/local/mergeconstedge                    #Merge Constraint Edge
++menu/edit/local/mergeplg                          #Merge Selected Polygons\tG
++menu/edit/local/mergevtxatob                      #Merge Vertices - Vertex A to Vertex B\tShift+D
++menu/edit/local/mergevtxmidpoint                  #Merge Vertices - Mid Point\tD
++menu/edit/local/sewbetweenvtxs                    #Sew between Selected Vertices
++menu/edit/local/splitconstedge                    #Split Constraint Edge
++menu/edit/local/splitplg                          #Split Polygons\tS
++menu/edit/local/swapedge                          #Edge Swapping\tW
++menu/edit/local/triangulateselection              #Triangulate Selected Polygons
++menu/edit/move                                    #Move
++menu/edit/move/preselectdirection/fromnormal      #Pre-Select Direction from Normal
++menu/edit/move/preselectvector_from2vtx           #Pre-Select Vector from Two Vertices
++menu/edit/move/selection/bypreselected/vector     #Move Selected Elements by the Pre-Selected Vector
++menu/edit/move/selection/preselecteddirection     #Move Selection in Pre-Selected Direction
++menu/edit/move/selection/preselecteddirection/specifydist #Move Selection in Pre-Selected Direction Specified Distance
++menu/edit/move_vtx_3planeitsc                     #Move Selected Vertex To 3-Plane Intersection
++menu/edit/moveselection                           #Move Selection
++menu/edit/offset                                  #Offset
++menu/edit/offset/thickening                       #Thickening
++menu/edit/paint                                   #Paint
++menu/edit/paint/all                               #All
++menu/edit/paint/bypickingfg                       #by Picking a Face Groupn
++menu/edit/paint/bypickingplg                      #by Picking a Polygon
++menu/edit/paint/floodfillconstedge                #Flood Fill - Bounded by Const Edges
++menu/edit/paint/floodfillsamecolor                #Flood Fill - Same Color
++menu/edit/paint/pickupcolor                       #Pick Up Color
++menu/edit/paint/selectedplg                       #Selected Polygons
++menu/edit/paste                                   #Paste\tCtrl+V
++menu/edit/paste_with_transformation               #Paste with Transformation
++menu/edit/pastespecial                            #Paste Special
++menu/edit/projection                              #Projection
++menu/edit/projection/imprinting                   #Imprint Selection
++menu/edit/projection/openprojdialog               #Open Projection Dialog
++menu/edit/redo                                    #Redo\tCtrl+Y
++menu/edit/renderingoption                         #Rendering Options
++menu/edit/renderingoption/breaksmoothshading      #Divide Smooth-Shading Regions on Selected Const Edges
++menu/edit/renderingoption/dontrenderaslight       #Don't Render Selected Polygons as Lights
++menu/edit/renderingoption/renderaslight           #Render Selected Polygons as Lights
++menu/edit/renderingoption/setpolygonalpha         #Set Alpha (Transparency) of Selected Polygons
++menu/edit/renderingoption/setshadedpolygon        #Selected Polygons are Shaded
++menu/edit/renderingoption/setunshadedpolygon      #Selected Polygons are Self-Lighting (No Shading)
++menu/edit/renderingoption/smoothshadingonconstedge #Don't Divide Smooth-Shading Region on Selected Const Edges
++menu/edit/renderingoption/zeronormal_on_selection #Set Zero Normal to Selected Polygons
++menu/edit/rotateselection                         #Rotate Selection
++menu/edit/round                                   #Round
++menu/edit/round/alongvertexseq                    #Along Selected Vertex Sequence or Const Edge
++menu/edit/round/aroundselectedpolygons            #Around Selected Polygons
++menu/edit/round/aroundselectedvertex              #Around Selected Vertex
++menu/edit/round/polygon_constedge_allcorners      #Polygon/Const-Edge All Corners
++menu/edit/round/polygon_constedge_selectedcorners #Polygon/Const-Edge Selected Corners
++menu/edit/round/unroundvtseq                      #Unround Vertex Sequence
++menu/edit/scaleselection                          #Scale Selection
++menu/edit/smoothshadeselectedvertex               #Smooth-Shade Selected Vertices
++menu/edit/stitch                                  #Stitch
++menu/edit/stitch/by_selected_vertices             #By Selected Vertices
++menu/edit/sweep                                   #Sweep
++menu/edit/sweep/betweence                         #Between Const Edges or Polygons
++menu/edit/sweep/extendorshrink                    #Extend or Shrink
++menu/edit/sweep/nonparallelsweepwithpath          #Non-Parallel Sweeping with Path
++menu/edit/sweep/parallel                          #Parallel Sweeping
++menu/edit/sweep/parallelwithpath                  #Parallel Sweeping with Path
++menu/edit/undo                                    #Undo\tCtrl+Z
++menu/file                                         #File
++menu/file/close                                   #Close
++menu/file/exit                                    #Exit
++menu/file/getinfo                                 #Get Info
++menu/file/getinfo/angle                           #Angle
++menu/file/getinfo/angle/dihedralangle             #Dihedral Angle between Polygons Sharing Two Selected Vertices
++menu/file/getinfo/angle/minmaxavgdha              #Min,Max,Average Dihedral Angles
++menu/file/getinfo/angle/normaldeviationacrossconstedge #Normal Deviation across Const-Edge
++menu/file/getinfo/angle/twopolygon                #Angle between Two Selected Polygons
++menu/file/getinfo/area                            #Area
++menu/file/getinfo/area/all                        #All
++menu/file/getinfo/area/selectedpolygon            #Selected Polygons
++menu/file/getinfo/debuginfo                       #Debug Info
++menu/file/getinfo/debuginfo/ofselection           #Of Selcted Elements
++menu/file/getinfo/length                          #Length/Distance
++menu/file/getinfo/length/betweenvtx               #Between Selected Vertices
++menu/file/getinfo/length/constedge                #Selected Const-Edges
++menu/file/getinfo/position                        #Position
++menu/file/getinfo/position/selvtx                 #Selected Vertices
++menu/file/getinfo/statistics                      #Show Statistics
++menu/file/getinfo/volume                          #Show Total Volume
++menu/file/loaderror                               #Cannot open file
++menu/file/new                                     #New
++menu/file/open                                    #Open
++menu/file/opendnm                                 #Open DNM
++menu/file/recent                                  #Recent Files...
++menu/file/save                                    #Save
++menu/file/saveas                                  #Save As
++menu/file/slideshow                               #Slide Show
++menu/global                                       #Global
++menu/global/deleteunused                          #Delete All Unused Vertices
++menu/global/invertpolygon                         #Invert All Polygons
++menu/global/mergesamevertex                       #Merge Vertices at the Same Location
++menu/global/mergesamevertexonnonmanifoldedge      #Merge Vertices at the Same Location (on Non-Manifold Edges only)
++menu/global/renormal_current_orientation          #Re-calculate Normal Vectors from Current Orientations
++menu/global/reorient                              #Recalculate Polygon Orientation
++menu/global/reorient_assigned_normal              #Fix Orientations assuming Assigned Normal Vector is Reliable
++menu/global/scaleindirection                      #Scale in the Direction Specified by Two Vertices
++menu/global/scaling                               #Scaling
++menu/global/target                                #Applied to...
++menu/global/target/all                            #All Models
++menu/global/target/current                        #Current Model Only
++menu/global/triangulate                           #Triangulate All
++menu/global/zeronormal                            #Set Zero Normal to All Polygons
++menu/help                                         #Help
++menu/help/about                                   #About
++menu/help/help                                    #Help
++menu/option                                       #Option
++menu/option/config                                #Config
++menu/select                                       #Select
++menu/select/all                                   #Select All
++menu/select/byprop                                #by Properties
++menu/select/constedge                             #Const Edges
++menu/select/constedge/all                         #All Const Edges
++menu/select/constedge/dividingsmoothshadingregion #Dividing Smooth-Shading Regions
++menu/select/constedge/frompolygon                 #From Polygon
++menu/select/constedge/invert                      #Invert Selection
++menu/select/facegroup                             #Face Groups
++menu/select/facegroup/all                         #All
++menu/select/facegroup/connected                   #Connected Face Groups
++menu/select/facegroup/highdha                     #Select Face Groups that Include High Dihedral Angle
++menu/select/facegroup/invert                      #Invert Selection
++menu/select/facegroup/planarfacegroup             #Planar Face Groups
++menu/select/pick                                  #Pick
++menu/select/pick/constedge                        #Const Edge\tShift+E
++menu/select/pick/facegroup                        #Face Group\tShift+C
++menu/select/pick/polygon                          #Polygon\tShift+F
++menu/select/pick/vertex                           #Vertex\tShift+V
++menu/select/polygon                               #Polygon
++menu/select/polygon/all                           #All
++menu/select/polygon/cannot_compute_normal         #That Normal cannot be calculated
++menu/select/polygon/edgeconnected                 #Edge-Conncted from Current Selection
++menu/select/polygon/fromedge                      #From Edge (2 vertices)
++menu/select/polygon/invert                        #Invert
++menu/select/polygon/narrow                        #Narrow Polygons
++menu/select/polygon/nontriangular                 #Non-Triangular Polygon
++menu/select/polygon/ofselectedfacegroup           #Of Selected Face Groups
++menu/select/polygon/samecolorfromcurrentselection #Same Color from Current Selection
++menu/select/polygon/shortestpath                  #Shortest Path
++menu/select/polygon/tangled                       #With Intersecting Edges when Projected
++menu/select/polygon/unselect                      #Unselect
++menu/select/polygon/usingatleastoneselectedvertex #Using at Least One of Selected Vertices
++menu/select/polygon/zeronormal                    #Without Assigned Normal Vector
++menu/select/shell                                 #Shell
++menu/select/shell/bydialog                        #By Dialog
++menu/select/shell/nextshell                       #Next Shell\tCtrl+Tab
++menu/select/shell/pickcurrentshell                #Pick Current Shell\tShift+S
++menu/select/shell/prevshell                       #Previous Shell\tCtrl+Shift+Tab
++menu/select/unselect                              #Unselect
++menu/select/unselect/all                          #Unselect All\tT
++menu/select/vertex                                #Vertex
++menu/select/vertex/all                            #All
++menu/select/vertex/byhashkey                      #By Internal Hash Key (for Debugging)
++menu/select/vertex/byindex                        #By Index Number
++menu/select/vertex/edgeconnectedbtwnselvthd       #Edge-Connected Vertices between Selected Vertices
++menu/select/vertex/followboundary                 #Follow Singl-Use Edge\tX
++menu/select/vertex/invert                         #Invert
++menu/select/vertex/ofselectedconstedge            #Of Selected Const Edges
++menu/select/vertex/ofselectedpolygons             #Of Selected Polygons
++menu/select/vertex/oneneighborfromselection       #1 Neighbor from Selected Vertices
++menu/select/vertex/unselect                       #Unselect
++menu/select/vertex/usedbytwoconsedge              #Used by Two Const Edges
++menu/select/vertex_single_use_edge_loop           #Single-use edge loop from one or two selected verticex
++menu/sketch                                       #Sketch Interface
++menu/sketch/createconstedge                       #Create Const-Edges on the Current Model
++menu/utility                                      #Utility
++menu/utility/constedge                            #Const Edge
++menu/utility/constedge/addbydha                   #Add by Dihedral Angle
++menu/utility/constedge/addfgboundary              #Add Const-Edge on Face-Group Boundaries
++menu/utility/constedge/addnonmanifold             #Add Const-Edge along Non-Manifold Edges
++menu/utility/constedge/addoncolorboundary         #Add along Color Boundary
++menu/utility/constedge/clear                      #Delete All Const Edges
++menu/utility/constedge/constrainall               #Constrain All Edges
++menu/utility/constedge/opencloseloop              #Open/Close a Loop
++menu/utility/constedge/reconsider                 #Auto Connect/Split Const Edgesdir
++menu/utility/constedge/setname                    #Set Const-Edge Name
++menu/utility/facegroup                            #Face Group
++menu/utility/facegroup/clearall                   #Delete All Face Groups
++menu/utility/facegroup/expand_to_unassigned       #Expand Current Face Groups to Unassigned Polygons
++menu/utility/facegroup/setname                    #Set Face Group Name
++menu/utility/facegroup_from_constedge             #Make Face Groups from Const Edges
++menu/utility/paint_based_on_facegroup             #Paint Based on Face Groups
++menu/utility/repair                               #Repair
++menu/utility/repair/delete_identicalpolygon       #Delete Identical Polygons
++menu/utility/repair/freestitch                    #Free Stitching
++menu/utility/repair/loopstitch                    #Loop Stitching
++menu/view                                         #View
++menu/view/crosssection                            #Cross Section
++menu/view/crosssection/enable                     #Enable
++menu/view/crosssection/invert                     #Invert
++menu/view/crosssection/move                       #Move
++menu/view/crosssection/reset                      #Reset
++menu/view/drawaxes                                #Draw Axes
++menu/view/drawbackfacediffcolor                   #Draw Back Face in Different Color
++menu/view/drawbackgroundgradation                 #Draw Background Gradation
++menu/view/drawconstedge                           #Draw Const Edges
++menu/view/drawdnmconnection                       #Draw DNM Connection
++menu/view/drawothershell                          #Non-Current Models
++menu/view/drawothershell/dontdraw                 #Don't Draw
++menu/view/drawothershell/fill                     #Fill
++menu/view/drawothershell/wireframe                #Wireframe
++menu/view/drawpolygonedges                        #Draw Polygon Edges
++menu/view/drawpolygonfill                         #Draw Polygon Fill
++menu/view/drawshurnkpolygons                      #Draw Shrunk Polygons
++menu/view/drawvertex                              #Draw Vertex
++menu/view/highlight                               #Highlight
++menu/view/highlight/highaspectratiotriandquad     #High Aspect-Ratio Triangles and Quadrilaterals
++menu/view/highlight/highdhawithinface             #High Dihedral Angle Within Face Group
++menu/view/highlight/inconsistent_orientation_across_edge #Inconsistent Orientation Across an Edge
++menu/view/highlight/nonmanifoldedges              #Non-Manifold Edges
++menu/view/highlight/selfintersectingpolygons      #Self-Intersecting Polygons
++menu/view/highlight/showhighlight                 #Show Highlighted Elements
++menu/view/lookat                                  #Look At...
++menu/view/lookat/pickedvertex                     #Picked Vertex\tR
++menu/view/lookat/polygon                          #Polygon\tShift+R
++menu/view/lookat/polygonstraight                  #Polygon Straight\tCtrl+Shift+R
++menu/view/lookat/selectionbb                      #Selection - Bounding-Box Center
++menu/view/lookat/selectioncg                      #Selection - Center of Gravity
++menu/view/refbmp                                  #Reference Bitmap
++menu/view/refbmp/hideall                          #Hide All Reference Bitmaps
++menu/view/refbmp/loadconfig                       #Load Reference Bitmap Configuration
++menu/view/refbmp/opendialog                       #Open Reference Bitmap Dialog
++menu/view/refbmp/saveconfig                       #Save Reference Bitmap Configuration
++menu/view/refbmp/showall                          #Show All Reference Bitmaps
++menu/view/refreshbuffers                          #Refresh Vertex Buffers
++menu/view/resetviewoption                         #Reset View Options
++menu/view/resetviewrange                          #Reset View Range
++menu/view/viewport                                #View Port
++menu/view/viewport/enable                         #Enable View Port
++menu/view/viewport/expand                         #Expand\tP
++menu/view/viewport/move                           #Move View Port
++menu/view/viewport/movetorotationcenter           #Move to Rotation Center
++menu/view/viewport/reset                          #Reset View Port
++menu/view/viewport/shrink                         #Shrink\tShift+P
++menu/view/viewport/usesameviewportforall          #Use Same View Port for All Shells
++menu/view/viewport_from_selection                 #View Port from Selection
++warning/stlwarning                                #STL is the worst possible data format.  An STL file does not retain color, explicit connection,\nand other meta data, can store only triangles, and is the source of many engineering nightmare.\nPlease save in this format only when you absolutely need an STL format file.\n \nPlease also make sure to save your model in the SRF format, too.\n \nAre you sure you want to save your model in the STL format?
++warning/stlwarningtitle                           #Are you sure you want to save in the STL format?

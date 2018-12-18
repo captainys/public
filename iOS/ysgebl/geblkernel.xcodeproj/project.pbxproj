@@ -1,0 +1,424 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F314329D1C0828E400E914E9 /* libysclass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F314329C1C0828DC00E914E9 /* libysclass.a */; };
+		F31432B21C0828FA00E914E9 /* ysshellext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432A01C0828FA00E914E9 /* ysshellext.cpp */; };
+		F31432B31C0828FA00E914E9 /* ysshellextcondition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432A21C0828FA00E914E9 /* ysshellextcondition.cpp */; };
+		F31432B41C0828FA00E914E9 /* ysshellextdrawbuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432A31C0828FA00E914E9 /* ysshellextdrawbuffer.cpp */; };
+		F31432B51C0828FA00E914E9 /* ysshellextedit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432A51C0828FA00E914E9 /* ysshellextedit.cpp */; };
+		F31432B61C0828FA00E914E9 /* ysshellextentityset.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432A71C0828FA00E914E9 /* ysshellextentityset.cpp */; };
+		F31432B71C0828FA00E914E9 /* ysshellextio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432A91C0828FA00E914E9 /* ysshellextio.cpp */; };
+		F31432B81C0828FA00E914E9 /* ysshellextmisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432AB1C0828FA00E914E9 /* ysshellextmisc.cpp */; };
+		F31432B91C0828FA00E914E9 /* ysshellextsearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432AD1C0828FA00E914E9 /* ysshellextsearch.cpp */; };
+		F31432BA1C0828FA00E914E9 /* ysshellexttemporarymodification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31432AF1C0828FA00E914E9 /* ysshellexttemporarymodification.cpp */; };
+		F31432BB1C08290A00E914E9 /* ysshelldnmident.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314329E1C0828FA00E914E9 /* ysshelldnmident.h */; };
+		F31432BC1C08290A00E914E9 /* ysshelldnmtemplate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314329F1C0828FA00E914E9 /* ysshelldnmtemplate.h */; };
+		F31432BD1C08290A00E914E9 /* ysshellext.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432A11C0828FA00E914E9 /* ysshellext.h */; };
+		F31432BE1C08290A00E914E9 /* ysshellextdrawbuffer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432A41C0828FA00E914E9 /* ysshellextdrawbuffer.h */; };
+		F31432BF1C08290B00E914E9 /* ysshellextedit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432A61C0828FA00E914E9 /* ysshellextedit.h */; };
+		F31432C01C08290B00E914E9 /* ysshellextentityset.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432A81C0828FA00E914E9 /* ysshellextentityset.h */; };
+		F31432C11C08290B00E914E9 /* ysshellextio.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432AA1C0828FA00E914E9 /* ysshellextio.h */; };
+		F31432C21C08290B00E914E9 /* ysshellextmisc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432AC1C0828FA00E914E9 /* ysshellextmisc.h */; };
+		F31432C31C08290B00E914E9 /* ysshellextsearch.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432AE1C0828FA00E914E9 /* ysshellextsearch.h */; };
+		F31432C41C08290B00E914E9 /* ysshellexttemporarymodification.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432B01C0828FA00E914E9 /* ysshellexttemporarymodification.h */; };
+		F31432C51C08290B00E914E9 /* ysshellkernel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31432B11C0828FA00E914E9 /* ysshellkernel.h */; };
+		F31432CF1C08293700E914E9 /* libysglcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31432CE1C08292500E914E9 /* libysglcpp.a */; };
+		F31433021C082A3B00E914E9 /* libysclass11.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31433001C082A2600E914E9 /* libysclass11.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F314329B1C0828DC00E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31432971C0828DC00E914E9 /* ysclass.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F35B507B1C02CECF004E6B0A;
+			remoteInfo = ysclass;
+		};
+		F31432CD1C08292500E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31432C61C08292500E914E9 /* ysglcpp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F3B243891C03F374002B652F;
+			remoteInfo = ysglcpp;
+		};
+		F31432FF1C082A2600E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31432F91C082A2600E914E9 /* ysclass11.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F31432D91C08295A00E914E9;
+			remoteInfo = ysclass11;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F31432891C08288300E914E9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F31432BB1C08290A00E914E9 /* ysshelldnmident.h in CopyFiles */,
+				F31432BC1C08290A00E914E9 /* ysshelldnmtemplate.h in CopyFiles */,
+				F31432BD1C08290A00E914E9 /* ysshellext.h in CopyFiles */,
+				F31432BE1C08290A00E914E9 /* ysshellextdrawbuffer.h in CopyFiles */,
+				F31432BF1C08290B00E914E9 /* ysshellextedit.h in CopyFiles */,
+				F31432C01C08290B00E914E9 /* ysshellextentityset.h in CopyFiles */,
+				F31432C11C08290B00E914E9 /* ysshellextio.h in CopyFiles */,
+				F31432C21C08290B00E914E9 /* ysshellextmisc.h in CopyFiles */,
+				F31432C31C08290B00E914E9 /* ysshellextsearch.h in CopyFiles */,
+				F31432C41C08290B00E914E9 /* ysshellexttemporarymodification.h in CopyFiles */,
+				F31432C51C08290B00E914E9 /* ysshellkernel.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F314328B1C08288300E914E9 /* libgeblkernel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgeblkernel.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F31432971C0828DC00E914E9 /* ysclass.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ysclass.xcodeproj; path = ../ysclass.xcodeproj; sourceTree = "<group>"; };
+		F314329E1C0828FA00E914E9 /* ysshelldnmident.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshelldnmident.h; path = ../../src/ysgebl/src/kernel/ysshelldnmident.h; sourceTree = "<group>"; };
+		F314329F1C0828FA00E914E9 /* ysshelldnmtemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshelldnmtemplate.h; path = ../../src/ysgebl/src/kernel/ysshelldnmtemplate.h; sourceTree = "<group>"; };
+		F31432A01C0828FA00E914E9 /* ysshellext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext.cpp; path = ../../src/ysgebl/src/kernel/ysshellext.cpp; sourceTree = "<group>"; };
+		F31432A11C0828FA00E914E9 /* ysshellext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext.h; path = ../../src/ysgebl/src/kernel/ysshellext.h; sourceTree = "<group>"; };
+		F31432A21C0828FA00E914E9 /* ysshellextcondition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextcondition.cpp; path = ../../src/ysgebl/src/kernel/ysshellextcondition.cpp; sourceTree = "<group>"; };
+		F31432A31C0828FA00E914E9 /* ysshellextdrawbuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextdrawbuffer.cpp; path = ../../src/ysgebl/src/kernel/ysshellextdrawbuffer.cpp; sourceTree = "<group>"; };
+		F31432A41C0828FA00E914E9 /* ysshellextdrawbuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextdrawbuffer.h; path = ../../src/ysgebl/src/kernel/ysshellextdrawbuffer.h; sourceTree = "<group>"; };
+		F31432A51C0828FA00E914E9 /* ysshellextedit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit.cpp; path = ../../src/ysgebl/src/kernel/ysshellextedit.cpp; sourceTree = "<group>"; };
+		F31432A61C0828FA00E914E9 /* ysshellextedit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit.h; path = ../../src/ysgebl/src/kernel/ysshellextedit.h; sourceTree = "<group>"; };
+		F31432A71C0828FA00E914E9 /* ysshellextentityset.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextentityset.cpp; path = ../../src/ysgebl/src/kernel/ysshellextentityset.cpp; sourceTree = "<group>"; };
+		F31432A81C0828FA00E914E9 /* ysshellextentityset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextentityset.h; path = ../../src/ysgebl/src/kernel/ysshellextentityset.h; sourceTree = "<group>"; };
+		F31432A91C0828FA00E914E9 /* ysshellextio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextio.cpp; path = ../../src/ysgebl/src/kernel/ysshellextio.cpp; sourceTree = "<group>"; };
+		F31432AA1C0828FA00E914E9 /* ysshellextio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextio.h; path = ../../src/ysgebl/src/kernel/ysshellextio.h; sourceTree = "<group>"; };
+		F31432AB1C0828FA00E914E9 /* ysshellextmisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextmisc.cpp; path = ../../src/ysgebl/src/kernel/ysshellextmisc.cpp; sourceTree = "<group>"; };
+		F31432AC1C0828FA00E914E9 /* ysshellextmisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextmisc.h; path = ../../src/ysgebl/src/kernel/ysshellextmisc.h; sourceTree = "<group>"; };
+		F31432AD1C0828FA00E914E9 /* ysshellextsearch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextsearch.cpp; path = ../../src/ysgebl/src/kernel/ysshellextsearch.cpp; sourceTree = "<group>"; };
+		F31432AE1C0828FA00E914E9 /* ysshellextsearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextsearch.h; path = ../../src/ysgebl/src/kernel/ysshellextsearch.h; sourceTree = "<group>"; };
+		F31432AF1C0828FA00E914E9 /* ysshellexttemporarymodification.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellexttemporarymodification.cpp; path = ../../src/ysgebl/src/kernel/ysshellexttemporarymodification.cpp; sourceTree = "<group>"; };
+		F31432B01C0828FA00E914E9 /* ysshellexttemporarymodification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellexttemporarymodification.h; path = ../../src/ysgebl/src/kernel/ysshellexttemporarymodification.h; sourceTree = "<group>"; };
+		F31432B11C0828FA00E914E9 /* ysshellkernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellkernel.h; path = ../../src/ysgebl/src/kernel/ysshellkernel.h; sourceTree = "<group>"; };
+		F31432C61C08292500E914E9 /* ysglcpp.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ysglcpp.xcodeproj; path = ../ysglcpp.xcodeproj; sourceTree = "<group>"; };
+		F31432F91C082A2600E914E9 /* ysclass11.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ysclass11.xcodeproj; path = ../ysclass11.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F31432881C08288300E914E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31433021C082A3B00E914E9 /* libysclass11.a in Frameworks */,
+				F31432CF1C08293700E914E9 /* libysglcpp.a in Frameworks */,
+				F314329D1C0828E400E914E9 /* libysclass.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F31432821C08288300E914E9 = {
+			isa = PBXGroup;
+			children = (
+				F314329E1C0828FA00E914E9 /* ysshelldnmident.h */,
+				F314329F1C0828FA00E914E9 /* ysshelldnmtemplate.h */,
+				F31432A01C0828FA00E914E9 /* ysshellext.cpp */,
+				F31432A11C0828FA00E914E9 /* ysshellext.h */,
+				F31432A21C0828FA00E914E9 /* ysshellextcondition.cpp */,
+				F31432A31C0828FA00E914E9 /* ysshellextdrawbuffer.cpp */,
+				F31432A41C0828FA00E914E9 /* ysshellextdrawbuffer.h */,
+				F31432A51C0828FA00E914E9 /* ysshellextedit.cpp */,
+				F31432A61C0828FA00E914E9 /* ysshellextedit.h */,
+				F31432A71C0828FA00E914E9 /* ysshellextentityset.cpp */,
+				F31432A81C0828FA00E914E9 /* ysshellextentityset.h */,
+				F31432A91C0828FA00E914E9 /* ysshellextio.cpp */,
+				F31432AA1C0828FA00E914E9 /* ysshellextio.h */,
+				F31432AB1C0828FA00E914E9 /* ysshellextmisc.cpp */,
+				F31432AC1C0828FA00E914E9 /* ysshellextmisc.h */,
+				F31432AD1C0828FA00E914E9 /* ysshellextsearch.cpp */,
+				F31432AE1C0828FA00E914E9 /* ysshellextsearch.h */,
+				F31432AF1C0828FA00E914E9 /* ysshellexttemporarymodification.cpp */,
+				F31432B01C0828FA00E914E9 /* ysshellexttemporarymodification.h */,
+				F31432B11C0828FA00E914E9 /* ysshellkernel.h */,
+				F31432F91C082A2600E914E9 /* ysclass11.xcodeproj */,
+				F31432C61C08292500E914E9 /* ysglcpp.xcodeproj */,
+				F31432971C0828DC00E914E9 /* ysclass.xcodeproj */,
+				F314328D1C08288300E914E9 /* geblkernel */,
+				F314328C1C08288300E914E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F314328C1C08288300E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F314328B1C08288300E914E9 /* libgeblkernel.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F314328D1C08288300E914E9 /* geblkernel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = geblkernel;
+			sourceTree = "<group>";
+		};
+		F31432981C0828DC00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F314329C1C0828DC00E914E9 /* libysclass.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31432C71C08292500E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31432CE1C08292500E914E9 /* libysglcpp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31432FA1C082A2600E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31433001C082A2600E914E9 /* libysclass11.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F314328A1C08288300E914E9 /* geblkernel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F31432941C08288300E914E9 /* Build configuration list for PBXNativeTarget "geblkernel" */;
+			buildPhases = (
+				F31432871C08288300E914E9 /* Sources */,
+				F31432881C08288300E914E9 /* Frameworks */,
+				F31432891C08288300E914E9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = geblkernel;
+			productName = geblkernel;
+			productReference = F314328B1C08288300E914E9 /* libgeblkernel.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F31432831C08288300E914E9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F314328A1C08288300E914E9 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F31432861C08288300E914E9 /* Build configuration list for PBXProject "geblkernel" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F31432821C08288300E914E9;
+			productRefGroup = F314328C1C08288300E914E9 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F31432981C0828DC00E914E9 /* Products */;
+					ProjectRef = F31432971C0828DC00E914E9 /* ysclass.xcodeproj */;
+				},
+				{
+					ProductGroup = F31432FA1C082A2600E914E9 /* Products */;
+					ProjectRef = F31432F91C082A2600E914E9 /* ysclass11.xcodeproj */;
+				},
+				{
+					ProductGroup = F31432C71C08292500E914E9 /* Products */;
+					ProjectRef = F31432C61C08292500E914E9 /* ysglcpp.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F314328A1C08288300E914E9 /* geblkernel */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F314329C1C0828DC00E914E9 /* libysclass.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysclass.a;
+			remoteRef = F314329B1C0828DC00E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31432CE1C08292500E914E9 /* libysglcpp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysglcpp.a;
+			remoteRef = F31432CD1C08292500E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31433001C082A2600E914E9 /* libysclass11.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysclass11.a;
+			remoteRef = F31432FF1C082A2600E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F31432871C08288300E914E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31432B91C0828FA00E914E9 /* ysshellextsearch.cpp in Sources */,
+				F31432B31C0828FA00E914E9 /* ysshellextcondition.cpp in Sources */,
+				F31432B21C0828FA00E914E9 /* ysshellext.cpp in Sources */,
+				F31432B81C0828FA00E914E9 /* ysshellextmisc.cpp in Sources */,
+				F31432B51C0828FA00E914E9 /* ysshellextedit.cpp in Sources */,
+				F31432B61C0828FA00E914E9 /* ysshellextentityset.cpp in Sources */,
+				F31432B71C0828FA00E914E9 /* ysshellextio.cpp in Sources */,
+				F31432B41C0828FA00E914E9 /* ysshellextdrawbuffer.cpp in Sources */,
+				F31432BA1C0828FA00E914E9 /* ysshellexttemporarymodification.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F31432921C08288300E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F31432931C08288300E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F31432951C08288300E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F31432961C08288300E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F31432861C08288300E914E9 /* Build configuration list for PBXProject "geblkernel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31432921C08288300E914E9 /* Debug */,
+				F31432931C08288300E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F31432941C08288300E914E9 /* Build configuration list for PBXNativeTarget "geblkernel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31432951C08288300E914E9 /* Debug */,
+				F31432961C08288300E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F31432831C08288300E914E9 /* Project object */;
+}

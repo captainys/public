@@ -1,0 +1,12 @@
+
+
+WritableBitmap, TextBlock, RenderTargetBitmap were not a correct answer.  The correct answer was Win2D.
+
+https://code.msdn.microsoft.com/windowsapps/Render-text-on-bitmap-fff2b406
+  -> WritableBitmap?  RenderTargetBitmap?
+  -> TextBlock
+     https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.controls.textblock.aspx
+
+Do I have to render to RenderTargetBitmap and then convert to a format that I can access pixel values?
+  http://stackoverflow.com/questions/36040165/uielement-screenshot-uwp-c-sharp
+

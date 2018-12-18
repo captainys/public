@@ -1,0 +1,3 @@
+set(TARGET_NAME nonManifoldToConstEdge)
+add_executable(nonManifoldToConstEdge main.cpp)
+target_link_libraries(nonManifoldToConstEdge geblutil geblkernel ysport)

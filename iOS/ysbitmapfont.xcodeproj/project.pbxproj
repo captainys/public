@@ -1,0 +1,306 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F3B243E21C03FA08002B652F /* ysglfontbitmaputil.c in Sources */ = {isa = PBXBuildFile; fileRef = F3B243DC1C03FA08002B652F /* ysglfontbitmaputil.c */; };
+		F3B243E31C03FA08002B652F /* ysglfontdata.c in Sources */ = {isa = PBXBuildFile; fileRef = F3B243DD1C03FA08002B652F /* ysglfontdata.c */; };
+		F3B243E41C03FA08002B652F /* ysglmaketextbitmap.c in Sources */ = {isa = PBXBuildFile; fileRef = F3B243DF1C03FA08002B652F /* ysglmaketextbitmap.c */; };
+		F3B243E51C03FA08002B652F /* ysglsldrawfontbitmap.c in Sources */ = {isa = PBXBuildFile; fileRef = F3B243E01C03FA08002B652F /* ysglsldrawfontbitmap.c */; };
+		F3B243E61C03FAD9002B652F /* ysglfontdata.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3B243DE1C03FA08002B652F /* ysglfontdata.h */; };
+		F3B243E71C03FAD9002B652F /* ysglsldrawfontbitmap.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3B243E11C03FA08002B652F /* ysglsldrawfontbitmap.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F3BB385D20D3712D000D03D3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F3BB385920D3712D000D03D3 /* ysgl.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F35B4FF61C02C0FC004E6B0A;
+			remoteInfo = ysgl;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F3B243CE1C03F993002B652F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F3B243E61C03FAD9002B652F /* ysglfontdata.h in CopyFiles */,
+				F3B243E71C03FAD9002B652F /* ysglsldrawfontbitmap.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F3B243D01C03F993002B652F /* libysbitmapfont.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libysbitmapfont.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3B243DC1C03FA08002B652F /* ysglfontbitmaputil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglfontbitmaputil.c; path = ../src/ysbitmapfont/src/ysglfontbitmaputil.c; sourceTree = "<group>"; };
+		F3B243DD1C03FA08002B652F /* ysglfontdata.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglfontdata.c; path = ../src/ysbitmapfont/src/ysglfontdata.c; sourceTree = "<group>"; };
+		F3B243DE1C03FA08002B652F /* ysglfontdata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglfontdata.h; path = ../src/ysbitmapfont/src/ysglfontdata.h; sourceTree = "<group>"; };
+		F3B243DF1C03FA08002B652F /* ysglmaketextbitmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglmaketextbitmap.c; path = ../src/ysbitmapfont/src/ysglmaketextbitmap.c; sourceTree = "<group>"; };
+		F3B243E01C03FA08002B652F /* ysglsldrawfontbitmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglsldrawfontbitmap.c; path = ../src/ysbitmapfont/src/ysglsldrawfontbitmap.c; sourceTree = "<group>"; };
+		F3B243E11C03FA08002B652F /* ysglsldrawfontbitmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglsldrawfontbitmap.h; path = ../src/ysbitmapfont/src/ysglsldrawfontbitmap.h; sourceTree = "<group>"; };
+		F3BB385920D3712D000D03D3 /* ysgl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = ysgl.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F3B243CD1C03F993002B652F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F3B243C71C03F993002B652F = {
+			isa = PBXGroup;
+			children = (
+				F3BB385920D3712D000D03D3 /* ysgl.xcodeproj */,
+				F3B243DC1C03FA08002B652F /* ysglfontbitmaputil.c */,
+				F3B243DD1C03FA08002B652F /* ysglfontdata.c */,
+				F3B243DE1C03FA08002B652F /* ysglfontdata.h */,
+				F3B243DF1C03FA08002B652F /* ysglmaketextbitmap.c */,
+				F3B243E01C03FA08002B652F /* ysglsldrawfontbitmap.c */,
+				F3B243E11C03FA08002B652F /* ysglsldrawfontbitmap.h */,
+				F3B243D21C03F993002B652F /* ysbitmapfont */,
+				F3B243D11C03F993002B652F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F3B243D11C03F993002B652F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3B243D01C03F993002B652F /* libysbitmapfont.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F3B243D21C03F993002B652F /* ysbitmapfont */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ysbitmapfont;
+			sourceTree = "<group>";
+		};
+		F3BB385A20D3712D000D03D3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F3BB385E20D3712D000D03D3 /* libysgl.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F3B243CF1C03F993002B652F /* ysbitmapfont */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F3B243D91C03F993002B652F /* Build configuration list for PBXNativeTarget "ysbitmapfont" */;
+			buildPhases = (
+				F3B243CC1C03F993002B652F /* Sources */,
+				F3B243CD1C03F993002B652F /* Frameworks */,
+				F3B243CE1C03F993002B652F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ysbitmapfont;
+			productName = ysbitmapfont;
+			productReference = F3B243D01C03F993002B652F /* libysbitmapfont.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F3B243C81C03F993002B652F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F3B243CF1C03F993002B652F = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F3B243CB1C03F993002B652F /* Build configuration list for PBXProject "ysbitmapfont" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F3B243C71C03F993002B652F;
+			productRefGroup = F3B243D11C03F993002B652F /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F3BB385A20D3712D000D03D3 /* Products */;
+					ProjectRef = F3BB385920D3712D000D03D3 /* ysgl.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F3B243CF1C03F993002B652F /* ysbitmapfont */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F3BB385E20D3712D000D03D3 /* libysgl.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libysgl.a;
+			remoteRef = F3BB385D20D3712D000D03D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F3B243CC1C03F993002B652F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F3B243E21C03FA08002B652F /* ysglfontbitmaputil.c in Sources */,
+				F3B243E41C03FA08002B652F /* ysglmaketextbitmap.c in Sources */,
+				F3B243E31C03FA08002B652F /* ysglfontdata.c in Sources */,
+				F3B243E51C03FA08002B652F /* ysglsldrawfontbitmap.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F3B243D71C03F993002B652F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F3B243D81C03F993002B652F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F3B243DA1C03F993002B652F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F3B243DB1C03F993002B652F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F3B243CB1C03F993002B652F /* Build configuration list for PBXProject "ysbitmapfont" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3B243D71C03F993002B652F /* Debug */,
+				F3B243D81C03F993002B652F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F3B243D91C03F993002B652F /* Build configuration list for PBXNativeTarget "ysbitmapfont" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3B243DA1C03F993002B652F /* Debug */,
+				F3B243DB1C03F993002B652F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F3B243C81C03F993002B652F /* Project object */;
+}

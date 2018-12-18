@@ -1,0 +1,738 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F31433251C082B2B00E914E9 /* libgeblkernel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31433241C082B1E00E914E9 /* libgeblkernel.a */; };
+		F31433921C082B4300E914E9 /* yshasshellext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433261C082B4300E914E9 /* yshasshellext.cpp */; };
+		F31433931C082B4300E914E9 /* ysshellext_astar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433281C082B4300E914E9 /* ysshellext_astar.cpp */; };
+		F31433941C082B4300E914E9 /* ysshellext_boundaryutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314332A1C082B4300E914E9 /* ysshellext_boundaryutil.cpp */; };
+		F31433951C082B4300E914E9 /* ysshellext_clusteringutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314332C1C082B4300E914E9 /* ysshellext_clusteringutil.cpp */; };
+		F31433961C082B4300E914E9 /* ysshellext_commandsupport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314332E1C082B4300E914E9 /* ysshellext_commandsupport.cpp */; };
+		F31433971C082B4300E914E9 /* ysshellext_condition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433301C082B4300E914E9 /* ysshellext_condition.cpp */; };
+		F31433981C082B4300E914E9 /* ysshellext_constedgeutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433321C082B4300E914E9 /* ysshellext_constedgeutil.cpp */; };
+		F31433991C082B4300E914E9 /* ysshellext_deformationevaluator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433351C082B4300E914E9 /* ysshellext_deformationevaluator.cpp */; };
+		F314339A1C082B4300E914E9 /* ysshellext_diagnoseutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433371C082B4300E914E9 /* ysshellext_diagnoseutil.cpp */; };
+		F314339B1C082B4300E914E9 /* ysshellext_duplicateutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433391C082B4300E914E9 /* ysshellext_duplicateutil.cpp */; };
+		F314339C1C082B4300E914E9 /* ysshellext_edgepriorityqueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314333B1C082B4300E914E9 /* ysshellext_edgepriorityqueue.cpp */; };
+		F314339D1C082B4300E914E9 /* ysshellext_embeddingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314333D1C082B4300E914E9 /* ysshellext_embeddingutil.cpp */; };
+		F314339E1C082B4300E914E9 /* ysshellext_facegroupgrowing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314333F1C082B4300E914E9 /* ysshellext_facegroupgrowing.cpp */; };
+		F314339F1C082B4300E914E9 /* ysshellext_facegrouputil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433411C082B4300E914E9 /* ysshellext_facegrouputil.cpp */; };
+		F31433A01C082B4300E914E9 /* ysshellext_geomcalc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433431C082B4300E914E9 /* ysshellext_geomcalc.cpp */; };
+		F31433A11C082B4300E914E9 /* ysshellext_intersectionutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433451C082B4300E914E9 /* ysshellext_intersectionutil.cpp */; };
+		F31433A21C082B4300E914E9 /* ysshellext_localop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433471C082B4300E914E9 /* ysshellext_localop.cpp */; };
+		F31433A31C082B4300E914E9 /* ysshellext_mappingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433491C082B4300E914E9 /* ysshellext_mappingutil.cpp */; };
+		F31433A41C082B4300E914E9 /* ysshellext_offsetutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314334B1C082B4300E914E9 /* ysshellext_offsetutil.cpp */; };
+		F31433A51C082B4300E914E9 /* ysshellext_orientationutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314334D1C082B4300E914E9 /* ysshellext_orientationutil.cpp */; };
+		F31433A61C082B4300E914E9 /* ysshellext_patchutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314334F1C082B4300E914E9 /* ysshellext_patchutil.cpp */; };
+		F31433A71C082B4300E914E9 /* ysshellext_polygontanglerepair.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433511C082B4300E914E9 /* ysshellext_polygontanglerepair.cpp */; };
+		F31433A81C082B4300E914E9 /* ysshellext_projectionutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433531C082B4300E914E9 /* ysshellext_projectionutil.cpp */; };
+		F31433A91C082B4300E914E9 /* ysshellext_proximityutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433551C082B4300E914E9 /* ysshellext_proximityutil.cpp */; };
+		F31433AA1C082B4300E914E9 /* ysshellext_regiongrowing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433571C082B4300E914E9 /* ysshellext_regiongrowing.cpp */; };
+		F31433AB1C082B4300E914E9 /* ysshellext_roundutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433591C082B4300E914E9 /* ysshellext_roundutil.cpp */; };
+		F31433AC1C082B4300E914E9 /* ysshellext_sewingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314335B1C082B4300E914E9 /* ysshellext_sewingutil.cpp */; };
+		F31433AD1C082B4300E914E9 /* ysshellext_smoothingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314335D1C082B4300E914E9 /* ysshellext_smoothingutil.cpp */; };
+		F31433AE1C082B4300E914E9 /* ysshellext_splitop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314335F1C082B4300E914E9 /* ysshellext_splitop.cpp */; };
+		F31433AF1C082B4300E914E9 /* ysshellext_stitchingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433611C082B4300E914E9 /* ysshellext_stitchingutil.cpp */; };
+		F31433B01C082B4300E914E9 /* ysshellext_sweeputil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433631C082B4300E914E9 /* ysshellext_sweeputil.cpp */; };
+		F31433B11C082B4300E914E9 /* ysshellext_thickeningutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433651C082B4300E914E9 /* ysshellext_thickeningutil.cpp */; };
+		F31433B21C082B4300E914E9 /* ysshellext_thicknessutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433671C082B4300E914E9 /* ysshellext_thicknessutil.cpp */; };
+		F31433B31C082B4300E914E9 /* ysshellext_topologyutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433691C082B4300E914E9 /* ysshellext_topologyutil.cpp */; };
+		F31433B41C082B4300E914E9 /* ysshellext_trackingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314336B1C082B4300E914E9 /* ysshellext_trackingutil.cpp */; };
+		F31433B51C082B4300E914E9 /* ysshellext_triangulationutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314336D1C082B4300E914E9 /* ysshellext_triangulationutil.cpp */; };
+		F31433B61C082B4300E914E9 /* ysshellext_unfoldingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314336F1C082B4300E914E9 /* ysshellext_unfoldingutil.cpp */; };
+		F31433B71C082B4300E914E9 /* ysshellextedit_boolutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433711C082B4300E914E9 /* ysshellextedit_boolutil.cpp */; };
+		F31433B81C082B4300E914E9 /* ysshellextedit_constedgeutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433731C082B4300E914E9 /* ysshellextedit_constedgeutil.cpp */; };
+		F31433B91C082B4300E914E9 /* ysshellextedit_copyutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433751C082B4300E914E9 /* ysshellextedit_copyutil.cpp */; };
+		F31433BA1C082B4300E914E9 /* ysshellextedit_duplicateutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433771C082B4300E914E9 /* ysshellextedit_duplicateutil.cpp */; };
+		F31433BB1C082B4300E914E9 /* ysshellextedit_facegrouputil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433791C082B4300E914E9 /* ysshellextedit_facegrouputil.cpp */; };
+		F31433BC1C082B4300E914E9 /* ysshellextedit_localop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314337B1C082B4300E914E9 /* ysshellextedit_localop.cpp */; };
+		F31433BD1C082B4300E914E9 /* ysshellextedit_offsetutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314337D1C082B4300E914E9 /* ysshellextedit_offsetutil.cpp */; };
+		F31433BE1C082B4300E914E9 /* ysshellextedit_orientationutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314337F1C082B4300E914E9 /* ysshellextedit_orientationutil.cpp */; };
+		F31433BF1C082B4300E914E9 /* ysshellextedit_roundutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433811C082B4300E914E9 /* ysshellextedit_roundutil.cpp */; };
+		F31433C01C082B4300E914E9 /* ysshellextedit_selectionutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433831C082B4300E914E9 /* ysshellextedit_selectionutil.cpp */; };
+		F31433C11C082B4300E914E9 /* ysshellextedit_sewingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433851C082B4300E914E9 /* ysshellextedit_sewingutil.cpp */; };
+		F31433C21C082B4300E914E9 /* ysshellextedit_splitop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433871C082B4300E914E9 /* ysshellextedit_splitop.cpp */; };
+		F31433C31C082B4300E914E9 /* ysshellextedit_stitchingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31433891C082B4300E914E9 /* ysshellextedit_stitchingutil.cpp */; };
+		F31433C41C082B4300E914E9 /* ysshellextedit_topologyutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314338B1C082B4300E914E9 /* ysshellextedit_topologyutil.cpp */; };
+		F31433C51C082B4300E914E9 /* ysshellextedit_triangulationutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314338D1C082B4300E914E9 /* ysshellextedit_triangulationutil.cpp */; };
+		F31433C61C082B4300E914E9 /* ysshellextplgfill.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314338F1C082B4300E914E9 /* ysshellextplgfill.cpp */; };
+		F31433C71C082B5500E914E9 /* yshasshellext.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433271C082B4300E914E9 /* yshasshellext.h */; };
+		F31433C81C082B5500E914E9 /* ysshellext_astar.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433291C082B4300E914E9 /* ysshellext_astar.h */; };
+		F31433C91C082B5500E914E9 /* ysshellext_boundaryutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314332B1C082B4300E914E9 /* ysshellext_boundaryutil.h */; };
+		F31433CA1C082B5500E914E9 /* ysshellext_clusteringutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314332D1C082B4300E914E9 /* ysshellext_clusteringutil.h */; };
+		F31433CB1C082B5500E914E9 /* ysshellext_commandsupport.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314332F1C082B4300E914E9 /* ysshellext_commandsupport.h */; };
+		F31433CC1C082B5500E914E9 /* ysshellext_condition.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433311C082B4300E914E9 /* ysshellext_condition.h */; };
+		F31433CD1C082B5500E914E9 /* ysshellext_constedgeutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433331C082B4300E914E9 /* ysshellext_constedgeutil.h */; };
+		F31433CE1C082B5500E914E9 /* ysshellext_def.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433341C082B4300E914E9 /* ysshellext_def.h */; };
+		F31433CF1C082B5500E914E9 /* ysshellext_deformationevaluator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433361C082B4300E914E9 /* ysshellext_deformationevaluator.h */; };
+		F31433D01C082B5500E914E9 /* ysshellext_diagnoseutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433381C082B4300E914E9 /* ysshellext_diagnoseutil.h */; };
+		F31433D11C082B5500E914E9 /* ysshellext_duplicateutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314333A1C082B4300E914E9 /* ysshellext_duplicateutil.h */; };
+		F31433D21C082B5500E914E9 /* ysshellext_edgepriorityqueue.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314333C1C082B4300E914E9 /* ysshellext_edgepriorityqueue.h */; };
+		F31433D31C082B5500E914E9 /* ysshellext_embeddingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314333E1C082B4300E914E9 /* ysshellext_embeddingutil.h */; };
+		F31433D41C082B5500E914E9 /* ysshellext_facegroupgrowing.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433401C082B4300E914E9 /* ysshellext_facegroupgrowing.h */; };
+		F31433D51C082B5500E914E9 /* ysshellext_facegrouputil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433421C082B4300E914E9 /* ysshellext_facegrouputil.h */; };
+		F31433D61C082B5500E914E9 /* ysshellext_geomcalc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433441C082B4300E914E9 /* ysshellext_geomcalc.h */; };
+		F31433D71C082B5500E914E9 /* ysshellext_intersectionutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433461C082B4300E914E9 /* ysshellext_intersectionutil.h */; };
+		F31433D81C082B5500E914E9 /* ysshellext_localop.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433481C082B4300E914E9 /* ysshellext_localop.h */; };
+		F31433D91C082B5500E914E9 /* ysshellext_mappingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314334A1C082B4300E914E9 /* ysshellext_mappingutil.h */; };
+		F31433DA1C082B5500E914E9 /* ysshellext_offsetutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314334C1C082B4300E914E9 /* ysshellext_offsetutil.h */; };
+		F31433DB1C082B5500E914E9 /* ysshellext_orientationutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314334E1C082B4300E914E9 /* ysshellext_orientationutil.h */; };
+		F31433DC1C082B5500E914E9 /* ysshellext_patchutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433501C082B4300E914E9 /* ysshellext_patchutil.h */; };
+		F31433DD1C082B5500E914E9 /* ysshellext_polygontanglerepair.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433521C082B4300E914E9 /* ysshellext_polygontanglerepair.h */; };
+		F31433DE1C082B5500E914E9 /* ysshellext_projectionutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433541C082B4300E914E9 /* ysshellext_projectionutil.h */; };
+		F31433DF1C082B5500E914E9 /* ysshellext_proximityutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433561C082B4300E914E9 /* ysshellext_proximityutil.h */; };
+		F31433E01C082B5500E914E9 /* ysshellext_regiongrowing.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433581C082B4300E914E9 /* ysshellext_regiongrowing.h */; };
+		F31433E11C082B5500E914E9 /* ysshellext_roundutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314335A1C082B4300E914E9 /* ysshellext_roundutil.h */; };
+		F31433E21C082B5500E914E9 /* ysshellext_sewingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314335C1C082B4300E914E9 /* ysshellext_sewingutil.h */; };
+		F31433E31C082B5500E914E9 /* ysshellext_smoothingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314335E1C082B4300E914E9 /* ysshellext_smoothingutil.h */; };
+		F31433E41C082B5500E914E9 /* ysshellext_splitop.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433601C082B4300E914E9 /* ysshellext_splitop.h */; };
+		F31433E51C082B5500E914E9 /* ysshellext_stitchingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433621C082B4300E914E9 /* ysshellext_stitchingutil.h */; };
+		F31433E61C082B5500E914E9 /* ysshellext_sweeputil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433641C082B4300E914E9 /* ysshellext_sweeputil.h */; };
+		F31433E71C082B5500E914E9 /* ysshellext_thickeningutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433661C082B4300E914E9 /* ysshellext_thickeningutil.h */; };
+		F31433E81C082B5500E914E9 /* ysshellext_thicknessutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433681C082B4300E914E9 /* ysshellext_thicknessutil.h */; };
+		F31433E91C082B5500E914E9 /* ysshellext_topologyutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314336A1C082B4300E914E9 /* ysshellext_topologyutil.h */; };
+		F31433EA1C082B5500E914E9 /* ysshellext_trackingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314336C1C082B4300E914E9 /* ysshellext_trackingutil.h */; };
+		F31433EB1C082B5500E914E9 /* ysshellext_triangulationutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314336E1C082B4300E914E9 /* ysshellext_triangulationutil.h */; };
+		F31433EC1C082B5500E914E9 /* ysshellext_unfoldingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433701C082B4300E914E9 /* ysshellext_unfoldingutil.h */; };
+		F31433ED1C082B5500E914E9 /* ysshellextedit_boolutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433721C082B4300E914E9 /* ysshellextedit_boolutil.h */; };
+		F31433EE1C082B5500E914E9 /* ysshellextedit_constedgeutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433741C082B4300E914E9 /* ysshellextedit_constedgeutil.h */; };
+		F31433EF1C082B5500E914E9 /* ysshellextedit_copyutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433761C082B4300E914E9 /* ysshellextedit_copyutil.h */; };
+		F31433F01C082B5500E914E9 /* ysshellextedit_duplicateutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433781C082B4300E914E9 /* ysshellextedit_duplicateutil.h */; };
+		F31433F11C082B5500E914E9 /* ysshellextedit_facegrouputil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314337A1C082B4300E914E9 /* ysshellextedit_facegrouputil.h */; };
+		F31433F21C082B5500E914E9 /* ysshellextedit_localop.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314337C1C082B4300E914E9 /* ysshellextedit_localop.h */; };
+		F31433F31C082B5500E914E9 /* ysshellextedit_offsetutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314337E1C082B4300E914E9 /* ysshellextedit_offsetutil.h */; };
+		F31433F41C082B5500E914E9 /* ysshellextedit_orientationutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433801C082B4300E914E9 /* ysshellextedit_orientationutil.h */; };
+		F31433F51C082B5500E914E9 /* ysshellextedit_roundutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433821C082B4300E914E9 /* ysshellextedit_roundutil.h */; };
+		F31433F61C082B5500E914E9 /* ysshellextedit_selectionutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433841C082B4300E914E9 /* ysshellextedit_selectionutil.h */; };
+		F31433F71C082B5500E914E9 /* ysshellextedit_sewingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433861C082B4300E914E9 /* ysshellextedit_sewingutil.h */; };
+		F31433F81C082B5500E914E9 /* ysshellextedit_splitop.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433881C082B4300E914E9 /* ysshellextedit_splitop.h */; };
+		F31433F91C082B5500E914E9 /* ysshellextedit_stitchingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314338A1C082B4300E914E9 /* ysshellextedit_stitchingutil.h */; };
+		F31433FA1C082B5500E914E9 /* ysshellextedit_topologyutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314338C1C082B4300E914E9 /* ysshellextedit_topologyutil.h */; };
+		F31433FB1C082B5500E914E9 /* ysshellextedit_triangulationutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314338E1C082B4300E914E9 /* ysshellextedit_triangulationutil.h */; };
+		F31433FC1C082B5500E914E9 /* ysshellextplgfill.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433901C082B4300E914E9 /* ysshellextplgfill.h */; };
+		F31433FD1C082B5500E914E9 /* ysshellextutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31433911C082B4300E914E9 /* ysshellextutil.h */; };
+		F378B9EB1C6468500001B7E8 /* ysshellext_imprintingutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F378B9E91C6468500001B7E8 /* ysshellext_imprintingutil.cpp */; };
+		F378BA991C64699A0001B7E8 /* ysshellext_imprintingutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F378B9EA1C6468500001B7E8 /* ysshellext_imprintingutil.h */; };
+		F3B72A291DB46EBB00418A0B /* ysshellext_alignmentutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3B72A251DB46EBB00418A0B /* ysshellext_alignmentutil.cpp */; };
+		F3B72A2A1DB46EBB00418A0B /* ysshellext_constedgeslider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3B72A271DB46EBB00418A0B /* ysshellext_constedgeslider.cpp */; };
+		F3B72A611DB46FF500418A0B /* ysshellext_alignmentutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3B72A261DB46EBB00418A0B /* ysshellext_alignmentutil.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F31433231C082B1E00E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31433181C082B1E00E914E9 /* geblkernel.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F314328B1C08288300E914E9;
+			remoteInfo = geblkernel;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F314330A1C082ABE00E914E9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F3B72A611DB46FF500418A0B /* ysshellext_alignmentutil.h in CopyFiles */,
+				F378BA991C64699A0001B7E8 /* ysshellext_imprintingutil.h in CopyFiles */,
+				F31433C71C082B5500E914E9 /* yshasshellext.h in CopyFiles */,
+				F31433C81C082B5500E914E9 /* ysshellext_astar.h in CopyFiles */,
+				F31433C91C082B5500E914E9 /* ysshellext_boundaryutil.h in CopyFiles */,
+				F31433CA1C082B5500E914E9 /* ysshellext_clusteringutil.h in CopyFiles */,
+				F31433CB1C082B5500E914E9 /* ysshellext_commandsupport.h in CopyFiles */,
+				F31433CC1C082B5500E914E9 /* ysshellext_condition.h in CopyFiles */,
+				F31433CD1C082B5500E914E9 /* ysshellext_constedgeutil.h in CopyFiles */,
+				F31433CE1C082B5500E914E9 /* ysshellext_def.h in CopyFiles */,
+				F31433CF1C082B5500E914E9 /* ysshellext_deformationevaluator.h in CopyFiles */,
+				F31433D01C082B5500E914E9 /* ysshellext_diagnoseutil.h in CopyFiles */,
+				F31433D11C082B5500E914E9 /* ysshellext_duplicateutil.h in CopyFiles */,
+				F31433D21C082B5500E914E9 /* ysshellext_edgepriorityqueue.h in CopyFiles */,
+				F31433D31C082B5500E914E9 /* ysshellext_embeddingutil.h in CopyFiles */,
+				F31433D41C082B5500E914E9 /* ysshellext_facegroupgrowing.h in CopyFiles */,
+				F31433D51C082B5500E914E9 /* ysshellext_facegrouputil.h in CopyFiles */,
+				F31433D61C082B5500E914E9 /* ysshellext_geomcalc.h in CopyFiles */,
+				F31433D71C082B5500E914E9 /* ysshellext_intersectionutil.h in CopyFiles */,
+				F31433D81C082B5500E914E9 /* ysshellext_localop.h in CopyFiles */,
+				F31433D91C082B5500E914E9 /* ysshellext_mappingutil.h in CopyFiles */,
+				F31433DA1C082B5500E914E9 /* ysshellext_offsetutil.h in CopyFiles */,
+				F31433DB1C082B5500E914E9 /* ysshellext_orientationutil.h in CopyFiles */,
+				F31433DC1C082B5500E914E9 /* ysshellext_patchutil.h in CopyFiles */,
+				F31433DD1C082B5500E914E9 /* ysshellext_polygontanglerepair.h in CopyFiles */,
+				F31433DE1C082B5500E914E9 /* ysshellext_projectionutil.h in CopyFiles */,
+				F31433DF1C082B5500E914E9 /* ysshellext_proximityutil.h in CopyFiles */,
+				F31433E01C082B5500E914E9 /* ysshellext_regiongrowing.h in CopyFiles */,
+				F31433E11C082B5500E914E9 /* ysshellext_roundutil.h in CopyFiles */,
+				F31433E21C082B5500E914E9 /* ysshellext_sewingutil.h in CopyFiles */,
+				F31433E31C082B5500E914E9 /* ysshellext_smoothingutil.h in CopyFiles */,
+				F31433E41C082B5500E914E9 /* ysshellext_splitop.h in CopyFiles */,
+				F31433E51C082B5500E914E9 /* ysshellext_stitchingutil.h in CopyFiles */,
+				F31433E61C082B5500E914E9 /* ysshellext_sweeputil.h in CopyFiles */,
+				F31433E71C082B5500E914E9 /* ysshellext_thickeningutil.h in CopyFiles */,
+				F31433E81C082B5500E914E9 /* ysshellext_thicknessutil.h in CopyFiles */,
+				F31433E91C082B5500E914E9 /* ysshellext_topologyutil.h in CopyFiles */,
+				F31433EA1C082B5500E914E9 /* ysshellext_trackingutil.h in CopyFiles */,
+				F31433EB1C082B5500E914E9 /* ysshellext_triangulationutil.h in CopyFiles */,
+				F31433EC1C082B5500E914E9 /* ysshellext_unfoldingutil.h in CopyFiles */,
+				F31433ED1C082B5500E914E9 /* ysshellextedit_boolutil.h in CopyFiles */,
+				F31433EE1C082B5500E914E9 /* ysshellextedit_constedgeutil.h in CopyFiles */,
+				F31433EF1C082B5500E914E9 /* ysshellextedit_copyutil.h in CopyFiles */,
+				F31433F01C082B5500E914E9 /* ysshellextedit_duplicateutil.h in CopyFiles */,
+				F31433F11C082B5500E914E9 /* ysshellextedit_facegrouputil.h in CopyFiles */,
+				F31433F21C082B5500E914E9 /* ysshellextedit_localop.h in CopyFiles */,
+				F31433F31C082B5500E914E9 /* ysshellextedit_offsetutil.h in CopyFiles */,
+				F31433F41C082B5500E914E9 /* ysshellextedit_orientationutil.h in CopyFiles */,
+				F31433F51C082B5500E914E9 /* ysshellextedit_roundutil.h in CopyFiles */,
+				F31433F61C082B5500E914E9 /* ysshellextedit_selectionutil.h in CopyFiles */,
+				F31433F71C082B5500E914E9 /* ysshellextedit_sewingutil.h in CopyFiles */,
+				F31433F81C082B5500E914E9 /* ysshellextedit_splitop.h in CopyFiles */,
+				F31433F91C082B5500E914E9 /* ysshellextedit_stitchingutil.h in CopyFiles */,
+				F31433FA1C082B5500E914E9 /* ysshellextedit_topologyutil.h in CopyFiles */,
+				F31433FB1C082B5500E914E9 /* ysshellextedit_triangulationutil.h in CopyFiles */,
+				F31433FC1C082B5500E914E9 /* ysshellextplgfill.h in CopyFiles */,
+				F31433FD1C082B5500E914E9 /* ysshellextutil.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F314330C1C082ABE00E914E9 /* libgeblutil.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgeblutil.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F31433181C082B1E00E914E9 /* geblkernel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = geblkernel.xcodeproj; sourceTree = "<group>"; };
+		F31433261C082B4300E914E9 /* yshasshellext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yshasshellext.cpp; path = ../../src/ysgebl/src/kernelutil/yshasshellext.cpp; sourceTree = "<group>"; };
+		F31433271C082B4300E914E9 /* yshasshellext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yshasshellext.h; path = ../../src/ysgebl/src/kernelutil/yshasshellext.h; sourceTree = "<group>"; };
+		F31433281C082B4300E914E9 /* ysshellext_astar.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_astar.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_astar.cpp; sourceTree = "<group>"; };
+		F31433291C082B4300E914E9 /* ysshellext_astar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_astar.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_astar.h; sourceTree = "<group>"; };
+		F314332A1C082B4300E914E9 /* ysshellext_boundaryutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_boundaryutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_boundaryutil.cpp; sourceTree = "<group>"; };
+		F314332B1C082B4300E914E9 /* ysshellext_boundaryutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_boundaryutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_boundaryutil.h; sourceTree = "<group>"; };
+		F314332C1C082B4300E914E9 /* ysshellext_clusteringutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_clusteringutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_clusteringutil.cpp; sourceTree = "<group>"; };
+		F314332D1C082B4300E914E9 /* ysshellext_clusteringutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_clusteringutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_clusteringutil.h; sourceTree = "<group>"; };
+		F314332E1C082B4300E914E9 /* ysshellext_commandsupport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_commandsupport.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_commandsupport.cpp; sourceTree = "<group>"; };
+		F314332F1C082B4300E914E9 /* ysshellext_commandsupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_commandsupport.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_commandsupport.h; sourceTree = "<group>"; };
+		F31433301C082B4300E914E9 /* ysshellext_condition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_condition.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_condition.cpp; sourceTree = "<group>"; };
+		F31433311C082B4300E914E9 /* ysshellext_condition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_condition.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_condition.h; sourceTree = "<group>"; };
+		F31433321C082B4300E914E9 /* ysshellext_constedgeutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_constedgeutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_constedgeutil.cpp; sourceTree = "<group>"; };
+		F31433331C082B4300E914E9 /* ysshellext_constedgeutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_constedgeutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_constedgeutil.h; sourceTree = "<group>"; };
+		F31433341C082B4300E914E9 /* ysshellext_def.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_def.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_def.h; sourceTree = "<group>"; };
+		F31433351C082B4300E914E9 /* ysshellext_deformationevaluator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_deformationevaluator.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_deformationevaluator.cpp; sourceTree = "<group>"; };
+		F31433361C082B4300E914E9 /* ysshellext_deformationevaluator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_deformationevaluator.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_deformationevaluator.h; sourceTree = "<group>"; };
+		F31433371C082B4300E914E9 /* ysshellext_diagnoseutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_diagnoseutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_diagnoseutil.cpp; sourceTree = "<group>"; };
+		F31433381C082B4300E914E9 /* ysshellext_diagnoseutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_diagnoseutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_diagnoseutil.h; sourceTree = "<group>"; };
+		F31433391C082B4300E914E9 /* ysshellext_duplicateutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_duplicateutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_duplicateutil.cpp; sourceTree = "<group>"; };
+		F314333A1C082B4300E914E9 /* ysshellext_duplicateutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_duplicateutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_duplicateutil.h; sourceTree = "<group>"; };
+		F314333B1C082B4300E914E9 /* ysshellext_edgepriorityqueue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_edgepriorityqueue.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_edgepriorityqueue.cpp; sourceTree = "<group>"; };
+		F314333C1C082B4300E914E9 /* ysshellext_edgepriorityqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_edgepriorityqueue.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_edgepriorityqueue.h; sourceTree = "<group>"; };
+		F314333D1C082B4300E914E9 /* ysshellext_embeddingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_embeddingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_embeddingutil.cpp; sourceTree = "<group>"; };
+		F314333E1C082B4300E914E9 /* ysshellext_embeddingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_embeddingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_embeddingutil.h; sourceTree = "<group>"; };
+		F314333F1C082B4300E914E9 /* ysshellext_facegroupgrowing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_facegroupgrowing.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_facegroupgrowing.cpp; sourceTree = "<group>"; };
+		F31433401C082B4300E914E9 /* ysshellext_facegroupgrowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_facegroupgrowing.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_facegroupgrowing.h; sourceTree = "<group>"; };
+		F31433411C082B4300E914E9 /* ysshellext_facegrouputil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_facegrouputil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_facegrouputil.cpp; sourceTree = "<group>"; };
+		F31433421C082B4300E914E9 /* ysshellext_facegrouputil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_facegrouputil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_facegrouputil.h; sourceTree = "<group>"; };
+		F31433431C082B4300E914E9 /* ysshellext_geomcalc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_geomcalc.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_geomcalc.cpp; sourceTree = "<group>"; };
+		F31433441C082B4300E914E9 /* ysshellext_geomcalc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_geomcalc.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_geomcalc.h; sourceTree = "<group>"; };
+		F31433451C082B4300E914E9 /* ysshellext_intersectionutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_intersectionutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_intersectionutil.cpp; sourceTree = "<group>"; };
+		F31433461C082B4300E914E9 /* ysshellext_intersectionutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_intersectionutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_intersectionutil.h; sourceTree = "<group>"; };
+		F31433471C082B4300E914E9 /* ysshellext_localop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_localop.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_localop.cpp; sourceTree = "<group>"; };
+		F31433481C082B4300E914E9 /* ysshellext_localop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_localop.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_localop.h; sourceTree = "<group>"; };
+		F31433491C082B4300E914E9 /* ysshellext_mappingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_mappingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_mappingutil.cpp; sourceTree = "<group>"; };
+		F314334A1C082B4300E914E9 /* ysshellext_mappingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_mappingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_mappingutil.h; sourceTree = "<group>"; };
+		F314334B1C082B4300E914E9 /* ysshellext_offsetutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_offsetutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_offsetutil.cpp; sourceTree = "<group>"; };
+		F314334C1C082B4300E914E9 /* ysshellext_offsetutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_offsetutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_offsetutil.h; sourceTree = "<group>"; };
+		F314334D1C082B4300E914E9 /* ysshellext_orientationutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_orientationutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_orientationutil.cpp; sourceTree = "<group>"; };
+		F314334E1C082B4300E914E9 /* ysshellext_orientationutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_orientationutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_orientationutil.h; sourceTree = "<group>"; };
+		F314334F1C082B4300E914E9 /* ysshellext_patchutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_patchutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_patchutil.cpp; sourceTree = "<group>"; };
+		F31433501C082B4300E914E9 /* ysshellext_patchutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_patchutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_patchutil.h; sourceTree = "<group>"; };
+		F31433511C082B4300E914E9 /* ysshellext_polygontanglerepair.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_polygontanglerepair.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_polygontanglerepair.cpp; sourceTree = "<group>"; };
+		F31433521C082B4300E914E9 /* ysshellext_polygontanglerepair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_polygontanglerepair.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_polygontanglerepair.h; sourceTree = "<group>"; };
+		F31433531C082B4300E914E9 /* ysshellext_projectionutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_projectionutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_projectionutil.cpp; sourceTree = "<group>"; };
+		F31433541C082B4300E914E9 /* ysshellext_projectionutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_projectionutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_projectionutil.h; sourceTree = "<group>"; };
+		F31433551C082B4300E914E9 /* ysshellext_proximityutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_proximityutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_proximityutil.cpp; sourceTree = "<group>"; };
+		F31433561C082B4300E914E9 /* ysshellext_proximityutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_proximityutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_proximityutil.h; sourceTree = "<group>"; };
+		F31433571C082B4300E914E9 /* ysshellext_regiongrowing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_regiongrowing.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_regiongrowing.cpp; sourceTree = "<group>"; };
+		F31433581C082B4300E914E9 /* ysshellext_regiongrowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_regiongrowing.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_regiongrowing.h; sourceTree = "<group>"; };
+		F31433591C082B4300E914E9 /* ysshellext_roundutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_roundutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_roundutil.cpp; sourceTree = "<group>"; };
+		F314335A1C082B4300E914E9 /* ysshellext_roundutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_roundutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_roundutil.h; sourceTree = "<group>"; };
+		F314335B1C082B4300E914E9 /* ysshellext_sewingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_sewingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_sewingutil.cpp; sourceTree = "<group>"; };
+		F314335C1C082B4300E914E9 /* ysshellext_sewingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_sewingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_sewingutil.h; sourceTree = "<group>"; };
+		F314335D1C082B4300E914E9 /* ysshellext_smoothingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_smoothingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_smoothingutil.cpp; sourceTree = "<group>"; };
+		F314335E1C082B4300E914E9 /* ysshellext_smoothingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_smoothingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_smoothingutil.h; sourceTree = "<group>"; };
+		F314335F1C082B4300E914E9 /* ysshellext_splitop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_splitop.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_splitop.cpp; sourceTree = "<group>"; };
+		F31433601C082B4300E914E9 /* ysshellext_splitop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_splitop.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_splitop.h; sourceTree = "<group>"; };
+		F31433611C082B4300E914E9 /* ysshellext_stitchingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_stitchingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_stitchingutil.cpp; sourceTree = "<group>"; };
+		F31433621C082B4300E914E9 /* ysshellext_stitchingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_stitchingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_stitchingutil.h; sourceTree = "<group>"; };
+		F31433631C082B4300E914E9 /* ysshellext_sweeputil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_sweeputil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_sweeputil.cpp; sourceTree = "<group>"; };
+		F31433641C082B4300E914E9 /* ysshellext_sweeputil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_sweeputil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_sweeputil.h; sourceTree = "<group>"; };
+		F31433651C082B4300E914E9 /* ysshellext_thickeningutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_thickeningutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_thickeningutil.cpp; sourceTree = "<group>"; };
+		F31433661C082B4300E914E9 /* ysshellext_thickeningutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_thickeningutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_thickeningutil.h; sourceTree = "<group>"; };
+		F31433671C082B4300E914E9 /* ysshellext_thicknessutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_thicknessutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_thicknessutil.cpp; sourceTree = "<group>"; };
+		F31433681C082B4300E914E9 /* ysshellext_thicknessutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_thicknessutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_thicknessutil.h; sourceTree = "<group>"; };
+		F31433691C082B4300E914E9 /* ysshellext_topologyutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_topologyutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_topologyutil.cpp; sourceTree = "<group>"; };
+		F314336A1C082B4300E914E9 /* ysshellext_topologyutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_topologyutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_topologyutil.h; sourceTree = "<group>"; };
+		F314336B1C082B4300E914E9 /* ysshellext_trackingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_trackingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_trackingutil.cpp; sourceTree = "<group>"; };
+		F314336C1C082B4300E914E9 /* ysshellext_trackingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_trackingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_trackingutil.h; sourceTree = "<group>"; };
+		F314336D1C082B4300E914E9 /* ysshellext_triangulationutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_triangulationutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_triangulationutil.cpp; sourceTree = "<group>"; };
+		F314336E1C082B4300E914E9 /* ysshellext_triangulationutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_triangulationutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_triangulationutil.h; sourceTree = "<group>"; };
+		F314336F1C082B4300E914E9 /* ysshellext_unfoldingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_unfoldingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_unfoldingutil.cpp; sourceTree = "<group>"; };
+		F31433701C082B4300E914E9 /* ysshellext_unfoldingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_unfoldingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_unfoldingutil.h; sourceTree = "<group>"; };
+		F31433711C082B4300E914E9 /* ysshellextedit_boolutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_boolutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_boolutil.cpp; sourceTree = "<group>"; };
+		F31433721C082B4300E914E9 /* ysshellextedit_boolutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_boolutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_boolutil.h; sourceTree = "<group>"; };
+		F31433731C082B4300E914E9 /* ysshellextedit_constedgeutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_constedgeutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_constedgeutil.cpp; sourceTree = "<group>"; };
+		F31433741C082B4300E914E9 /* ysshellextedit_constedgeutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_constedgeutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_constedgeutil.h; sourceTree = "<group>"; };
+		F31433751C082B4300E914E9 /* ysshellextedit_copyutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_copyutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_copyutil.cpp; sourceTree = "<group>"; };
+		F31433761C082B4300E914E9 /* ysshellextedit_copyutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_copyutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_copyutil.h; sourceTree = "<group>"; };
+		F31433771C082B4300E914E9 /* ysshellextedit_duplicateutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_duplicateutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_duplicateutil.cpp; sourceTree = "<group>"; };
+		F31433781C082B4300E914E9 /* ysshellextedit_duplicateutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_duplicateutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_duplicateutil.h; sourceTree = "<group>"; };
+		F31433791C082B4300E914E9 /* ysshellextedit_facegrouputil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_facegrouputil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_facegrouputil.cpp; sourceTree = "<group>"; };
+		F314337A1C082B4300E914E9 /* ysshellextedit_facegrouputil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_facegrouputil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_facegrouputil.h; sourceTree = "<group>"; };
+		F314337B1C082B4300E914E9 /* ysshellextedit_localop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_localop.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_localop.cpp; sourceTree = "<group>"; };
+		F314337C1C082B4300E914E9 /* ysshellextedit_localop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_localop.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_localop.h; sourceTree = "<group>"; };
+		F314337D1C082B4300E914E9 /* ysshellextedit_offsetutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_offsetutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_offsetutil.cpp; sourceTree = "<group>"; };
+		F314337E1C082B4300E914E9 /* ysshellextedit_offsetutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_offsetutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_offsetutil.h; sourceTree = "<group>"; };
+		F314337F1C082B4300E914E9 /* ysshellextedit_orientationutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_orientationutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_orientationutil.cpp; sourceTree = "<group>"; };
+		F31433801C082B4300E914E9 /* ysshellextedit_orientationutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_orientationutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_orientationutil.h; sourceTree = "<group>"; };
+		F31433811C082B4300E914E9 /* ysshellextedit_roundutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_roundutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_roundutil.cpp; sourceTree = "<group>"; };
+		F31433821C082B4300E914E9 /* ysshellextedit_roundutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_roundutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_roundutil.h; sourceTree = "<group>"; };
+		F31433831C082B4300E914E9 /* ysshellextedit_selectionutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_selectionutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_selectionutil.cpp; sourceTree = "<group>"; };
+		F31433841C082B4300E914E9 /* ysshellextedit_selectionutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_selectionutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_selectionutil.h; sourceTree = "<group>"; };
+		F31433851C082B4300E914E9 /* ysshellextedit_sewingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_sewingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_sewingutil.cpp; sourceTree = "<group>"; };
+		F31433861C082B4300E914E9 /* ysshellextedit_sewingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_sewingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_sewingutil.h; sourceTree = "<group>"; };
+		F31433871C082B4300E914E9 /* ysshellextedit_splitop.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_splitop.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_splitop.cpp; sourceTree = "<group>"; };
+		F31433881C082B4300E914E9 /* ysshellextedit_splitop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_splitop.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_splitop.h; sourceTree = "<group>"; };
+		F31433891C082B4300E914E9 /* ysshellextedit_stitchingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_stitchingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_stitchingutil.cpp; sourceTree = "<group>"; };
+		F314338A1C082B4300E914E9 /* ysshellextedit_stitchingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_stitchingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_stitchingutil.h; sourceTree = "<group>"; };
+		F314338B1C082B4300E914E9 /* ysshellextedit_topologyutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_topologyutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_topologyutil.cpp; sourceTree = "<group>"; };
+		F314338C1C082B4300E914E9 /* ysshellextedit_topologyutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_topologyutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_topologyutil.h; sourceTree = "<group>"; };
+		F314338D1C082B4300E914E9 /* ysshellextedit_triangulationutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextedit_triangulationutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_triangulationutil.cpp; sourceTree = "<group>"; };
+		F314338E1C082B4300E914E9 /* ysshellextedit_triangulationutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextedit_triangulationutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextedit_triangulationutil.h; sourceTree = "<group>"; };
+		F314338F1C082B4300E914E9 /* ysshellextplgfill.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellextplgfill.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellextplgfill.cpp; sourceTree = "<group>"; };
+		F31433901C082B4300E914E9 /* ysshellextplgfill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextplgfill.h; path = ../../src/ysgebl/src/kernelutil/ysshellextplgfill.h; sourceTree = "<group>"; };
+		F31433911C082B4300E914E9 /* ysshellextutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellextutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellextutil.h; sourceTree = "<group>"; };
+		F378B9E91C6468500001B7E8 /* ysshellext_imprintingutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_imprintingutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_imprintingutil.cpp; sourceTree = "<group>"; };
+		F378B9EA1C6468500001B7E8 /* ysshellext_imprintingutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_imprintingutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_imprintingutil.h; sourceTree = "<group>"; };
+		F3B72A251DB46EBB00418A0B /* ysshellext_alignmentutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_alignmentutil.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_alignmentutil.cpp; sourceTree = "<group>"; };
+		F3B72A261DB46EBB00418A0B /* ysshellext_alignmentutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_alignmentutil.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_alignmentutil.h; sourceTree = "<group>"; };
+		F3B72A271DB46EBB00418A0B /* ysshellext_constedgeslider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellext_constedgeslider.cpp; path = ../../src/ysgebl/src/kernelutil/ysshellext_constedgeslider.cpp; sourceTree = "<group>"; };
+		F3B72A281DB46EBB00418A0B /* ysshellext_constedgeslider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellext_constedgeslider.h; path = ../../src/ysgebl/src/kernelutil/ysshellext_constedgeslider.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F31433091C082ABE00E914E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31433251C082B2B00E914E9 /* libgeblkernel.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F31433031C082ABE00E914E9 = {
+			isa = PBXGroup;
+			children = (
+				F3B72A251DB46EBB00418A0B /* ysshellext_alignmentutil.cpp */,
+				F3B72A261DB46EBB00418A0B /* ysshellext_alignmentutil.h */,
+				F3B72A271DB46EBB00418A0B /* ysshellext_constedgeslider.cpp */,
+				F3B72A281DB46EBB00418A0B /* ysshellext_constedgeslider.h */,
+				F378B9E91C6468500001B7E8 /* ysshellext_imprintingutil.cpp */,
+				F378B9EA1C6468500001B7E8 /* ysshellext_imprintingutil.h */,
+				F31433261C082B4300E914E9 /* yshasshellext.cpp */,
+				F31433271C082B4300E914E9 /* yshasshellext.h */,
+				F31433281C082B4300E914E9 /* ysshellext_astar.cpp */,
+				F31433291C082B4300E914E9 /* ysshellext_astar.h */,
+				F314332A1C082B4300E914E9 /* ysshellext_boundaryutil.cpp */,
+				F314332B1C082B4300E914E9 /* ysshellext_boundaryutil.h */,
+				F314332C1C082B4300E914E9 /* ysshellext_clusteringutil.cpp */,
+				F314332D1C082B4300E914E9 /* ysshellext_clusteringutil.h */,
+				F314332E1C082B4300E914E9 /* ysshellext_commandsupport.cpp */,
+				F314332F1C082B4300E914E9 /* ysshellext_commandsupport.h */,
+				F31433301C082B4300E914E9 /* ysshellext_condition.cpp */,
+				F31433311C082B4300E914E9 /* ysshellext_condition.h */,
+				F31433321C082B4300E914E9 /* ysshellext_constedgeutil.cpp */,
+				F31433331C082B4300E914E9 /* ysshellext_constedgeutil.h */,
+				F31433341C082B4300E914E9 /* ysshellext_def.h */,
+				F31433351C082B4300E914E9 /* ysshellext_deformationevaluator.cpp */,
+				F31433361C082B4300E914E9 /* ysshellext_deformationevaluator.h */,
+				F31433371C082B4300E914E9 /* ysshellext_diagnoseutil.cpp */,
+				F31433381C082B4300E914E9 /* ysshellext_diagnoseutil.h */,
+				F31433391C082B4300E914E9 /* ysshellext_duplicateutil.cpp */,
+				F314333A1C082B4300E914E9 /* ysshellext_duplicateutil.h */,
+				F314333B1C082B4300E914E9 /* ysshellext_edgepriorityqueue.cpp */,
+				F314333C1C082B4300E914E9 /* ysshellext_edgepriorityqueue.h */,
+				F314333D1C082B4300E914E9 /* ysshellext_embeddingutil.cpp */,
+				F314333E1C082B4300E914E9 /* ysshellext_embeddingutil.h */,
+				F314333F1C082B4300E914E9 /* ysshellext_facegroupgrowing.cpp */,
+				F31433401C082B4300E914E9 /* ysshellext_facegroupgrowing.h */,
+				F31433411C082B4300E914E9 /* ysshellext_facegrouputil.cpp */,
+				F31433421C082B4300E914E9 /* ysshellext_facegrouputil.h */,
+				F31433431C082B4300E914E9 /* ysshellext_geomcalc.cpp */,
+				F31433441C082B4300E914E9 /* ysshellext_geomcalc.h */,
+				F31433451C082B4300E914E9 /* ysshellext_intersectionutil.cpp */,
+				F31433461C082B4300E914E9 /* ysshellext_intersectionutil.h */,
+				F31433471C082B4300E914E9 /* ysshellext_localop.cpp */,
+				F31433481C082B4300E914E9 /* ysshellext_localop.h */,
+				F31433491C082B4300E914E9 /* ysshellext_mappingutil.cpp */,
+				F314334A1C082B4300E914E9 /* ysshellext_mappingutil.h */,
+				F314334B1C082B4300E914E9 /* ysshellext_offsetutil.cpp */,
+				F314334C1C082B4300E914E9 /* ysshellext_offsetutil.h */,
+				F314334D1C082B4300E914E9 /* ysshellext_orientationutil.cpp */,
+				F314334E1C082B4300E914E9 /* ysshellext_orientationutil.h */,
+				F314334F1C082B4300E914E9 /* ysshellext_patchutil.cpp */,
+				F31433501C082B4300E914E9 /* ysshellext_patchutil.h */,
+				F31433511C082B4300E914E9 /* ysshellext_polygontanglerepair.cpp */,
+				F31433521C082B4300E914E9 /* ysshellext_polygontanglerepair.h */,
+				F31433531C082B4300E914E9 /* ysshellext_projectionutil.cpp */,
+				F31433541C082B4300E914E9 /* ysshellext_projectionutil.h */,
+				F31433551C082B4300E914E9 /* ysshellext_proximityutil.cpp */,
+				F31433561C082B4300E914E9 /* ysshellext_proximityutil.h */,
+				F31433571C082B4300E914E9 /* ysshellext_regiongrowing.cpp */,
+				F31433581C082B4300E914E9 /* ysshellext_regiongrowing.h */,
+				F31433591C082B4300E914E9 /* ysshellext_roundutil.cpp */,
+				F314335A1C082B4300E914E9 /* ysshellext_roundutil.h */,
+				F314335B1C082B4300E914E9 /* ysshellext_sewingutil.cpp */,
+				F314335C1C082B4300E914E9 /* ysshellext_sewingutil.h */,
+				F314335D1C082B4300E914E9 /* ysshellext_smoothingutil.cpp */,
+				F314335E1C082B4300E914E9 /* ysshellext_smoothingutil.h */,
+				F314335F1C082B4300E914E9 /* ysshellext_splitop.cpp */,
+				F31433601C082B4300E914E9 /* ysshellext_splitop.h */,
+				F31433611C082B4300E914E9 /* ysshellext_stitchingutil.cpp */,
+				F31433621C082B4300E914E9 /* ysshellext_stitchingutil.h */,
+				F31433631C082B4300E914E9 /* ysshellext_sweeputil.cpp */,
+				F31433641C082B4300E914E9 /* ysshellext_sweeputil.h */,
+				F31433651C082B4300E914E9 /* ysshellext_thickeningutil.cpp */,
+				F31433661C082B4300E914E9 /* ysshellext_thickeningutil.h */,
+				F31433671C082B4300E914E9 /* ysshellext_thicknessutil.cpp */,
+				F31433681C082B4300E914E9 /* ysshellext_thicknessutil.h */,
+				F31433691C082B4300E914E9 /* ysshellext_topologyutil.cpp */,
+				F314336A1C082B4300E914E9 /* ysshellext_topologyutil.h */,
+				F314336B1C082B4300E914E9 /* ysshellext_trackingutil.cpp */,
+				F314336C1C082B4300E914E9 /* ysshellext_trackingutil.h */,
+				F314336D1C082B4300E914E9 /* ysshellext_triangulationutil.cpp */,
+				F314336E1C082B4300E914E9 /* ysshellext_triangulationutil.h */,
+				F314336F1C082B4300E914E9 /* ysshellext_unfoldingutil.cpp */,
+				F31433701C082B4300E914E9 /* ysshellext_unfoldingutil.h */,
+				F31433711C082B4300E914E9 /* ysshellextedit_boolutil.cpp */,
+				F31433721C082B4300E914E9 /* ysshellextedit_boolutil.h */,
+				F31433731C082B4300E914E9 /* ysshellextedit_constedgeutil.cpp */,
+				F31433741C082B4300E914E9 /* ysshellextedit_constedgeutil.h */,
+				F31433751C082B4300E914E9 /* ysshellextedit_copyutil.cpp */,
+				F31433761C082B4300E914E9 /* ysshellextedit_copyutil.h */,
+				F31433771C082B4300E914E9 /* ysshellextedit_duplicateutil.cpp */,
+				F31433781C082B4300E914E9 /* ysshellextedit_duplicateutil.h */,
+				F31433791C082B4300E914E9 /* ysshellextedit_facegrouputil.cpp */,
+				F314337A1C082B4300E914E9 /* ysshellextedit_facegrouputil.h */,
+				F314337B1C082B4300E914E9 /* ysshellextedit_localop.cpp */,
+				F314337C1C082B4300E914E9 /* ysshellextedit_localop.h */,
+				F314337D1C082B4300E914E9 /* ysshellextedit_offsetutil.cpp */,
+				F314337E1C082B4300E914E9 /* ysshellextedit_offsetutil.h */,
+				F314337F1C082B4300E914E9 /* ysshellextedit_orientationutil.cpp */,
+				F31433801C082B4300E914E9 /* ysshellextedit_orientationutil.h */,
+				F31433811C082B4300E914E9 /* ysshellextedit_roundutil.cpp */,
+				F31433821C082B4300E914E9 /* ysshellextedit_roundutil.h */,
+				F31433831C082B4300E914E9 /* ysshellextedit_selectionutil.cpp */,
+				F31433841C082B4300E914E9 /* ysshellextedit_selectionutil.h */,
+				F31433851C082B4300E914E9 /* ysshellextedit_sewingutil.cpp */,
+				F31433861C082B4300E914E9 /* ysshellextedit_sewingutil.h */,
+				F31433871C082B4300E914E9 /* ysshellextedit_splitop.cpp */,
+				F31433881C082B4300E914E9 /* ysshellextedit_splitop.h */,
+				F31433891C082B4300E914E9 /* ysshellextedit_stitchingutil.cpp */,
+				F314338A1C082B4300E914E9 /* ysshellextedit_stitchingutil.h */,
+				F314338B1C082B4300E914E9 /* ysshellextedit_topologyutil.cpp */,
+				F314338C1C082B4300E914E9 /* ysshellextedit_topologyutil.h */,
+				F314338D1C082B4300E914E9 /* ysshellextedit_triangulationutil.cpp */,
+				F314338E1C082B4300E914E9 /* ysshellextedit_triangulationutil.h */,
+				F314338F1C082B4300E914E9 /* ysshellextplgfill.cpp */,
+				F31433901C082B4300E914E9 /* ysshellextplgfill.h */,
+				F31433911C082B4300E914E9 /* ysshellextutil.h */,
+				F31433181C082B1E00E914E9 /* geblkernel.xcodeproj */,
+				F314330E1C082ABE00E914E9 /* geblutil */,
+				F314330D1C082ABE00E914E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F314330D1C082ABE00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F314330C1C082ABE00E914E9 /* libgeblutil.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F314330E1C082ABE00E914E9 /* geblutil */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = geblutil;
+			sourceTree = "<group>";
+		};
+		F31433191C082B1E00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31433241C082B1E00E914E9 /* libgeblkernel.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F314330B1C082ABE00E914E9 /* geblutil */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F31433151C082ABE00E914E9 /* Build configuration list for PBXNativeTarget "geblutil" */;
+			buildPhases = (
+				F31433081C082ABE00E914E9 /* Sources */,
+				F31433091C082ABE00E914E9 /* Frameworks */,
+				F314330A1C082ABE00E914E9 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = geblutil;
+			productName = geblutil;
+			productReference = F314330C1C082ABE00E914E9 /* libgeblutil.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F31433041C082ABE00E914E9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F314330B1C082ABE00E914E9 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F31433071C082ABE00E914E9 /* Build configuration list for PBXProject "geblutil" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F31433031C082ABE00E914E9;
+			productRefGroup = F314330D1C082ABE00E914E9 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F31433191C082B1E00E914E9 /* Products */;
+					ProjectRef = F31433181C082B1E00E914E9 /* geblkernel.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F314330B1C082ABE00E914E9 /* geblutil */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F31433241C082B1E00E914E9 /* libgeblkernel.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgeblkernel.a;
+			remoteRef = F31433231C082B1E00E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F31433081C082ABE00E914E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31433951C082B4300E914E9 /* ysshellext_clusteringutil.cpp in Sources */,
+				F314339E1C082B4300E914E9 /* ysshellext_facegroupgrowing.cpp in Sources */,
+				F3B72A2A1DB46EBB00418A0B /* ysshellext_constedgeslider.cpp in Sources */,
+				F31433AF1C082B4300E914E9 /* ysshellext_stitchingutil.cpp in Sources */,
+				F31433C11C082B4300E914E9 /* ysshellextedit_sewingutil.cpp in Sources */,
+				F31433961C082B4300E914E9 /* ysshellext_commandsupport.cpp in Sources */,
+				F31433B71C082B4300E914E9 /* ysshellextedit_boolutil.cpp in Sources */,
+				F31433B11C082B4300E914E9 /* ysshellext_thickeningutil.cpp in Sources */,
+				F314339D1C082B4300E914E9 /* ysshellext_embeddingutil.cpp in Sources */,
+				F31433931C082B4300E914E9 /* ysshellext_astar.cpp in Sources */,
+				F31433991C082B4300E914E9 /* ysshellext_deformationevaluator.cpp in Sources */,
+				F314339B1C082B4300E914E9 /* ysshellext_duplicateutil.cpp in Sources */,
+				F31433A31C082B4300E914E9 /* ysshellext_mappingutil.cpp in Sources */,
+				F31433A01C082B4300E914E9 /* ysshellext_geomcalc.cpp in Sources */,
+				F31433C21C082B4300E914E9 /* ysshellextedit_splitop.cpp in Sources */,
+				F31433BE1C082B4300E914E9 /* ysshellextedit_orientationutil.cpp in Sources */,
+				F31433941C082B4300E914E9 /* ysshellext_boundaryutil.cpp in Sources */,
+				F31433A11C082B4300E914E9 /* ysshellext_intersectionutil.cpp in Sources */,
+				F31433AE1C082B4300E914E9 /* ysshellext_splitop.cpp in Sources */,
+				F31433971C082B4300E914E9 /* ysshellext_condition.cpp in Sources */,
+				F31433A41C082B4300E914E9 /* ysshellext_offsetutil.cpp in Sources */,
+				F31433A61C082B4300E914E9 /* ysshellext_patchutil.cpp in Sources */,
+				F31433BA1C082B4300E914E9 /* ysshellextedit_duplicateutil.cpp in Sources */,
+				F31433A51C082B4300E914E9 /* ysshellext_orientationutil.cpp in Sources */,
+				F31433B41C082B4300E914E9 /* ysshellext_trackingutil.cpp in Sources */,
+				F314339F1C082B4300E914E9 /* ysshellext_facegrouputil.cpp in Sources */,
+				F314339C1C082B4300E914E9 /* ysshellext_edgepriorityqueue.cpp in Sources */,
+				F31433981C082B4300E914E9 /* ysshellext_constedgeutil.cpp in Sources */,
+				F31433BC1C082B4300E914E9 /* ysshellextedit_localop.cpp in Sources */,
+				F31433BD1C082B4300E914E9 /* ysshellextedit_offsetutil.cpp in Sources */,
+				F378B9EB1C6468500001B7E8 /* ysshellext_imprintingutil.cpp in Sources */,
+				F31433B31C082B4300E914E9 /* ysshellext_topologyutil.cpp in Sources */,
+				F31433921C082B4300E914E9 /* yshasshellext.cpp in Sources */,
+				F31433B81C082B4300E914E9 /* ysshellextedit_constedgeutil.cpp in Sources */,
+				F31433B61C082B4300E914E9 /* ysshellext_unfoldingutil.cpp in Sources */,
+				F31433BB1C082B4300E914E9 /* ysshellextedit_facegrouputil.cpp in Sources */,
+				F31433A21C082B4300E914E9 /* ysshellext_localop.cpp in Sources */,
+				F31433B01C082B4300E914E9 /* ysshellext_sweeputil.cpp in Sources */,
+				F31433AA1C082B4300E914E9 /* ysshellext_regiongrowing.cpp in Sources */,
+				F31433AC1C082B4300E914E9 /* ysshellext_sewingutil.cpp in Sources */,
+				F31433B51C082B4300E914E9 /* ysshellext_triangulationutil.cpp in Sources */,
+				F31433B21C082B4300E914E9 /* ysshellext_thicknessutil.cpp in Sources */,
+				F31433AB1C082B4300E914E9 /* ysshellext_roundutil.cpp in Sources */,
+				F31433AD1C082B4300E914E9 /* ysshellext_smoothingutil.cpp in Sources */,
+				F31433C01C082B4300E914E9 /* ysshellextedit_selectionutil.cpp in Sources */,
+				F31433A91C082B4300E914E9 /* ysshellext_proximityutil.cpp in Sources */,
+				F31433A81C082B4300E914E9 /* ysshellext_projectionutil.cpp in Sources */,
+				F314339A1C082B4300E914E9 /* ysshellext_diagnoseutil.cpp in Sources */,
+				F31433C51C082B4300E914E9 /* ysshellextedit_triangulationutil.cpp in Sources */,
+				F31433C61C082B4300E914E9 /* ysshellextplgfill.cpp in Sources */,
+				F31433C31C082B4300E914E9 /* ysshellextedit_stitchingutil.cpp in Sources */,
+				F31433BF1C082B4300E914E9 /* ysshellextedit_roundutil.cpp in Sources */,
+				F31433A71C082B4300E914E9 /* ysshellext_polygontanglerepair.cpp in Sources */,
+				F31433B91C082B4300E914E9 /* ysshellextedit_copyutil.cpp in Sources */,
+				F31433C41C082B4300E914E9 /* ysshellextedit_topologyutil.cpp in Sources */,
+				F3B72A291DB46EBB00418A0B /* ysshellext_alignmentutil.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F31433131C082ABE00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F31433141C082ABE00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F31433161C082ABE00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F31433171C082ABE00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F31433071C082ABE00E914E9 /* Build configuration list for PBXProject "geblutil" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31433131C082ABE00E914E9 /* Debug */,
+				F31433141C082ABE00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F31433151C082ABE00E914E9 /* Build configuration list for PBXNativeTarget "geblutil" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31433161C082ABE00E914E9 /* Debug */,
+				F31433171C082ABE00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F31433041C082ABE00E914E9 /* Project object */;
+}

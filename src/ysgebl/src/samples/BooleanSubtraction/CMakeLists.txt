@@ -1,0 +1,3 @@
+set(TARGET_NAME booleanSubtraction)
+add_executable(booleanSubtraction main.cpp)
+target_link_libraries(booleanSubtraction geblutil geblkernel ysport)

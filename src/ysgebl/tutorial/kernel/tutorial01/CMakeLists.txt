@@ -1,0 +1,2 @@
+add_executable(shellext_tutorial01 main.cpp)
+target_link_libraries(shellext_tutorial01 geblkernel geblutil)

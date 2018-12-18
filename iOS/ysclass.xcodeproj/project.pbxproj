@@ -1,0 +1,780 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F3291CFE1E7042F000B531D8 /* ysrect.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3291CFD1E7042C800B531D8 /* ysrect.h */; };
+		F3291D0D1E70436700B531D8 /* ysstringparser.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3291D0C1E70435100B531D8 /* ysstringparser.h */; };
+		F35B51031C02CF61004E6B0A /* ysadvgeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50881C02CF61004E6B0A /* ysadvgeometry.cpp */; };
+		F35B51041C02CF61004E6B0A /* ysadvgeometryx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B508A1C02CF61004E6B0A /* ysadvgeometryx.cpp */; };
+		F35B51051C02CF61004E6B0A /* ysargs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B508B1C02CF61004E6B0A /* ysargs.cpp */; };
+		F35B51061C02CF61004E6B0A /* ysbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B508F1C02CF61004E6B0A /* ysbase.cpp */; };
+		F35B51071C02CF61004E6B0A /* ysbase64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50911C02CF61004E6B0A /* ysbase64.cpp */; };
+		F35B51081C02CF61004E6B0A /* ysclassmgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50991C02CF61004E6B0A /* ysclassmgr.cpp */; };
+		F35B51091C02CF61004E6B0A /* ysclip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B509B1C02CF61004E6B0A /* ysclip.cpp */; };
+		F35B510A1C02CF61004E6B0A /* ysdelaunaytri.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50A11C02CF61004E6B0A /* ysdelaunaytri.cpp */; };
+		F35B510B1C02CF61004E6B0A /* ysequation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50A61C02CF61004E6B0A /* ysequation.cpp */; };
+		F35B510C1C02CF61004E6B0A /* ysexception.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50A81C02CF61004E6B0A /* ysexception.cpp */; };
+		F35B510D1C02CF61004E6B0A /* ysfilename.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50AA1C02CF61004E6B0A /* ysfilename.cpp */; };
+		F35B510E1C02CF61004E6B0A /* ysgeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50AE1C02CF61004E6B0A /* ysgeometry.cpp */; };
+		F35B510F1C02CF61004E6B0A /* yshash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50B11C02CF61004E6B0A /* yshash.cpp */; };
+		F35B51101C02CF61004E6B0A /* ysinterpolation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50B41C02CF61004E6B0A /* ysinterpolation.cpp */; };
+		F35B51111C02CF61004E6B0A /* yskdtree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50B61C02CF61004E6B0A /* yskdtree.cpp */; };
+		F35B51121C02CF61004E6B0A /* yskeyword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50B91C02CF61004E6B0A /* yskeyword.cpp */; };
+		F35B51131C02CF61004E6B0A /* yslist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50BC1C02CF61004E6B0A /* yslist.cpp */; };
+		F35B51141C02CF61004E6B0A /* ysmath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50C01C02CF61004E6B0A /* ysmath.cpp */; };
+		F35B51151C02CF61004E6B0A /* ysmatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50C21C02CF61004E6B0A /* ysmatrix.cpp */; };
+		F35B51161C02CF61004E6B0A /* ysmatrix3x3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50C41C02CF61004E6B0A /* ysmatrix3x3.cpp */; };
+		F35B51171C02CF61004E6B0A /* ysmatrix4x4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50C51C02CF61004E6B0A /* ysmatrix4x4.cpp */; };
+		F35B51181C02CF61004E6B0A /* yspixelmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50CA1C02CF61004E6B0A /* yspixelmap.cpp */; };
+		F35B51191C02CF61004E6B0A /* yspositivevector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50CC1C02CF61004E6B0A /* yspositivevector.cpp */; };
+		F35B511A1C02CF61004E6B0A /* yspredefined.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50CE1C02CF61004E6B0A /* yspredefined.cpp */; };
+		F35B511B1C02CF61004E6B0A /* ysprintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50D01C02CF61004E6B0A /* ysprintf.cpp */; };
+		F35B511C1C02CF61004E6B0A /* ysproperty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50D31C02CF61004E6B0A /* ysproperty.cpp */; };
+		F35B511D1C02CF61004E6B0A /* ysreldir.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50D61C02CF61004E6B0A /* ysreldir.cpp */; };
+		F35B511E1C02CF61004E6B0A /* ysshell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50D91C02CF61004E6B0A /* ysshell.cpp */; };
+		F35B511F1C02CF61004E6B0A /* ysshell2d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50DB1C02CF61004E6B0A /* ysshell2d.cpp */; };
+		F35B51201C02CF61004E6B0A /* ysshellblend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50DD1C02CF61004E6B0A /* ysshellblend.cpp */; };
+		F35B51211C02CF61004E6B0A /* ysshellblend2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50DE1C02CF61004E6B0A /* ysshellblend2.cpp */; };
+		F35B51221C02CF61004E6B0A /* ysshellfileio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50E01C02CF61004E6B0A /* ysshellfileio.cpp */; };
+		F35B51231C02CF61004E6B0A /* ysshelllattice_singleThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50E21C02CF61004E6B0A /* ysshelllattice_singleThread.cpp */; };
+		F35B51241C02CF61004E6B0A /* ysshelllattice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50E31C02CF61004E6B0A /* ysshelllattice.cpp */; };
+		F35B51251C02CF61004E6B0A /* ysshellsearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50E61C02CF61004E6B0A /* ysshellsearch.cpp */; };
+		F35B51261C02CF61004E6B0A /* ysshellstl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50E81C02CF61004E6B0A /* ysshellstl.cpp */; };
+		F35B51271C02CF61004E6B0A /* ysshellutil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50EA1C02CF61004E6B0A /* ysshellutil.cpp */; };
+		F35B51281C02CF61004E6B0A /* ysstring.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50ED1C02CF61004E6B0A /* ysstring.cpp */; };
+		F35B51291C02CF61004E6B0A /* yssword.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50F01C02CF61004E6B0A /* yssword.cpp */; };
+		F35B512A1C02CF61004E6B0A /* ystask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50F11C02CF61004E6B0A /* ystask.cpp */; };
+		F35B512B1C02CF61004E6B0A /* ystextresource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50F41C02CF61004E6B0A /* ystextresource.cpp */; };
+		F35B512C1C02CF61004E6B0A /* ystextstream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50F61C02CF61004E6B0A /* ystextstream.cpp */; };
+		F35B512D1C02CF61004E6B0A /* ysveci.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50FB1C02CF61004E6B0A /* ysveci.cpp */; };
+		F35B512E1C02CF61004E6B0A /* ysviewcontrol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B50FE1C02CF61004E6B0A /* ysviewcontrol.cpp */; };
+		F35B512F1C02CF61004E6B0A /* yswizard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F35B51011C02CF61004E6B0A /* yswizard.cpp */; };
+		F35B51301C02CF76004E6B0A /* ys2darray.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50871C02CF61004E6B0A /* ys2darray.h */; };
+		F35B51311C02CF76004E6B0A /* ysadvgeometry.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50891C02CF61004E6B0A /* ysadvgeometry.h */; };
+		F35B51321C02CF76004E6B0A /* ysargs.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B508C1C02CF61004E6B0A /* ysargs.h */; };
+		F35B51331C02CF76004E6B0A /* ysarray.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B508D1C02CF61004E6B0A /* ysarray.h */; };
+		F35B51341C02CF76004E6B0A /* ysavltree.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B508E1C02CF61004E6B0A /* ysavltree.h */; };
+		F35B51351C02CF76004E6B0A /* ysbase.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50901C02CF61004E6B0A /* ysbase.h */; };
+		F35B51361C02CF76004E6B0A /* ysbase64.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50921C02CF61004E6B0A /* ysbase64.h */; };
+		F35B51371C02CF76004E6B0A /* ysbdhandleiterator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50931C02CF61004E6B0A /* ysbdhandleiterator.h */; };
+		F35B51381C02CF76004E6B0A /* ysbigint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50941C02CF61004E6B0A /* ysbigint.h */; };
+		F35B51391C02CF76004E6B0A /* ysbinarytree.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50951C02CF61004E6B0A /* ysbinarytree.h */; };
+		F35B513A1C02CF76004E6B0A /* ysbinarytree2.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50961C02CF61004E6B0A /* ysbinarytree2.h */; };
+		F35B513B1C02CF76004E6B0A /* ysclass.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50981C02CF61004E6B0A /* ysclass.h */; };
+		F35B513C1C02CF76004E6B0A /* ysclassmgr.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B509A1C02CF61004E6B0A /* ysclassmgr.h */; };
+		F35B513D1C02CF76004E6B0A /* ysclip.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B509C1C02CF61004E6B0A /* ysclip.h */; };
+		F35B513E1C02CF76004E6B0A /* yscomparer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B509D1C02CF61004E6B0A /* yscomparer.h */; };
+		F35B513F1C02CF76004E6B0A /* yscompilerwarning.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B509E1C02CF61004E6B0A /* yscompilerwarning.h */; };
+		F35B51401C02CF76004E6B0A /* ysdebug.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B509F1C02CF61004E6B0A /* ysdebug.h */; };
+		F35B51411C02CF76004E6B0A /* ysdef.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50A01C02CF61004E6B0A /* ysdef.h */; };
+		F35B51421C02CF76004E6B0A /* ysdelaunaytri.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50A21C02CF61004E6B0A /* ysdelaunaytri.h */; };
+		F35B51431C02CF76004E6B0A /* ysdict.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50A31C02CF61004E6B0A /* ysdict.h */; };
+		F35B51441C02CF76004E6B0A /* ysedgeloop.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50A41C02CF61004E6B0A /* ysedgeloop.h */; };
+		F35B51451C02CF76004E6B0A /* yseditarray.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50A51C02CF61004E6B0A /* yseditarray.h */; };
+		F35B51461C02CF76004E6B0A /* ysequation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50A71C02CF61004E6B0A /* ysequation.h */; };
+		F35B51471C02CF76004E6B0A /* ysexception.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50A91C02CF61004E6B0A /* ysexception.h */; };
+		F35B51481C02CF76004E6B0A /* ysfilename.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50AB1C02CF61004E6B0A /* ysfilename.h */; };
+		F35B51491C02CF76004E6B0A /* ysfunctionofvector.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50AC1C02CF61004E6B0A /* ysfunctionofvector.h */; };
+		F35B514A1C02CF76004E6B0A /* ysfunctiontemplate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50AD1C02CF61004E6B0A /* ysfunctiontemplate.h */; };
+		F35B514B1C02CF76004E6B0A /* ysgeometry.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50AF1C02CF61004E6B0A /* ysgeometry.h */; };
+		F35B514C1C02CF76004E6B0A /* yshash_.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50B01C02CF61004E6B0A /* yshash_.h */; };
+		F35B514D1C02CF76004E6B0A /* yshash.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50B21C02CF61004E6B0A /* yshash.h */; };
+		F35B514E1C02CF76004E6B0A /* ysindexiterator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50B31C02CF61004E6B0A /* ysindexiterator.h */; };
+		F35B514F1C02CF76004E6B0A /* ysinterpolation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50B51C02CF61004E6B0A /* ysinterpolation.h */; };
+		F35B51501C02CF76004E6B0A /* yskdtree.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50B71C02CF61004E6B0A /* yskdtree.h */; };
+		F35B51511C02CF76004E6B0A /* yskdtreeutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50B81C02CF61004E6B0A /* yskdtreeutil.h */; };
+		F35B51521C02CF76004E6B0A /* yskeyword.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50BA1C02CF61004E6B0A /* yskeyword.h */; };
+		F35B51531C02CF76004E6B0A /* yslattice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50BB1C02CF61004E6B0A /* yslattice.h */; };
+		F35B51541C02CF76004E6B0A /* yslist.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50BD1C02CF61004E6B0A /* yslist.h */; };
+		F35B51551C02CF76004E6B0A /* yslist2.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50BE1C02CF61004E6B0A /* yslist2.h */; };
+		F35B51561C02CF76004E6B0A /* ysmalloc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50BF1C02CF61004E6B0A /* ysmalloc.h */; };
+		F35B51571C02CF76004E6B0A /* ysmath.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50C11C02CF61004E6B0A /* ysmath.h */; };
+		F35B51581C02CF76004E6B0A /* ysmatrix.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50C31C02CF61004E6B0A /* ysmatrix.h */; };
+		F35B51591C02CF76004E6B0A /* ysmatrixtemplate.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50C61C02CF61004E6B0A /* ysmatrixtemplate.h */; };
+		F35B515A1C02CF76004E6B0A /* ysmergesort.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50C71C02CF61004E6B0A /* ysmergesort.h */; };
+		F35B515B1C02CF76004E6B0A /* ysneverforget.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50C81C02CF61004E6B0A /* ysneverforget.h */; };
+		F35B515C1C02CF76004E6B0A /* ysoctree.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50C91C02CF61004E6B0A /* ysoctree.h */; };
+		F35B515D1C02CF76004E6B0A /* yspixelmap.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50CB1C02CF61004E6B0A /* yspixelmap.h */; };
+		F35B515E1C02CF76004E6B0A /* yspositivevector.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50CD1C02CF61004E6B0A /* yspositivevector.h */; };
+		F35B515F1C02CF76004E6B0A /* yspredefined.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50CF1C02CF61004E6B0A /* yspredefined.h */; };
+		F35B51601C02CF76004E6B0A /* ysprintf.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50D11C02CF61004E6B0A /* ysprintf.h */; };
+		F35B51611C02CF76004E6B0A /* ysprogressivetask.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50D21C02CF61004E6B0A /* ysprogressivetask.h */; };
+		F35B51621C02CF76004E6B0A /* ysproperty.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50D41C02CF61004E6B0A /* ysproperty.h */; };
+		F35B51631C02CF76004E6B0A /* ysrange.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50D51C02CF61004E6B0A /* ysrange.h */; };
+		F35B51641C02CF76004E6B0A /* ysreldir.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50D71C02CF61004E6B0A /* ysreldir.h */; };
+		F35B51651C02CF76004E6B0A /* yssegarray.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50D81C02CF61004E6B0A /* yssegarray.h */; };
+		F35B51661C02CF76004E6B0A /* ysshell.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50DA1C02CF61004E6B0A /* ysshell.h */; };
+		F35B51671C02CF76004E6B0A /* ysshell2d.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50DC1C02CF61004E6B0A /* ysshell2d.h */; };
+		F35B51681C02CF76004E6B0A /* ysshellblend2.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50DF1C02CF61004E6B0A /* ysshellblend2.h */; };
+		F35B51691C02CF76004E6B0A /* ysshellkdtree.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50E11C02CF61004E6B0A /* ysshellkdtree.h */; };
+		F35B516A1C02CF76004E6B0A /* ysshelllattice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50E41C02CF61004E6B0A /* ysshelllattice.h */; };
+		F35B516B1C02CF76004E6B0A /* ysshelloctree.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50E51C02CF61004E6B0A /* ysshelloctree.h */; };
+		F35B516C1C02CF76004E6B0A /* ysshellsearch.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50E71C02CF61004E6B0A /* ysshellsearch.h */; };
+		F35B516D1C02CF76004E6B0A /* ysshelltype.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50E91C02CF61004E6B0A /* ysshelltype.h */; };
+		F35B516E1C02CF76004E6B0A /* ysshellutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50EB1C02CF61004E6B0A /* ysshellutil.h */; };
+		F35B516F1C02CF76004E6B0A /* yssort.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50EC1C02CF61004E6B0A /* yssort.h */; };
+		F35B51701C02CF76004E6B0A /* ysstring.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50EE1C02CF61004E6B0A /* ysstring.h */; };
+		F35B51711C02CF76004E6B0A /* ysstringutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50EF1C02CF61004E6B0A /* ysstringutil.h */; };
+		F35B51721C02CF76004E6B0A /* ystask.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50F21C02CF61004E6B0A /* ystask.h */; };
+		F35B51731C02CF76004E6B0A /* ystempobj.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50F31C02CF61004E6B0A /* ystempobj.h */; };
+		F35B51741C02CF76004E6B0A /* ystextresource.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50F51C02CF61004E6B0A /* ystextresource.h */; };
+		F35B51751C02CF76004E6B0A /* ystextstream.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50F71C02CF61004E6B0A /* ystextstream.h */; };
+		F35B51761C02CF76004E6B0A /* ystightarray.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50F81C02CF61004E6B0A /* ystightarray.h */; };
+		F35B51771C02CF76004E6B0A /* ysudhandleiterator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50F91C02CF61004E6B0A /* ysudhandleiterator.h */; };
+		F35B51781C02CF76004E6B0A /* ysunitconv.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50FA1C02CF61004E6B0A /* ysunitconv.h */; };
+		F35B51791C02CF76004E6B0A /* ysveci.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50FC1C02CF61004E6B0A /* ysveci.h */; };
+		F35B517A1C02CF76004E6B0A /* ysvectorhistogram.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50FD1C02CF61004E6B0A /* ysvectorhistogram.h */; };
+		F35B517B1C02CF76004E6B0A /* ysviewcontrol.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50FF1C02CF61004E6B0A /* ysviewcontrol.h */; };
+		F35B517C1C02CF76004E6B0A /* ysvisited.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B51001C02CF61004E6B0A /* ysvisited.h */; };
+		F35B517D1C02CF76004E6B0A /* yswizard.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B51021C02CF61004E6B0A /* yswizard.h */; };
+		F3CA3C422075CAAD00F07A36 /* ystextdata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3CA3C3A2075CAAC00F07A36 /* ystextdata.cpp */; };
+		F3CA3C432075CAAD00F07A36 /* yspositivearea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3CA3C3B2075CAAC00F07A36 /* yspositivearea.cpp */; };
+		F3CA3C442075CAAD00F07A36 /* yspropertyfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3CA3C402075CAAD00F07A36 /* yspropertyfile.cpp */; };
+		F3CA3C452075CAE200F07A36 /* ysarraymask.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3CA3C3D2075CAAD00F07A36 /* ysarraymask.h */; };
+		F3CA3C462075CAE200F07A36 /* ysfitcircle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3CA3C3F2075CAAD00F07A36 /* ysfitcircle.h */; };
+		F3CA3C472075CAE200F07A36 /* yspositivearea.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3CA3C412075CAAD00F07A36 /* yspositivearea.h */; };
+		F3CA3C482075CAE200F07A36 /* yspropertyfile.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3CA3C3C2075CAAC00F07A36 /* yspropertyfile.h */; };
+		F3CA3C492075CAE200F07A36 /* ystextdata.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F3CA3C3E2075CAAD00F07A36 /* ystextdata.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F35B50791C02CECF004E6B0A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F3CA3C452075CAE200F07A36 /* ysarraymask.h in CopyFiles */,
+				F3CA3C462075CAE200F07A36 /* ysfitcircle.h in CopyFiles */,
+				F3CA3C472075CAE200F07A36 /* yspositivearea.h in CopyFiles */,
+				F3CA3C482075CAE200F07A36 /* yspropertyfile.h in CopyFiles */,
+				F3CA3C492075CAE200F07A36 /* ystextdata.h in CopyFiles */,
+				F3291D0D1E70436700B531D8 /* ysstringparser.h in CopyFiles */,
+				F3291CFE1E7042F000B531D8 /* ysrect.h in CopyFiles */,
+				F35B51301C02CF76004E6B0A /* ys2darray.h in CopyFiles */,
+				F35B51311C02CF76004E6B0A /* ysadvgeometry.h in CopyFiles */,
+				F35B51321C02CF76004E6B0A /* ysargs.h in CopyFiles */,
+				F35B51331C02CF76004E6B0A /* ysarray.h in CopyFiles */,
+				F35B51341C02CF76004E6B0A /* ysavltree.h in CopyFiles */,
+				F35B51351C02CF76004E6B0A /* ysbase.h in CopyFiles */,
+				F35B51361C02CF76004E6B0A /* ysbase64.h in CopyFiles */,
+				F35B51371C02CF76004E6B0A /* ysbdhandleiterator.h in CopyFiles */,
+				F35B51381C02CF76004E6B0A /* ysbigint.h in CopyFiles */,
+				F35B51391C02CF76004E6B0A /* ysbinarytree.h in CopyFiles */,
+				F35B513A1C02CF76004E6B0A /* ysbinarytree2.h in CopyFiles */,
+				F35B513B1C02CF76004E6B0A /* ysclass.h in CopyFiles */,
+				F35B513C1C02CF76004E6B0A /* ysclassmgr.h in CopyFiles */,
+				F35B513D1C02CF76004E6B0A /* ysclip.h in CopyFiles */,
+				F35B513E1C02CF76004E6B0A /* yscomparer.h in CopyFiles */,
+				F35B513F1C02CF76004E6B0A /* yscompilerwarning.h in CopyFiles */,
+				F35B51401C02CF76004E6B0A /* ysdebug.h in CopyFiles */,
+				F35B51411C02CF76004E6B0A /* ysdef.h in CopyFiles */,
+				F35B51421C02CF76004E6B0A /* ysdelaunaytri.h in CopyFiles */,
+				F35B51431C02CF76004E6B0A /* ysdict.h in CopyFiles */,
+				F35B51441C02CF76004E6B0A /* ysedgeloop.h in CopyFiles */,
+				F35B51451C02CF76004E6B0A /* yseditarray.h in CopyFiles */,
+				F35B51461C02CF76004E6B0A /* ysequation.h in CopyFiles */,
+				F35B51471C02CF76004E6B0A /* ysexception.h in CopyFiles */,
+				F35B51481C02CF76004E6B0A /* ysfilename.h in CopyFiles */,
+				F35B51491C02CF76004E6B0A /* ysfunctionofvector.h in CopyFiles */,
+				F35B514A1C02CF76004E6B0A /* ysfunctiontemplate.h in CopyFiles */,
+				F35B514B1C02CF76004E6B0A /* ysgeometry.h in CopyFiles */,
+				F35B514C1C02CF76004E6B0A /* yshash_.h in CopyFiles */,
+				F35B514D1C02CF76004E6B0A /* yshash.h in CopyFiles */,
+				F35B514E1C02CF76004E6B0A /* ysindexiterator.h in CopyFiles */,
+				F35B514F1C02CF76004E6B0A /* ysinterpolation.h in CopyFiles */,
+				F35B51501C02CF76004E6B0A /* yskdtree.h in CopyFiles */,
+				F35B51511C02CF76004E6B0A /* yskdtreeutil.h in CopyFiles */,
+				F35B51521C02CF76004E6B0A /* yskeyword.h in CopyFiles */,
+				F35B51531C02CF76004E6B0A /* yslattice.h in CopyFiles */,
+				F35B51541C02CF76004E6B0A /* yslist.h in CopyFiles */,
+				F35B51551C02CF76004E6B0A /* yslist2.h in CopyFiles */,
+				F35B51561C02CF76004E6B0A /* ysmalloc.h in CopyFiles */,
+				F35B51571C02CF76004E6B0A /* ysmath.h in CopyFiles */,
+				F35B51581C02CF76004E6B0A /* ysmatrix.h in CopyFiles */,
+				F35B51591C02CF76004E6B0A /* ysmatrixtemplate.h in CopyFiles */,
+				F35B515A1C02CF76004E6B0A /* ysmergesort.h in CopyFiles */,
+				F35B515B1C02CF76004E6B0A /* ysneverforget.h in CopyFiles */,
+				F35B515C1C02CF76004E6B0A /* ysoctree.h in CopyFiles */,
+				F35B515D1C02CF76004E6B0A /* yspixelmap.h in CopyFiles */,
+				F35B515E1C02CF76004E6B0A /* yspositivevector.h in CopyFiles */,
+				F35B515F1C02CF76004E6B0A /* yspredefined.h in CopyFiles */,
+				F35B51601C02CF76004E6B0A /* ysprintf.h in CopyFiles */,
+				F35B51611C02CF76004E6B0A /* ysprogressivetask.h in CopyFiles */,
+				F35B51621C02CF76004E6B0A /* ysproperty.h in CopyFiles */,
+				F35B51631C02CF76004E6B0A /* ysrange.h in CopyFiles */,
+				F35B51641C02CF76004E6B0A /* ysreldir.h in CopyFiles */,
+				F35B51651C02CF76004E6B0A /* yssegarray.h in CopyFiles */,
+				F35B51661C02CF76004E6B0A /* ysshell.h in CopyFiles */,
+				F35B51671C02CF76004E6B0A /* ysshell2d.h in CopyFiles */,
+				F35B51681C02CF76004E6B0A /* ysshellblend2.h in CopyFiles */,
+				F35B51691C02CF76004E6B0A /* ysshellkdtree.h in CopyFiles */,
+				F35B516A1C02CF76004E6B0A /* ysshelllattice.h in CopyFiles */,
+				F35B516B1C02CF76004E6B0A /* ysshelloctree.h in CopyFiles */,
+				F35B516C1C02CF76004E6B0A /* ysshellsearch.h in CopyFiles */,
+				F35B516D1C02CF76004E6B0A /* ysshelltype.h in CopyFiles */,
+				F35B516E1C02CF76004E6B0A /* ysshellutil.h in CopyFiles */,
+				F35B516F1C02CF76004E6B0A /* yssort.h in CopyFiles */,
+				F35B51701C02CF76004E6B0A /* ysstring.h in CopyFiles */,
+				F35B51711C02CF76004E6B0A /* ysstringutil.h in CopyFiles */,
+				F35B51721C02CF76004E6B0A /* ystask.h in CopyFiles */,
+				F35B51731C02CF76004E6B0A /* ystempobj.h in CopyFiles */,
+				F35B51741C02CF76004E6B0A /* ystextresource.h in CopyFiles */,
+				F35B51751C02CF76004E6B0A /* ystextstream.h in CopyFiles */,
+				F35B51761C02CF76004E6B0A /* ystightarray.h in CopyFiles */,
+				F35B51771C02CF76004E6B0A /* ysudhandleiterator.h in CopyFiles */,
+				F35B51781C02CF76004E6B0A /* ysunitconv.h in CopyFiles */,
+				F35B51791C02CF76004E6B0A /* ysveci.h in CopyFiles */,
+				F35B517A1C02CF76004E6B0A /* ysvectorhistogram.h in CopyFiles */,
+				F35B517B1C02CF76004E6B0A /* ysviewcontrol.h in CopyFiles */,
+				F35B517C1C02CF76004E6B0A /* ysvisited.h in CopyFiles */,
+				F35B517D1C02CF76004E6B0A /* yswizard.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F3291CFD1E7042C800B531D8 /* ysrect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysrect.h; path = ../src/ysclass/src/ysrect.h; sourceTree = "<group>"; };
+		F3291D0C1E70435100B531D8 /* ysstringparser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ysstringparser.h; path = ../src/ysclass/src/ysstringparser.h; sourceTree = "<group>"; };
+		F35B507B1C02CECF004E6B0A /* libysclass.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libysclass.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F35B50871C02CF61004E6B0A /* ys2darray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ys2darray.h; path = ../src/ysclass/src/ys2darray.h; sourceTree = "<group>"; };
+		F35B50881C02CF61004E6B0A /* ysadvgeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysadvgeometry.cpp; path = ../src/ysclass/src/ysadvgeometry.cpp; sourceTree = "<group>"; };
+		F35B50891C02CF61004E6B0A /* ysadvgeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysadvgeometry.h; path = ../src/ysclass/src/ysadvgeometry.h; sourceTree = "<group>"; };
+		F35B508A1C02CF61004E6B0A /* ysadvgeometryx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysadvgeometryx.cpp; path = ../src/ysclass/src/ysadvgeometryx.cpp; sourceTree = "<group>"; };
+		F35B508B1C02CF61004E6B0A /* ysargs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysargs.cpp; path = ../src/ysclass/src/ysargs.cpp; sourceTree = "<group>"; };
+		F35B508C1C02CF61004E6B0A /* ysargs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysargs.h; path = ../src/ysclass/src/ysargs.h; sourceTree = "<group>"; };
+		F35B508D1C02CF61004E6B0A /* ysarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysarray.h; path = ../src/ysclass/src/ysarray.h; sourceTree = "<group>"; };
+		F35B508E1C02CF61004E6B0A /* ysavltree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysavltree.h; path = ../src/ysclass/src/ysavltree.h; sourceTree = "<group>"; };
+		F35B508F1C02CF61004E6B0A /* ysbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysbase.cpp; path = ../src/ysclass/src/ysbase.cpp; sourceTree = "<group>"; };
+		F35B50901C02CF61004E6B0A /* ysbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysbase.h; path = ../src/ysclass/src/ysbase.h; sourceTree = "<group>"; };
+		F35B50911C02CF61004E6B0A /* ysbase64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysbase64.cpp; path = ../src/ysclass/src/ysbase64.cpp; sourceTree = "<group>"; };
+		F35B50921C02CF61004E6B0A /* ysbase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysbase64.h; path = ../src/ysclass/src/ysbase64.h; sourceTree = "<group>"; };
+		F35B50931C02CF61004E6B0A /* ysbdhandleiterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysbdhandleiterator.h; path = ../src/ysclass/src/ysbdhandleiterator.h; sourceTree = "<group>"; };
+		F35B50941C02CF61004E6B0A /* ysbigint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysbigint.h; path = ../src/ysclass/src/ysbigint.h; sourceTree = "<group>"; };
+		F35B50951C02CF61004E6B0A /* ysbinarytree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysbinarytree.h; path = ../src/ysclass/src/ysbinarytree.h; sourceTree = "<group>"; };
+		F35B50961C02CF61004E6B0A /* ysbinarytree2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysbinarytree2.h; path = ../src/ysclass/src/ysbinarytree2.h; sourceTree = "<group>"; };
+		F35B50971C02CF61004E6B0A /* ysclass.doxygen */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ysclass.doxygen; path = ../src/ysclass/src/ysclass.doxygen; sourceTree = "<group>"; };
+		F35B50981C02CF61004E6B0A /* ysclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysclass.h; path = ../src/ysclass/src/ysclass.h; sourceTree = "<group>"; };
+		F35B50991C02CF61004E6B0A /* ysclassmgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysclassmgr.cpp; path = ../src/ysclass/src/ysclassmgr.cpp; sourceTree = "<group>"; };
+		F35B509A1C02CF61004E6B0A /* ysclassmgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysclassmgr.h; path = ../src/ysclass/src/ysclassmgr.h; sourceTree = "<group>"; };
+		F35B509B1C02CF61004E6B0A /* ysclip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysclip.cpp; path = ../src/ysclass/src/ysclip.cpp; sourceTree = "<group>"; };
+		F35B509C1C02CF61004E6B0A /* ysclip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysclip.h; path = ../src/ysclass/src/ysclip.h; sourceTree = "<group>"; };
+		F35B509D1C02CF61004E6B0A /* yscomparer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yscomparer.h; path = ../src/ysclass/src/yscomparer.h; sourceTree = "<group>"; };
+		F35B509E1C02CF61004E6B0A /* yscompilerwarning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yscompilerwarning.h; path = ../src/ysclass/src/yscompilerwarning.h; sourceTree = "<group>"; };
+		F35B509F1C02CF61004E6B0A /* ysdebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysdebug.h; path = ../src/ysclass/src/ysdebug.h; sourceTree = "<group>"; };
+		F35B50A01C02CF61004E6B0A /* ysdef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysdef.h; path = ../src/ysclass/src/ysdef.h; sourceTree = "<group>"; };
+		F35B50A11C02CF61004E6B0A /* ysdelaunaytri.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysdelaunaytri.cpp; path = ../src/ysclass/src/ysdelaunaytri.cpp; sourceTree = "<group>"; };
+		F35B50A21C02CF61004E6B0A /* ysdelaunaytri.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysdelaunaytri.h; path = ../src/ysclass/src/ysdelaunaytri.h; sourceTree = "<group>"; };
+		F35B50A31C02CF61004E6B0A /* ysdict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysdict.h; path = ../src/ysclass/src/ysdict.h; sourceTree = "<group>"; };
+		F35B50A41C02CF61004E6B0A /* ysedgeloop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysedgeloop.h; path = ../src/ysclass/src/ysedgeloop.h; sourceTree = "<group>"; };
+		F35B50A51C02CF61004E6B0A /* yseditarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yseditarray.h; path = ../src/ysclass/src/yseditarray.h; sourceTree = "<group>"; };
+		F35B50A61C02CF61004E6B0A /* ysequation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysequation.cpp; path = ../src/ysclass/src/ysequation.cpp; sourceTree = "<group>"; };
+		F35B50A71C02CF61004E6B0A /* ysequation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysequation.h; path = ../src/ysclass/src/ysequation.h; sourceTree = "<group>"; };
+		F35B50A81C02CF61004E6B0A /* ysexception.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysexception.cpp; path = ../src/ysclass/src/ysexception.cpp; sourceTree = "<group>"; };
+		F35B50A91C02CF61004E6B0A /* ysexception.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysexception.h; path = ../src/ysclass/src/ysexception.h; sourceTree = "<group>"; };
+		F35B50AA1C02CF61004E6B0A /* ysfilename.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysfilename.cpp; path = ../src/ysclass/src/ysfilename.cpp; sourceTree = "<group>"; };
+		F35B50AB1C02CF61004E6B0A /* ysfilename.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysfilename.h; path = ../src/ysclass/src/ysfilename.h; sourceTree = "<group>"; };
+		F35B50AC1C02CF61004E6B0A /* ysfunctionofvector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysfunctionofvector.h; path = ../src/ysclass/src/ysfunctionofvector.h; sourceTree = "<group>"; };
+		F35B50AD1C02CF61004E6B0A /* ysfunctiontemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysfunctiontemplate.h; path = ../src/ysclass/src/ysfunctiontemplate.h; sourceTree = "<group>"; };
+		F35B50AE1C02CF61004E6B0A /* ysgeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysgeometry.cpp; path = ../src/ysclass/src/ysgeometry.cpp; sourceTree = "<group>"; };
+		F35B50AF1C02CF61004E6B0A /* ysgeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysgeometry.h; path = ../src/ysclass/src/ysgeometry.h; sourceTree = "<group>"; };
+		F35B50B01C02CF61004E6B0A /* yshash_.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yshash_.h; path = ../src/ysclass/src/yshash_.h; sourceTree = "<group>"; };
+		F35B50B11C02CF61004E6B0A /* yshash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yshash.cpp; path = ../src/ysclass/src/yshash.cpp; sourceTree = "<group>"; };
+		F35B50B21C02CF61004E6B0A /* yshash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yshash.h; path = ../src/ysclass/src/yshash.h; sourceTree = "<group>"; };
+		F35B50B31C02CF61004E6B0A /* ysindexiterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysindexiterator.h; path = ../src/ysclass/src/ysindexiterator.h; sourceTree = "<group>"; };
+		F35B50B41C02CF61004E6B0A /* ysinterpolation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysinterpolation.cpp; path = ../src/ysclass/src/ysinterpolation.cpp; sourceTree = "<group>"; };
+		F35B50B51C02CF61004E6B0A /* ysinterpolation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysinterpolation.h; path = ../src/ysclass/src/ysinterpolation.h; sourceTree = "<group>"; };
+		F35B50B61C02CF61004E6B0A /* yskdtree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yskdtree.cpp; path = ../src/ysclass/src/yskdtree.cpp; sourceTree = "<group>"; };
+		F35B50B71C02CF61004E6B0A /* yskdtree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yskdtree.h; path = ../src/ysclass/src/yskdtree.h; sourceTree = "<group>"; };
+		F35B50B81C02CF61004E6B0A /* yskdtreeutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yskdtreeutil.h; path = ../src/ysclass/src/yskdtreeutil.h; sourceTree = "<group>"; };
+		F35B50B91C02CF61004E6B0A /* yskeyword.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yskeyword.cpp; path = ../src/ysclass/src/yskeyword.cpp; sourceTree = "<group>"; };
+		F35B50BA1C02CF61004E6B0A /* yskeyword.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yskeyword.h; path = ../src/ysclass/src/yskeyword.h; sourceTree = "<group>"; };
+		F35B50BB1C02CF61004E6B0A /* yslattice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yslattice.h; path = ../src/ysclass/src/yslattice.h; sourceTree = "<group>"; };
+		F35B50BC1C02CF61004E6B0A /* yslist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yslist.cpp; path = ../src/ysclass/src/yslist.cpp; sourceTree = "<group>"; };
+		F35B50BD1C02CF61004E6B0A /* yslist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yslist.h; path = ../src/ysclass/src/yslist.h; sourceTree = "<group>"; };
+		F35B50BE1C02CF61004E6B0A /* yslist2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yslist2.h; path = ../src/ysclass/src/yslist2.h; sourceTree = "<group>"; };
+		F35B50BF1C02CF61004E6B0A /* ysmalloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysmalloc.h; path = ../src/ysclass/src/ysmalloc.h; sourceTree = "<group>"; };
+		F35B50C01C02CF61004E6B0A /* ysmath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmath.cpp; path = ../src/ysclass/src/ysmath.cpp; sourceTree = "<group>"; };
+		F35B50C11C02CF61004E6B0A /* ysmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysmath.h; path = ../src/ysclass/src/ysmath.h; sourceTree = "<group>"; };
+		F35B50C21C02CF61004E6B0A /* ysmatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmatrix.cpp; path = ../src/ysclass/src/ysmatrix.cpp; sourceTree = "<group>"; };
+		F35B50C31C02CF61004E6B0A /* ysmatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysmatrix.h; path = ../src/ysclass/src/ysmatrix.h; sourceTree = "<group>"; };
+		F35B50C41C02CF61004E6B0A /* ysmatrix3x3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmatrix3x3.cpp; path = ../src/ysclass/src/ysmatrix3x3.cpp; sourceTree = "<group>"; };
+		F35B50C51C02CF61004E6B0A /* ysmatrix4x4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysmatrix4x4.cpp; path = ../src/ysclass/src/ysmatrix4x4.cpp; sourceTree = "<group>"; };
+		F35B50C61C02CF61004E6B0A /* ysmatrixtemplate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysmatrixtemplate.h; path = ../src/ysclass/src/ysmatrixtemplate.h; sourceTree = "<group>"; };
+		F35B50C71C02CF61004E6B0A /* ysmergesort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysmergesort.h; path = ../src/ysclass/src/ysmergesort.h; sourceTree = "<group>"; };
+		F35B50C81C02CF61004E6B0A /* ysneverforget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysneverforget.h; path = ../src/ysclass/src/ysneverforget.h; sourceTree = "<group>"; };
+		F35B50C91C02CF61004E6B0A /* ysoctree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysoctree.h; path = ../src/ysclass/src/ysoctree.h; sourceTree = "<group>"; };
+		F35B50CA1C02CF61004E6B0A /* yspixelmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yspixelmap.cpp; path = ../src/ysclass/src/yspixelmap.cpp; sourceTree = "<group>"; };
+		F35B50CB1C02CF61004E6B0A /* yspixelmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yspixelmap.h; path = ../src/ysclass/src/yspixelmap.h; sourceTree = "<group>"; };
+		F35B50CC1C02CF61004E6B0A /* yspositivevector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yspositivevector.cpp; path = ../src/ysclass/src/yspositivevector.cpp; sourceTree = "<group>"; };
+		F35B50CD1C02CF61004E6B0A /* yspositivevector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yspositivevector.h; path = ../src/ysclass/src/yspositivevector.h; sourceTree = "<group>"; };
+		F35B50CE1C02CF61004E6B0A /* yspredefined.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yspredefined.cpp; path = ../src/ysclass/src/yspredefined.cpp; sourceTree = "<group>"; };
+		F35B50CF1C02CF61004E6B0A /* yspredefined.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yspredefined.h; path = ../src/ysclass/src/yspredefined.h; sourceTree = "<group>"; };
+		F35B50D01C02CF61004E6B0A /* ysprintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysprintf.cpp; path = ../src/ysclass/src/ysprintf.cpp; sourceTree = "<group>"; };
+		F35B50D11C02CF61004E6B0A /* ysprintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysprintf.h; path = ../src/ysclass/src/ysprintf.h; sourceTree = "<group>"; };
+		F35B50D21C02CF61004E6B0A /* ysprogressivetask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysprogressivetask.h; path = ../src/ysclass/src/ysprogressivetask.h; sourceTree = "<group>"; };
+		F35B50D31C02CF61004E6B0A /* ysproperty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysproperty.cpp; path = ../src/ysclass/src/ysproperty.cpp; sourceTree = "<group>"; };
+		F35B50D41C02CF61004E6B0A /* ysproperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysproperty.h; path = ../src/ysclass/src/ysproperty.h; sourceTree = "<group>"; };
+		F35B50D51C02CF61004E6B0A /* ysrange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysrange.h; path = ../src/ysclass/src/ysrange.h; sourceTree = "<group>"; };
+		F35B50D61C02CF61004E6B0A /* ysreldir.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysreldir.cpp; path = ../src/ysclass/src/ysreldir.cpp; sourceTree = "<group>"; };
+		F35B50D71C02CF61004E6B0A /* ysreldir.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysreldir.h; path = ../src/ysclass/src/ysreldir.h; sourceTree = "<group>"; };
+		F35B50D81C02CF61004E6B0A /* yssegarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yssegarray.h; path = ../src/ysclass/src/yssegarray.h; sourceTree = "<group>"; };
+		F35B50D91C02CF61004E6B0A /* ysshell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshell.cpp; path = ../src/ysclass/src/ysshell.cpp; sourceTree = "<group>"; };
+		F35B50DA1C02CF61004E6B0A /* ysshell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshell.h; path = ../src/ysclass/src/ysshell.h; sourceTree = "<group>"; };
+		F35B50DB1C02CF61004E6B0A /* ysshell2d.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshell2d.cpp; path = ../src/ysclass/src/ysshell2d.cpp; sourceTree = "<group>"; };
+		F35B50DC1C02CF61004E6B0A /* ysshell2d.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshell2d.h; path = ../src/ysclass/src/ysshell2d.h; sourceTree = "<group>"; };
+		F35B50DD1C02CF61004E6B0A /* ysshellblend.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellblend.cpp; path = ../src/ysclass/src/ysshellblend.cpp; sourceTree = "<group>"; };
+		F35B50DE1C02CF61004E6B0A /* ysshellblend2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellblend2.cpp; path = ../src/ysclass/src/ysshellblend2.cpp; sourceTree = "<group>"; };
+		F35B50DF1C02CF61004E6B0A /* ysshellblend2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellblend2.h; path = ../src/ysclass/src/ysshellblend2.h; sourceTree = "<group>"; };
+		F35B50E01C02CF61004E6B0A /* ysshellfileio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellfileio.cpp; path = ../src/ysclass/src/ysshellfileio.cpp; sourceTree = "<group>"; };
+		F35B50E11C02CF61004E6B0A /* ysshellkdtree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellkdtree.h; path = ../src/ysclass/src/ysshellkdtree.h; sourceTree = "<group>"; };
+		F35B50E21C02CF61004E6B0A /* ysshelllattice_singleThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshelllattice_singleThread.cpp; path = ../src/ysclass/src/ysshelllattice_singleThread.cpp; sourceTree = "<group>"; };
+		F35B50E31C02CF61004E6B0A /* ysshelllattice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshelllattice.cpp; path = ../src/ysclass/src/ysshelllattice.cpp; sourceTree = "<group>"; };
+		F35B50E41C02CF61004E6B0A /* ysshelllattice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshelllattice.h; path = ../src/ysclass/src/ysshelllattice.h; sourceTree = "<group>"; };
+		F35B50E51C02CF61004E6B0A /* ysshelloctree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshelloctree.h; path = ../src/ysclass/src/ysshelloctree.h; sourceTree = "<group>"; };
+		F35B50E61C02CF61004E6B0A /* ysshellsearch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellsearch.cpp; path = ../src/ysclass/src/ysshellsearch.cpp; sourceTree = "<group>"; };
+		F35B50E71C02CF61004E6B0A /* ysshellsearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellsearch.h; path = ../src/ysclass/src/ysshellsearch.h; sourceTree = "<group>"; };
+		F35B50E81C02CF61004E6B0A /* ysshellstl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellstl.cpp; path = ../src/ysclass/src/ysshellstl.cpp; sourceTree = "<group>"; };
+		F35B50E91C02CF61004E6B0A /* ysshelltype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshelltype.h; path = ../src/ysclass/src/ysshelltype.h; sourceTree = "<group>"; };
+		F35B50EA1C02CF61004E6B0A /* ysshellutil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysshellutil.cpp; path = ../src/ysclass/src/ysshellutil.cpp; sourceTree = "<group>"; };
+		F35B50EB1C02CF61004E6B0A /* ysshellutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysshellutil.h; path = ../src/ysclass/src/ysshellutil.h; sourceTree = "<group>"; };
+		F35B50EC1C02CF61004E6B0A /* yssort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yssort.h; path = ../src/ysclass/src/yssort.h; sourceTree = "<group>"; };
+		F35B50ED1C02CF61004E6B0A /* ysstring.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysstring.cpp; path = ../src/ysclass/src/ysstring.cpp; sourceTree = "<group>"; };
+		F35B50EE1C02CF61004E6B0A /* ysstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysstring.h; path = ../src/ysclass/src/ysstring.h; sourceTree = "<group>"; };
+		F35B50EF1C02CF61004E6B0A /* ysstringutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysstringutil.h; path = ../src/ysclass/src/ysstringutil.h; sourceTree = "<group>"; };
+		F35B50F01C02CF61004E6B0A /* yssword.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yssword.cpp; path = ../src/ysclass/src/yssword.cpp; sourceTree = "<group>"; };
+		F35B50F11C02CF61004E6B0A /* ystask.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ystask.cpp; path = ../src/ysclass/src/ystask.cpp; sourceTree = "<group>"; };
+		F35B50F21C02CF61004E6B0A /* ystask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ystask.h; path = ../src/ysclass/src/ystask.h; sourceTree = "<group>"; };
+		F35B50F31C02CF61004E6B0A /* ystempobj.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ystempobj.h; path = ../src/ysclass/src/ystempobj.h; sourceTree = "<group>"; };
+		F35B50F41C02CF61004E6B0A /* ystextresource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ystextresource.cpp; path = ../src/ysclass/src/ystextresource.cpp; sourceTree = "<group>"; };
+		F35B50F51C02CF61004E6B0A /* ystextresource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ystextresource.h; path = ../src/ysclass/src/ystextresource.h; sourceTree = "<group>"; };
+		F35B50F61C02CF61004E6B0A /* ystextstream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ystextstream.cpp; path = ../src/ysclass/src/ystextstream.cpp; sourceTree = "<group>"; };
+		F35B50F71C02CF61004E6B0A /* ystextstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ystextstream.h; path = ../src/ysclass/src/ystextstream.h; sourceTree = "<group>"; };
+		F35B50F81C02CF61004E6B0A /* ystightarray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ystightarray.h; path = ../src/ysclass/src/ystightarray.h; sourceTree = "<group>"; };
+		F35B50F91C02CF61004E6B0A /* ysudhandleiterator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysudhandleiterator.h; path = ../src/ysclass/src/ysudhandleiterator.h; sourceTree = "<group>"; };
+		F35B50FA1C02CF61004E6B0A /* ysunitconv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysunitconv.h; path = ../src/ysclass/src/ysunitconv.h; sourceTree = "<group>"; };
+		F35B50FB1C02CF61004E6B0A /* ysveci.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysveci.cpp; path = ../src/ysclass/src/ysveci.cpp; sourceTree = "<group>"; };
+		F35B50FC1C02CF61004E6B0A /* ysveci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysveci.h; path = ../src/ysclass/src/ysveci.h; sourceTree = "<group>"; };
+		F35B50FD1C02CF61004E6B0A /* ysvectorhistogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysvectorhistogram.h; path = ../src/ysclass/src/ysvectorhistogram.h; sourceTree = "<group>"; };
+		F35B50FE1C02CF61004E6B0A /* ysviewcontrol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysviewcontrol.cpp; path = ../src/ysclass/src/ysviewcontrol.cpp; sourceTree = "<group>"; };
+		F35B50FF1C02CF61004E6B0A /* ysviewcontrol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysviewcontrol.h; path = ../src/ysclass/src/ysviewcontrol.h; sourceTree = "<group>"; };
+		F35B51001C02CF61004E6B0A /* ysvisited.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysvisited.h; path = ../src/ysclass/src/ysvisited.h; sourceTree = "<group>"; };
+		F35B51011C02CF61004E6B0A /* yswizard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yswizard.cpp; path = ../src/ysclass/src/yswizard.cpp; sourceTree = "<group>"; };
+		F35B51021C02CF61004E6B0A /* yswizard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yswizard.h; path = ../src/ysclass/src/yswizard.h; sourceTree = "<group>"; };
+		F3CA3C3A2075CAAC00F07A36 /* ystextdata.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ystextdata.cpp; path = ../src/ysclass/src/ystextdata.cpp; sourceTree = "<group>"; };
+		F3CA3C3B2075CAAC00F07A36 /* yspositivearea.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yspositivearea.cpp; path = ../src/ysclass/src/yspositivearea.cpp; sourceTree = "<group>"; };
+		F3CA3C3C2075CAAC00F07A36 /* yspropertyfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yspropertyfile.h; path = ../src/ysclass/src/yspropertyfile.h; sourceTree = "<group>"; };
+		F3CA3C3D2075CAAD00F07A36 /* ysarraymask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysarraymask.h; path = ../src/ysclass/src/ysarraymask.h; sourceTree = "<group>"; };
+		F3CA3C3E2075CAAD00F07A36 /* ystextdata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ystextdata.h; path = ../src/ysclass/src/ystextdata.h; sourceTree = "<group>"; };
+		F3CA3C3F2075CAAD00F07A36 /* ysfitcircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysfitcircle.h; path = ../src/ysclass/src/ysfitcircle.h; sourceTree = "<group>"; };
+		F3CA3C402075CAAD00F07A36 /* yspropertyfile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = yspropertyfile.cpp; path = ../src/ysclass/src/yspropertyfile.cpp; sourceTree = "<group>"; };
+		F3CA3C412075CAAD00F07A36 /* yspositivearea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = yspositivearea.h; path = ../src/ysclass/src/yspositivearea.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F35B50781C02CECF004E6B0A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F35B50721C02CECF004E6B0A = {
+			isa = PBXGroup;
+			children = (
+				F3CA3C3D2075CAAD00F07A36 /* ysarraymask.h */,
+				F3CA3C3F2075CAAD00F07A36 /* ysfitcircle.h */,
+				F3CA3C3B2075CAAC00F07A36 /* yspositivearea.cpp */,
+				F3CA3C412075CAAD00F07A36 /* yspositivearea.h */,
+				F3CA3C402075CAAD00F07A36 /* yspropertyfile.cpp */,
+				F3CA3C3C2075CAAC00F07A36 /* yspropertyfile.h */,
+				F3CA3C3A2075CAAC00F07A36 /* ystextdata.cpp */,
+				F3CA3C3E2075CAAD00F07A36 /* ystextdata.h */,
+				F35B50871C02CF61004E6B0A /* ys2darray.h */,
+				F35B50881C02CF61004E6B0A /* ysadvgeometry.cpp */,
+				F35B50891C02CF61004E6B0A /* ysadvgeometry.h */,
+				F35B508A1C02CF61004E6B0A /* ysadvgeometryx.cpp */,
+				F35B508B1C02CF61004E6B0A /* ysargs.cpp */,
+				F35B508C1C02CF61004E6B0A /* ysargs.h */,
+				F35B508D1C02CF61004E6B0A /* ysarray.h */,
+				F35B508E1C02CF61004E6B0A /* ysavltree.h */,
+				F35B508F1C02CF61004E6B0A /* ysbase.cpp */,
+				F35B50901C02CF61004E6B0A /* ysbase.h */,
+				F35B50911C02CF61004E6B0A /* ysbase64.cpp */,
+				F35B50921C02CF61004E6B0A /* ysbase64.h */,
+				F35B50931C02CF61004E6B0A /* ysbdhandleiterator.h */,
+				F35B50941C02CF61004E6B0A /* ysbigint.h */,
+				F35B50951C02CF61004E6B0A /* ysbinarytree.h */,
+				F35B50961C02CF61004E6B0A /* ysbinarytree2.h */,
+				F35B50971C02CF61004E6B0A /* ysclass.doxygen */,
+				F35B50981C02CF61004E6B0A /* ysclass.h */,
+				F35B50991C02CF61004E6B0A /* ysclassmgr.cpp */,
+				F35B509A1C02CF61004E6B0A /* ysclassmgr.h */,
+				F35B509B1C02CF61004E6B0A /* ysclip.cpp */,
+				F35B509C1C02CF61004E6B0A /* ysclip.h */,
+				F35B509D1C02CF61004E6B0A /* yscomparer.h */,
+				F35B509E1C02CF61004E6B0A /* yscompilerwarning.h */,
+				F35B509F1C02CF61004E6B0A /* ysdebug.h */,
+				F35B50A01C02CF61004E6B0A /* ysdef.h */,
+				F35B50A11C02CF61004E6B0A /* ysdelaunaytri.cpp */,
+				F35B50A21C02CF61004E6B0A /* ysdelaunaytri.h */,
+				F35B50A31C02CF61004E6B0A /* ysdict.h */,
+				F35B50A41C02CF61004E6B0A /* ysedgeloop.h */,
+				F35B50A51C02CF61004E6B0A /* yseditarray.h */,
+				F35B50A61C02CF61004E6B0A /* ysequation.cpp */,
+				F35B50A71C02CF61004E6B0A /* ysequation.h */,
+				F35B50A81C02CF61004E6B0A /* ysexception.cpp */,
+				F35B50A91C02CF61004E6B0A /* ysexception.h */,
+				F35B50AA1C02CF61004E6B0A /* ysfilename.cpp */,
+				F35B50AB1C02CF61004E6B0A /* ysfilename.h */,
+				F35B50AC1C02CF61004E6B0A /* ysfunctionofvector.h */,
+				F35B50AD1C02CF61004E6B0A /* ysfunctiontemplate.h */,
+				F35B50AE1C02CF61004E6B0A /* ysgeometry.cpp */,
+				F35B50AF1C02CF61004E6B0A /* ysgeometry.h */,
+				F35B50B01C02CF61004E6B0A /* yshash_.h */,
+				F35B50B11C02CF61004E6B0A /* yshash.cpp */,
+				F35B50B21C02CF61004E6B0A /* yshash.h */,
+				F35B50B31C02CF61004E6B0A /* ysindexiterator.h */,
+				F35B50B41C02CF61004E6B0A /* ysinterpolation.cpp */,
+				F35B50B51C02CF61004E6B0A /* ysinterpolation.h */,
+				F35B50B61C02CF61004E6B0A /* yskdtree.cpp */,
+				F35B50B71C02CF61004E6B0A /* yskdtree.h */,
+				F35B50B81C02CF61004E6B0A /* yskdtreeutil.h */,
+				F35B50B91C02CF61004E6B0A /* yskeyword.cpp */,
+				F35B50BA1C02CF61004E6B0A /* yskeyword.h */,
+				F35B50BB1C02CF61004E6B0A /* yslattice.h */,
+				F35B50BC1C02CF61004E6B0A /* yslist.cpp */,
+				F35B50BD1C02CF61004E6B0A /* yslist.h */,
+				F35B50BE1C02CF61004E6B0A /* yslist2.h */,
+				F35B50BF1C02CF61004E6B0A /* ysmalloc.h */,
+				F35B50C01C02CF61004E6B0A /* ysmath.cpp */,
+				F35B50C11C02CF61004E6B0A /* ysmath.h */,
+				F35B50C21C02CF61004E6B0A /* ysmatrix.cpp */,
+				F35B50C31C02CF61004E6B0A /* ysmatrix.h */,
+				F35B50C41C02CF61004E6B0A /* ysmatrix3x3.cpp */,
+				F35B50C51C02CF61004E6B0A /* ysmatrix4x4.cpp */,
+				F35B50C61C02CF61004E6B0A /* ysmatrixtemplate.h */,
+				F35B50C71C02CF61004E6B0A /* ysmergesort.h */,
+				F35B50C81C02CF61004E6B0A /* ysneverforget.h */,
+				F35B50C91C02CF61004E6B0A /* ysoctree.h */,
+				F35B50CA1C02CF61004E6B0A /* yspixelmap.cpp */,
+				F35B50CB1C02CF61004E6B0A /* yspixelmap.h */,
+				F35B50CC1C02CF61004E6B0A /* yspositivevector.cpp */,
+				F35B50CD1C02CF61004E6B0A /* yspositivevector.h */,
+				F35B50CE1C02CF61004E6B0A /* yspredefined.cpp */,
+				F35B50CF1C02CF61004E6B0A /* yspredefined.h */,
+				F35B50D01C02CF61004E6B0A /* ysprintf.cpp */,
+				F35B50D11C02CF61004E6B0A /* ysprintf.h */,
+				F35B50D21C02CF61004E6B0A /* ysprogressivetask.h */,
+				F35B50D31C02CF61004E6B0A /* ysproperty.cpp */,
+				F35B50D41C02CF61004E6B0A /* ysproperty.h */,
+				F35B50D51C02CF61004E6B0A /* ysrange.h */,
+				F35B50D61C02CF61004E6B0A /* ysreldir.cpp */,
+				F35B50D71C02CF61004E6B0A /* ysreldir.h */,
+				F35B50D81C02CF61004E6B0A /* yssegarray.h */,
+				F35B50D91C02CF61004E6B0A /* ysshell.cpp */,
+				F35B50DA1C02CF61004E6B0A /* ysshell.h */,
+				F35B50DB1C02CF61004E6B0A /* ysshell2d.cpp */,
+				F35B50DC1C02CF61004E6B0A /* ysshell2d.h */,
+				F35B50DD1C02CF61004E6B0A /* ysshellblend.cpp */,
+				F35B50DE1C02CF61004E6B0A /* ysshellblend2.cpp */,
+				F35B50DF1C02CF61004E6B0A /* ysshellblend2.h */,
+				F35B50E01C02CF61004E6B0A /* ysshellfileio.cpp */,
+				F35B50E11C02CF61004E6B0A /* ysshellkdtree.h */,
+				F35B50E21C02CF61004E6B0A /* ysshelllattice_singleThread.cpp */,
+				F35B50E31C02CF61004E6B0A /* ysshelllattice.cpp */,
+				F35B50E41C02CF61004E6B0A /* ysshelllattice.h */,
+				F35B50E51C02CF61004E6B0A /* ysshelloctree.h */,
+				F35B50E61C02CF61004E6B0A /* ysshellsearch.cpp */,
+				F35B50E71C02CF61004E6B0A /* ysshellsearch.h */,
+				F35B50E81C02CF61004E6B0A /* ysshellstl.cpp */,
+				F35B50E91C02CF61004E6B0A /* ysshelltype.h */,
+				F35B50EA1C02CF61004E6B0A /* ysshellutil.cpp */,
+				F35B50EB1C02CF61004E6B0A /* ysshellutil.h */,
+				F35B50EC1C02CF61004E6B0A /* yssort.h */,
+				F35B50ED1C02CF61004E6B0A /* ysstring.cpp */,
+				F35B50EE1C02CF61004E6B0A /* ysstring.h */,
+				F35B50EF1C02CF61004E6B0A /* ysstringutil.h */,
+				F35B50F01C02CF61004E6B0A /* yssword.cpp */,
+				F35B50F11C02CF61004E6B0A /* ystask.cpp */,
+				F35B50F21C02CF61004E6B0A /* ystask.h */,
+				F35B50F31C02CF61004E6B0A /* ystempobj.h */,
+				F35B50F41C02CF61004E6B0A /* ystextresource.cpp */,
+				F35B50F51C02CF61004E6B0A /* ystextresource.h */,
+				F35B50F61C02CF61004E6B0A /* ystextstream.cpp */,
+				F35B50F71C02CF61004E6B0A /* ystextstream.h */,
+				F35B50F81C02CF61004E6B0A /* ystightarray.h */,
+				F35B50F91C02CF61004E6B0A /* ysudhandleiterator.h */,
+				F35B50FA1C02CF61004E6B0A /* ysunitconv.h */,
+				F35B50FB1C02CF61004E6B0A /* ysveci.cpp */,
+				F35B50FC1C02CF61004E6B0A /* ysveci.h */,
+				F35B50FD1C02CF61004E6B0A /* ysvectorhistogram.h */,
+				F35B50FE1C02CF61004E6B0A /* ysviewcontrol.cpp */,
+				F35B50FF1C02CF61004E6B0A /* ysviewcontrol.h */,
+				F35B51001C02CF61004E6B0A /* ysvisited.h */,
+				F35B51011C02CF61004E6B0A /* yswizard.cpp */,
+				F35B51021C02CF61004E6B0A /* yswizard.h */,
+				F3291CFD1E7042C800B531D8 /* ysrect.h */,
+				F3291D0C1E70435100B531D8 /* ysstringparser.h */,
+				F35B507D1C02CECF004E6B0A /* ysclass */,
+				F35B507C1C02CECF004E6B0A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F35B507C1C02CECF004E6B0A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F35B507B1C02CECF004E6B0A /* libysclass.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F35B507D1C02CECF004E6B0A /* ysclass */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ysclass;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F35B507A1C02CECF004E6B0A /* ysclass */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F35B50841C02CECF004E6B0A /* Build configuration list for PBXNativeTarget "ysclass" */;
+			buildPhases = (
+				F35B50771C02CECF004E6B0A /* Sources */,
+				F35B50781C02CECF004E6B0A /* Frameworks */,
+				F35B50791C02CECF004E6B0A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ysclass;
+			productName = ysclass;
+			productReference = F35B507B1C02CECF004E6B0A /* libysclass.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F35B50731C02CECF004E6B0A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F35B507A1C02CECF004E6B0A = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F35B50761C02CECF004E6B0A /* Build configuration list for PBXProject "ysclass" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F35B50721C02CECF004E6B0A;
+			productRefGroup = F35B507C1C02CECF004E6B0A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F35B507A1C02CECF004E6B0A /* ysclass */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F35B50771C02CECF004E6B0A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F35B51251C02CF61004E6B0A /* ysshellsearch.cpp in Sources */,
+				F35B510A1C02CF61004E6B0A /* ysdelaunaytri.cpp in Sources */,
+				F3CA3C422075CAAD00F07A36 /* ystextdata.cpp in Sources */,
+				F35B51261C02CF61004E6B0A /* ysshellstl.cpp in Sources */,
+				F3CA3C442075CAAD00F07A36 /* yspropertyfile.cpp in Sources */,
+				F35B51231C02CF61004E6B0A /* ysshelllattice_singleThread.cpp in Sources */,
+				F35B51051C02CF61004E6B0A /* ysargs.cpp in Sources */,
+				F35B51271C02CF61004E6B0A /* ysshellutil.cpp in Sources */,
+				F35B511F1C02CF61004E6B0A /* ysshell2d.cpp in Sources */,
+				F35B511C1C02CF61004E6B0A /* ysproperty.cpp in Sources */,
+				F35B51281C02CF61004E6B0A /* ysstring.cpp in Sources */,
+				F35B51171C02CF61004E6B0A /* ysmatrix4x4.cpp in Sources */,
+				F35B512C1C02CF61004E6B0A /* ystextstream.cpp in Sources */,
+				F35B512F1C02CF61004E6B0A /* yswizard.cpp in Sources */,
+				F35B511A1C02CF61004E6B0A /* yspredefined.cpp in Sources */,
+				F35B51091C02CF61004E6B0A /* ysclip.cpp in Sources */,
+				F35B51161C02CF61004E6B0A /* ysmatrix3x3.cpp in Sources */,
+				F35B51111C02CF61004E6B0A /* yskdtree.cpp in Sources */,
+				F35B511E1C02CF61004E6B0A /* ysshell.cpp in Sources */,
+				F35B51151C02CF61004E6B0A /* ysmatrix.cpp in Sources */,
+				F35B51041C02CF61004E6B0A /* ysadvgeometryx.cpp in Sources */,
+				F35B512B1C02CF61004E6B0A /* ystextresource.cpp in Sources */,
+				F35B51141C02CF61004E6B0A /* ysmath.cpp in Sources */,
+				F35B512A1C02CF61004E6B0A /* ystask.cpp in Sources */,
+				F35B51211C02CF61004E6B0A /* ysshellblend2.cpp in Sources */,
+				F35B51071C02CF61004E6B0A /* ysbase64.cpp in Sources */,
+				F35B511B1C02CF61004E6B0A /* ysprintf.cpp in Sources */,
+				F35B51081C02CF61004E6B0A /* ysclassmgr.cpp in Sources */,
+				F35B511D1C02CF61004E6B0A /* ysreldir.cpp in Sources */,
+				F35B510D1C02CF61004E6B0A /* ysfilename.cpp in Sources */,
+				F35B510E1C02CF61004E6B0A /* ysgeometry.cpp in Sources */,
+				F35B51241C02CF61004E6B0A /* ysshelllattice.cpp in Sources */,
+				F35B51061C02CF61004E6B0A /* ysbase.cpp in Sources */,
+				F35B510F1C02CF61004E6B0A /* yshash.cpp in Sources */,
+				F35B51101C02CF61004E6B0A /* ysinterpolation.cpp in Sources */,
+				F35B51191C02CF61004E6B0A /* yspositivevector.cpp in Sources */,
+				F35B51131C02CF61004E6B0A /* yslist.cpp in Sources */,
+				F35B510C1C02CF61004E6B0A /* ysexception.cpp in Sources */,
+				F35B510B1C02CF61004E6B0A /* ysequation.cpp in Sources */,
+				F3CA3C432075CAAD00F07A36 /* yspositivearea.cpp in Sources */,
+				F35B512D1C02CF61004E6B0A /* ysveci.cpp in Sources */,
+				F35B51201C02CF61004E6B0A /* ysshellblend.cpp in Sources */,
+				F35B51291C02CF61004E6B0A /* yssword.cpp in Sources */,
+				F35B51181C02CF61004E6B0A /* yspixelmap.cpp in Sources */,
+				F35B51031C02CF61004E6B0A /* ysadvgeometry.cpp in Sources */,
+				F35B51221C02CF61004E6B0A /* ysshellfileio.cpp in Sources */,
+				F35B512E1C02CF61004E6B0A /* ysviewcontrol.cpp in Sources */,
+				F35B51121C02CF61004E6B0A /* yskeyword.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F35B50821C02CECF004E6B0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F35B50831C02CECF004E6B0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F35B50851C02CECF004E6B0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F35B50861C02CECF004E6B0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F35B50761C02CECF004E6B0A /* Build configuration list for PBXProject "ysclass" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F35B50821C02CECF004E6B0A /* Debug */,
+				F35B50831C02CECF004E6B0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F35B50841C02CECF004E6B0A /* Build configuration list for PBXNativeTarget "ysclass" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F35B50851C02CECF004E6B0A /* Debug */,
+				F35B50861C02CECF004E6B0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F35B50731C02CECF004E6B0A /* Project object */;
+}

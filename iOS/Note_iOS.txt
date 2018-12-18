@@ -1,0 +1,7 @@
+Does CMake support iOS by default now?
+
+http://stackoverflow.com/questions/822404/how-to-set-up-cmake-to-build-an-app-for-the-iphone
+
+Maybe CMake can support up to libraries, but not Apps?
+
+https://gitlab.kitware.com/cmake/cmake/issues/16349

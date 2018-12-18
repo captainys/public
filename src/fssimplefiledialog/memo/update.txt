@@ -1,0 +1,4 @@
+2017/01/13
+  Started.  For adding support for file-dialog for non-FsGuiLib environment.  Mainly for my C++ courses.
+  Hopefully this file dialog class and FsGuiLib's file dialog class can be merged in the future.
+

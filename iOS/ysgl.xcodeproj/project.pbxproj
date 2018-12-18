@@ -1,0 +1,322 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F35B50151C02C285004E6B0A /* ysglbitmap.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B50031C02C285004E6B0A /* ysglbitmap.c */; };
+		F35B50161C02C285004E6B0A /* ysglmath.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B50071C02C285004E6B0A /* ysglmath.c */; };
+		F35B50171C02C285004E6B0A /* ysglsl3ddrawing.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B50091C02C285004E6B0A /* ysglsl3ddrawing.c */; };
+		F35B50181C02C285004E6B0A /* ysglslbitmaprenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B500B1C02C285004E6B0A /* ysglslbitmaprenderer.c */; };
+		F35B50191C02C285004E6B0A /* ysglslplain2ddrawing.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B500D1C02C285004E6B0A /* ysglslplain2ddrawing.c */; };
+		F35B501A1C02C285004E6B0A /* ysglslprogram.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B500F1C02C285004E6B0A /* ysglslprogram.c */; };
+		F35B501B1C02C285004E6B0A /* ysglslsharedrenderer.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B50111C02C285004E6B0A /* ysglslsharedrenderer.c */; };
+		F35B501C1C02C285004E6B0A /* ysglslutil.c in Sources */ = {isa = PBXBuildFile; fileRef = F35B50131C02C285004E6B0A /* ysglslutil.c */; };
+		F35B501D1C02C2A5004E6B0A /* ysgl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50021C02C285004E6B0A /* ysgl.h */; };
+		F35B501E1C02C2A5004E6B0A /* ysglbitmap.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50041C02C285004E6B0A /* ysglbitmap.h */; };
+		F35B501F1C02C2A5004E6B0A /* ysgldef.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50051C02C285004E6B0A /* ysgldef.h */; };
+		F35B50201C02C2A5004E6B0A /* ysglheader.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50061C02C285004E6B0A /* ysglheader.h */; };
+		F35B50211C02C2A5004E6B0A /* ysglmath.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50081C02C285004E6B0A /* ysglmath.h */; };
+		F35B50221C02C2A5004E6B0A /* ysglsl3ddrawing.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B500A1C02C285004E6B0A /* ysglsl3ddrawing.h */; };
+		F35B50231C02C2A5004E6B0A /* ysglslbitmaprenderer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B500C1C02C285004E6B0A /* ysglslbitmaprenderer.h */; };
+		F35B50241C02C2A5004E6B0A /* ysglslplain2ddrawing.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B500E1C02C285004E6B0A /* ysglslplain2ddrawing.h */; };
+		F35B50251C02C2A5004E6B0A /* ysglslprogram.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50101C02C285004E6B0A /* ysglslprogram.h */; };
+		F35B50261C02C2A5004E6B0A /* ysglslsharedrenderer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50121C02C285004E6B0A /* ysglslsharedrenderer.h */; };
+		F35B50271C02C2A5004E6B0A /* ysglslutil.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F35B50141C02C285004E6B0A /* ysglslutil.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F35B4FF41C02C0FC004E6B0A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F35B501D1C02C2A5004E6B0A /* ysgl.h in CopyFiles */,
+				F35B501E1C02C2A5004E6B0A /* ysglbitmap.h in CopyFiles */,
+				F35B501F1C02C2A5004E6B0A /* ysgldef.h in CopyFiles */,
+				F35B50201C02C2A5004E6B0A /* ysglheader.h in CopyFiles */,
+				F35B50211C02C2A5004E6B0A /* ysglmath.h in CopyFiles */,
+				F35B50221C02C2A5004E6B0A /* ysglsl3ddrawing.h in CopyFiles */,
+				F35B50231C02C2A5004E6B0A /* ysglslbitmaprenderer.h in CopyFiles */,
+				F35B50241C02C2A5004E6B0A /* ysglslplain2ddrawing.h in CopyFiles */,
+				F35B50251C02C2A5004E6B0A /* ysglslprogram.h in CopyFiles */,
+				F35B50261C02C2A5004E6B0A /* ysglslsharedrenderer.h in CopyFiles */,
+				F35B50271C02C2A5004E6B0A /* ysglslutil.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F35B4FF61C02C0FC004E6B0A /* libysgl.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libysgl.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F35B50021C02C285004E6B0A /* ysgl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysgl.h; path = ../src/ysgl/src/ysgl.h; sourceTree = "<group>"; };
+		F35B50031C02C285004E6B0A /* ysglbitmap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglbitmap.c; path = ../src/ysgl/src/ysglbitmap.c; sourceTree = "<group>"; };
+		F35B50041C02C285004E6B0A /* ysglbitmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglbitmap.h; path = ../src/ysgl/src/ysglbitmap.h; sourceTree = "<group>"; };
+		F35B50051C02C285004E6B0A /* ysgldef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysgldef.h; path = ../src/ysgl/src/ysgldef.h; sourceTree = "<group>"; };
+		F35B50061C02C285004E6B0A /* ysglheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglheader.h; path = ../src/ysgl/src/ysglheader.h; sourceTree = "<group>"; };
+		F35B50071C02C285004E6B0A /* ysglmath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglmath.c; path = ../src/ysgl/src/ysglmath.c; sourceTree = "<group>"; };
+		F35B50081C02C285004E6B0A /* ysglmath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglmath.h; path = ../src/ysgl/src/ysglmath.h; sourceTree = "<group>"; };
+		F35B50091C02C285004E6B0A /* ysglsl3ddrawing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglsl3ddrawing.c; path = ../src/ysgl/src/ysglsl3ddrawing.c; sourceTree = "<group>"; };
+		F35B500A1C02C285004E6B0A /* ysglsl3ddrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglsl3ddrawing.h; path = ../src/ysgl/src/ysglsl3ddrawing.h; sourceTree = "<group>"; };
+		F35B500B1C02C285004E6B0A /* ysglslbitmaprenderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglslbitmaprenderer.c; path = ../src/ysgl/src/ysglslbitmaprenderer.c; sourceTree = "<group>"; };
+		F35B500C1C02C285004E6B0A /* ysglslbitmaprenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglslbitmaprenderer.h; path = ../src/ysgl/src/ysglslbitmaprenderer.h; sourceTree = "<group>"; };
+		F35B500D1C02C285004E6B0A /* ysglslplain2ddrawing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglslplain2ddrawing.c; path = ../src/ysgl/src/ysglslplain2ddrawing.c; sourceTree = "<group>"; };
+		F35B500E1C02C285004E6B0A /* ysglslplain2ddrawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglslplain2ddrawing.h; path = ../src/ysgl/src/ysglslplain2ddrawing.h; sourceTree = "<group>"; };
+		F35B500F1C02C285004E6B0A /* ysglslprogram.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglslprogram.c; path = ../src/ysgl/src/ysglslprogram.c; sourceTree = "<group>"; };
+		F35B50101C02C285004E6B0A /* ysglslprogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglslprogram.h; path = ../src/ysgl/src/ysglslprogram.h; sourceTree = "<group>"; };
+		F35B50111C02C285004E6B0A /* ysglslsharedrenderer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglslsharedrenderer.c; path = ../src/ysgl/src/ysglslsharedrenderer.c; sourceTree = "<group>"; };
+		F35B50121C02C285004E6B0A /* ysglslsharedrenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglslsharedrenderer.h; path = ../src/ysgl/src/ysglslsharedrenderer.h; sourceTree = "<group>"; };
+		F35B50131C02C285004E6B0A /* ysglslutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ysglslutil.c; path = ../src/ysgl/src/ysglslutil.c; sourceTree = "<group>"; };
+		F35B50141C02C285004E6B0A /* ysglslutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysglslutil.h; path = ../src/ysgl/src/ysglslutil.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F35B4FF31C02C0FC004E6B0A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F35B4FED1C02C0FC004E6B0A = {
+			isa = PBXGroup;
+			children = (
+				F35B50021C02C285004E6B0A /* ysgl.h */,
+				F35B50031C02C285004E6B0A /* ysglbitmap.c */,
+				F35B50041C02C285004E6B0A /* ysglbitmap.h */,
+				F35B50051C02C285004E6B0A /* ysgldef.h */,
+				F35B50061C02C285004E6B0A /* ysglheader.h */,
+				F35B50071C02C285004E6B0A /* ysglmath.c */,
+				F35B50081C02C285004E6B0A /* ysglmath.h */,
+				F35B50091C02C285004E6B0A /* ysglsl3ddrawing.c */,
+				F35B500A1C02C285004E6B0A /* ysglsl3ddrawing.h */,
+				F35B500B1C02C285004E6B0A /* ysglslbitmaprenderer.c */,
+				F35B500C1C02C285004E6B0A /* ysglslbitmaprenderer.h */,
+				F35B500D1C02C285004E6B0A /* ysglslplain2ddrawing.c */,
+				F35B500E1C02C285004E6B0A /* ysglslplain2ddrawing.h */,
+				F35B500F1C02C285004E6B0A /* ysglslprogram.c */,
+				F35B50101C02C285004E6B0A /* ysglslprogram.h */,
+				F35B50111C02C285004E6B0A /* ysglslsharedrenderer.c */,
+				F35B50121C02C285004E6B0A /* ysglslsharedrenderer.h */,
+				F35B50131C02C285004E6B0A /* ysglslutil.c */,
+				F35B50141C02C285004E6B0A /* ysglslutil.h */,
+				F35B4FF81C02C0FC004E6B0A /* ysgl */,
+				F35B4FF71C02C0FC004E6B0A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F35B4FF71C02C0FC004E6B0A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F35B4FF61C02C0FC004E6B0A /* libysgl.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F35B4FF81C02C0FC004E6B0A /* ysgl */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ysgl;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F35B4FF51C02C0FC004E6B0A /* ysgl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F35B4FFF1C02C0FC004E6B0A /* Build configuration list for PBXNativeTarget "ysgl" */;
+			buildPhases = (
+				F35B4FF21C02C0FC004E6B0A /* Sources */,
+				F35B4FF31C02C0FC004E6B0A /* Frameworks */,
+				F35B4FF41C02C0FC004E6B0A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ysgl;
+			productName = ysgl;
+			productReference = F35B4FF61C02C0FC004E6B0A /* libysgl.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F35B4FEE1C02C0FC004E6B0A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F35B4FF51C02C0FC004E6B0A = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F35B4FF11C02C0FC004E6B0A /* Build configuration list for PBXProject "ysgl" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F35B4FED1C02C0FC004E6B0A;
+			productRefGroup = F35B4FF71C02C0FC004E6B0A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F35B4FF51C02C0FC004E6B0A /* ysgl */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F35B4FF21C02C0FC004E6B0A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F35B50161C02C285004E6B0A /* ysglmath.c in Sources */,
+				F35B501C1C02C285004E6B0A /* ysglslutil.c in Sources */,
+				F35B50181C02C285004E6B0A /* ysglslbitmaprenderer.c in Sources */,
+				F35B501A1C02C285004E6B0A /* ysglslprogram.c in Sources */,
+				F35B501B1C02C285004E6B0A /* ysglslsharedrenderer.c in Sources */,
+				F35B50171C02C285004E6B0A /* ysglsl3ddrawing.c in Sources */,
+				F35B50151C02C285004E6B0A /* ysglbitmap.c in Sources */,
+				F35B50191C02C285004E6B0A /* ysglslplain2ddrawing.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F35B4FFD1C02C0FC004E6B0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F35B4FFE1C02C0FC004E6B0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F35B50001C02C0FC004E6B0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F35B50011C02C0FC004E6B0A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F35B4FF11C02C0FC004E6B0A /* Build configuration list for PBXProject "ysgl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F35B4FFD1C02C0FC004E6B0A /* Debug */,
+				F35B4FFE1C02C0FC004E6B0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F35B4FFF1C02C0FC004E6B0A /* Build configuration list for PBXNativeTarget "ysgl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F35B50001C02C0FC004E6B0A /* Debug */,
+				F35B50011C02C0FC004E6B0A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F35B4FEE1C02C0FC004E6B0A /* Project object */;
+}

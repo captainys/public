@@ -1,0 +1,816 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F31434F01C09F40200E914E9 /* libgeblgui_foundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434EF1C09F3E900E914E9 /* libgeblgui_foundation.a */; };
+		F31435001C09F40300E914E9 /* libfsgui3d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434F11C09F40300E914E9 /* libfsgui3d.a */; };
+		F31435011C09F40300E914E9 /* libfsguilib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434F21C09F40300E914E9 /* libfsguilib.a */; };
+		F31435021C09F40300E914E9 /* libfssimplewindow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434F31C09F40300E914E9 /* libfssimplewindow.a */; };
+		F31435031C09F40300E914E9 /* libgeblkernel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434F41C09F40300E914E9 /* libgeblkernel.a */; };
+		F31435041C09F40300E914E9 /* libgeblutil.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434F51C09F40300E914E9 /* libgeblutil.a */; };
+		F31435051C09F40300E914E9 /* libshellrender.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434F61C09F40300E914E9 /* libshellrender.a */; };
+		F31435061C09F40300E914E9 /* libysbitmap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434F71C09F40300E914E9 /* libysbitmap.a */; };
+		F31435071C09F40300E914E9 /* libysbitmapfont.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434F81C09F40300E914E9 /* libysbitmapfont.a */; };
+		F31435081C09F40300E914E9 /* libysclass.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434F91C09F40300E914E9 /* libysclass.a */; };
+		F31435091C09F40300E914E9 /* libysclass11.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434FA1C09F40300E914E9 /* libysclass11.a */; };
+		F314350A1C09F40300E914E9 /* libysfontrenderer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434FB1C09F40300E914E9 /* libysfontrenderer.a */; };
+		F314350B1C09F40300E914E9 /* libysgl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434FC1C09F40300E914E9 /* libysgl.a */; };
+		F314350C1C09F40300E914E9 /* libysglcpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434FD1C09F40300E914E9 /* libysglcpp.a */; };
+		F314350D1C09F40300E914E9 /* libysport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434FE1C09F40300E914E9 /* libysport.a */; };
+		F314350E1C09F40300E914E9 /* libyssystemfont.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31434FF1C09F40300E914E9 /* libyssystemfont.a */; };
+		F314351D1C09F4E000E914E9 /* ysairfoil_clarky_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435121C09F4E000E914E9 /* ysairfoil_clarky_data.cpp */; };
+		F314351E1C09F4E000E914E9 /* ysairfoil_clarky.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435141C09F4E000E914E9 /* ysairfoil_clarky.cpp */; };
+		F314351F1C09F4E000E914E9 /* ysairfoil_lens.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435151C09F4E000E914E9 /* ysairfoil_lens.cpp */; };
+		F31435201C09F4E000E914E9 /* ysairfoil_naca6_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435161C09F4E000E914E9 /* ysairfoil_naca6_data.cpp */; };
+		F31435211C09F4E000E914E9 /* ysairfoil_naca6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435171C09F4E000E914E9 /* ysairfoil_naca6.cpp */; };
+		F31435221C09F4E000E914E9 /* ysairfoil_supercritical_data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435181C09F4E000E914E9 /* ysairfoil_supercritical_data.cpp */; };
+		F31435231C09F4E000E914E9 /* ysairfoil_supercritical.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314351A1C09F4E000E914E9 /* ysairfoil_supercritical.cpp */; };
+		F31435241C09F4E000E914E9 /* ysairfoil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314351B1C09F4E000E914E9 /* ysairfoil.cpp */; };
+		F31435461C09F58700E914E9 /* boolmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435451C09F58700E914E9 /* boolmenu.cpp */; };
+		F314354C1C09F5C400E914E9 /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435481C09F5C400E914E9 /* config.cpp */; };
+		F314354D1C09F5C400E914E9 /* configmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314354A1C09F5C400E914E9 /* configmenu.cpp */; };
+		F31435551C09F63100E914E9 /* libfsguifiledialog.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31435541C09F5E400E914E9 /* libfsguifiledialog.a */; };
+		F314355C1C09F65700E914E9 /* dnmmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435571C09F65700E914E9 /* dnmmenu.cpp */; };
+		F314355D1C09F65700E914E9 /* dnmpreview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435581C09F65700E914E9 /* dnmpreview.cpp */; };
+		F314355E1C09F65700E914E9 /* dnmtreedialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314355A1C09F65700E914E9 /* dnmtreedialog.cpp */; };
+		F31435721C09F68B00E914E9 /* edit_create_airfoil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435601C09F68B00E914E9 /* edit_create_airfoil.cpp */; };
+		F31435731C09F68B00E914E9 /* edit_createmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435621C09F68B00E914E9 /* edit_createmenu.cpp */; };
+		F31435741C09F68B00E914E9 /* edit_intersectionmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435671C09F68B00E914E9 /* edit_intersectionmenu.cpp */; };
+		F31435751C09F68B00E914E9 /* edit_offsetmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314356A1C09F68B00E914E9 /* edit_offsetmenu.cpp */; };
+		F31435761C09F68B00E914E9 /* edit_roundmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314356D1C09F68B00E914E9 /* edit_roundmenu.cpp */; };
+		F31435771C09F68B00E914E9 /* edit_sweepmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435701C09F68B00E914E9 /* edit_sweepmenu.cpp */; };
+		F31435781C09F68B00E914E9 /* editmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435711C09F68B00E914E9 /* editmenu.cpp */; };
+		F314357C1C09F6F800E914E9 /* filemenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314357B1C09F6F800E914E9 /* filemenu.cpp */; };
+		F31435831C09F71400E914E9 /* filename.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314357D1C09F71300E914E9 /* filename.cpp */; };
+		F31435841C09F71400E914E9 /* fsgui3dapp_draw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314357F1C09F71300E914E9 /* fsgui3dapp_draw.cpp */; };
+		F31435851C09F71400E914E9 /* fsgui3dapp_menusetup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435801C09F71300E914E9 /* fsgui3dapp_menusetup.cpp */; };
+		F31435861C09F71400E914E9 /* fsgui3dapp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435811C09F71300E914E9 /* fsgui3dapp.cpp */; };
+		F31435871C09F71400E914E9 /* fsgui3dmain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435821C09F71300E914E9 /* fsgui3dmain.cpp */; };
+		F314358A1C09F72800E914E9 /* globalmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435891C09F72800E914E9 /* globalmenu.cpp */; };
+		F314358E1C09F73D00E914E9 /* helpmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314358D1C09F73D00E914E9 /* helpmenu.cpp */; };
+		F31435911C09F75100E914E9 /* miscdlg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314358F1C09F75100E914E9 /* miscdlg.cpp */; };
+		F31435971C09F76C00E914E9 /* refbmp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435931C09F76C00E914E9 /* refbmp.cpp */; };
+		F31435981C09F76C00E914E9 /* refbmpdialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435951C09F76C00E914E9 /* refbmpdialog.cpp */; };
+		F314359B1C09F78900E914E9 /* repairmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314359A1C09F78900E914E9 /* repairmenu.cpp */; };
+		F314359F1C09F79C00E914E9 /* selectbyproperty.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314359D1C09F79C00E914E9 /* selectbyproperty.cpp */; };
+		F31435A01C09F79C00E914E9 /* selectmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F314359E1C09F79C00E914E9 /* selectmenu.cpp */; };
+		F31435A61C09F7CA00E914E9 /* sketch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435A31C09F7CA00E914E9 /* sketch.cpp */; };
+		F31435A71C09F7CA00E914E9 /* sketchmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435A51C09F7CA00E914E9 /* sketchmenu.cpp */; };
+		F31435AB1C09F80200E914E9 /* textresource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435A91C09F80200E914E9 /* textresource.cpp */; };
+		F31435AF1C09F80F00E914E9 /* smoothmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435AC1C09F80F00E914E9 /* smoothmenu.cpp */; };
+		F31435B01C09F80F00E914E9 /* utilmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435AE1C09F80F00E914E9 /* utilmenu.cpp */; };
+		F31435B51C09F82A00E914E9 /* viewdialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435B21C09F82A00E914E9 /* viewdialog.cpp */; };
+		F31435B61C09F82A00E914E9 /* viewmenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435B41C09F82A00E914E9 /* viewmenu.cpp */; };
+		F31435BB1C09F83A00E914E9 /* ysgebl_gui_extension_base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F31435B81C09F83A00E914E9 /* ysgebl_gui_extension_base.cpp */; };
+		F31435C31C09FA3100E914E9 /* libfslazywindow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31435C21C09FA2900E914E9 /* libfslazywindow.a */; };
+		F31437A11C0A146500E914E9 /* ysgebl_gui_editor_base.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31435B71C09F83A00E914E9 /* ysgebl_gui_editor_base.h */; };
+		F31437A21C0A146500E914E9 /* ysgebl_gui_extension_base.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31435B91C09F83A00E914E9 /* ysgebl_gui_extension_base.h */; };
+		F31437A31C0A146500E914E9 /* ysgeblversion.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31435BA1C09F83A00E914E9 /* ysgeblversion.h */; };
+		F33780A71C0B6F4500C861ED /* textresource.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31435AA1C09F80200E914E9 /* textresource.h */; };
+		F33780A81C0B6F4500C861ED /* filename.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F314357E1C09F71300E914E9 /* filename.h */; };
+		F33780A91C0B6F5B00C861ED /* sketch.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31435A41C09F7CA00E914E9 /* sketch.h */; };
+		F33780AB1C0B6F8000C861ED /* miscdlg.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31435901C09F75100E914E9 /* miscdlg.h */; };
+		F33781101C0B701000C861ED /* config.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = F31435491C09F5C400E914E9 /* config.h */; };
+		F3B72A641DB4707600418A0B /* edit_align.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3B72A631DB4707600418A0B /* edit_align.cpp */; };
+		F3CA3D9A2075D25400F07A36 /* edit_stitch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3CA3D952075D25400F07A36 /* edit_stitch.cpp */; };
+		F3CA3D9B2075D25400F07A36 /* edit_pastemenu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F3CA3D992075D25400F07A36 /* edit_pastemenu.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F31434EE1C09F3E900E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31434CE1C09F3E900E914E9 /* geblgui_foundation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F31434671C09EFFB00E914E9;
+			remoteInfo = geblgui_foundation;
+		};
+		F31435531C09F5E400E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F314354E1C09F5E400E914E9 /* fsguifiledialog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F314343C1C09518C00E914E9;
+			remoteInfo = fsguifiledialog;
+		};
+		F31435C11C09FA2900E914E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F31435BC1C09FA2900E914E9 /* fslazywindow.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F3B243421C03EDF6002B652F;
+			remoteInfo = fslazywindow;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F31434C01C09F30A00E914E9 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include;
+			dstSubfolderSpec = 16;
+			files = (
+				F33780AB1C0B6F8000C861ED /* miscdlg.h in CopyFiles */,
+				F33780A71C0B6F4500C861ED /* textresource.h in CopyFiles */,
+				F33780A81C0B6F4500C861ED /* filename.h in CopyFiles */,
+				F31437A11C0A146500E914E9 /* ysgebl_gui_editor_base.h in CopyFiles */,
+				F31437A21C0A146500E914E9 /* ysgebl_gui_extension_base.h in CopyFiles */,
+				F31437A31C0A146500E914E9 /* ysgeblversion.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F33780A31C0B6F1B00C861ED /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include/sketch;
+			dstSubfolderSpec = 16;
+			files = (
+				F33780A91C0B6F5B00C861ED /* sketch.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F337810C1C0B6FFC00C861ED /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = include/config;
+			dstSubfolderSpec = 16;
+			files = (
+				F33781101C0B701000C861ED /* config.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		F31434C21C09F30A00E914E9 /* libgeblgui.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libgeblgui.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F31434CE1C09F3E900E914E9 /* geblgui_foundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = geblgui_foundation.xcodeproj; sourceTree = "<group>"; };
+		F31434F11C09F40300E914E9 /* libfsgui3d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfsgui3d.a; path = "../build/Debug-iphoneos/libfsgui3d.a"; sourceTree = "<group>"; };
+		F31434F21C09F40300E914E9 /* libfsguilib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfsguilib.a; path = "../build/Debug-iphoneos/libfsguilib.a"; sourceTree = "<group>"; };
+		F31434F31C09F40300E914E9 /* libfssimplewindow.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfssimplewindow.a; path = "../build/Debug-iphoneos/libfssimplewindow.a"; sourceTree = "<group>"; };
+		F31434F41C09F40300E914E9 /* libgeblkernel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgeblkernel.a; path = "build/Debug-iphoneos/libgeblkernel.a"; sourceTree = "<group>"; };
+		F31434F51C09F40300E914E9 /* libgeblutil.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgeblutil.a; path = "build/Debug-iphoneos/libgeblutil.a"; sourceTree = "<group>"; };
+		F31434F61C09F40300E914E9 /* libshellrender.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libshellrender.a; path = "build/Debug-iphoneos/libshellrender.a"; sourceTree = "<group>"; };
+		F31434F71C09F40300E914E9 /* libysbitmap.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysbitmap.a; path = "../build/Debug-iphoneos/libysbitmap.a"; sourceTree = "<group>"; };
+		F31434F81C09F40300E914E9 /* libysbitmapfont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysbitmapfont.a; path = "../build/Debug-iphoneos/libysbitmapfont.a"; sourceTree = "<group>"; };
+		F31434F91C09F40300E914E9 /* libysclass.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysclass.a; path = "../build/Debug-iphoneos/libysclass.a"; sourceTree = "<group>"; };
+		F31434FA1C09F40300E914E9 /* libysclass11.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysclass11.a; path = "../build/Debug-iphoneos/libysclass11.a"; sourceTree = "<group>"; };
+		F31434FB1C09F40300E914E9 /* libysfontrenderer.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysfontrenderer.a; path = "../build/Debug-iphoneos/libysfontrenderer.a"; sourceTree = "<group>"; };
+		F31434FC1C09F40300E914E9 /* libysgl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysgl.a; path = "../build/Debug-iphoneos/libysgl.a"; sourceTree = "<group>"; };
+		F31434FD1C09F40300E914E9 /* libysglcpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysglcpp.a; path = "../build/Debug-iphoneos/libysglcpp.a"; sourceTree = "<group>"; };
+		F31434FE1C09F40300E914E9 /* libysport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libysport.a; path = "../build/Debug-iphoneos/libysport.a"; sourceTree = "<group>"; };
+		F31434FF1C09F40300E914E9 /* libyssystemfont.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libyssystemfont.a; path = "../build/Debug-iphoneos/libyssystemfont.a"; sourceTree = "<group>"; };
+		F31435121C09F4E000E914E9 /* ysairfoil_clarky_data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysairfoil_clarky_data.cpp; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil_clarky_data.cpp; sourceTree = "<group>"; };
+		F31435131C09F4E000E914E9 /* ysairfoil_clarky_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysairfoil_clarky_data.h; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil_clarky_data.h; sourceTree = "<group>"; };
+		F31435141C09F4E000E914E9 /* ysairfoil_clarky.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysairfoil_clarky.cpp; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil_clarky.cpp; sourceTree = "<group>"; };
+		F31435151C09F4E000E914E9 /* ysairfoil_lens.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysairfoil_lens.cpp; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil_lens.cpp; sourceTree = "<group>"; };
+		F31435161C09F4E000E914E9 /* ysairfoil_naca6_data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysairfoil_naca6_data.cpp; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil_naca6_data.cpp; sourceTree = "<group>"; };
+		F31435171C09F4E000E914E9 /* ysairfoil_naca6.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysairfoil_naca6.cpp; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil_naca6.cpp; sourceTree = "<group>"; };
+		F31435181C09F4E000E914E9 /* ysairfoil_supercritical_data.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysairfoil_supercritical_data.cpp; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil_supercritical_data.cpp; sourceTree = "<group>"; };
+		F31435191C09F4E000E914E9 /* ysairfoil_supercritical_data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysairfoil_supercritical_data.h; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil_supercritical_data.h; sourceTree = "<group>"; };
+		F314351A1C09F4E000E914E9 /* ysairfoil_supercritical.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysairfoil_supercritical.cpp; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil_supercritical.cpp; sourceTree = "<group>"; };
+		F314351B1C09F4E000E914E9 /* ysairfoil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysairfoil.cpp; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil.cpp; sourceTree = "<group>"; };
+		F314351C1C09F4E000E914E9 /* ysairfoil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysairfoil.h; path = ../../src/ysgebl/src/gui/airfoil/ysairfoil.h; sourceTree = "<group>"; };
+		F31435441C09F58700E914E9 /* booldialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = booldialog.h; path = ../../src/ysgebl/src/gui/boolmenu/booldialog.h; sourceTree = "<group>"; };
+		F31435451C09F58700E914E9 /* boolmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boolmenu.cpp; path = ../../src/ysgebl/src/gui/boolmenu/boolmenu.cpp; sourceTree = "<group>"; };
+		F31435481C09F5C400E914E9 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = config.cpp; path = ../../src/ysgebl/src/gui/config/config.cpp; sourceTree = "<group>"; };
+		F31435491C09F5C400E914E9 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = config.h; path = ../../src/ysgebl/src/gui/config/config.h; sourceTree = "<group>"; };
+		F314354A1C09F5C400E914E9 /* configmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = configmenu.cpp; path = ../../src/ysgebl/src/gui/config/configmenu.cpp; sourceTree = "<group>"; };
+		F314354B1C09F5C400E914E9 /* configmenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = configmenu.h; path = ../../src/ysgebl/src/gui/config/configmenu.h; sourceTree = "<group>"; };
+		F314354E1C09F5E400E914E9 /* fsguifiledialog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fsguifiledialog.xcodeproj; path = ../fsguifiledialog.xcodeproj; sourceTree = "<group>"; };
+		F31435571C09F65700E914E9 /* dnmmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dnmmenu.cpp; path = ../../src/ysgebl/src/gui/dnm/dnmmenu.cpp; sourceTree = "<group>"; };
+		F31435581C09F65700E914E9 /* dnmpreview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dnmpreview.cpp; path = ../../src/ysgebl/src/gui/dnm/dnmpreview.cpp; sourceTree = "<group>"; };
+		F31435591C09F65700E914E9 /* dnmpreviewdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dnmpreviewdialog.h; path = ../../src/ysgebl/src/gui/dnm/dnmpreviewdialog.h; sourceTree = "<group>"; };
+		F314355A1C09F65700E914E9 /* dnmtreedialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dnmtreedialog.cpp; path = ../../src/ysgebl/src/gui/dnm/dnmtreedialog.cpp; sourceTree = "<group>"; };
+		F314355B1C09F65700E914E9 /* dnmtreedialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dnmtreedialog.h; path = ../../src/ysgebl/src/gui/dnm/dnmtreedialog.h; sourceTree = "<group>"; };
+		F31435601C09F68B00E914E9 /* edit_create_airfoil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edit_create_airfoil.cpp; path = ../../src/ysgebl/src/gui/edit/edit_create_airfoil.cpp; sourceTree = "<group>"; };
+		F31435611C09F68B00E914E9 /* edit_create_airfoil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_create_airfoil.h; path = ../../src/ysgebl/src/gui/edit/edit_create_airfoil.h; sourceTree = "<group>"; };
+		F31435621C09F68B00E914E9 /* edit_createmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edit_createmenu.cpp; path = ../../src/ysgebl/src/gui/edit/edit_createmenu.cpp; sourceTree = "<group>"; };
+		F31435631C09F68B00E914E9 /* edit_createprimitivedialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_createprimitivedialog.h; path = ../../src/ysgebl/src/gui/edit/edit_createprimitivedialog.h; sourceTree = "<group>"; };
+		F31435641C09F68B00E914E9 /* edit_hemmingdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_hemmingdialog.h; path = ../../src/ysgebl/src/gui/edit/edit_hemmingdialog.h; sourceTree = "<group>"; };
+		F31435651C09F68B00E914E9 /* edit_insertdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_insertdialog.h; path = ../../src/ysgebl/src/gui/edit/edit_insertdialog.h; sourceTree = "<group>"; };
+		F31435661C09F68B00E914E9 /* edit_intersectiondialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_intersectiondialog.h; path = ../../src/ysgebl/src/gui/edit/edit_intersectiondialog.h; sourceTree = "<group>"; };
+		F31435671C09F68B00E914E9 /* edit_intersectionmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edit_intersectionmenu.cpp; path = ../../src/ysgebl/src/gui/edit/edit_intersectionmenu.cpp; sourceTree = "<group>"; };
+		F31435681C09F68B00E914E9 /* edit_mirrorimagedialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_mirrorimagedialog.h; path = ../../src/ysgebl/src/gui/edit/edit_mirrorimagedialog.h; sourceTree = "<group>"; };
+		F31435691C09F68B00E914E9 /* edit_offsetdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_offsetdialog.h; path = ../../src/ysgebl/src/gui/edit/edit_offsetdialog.h; sourceTree = "<group>"; };
+		F314356A1C09F68B00E914E9 /* edit_offsetmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edit_offsetmenu.cpp; path = ../../src/ysgebl/src/gui/edit/edit_offsetmenu.cpp; sourceTree = "<group>"; };
+		F314356B1C09F68B00E914E9 /* edit_projdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_projdialog.h; path = ../../src/ysgebl/src/gui/edit/edit_projdialog.h; sourceTree = "<group>"; };
+		F314356C1C09F68B00E914E9 /* edit_rounddialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_rounddialog.h; path = ../../src/ysgebl/src/gui/edit/edit_rounddialog.h; sourceTree = "<group>"; };
+		F314356D1C09F68B00E914E9 /* edit_roundmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edit_roundmenu.cpp; path = ../../src/ysgebl/src/gui/edit/edit_roundmenu.cpp; sourceTree = "<group>"; };
+		F314356E1C09F68B00E914E9 /* edit_solidofrevolutiondialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_solidofrevolutiondialog.h; path = ../../src/ysgebl/src/gui/edit/edit_solidofrevolutiondialog.h; sourceTree = "<group>"; };
+		F314356F1C09F68B00E914E9 /* edit_sweepdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = edit_sweepdialog.h; path = ../../src/ysgebl/src/gui/edit/edit_sweepdialog.h; sourceTree = "<group>"; };
+		F31435701C09F68B00E914E9 /* edit_sweepmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edit_sweepmenu.cpp; path = ../../src/ysgebl/src/gui/edit/edit_sweepmenu.cpp; sourceTree = "<group>"; };
+		F31435711C09F68B00E914E9 /* editmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = editmenu.cpp; path = ../../src/ysgebl/src/gui/edit/editmenu.cpp; sourceTree = "<group>"; };
+		F314357A1C09F6F800E914E9 /* file_slideshowdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = file_slideshowdialog.h; path = ../../src/ysgebl/src/gui/filemenu/file_slideshowdialog.h; sourceTree = "<group>"; };
+		F314357B1C09F6F800E914E9 /* filemenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filemenu.cpp; path = ../../src/ysgebl/src/gui/filemenu/filemenu.cpp; sourceTree = "<group>"; };
+		F314357D1C09F71300E914E9 /* filename.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filename.cpp; path = ../../src/ysgebl/src/gui/filename.cpp; sourceTree = "<group>"; };
+		F314357E1C09F71300E914E9 /* filename.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = filename.h; path = ../../src/ysgebl/src/gui/filename.h; sourceTree = "<group>"; };
+		F314357F1C09F71300E914E9 /* fsgui3dapp_draw.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3dapp_draw.cpp; path = ../../src/ysgebl/src/gui/fsgui3dapp_draw.cpp; sourceTree = "<group>"; };
+		F31435801C09F71300E914E9 /* fsgui3dapp_menusetup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3dapp_menusetup.cpp; path = ../../src/ysgebl/src/gui/fsgui3dapp_menusetup.cpp; sourceTree = "<group>"; };
+		F31435811C09F71300E914E9 /* fsgui3dapp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3dapp.cpp; path = ../../src/ysgebl/src/gui/fsgui3dapp.cpp; sourceTree = "<group>"; };
+		F31435821C09F71300E914E9 /* fsgui3dmain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fsgui3dmain.cpp; path = ../../src/ysgebl/src/gui/fsgui3dmain.cpp; sourceTree = "<group>"; };
+		F31435891C09F72800E914E9 /* globalmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = globalmenu.cpp; path = ../../src/ysgebl/src/gui/global/globalmenu.cpp; sourceTree = "<group>"; };
+		F314358C1C09F73D00E914E9 /* helpdlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = helpdlg.h; path = ../../src/ysgebl/src/gui/help/helpdlg.h; sourceTree = "<group>"; };
+		F314358D1C09F73D00E914E9 /* helpmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = helpmenu.cpp; path = ../../src/ysgebl/src/gui/help/helpmenu.cpp; sourceTree = "<group>"; };
+		F314358F1C09F75100E914E9 /* miscdlg.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = miscdlg.cpp; path = ../../src/ysgebl/src/gui/miscdlg.cpp; sourceTree = "<group>"; };
+		F31435901C09F75100E914E9 /* miscdlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = miscdlg.h; path = ../../src/ysgebl/src/gui/miscdlg.h; sourceTree = "<group>"; };
+		F31435931C09F76C00E914E9 /* refbmp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = refbmp.cpp; path = ../../src/ysgebl/src/gui/refbmp/refbmp.cpp; sourceTree = "<group>"; };
+		F31435941C09F76C00E914E9 /* refbmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = refbmp.h; path = ../../src/ysgebl/src/gui/refbmp/refbmp.h; sourceTree = "<group>"; };
+		F31435951C09F76C00E914E9 /* refbmpdialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = refbmpdialog.cpp; path = ../../src/ysgebl/src/gui/refbmp/refbmpdialog.cpp; sourceTree = "<group>"; };
+		F31435961C09F76C00E914E9 /* refbmpdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = refbmpdialog.h; path = ../../src/ysgebl/src/gui/refbmp/refbmpdialog.h; sourceTree = "<group>"; };
+		F314359A1C09F78900E914E9 /* repairmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = repairmenu.cpp; path = ../../src/ysgebl/src/gui/repair/repairmenu.cpp; sourceTree = "<group>"; };
+		F314359D1C09F79C00E914E9 /* selectbyproperty.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = selectbyproperty.cpp; path = ../../src/ysgebl/src/gui/selectmenu/selectbyproperty.cpp; sourceTree = "<group>"; };
+		F314359E1C09F79C00E914E9 /* selectmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = selectmenu.cpp; path = ../../src/ysgebl/src/gui/selectmenu/selectmenu.cpp; sourceTree = "<group>"; };
+		F31435A31C09F7CA00E914E9 /* sketch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sketch.cpp; path = ../../src/ysgebl/src/gui/sketch/sketch.cpp; sourceTree = "<group>"; };
+		F31435A41C09F7CA00E914E9 /* sketch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sketch.h; path = ../../src/ysgebl/src/gui/sketch/sketch.h; sourceTree = "<group>"; };
+		F31435A51C09F7CA00E914E9 /* sketchmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sketchmenu.cpp; path = ../../src/ysgebl/src/gui/sketch/sketchmenu.cpp; sourceTree = "<group>"; };
+		F31435A91C09F80200E914E9 /* textresource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = textresource.cpp; path = ../../src/ysgebl/src/gui/textresource.cpp; sourceTree = "<group>"; };
+		F31435AA1C09F80200E914E9 /* textresource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = textresource.h; path = ../../src/ysgebl/src/gui/textresource.h; sourceTree = "<group>"; };
+		F31435AC1C09F80F00E914E9 /* smoothmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = smoothmenu.cpp; path = ../../src/ysgebl/src/gui/util/smoothmenu.cpp; sourceTree = "<group>"; };
+		F31435AD1C09F80F00E914E9 /* utildlg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utildlg.h; path = ../../src/ysgebl/src/gui/util/utildlg.h; sourceTree = "<group>"; };
+		F31435AE1C09F80F00E914E9 /* utilmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = utilmenu.cpp; path = ../../src/ysgebl/src/gui/util/utilmenu.cpp; sourceTree = "<group>"; };
+		F31435B21C09F82A00E914E9 /* viewdialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = viewdialog.cpp; path = ../../src/ysgebl/src/gui/viewmenu/viewdialog.cpp; sourceTree = "<group>"; };
+		F31435B31C09F82A00E914E9 /* viewdialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = viewdialog.h; path = ../../src/ysgebl/src/gui/viewmenu/viewdialog.h; sourceTree = "<group>"; };
+		F31435B41C09F82A00E914E9 /* viewmenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = viewmenu.cpp; path = ../../src/ysgebl/src/gui/viewmenu/viewmenu.cpp; sourceTree = "<group>"; };
+		F31435B71C09F83A00E914E9 /* ysgebl_gui_editor_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysgebl_gui_editor_base.h; path = ../../src/ysgebl/src/gui/ysgebl_gui_editor_base.h; sourceTree = "<group>"; };
+		F31435B81C09F83A00E914E9 /* ysgebl_gui_extension_base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ysgebl_gui_extension_base.cpp; path = ../../src/ysgebl/src/gui/ysgebl_gui_extension_base.cpp; sourceTree = "<group>"; };
+		F31435B91C09F83A00E914E9 /* ysgebl_gui_extension_base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysgebl_gui_extension_base.h; path = ../../src/ysgebl/src/gui/ysgebl_gui_extension_base.h; sourceTree = "<group>"; };
+		F31435BA1C09F83A00E914E9 /* ysgeblversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ysgeblversion.h; path = ../../src/ysgebl/src/gui/ysgeblversion.h; sourceTree = "<group>"; };
+		F31435BC1C09FA2900E914E9 /* fslazywindow.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = fslazywindow.xcodeproj; path = ../fslazywindow.xcodeproj; sourceTree = "<group>"; };
+		F3B72A631DB4707600418A0B /* edit_align.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edit_align.cpp; path = ../../src/ysgebl/src/gui/edit/edit_align.cpp; sourceTree = "<group>"; };
+		F3CA3D952075D25400F07A36 /* edit_stitch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edit_stitch.cpp; path = ../../src/ysgebl/src/gui/edit/edit_stitch.cpp; sourceTree = "<group>"; };
+		F3CA3D992075D25400F07A36 /* edit_pastemenu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = edit_pastemenu.cpp; path = ../../src/ysgebl/src/gui/edit/edit_pastemenu.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F31434BF1C09F30A00E914E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31435C31C09FA3100E914E9 /* libfslazywindow.a in Frameworks */,
+				F31435551C09F63100E914E9 /* libfsguifiledialog.a in Frameworks */,
+				F31435001C09F40300E914E9 /* libfsgui3d.a in Frameworks */,
+				F31435011C09F40300E914E9 /* libfsguilib.a in Frameworks */,
+				F31435021C09F40300E914E9 /* libfssimplewindow.a in Frameworks */,
+				F31435031C09F40300E914E9 /* libgeblkernel.a in Frameworks */,
+				F31435041C09F40300E914E9 /* libgeblutil.a in Frameworks */,
+				F31435051C09F40300E914E9 /* libshellrender.a in Frameworks */,
+				F31435061C09F40300E914E9 /* libysbitmap.a in Frameworks */,
+				F31435071C09F40300E914E9 /* libysbitmapfont.a in Frameworks */,
+				F31435081C09F40300E914E9 /* libysclass.a in Frameworks */,
+				F31435091C09F40300E914E9 /* libysclass11.a in Frameworks */,
+				F314350A1C09F40300E914E9 /* libysfontrenderer.a in Frameworks */,
+				F314350B1C09F40300E914E9 /* libysgl.a in Frameworks */,
+				F314350C1C09F40300E914E9 /* libysglcpp.a in Frameworks */,
+				F314350D1C09F40300E914E9 /* libysport.a in Frameworks */,
+				F314350E1C09F40300E914E9 /* libyssystemfont.a in Frameworks */,
+				F31434F01C09F40200E914E9 /* libgeblgui_foundation.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F31434B91C09F30A00E914E9 = {
+			isa = PBXGroup;
+			children = (
+				F3CA3D992075D25400F07A36 /* edit_pastemenu.cpp */,
+				F3CA3D952075D25400F07A36 /* edit_stitch.cpp */,
+				F3B72A631DB4707600418A0B /* edit_align.cpp */,
+				F31435BC1C09FA2900E914E9 /* fslazywindow.xcodeproj */,
+				F31435B71C09F83A00E914E9 /* ysgebl_gui_editor_base.h */,
+				F31435B81C09F83A00E914E9 /* ysgebl_gui_extension_base.cpp */,
+				F31435B91C09F83A00E914E9 /* ysgebl_gui_extension_base.h */,
+				F31435BA1C09F83A00E914E9 /* ysgeblversion.h */,
+				F31435B11C09F81D00E914E9 /* viewmenu */,
+				F31435A91C09F80200E914E9 /* textresource.cpp */,
+				F31435AA1C09F80200E914E9 /* textresource.h */,
+				F31435A81C09F7E100E914E9 /* util */,
+				F31435A21C09F7BC00E914E9 /* sketch */,
+				F31435A11C09F7AB00E914E9 /* shellgui */,
+				F314359C1C09F78E00E914E9 /* selectmenu */,
+				F31435991C09F77E00E914E9 /* repair */,
+				F31435921C09F75B00E914E9 /* refbmp */,
+				F314358F1C09F75100E914E9 /* miscdlg.cpp */,
+				F31435901C09F75100E914E9 /* miscdlg.h */,
+				F314358B1C09F73200E914E9 /* help */,
+				F31435881C09F71B00E914E9 /* global */,
+				F314357D1C09F71300E914E9 /* filename.cpp */,
+				F314357E1C09F71300E914E9 /* filename.h */,
+				F314357F1C09F71300E914E9 /* fsgui3dapp_draw.cpp */,
+				F31435801C09F71300E914E9 /* fsgui3dapp_menusetup.cpp */,
+				F31435811C09F71300E914E9 /* fsgui3dapp.cpp */,
+				F31435821C09F71300E914E9 /* fsgui3dmain.cpp */,
+				F31435791C09F6E000E914E9 /* filemenu */,
+				F314355F1C09F67700E914E9 /* edit */,
+				F31435561C09F64500E914E9 /* dnm */,
+				F31435471C09F5B400E914E9 /* config */,
+				F31435421C09F54F00E914E9 /* boolmenu */,
+				F31435111C09F4C400E914E9 /* airfoil */,
+				F31434F11C09F40300E914E9 /* libfsgui3d.a */,
+				F31434F21C09F40300E914E9 /* libfsguilib.a */,
+				F31434F31C09F40300E914E9 /* libfssimplewindow.a */,
+				F31434F41C09F40300E914E9 /* libgeblkernel.a */,
+				F31434F51C09F40300E914E9 /* libgeblutil.a */,
+				F31434F61C09F40300E914E9 /* libshellrender.a */,
+				F31434F71C09F40300E914E9 /* libysbitmap.a */,
+				F31434F81C09F40300E914E9 /* libysbitmapfont.a */,
+				F31434F91C09F40300E914E9 /* libysclass.a */,
+				F31434FA1C09F40300E914E9 /* libysclass11.a */,
+				F31434FB1C09F40300E914E9 /* libysfontrenderer.a */,
+				F31434FC1C09F40300E914E9 /* libysgl.a */,
+				F31434FD1C09F40300E914E9 /* libysglcpp.a */,
+				F31434FE1C09F40300E914E9 /* libysport.a */,
+				F31434FF1C09F40300E914E9 /* libyssystemfont.a */,
+				F314354E1C09F5E400E914E9 /* fsguifiledialog.xcodeproj */,
+				F31434CE1C09F3E900E914E9 /* geblgui_foundation.xcodeproj */,
+				F31434C41C09F30A00E914E9 /* geblgui */,
+				F31434C31C09F30A00E914E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F31434C31C09F30A00E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31434C21C09F30A00E914E9 /* libgeblgui.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31434C41C09F30A00E914E9 /* geblgui */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = geblgui;
+			sourceTree = "<group>";
+		};
+		F31434CF1C09F3E900E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31434EF1C09F3E900E914E9 /* libgeblgui_foundation.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31435111C09F4C400E914E9 /* airfoil */ = {
+			isa = PBXGroup;
+			children = (
+				F31435121C09F4E000E914E9 /* ysairfoil_clarky_data.cpp */,
+				F31435131C09F4E000E914E9 /* ysairfoil_clarky_data.h */,
+				F31435141C09F4E000E914E9 /* ysairfoil_clarky.cpp */,
+				F31435151C09F4E000E914E9 /* ysairfoil_lens.cpp */,
+				F31435161C09F4E000E914E9 /* ysairfoil_naca6_data.cpp */,
+				F31435171C09F4E000E914E9 /* ysairfoil_naca6.cpp */,
+				F31435181C09F4E000E914E9 /* ysairfoil_supercritical_data.cpp */,
+				F31435191C09F4E000E914E9 /* ysairfoil_supercritical_data.h */,
+				F314351A1C09F4E000E914E9 /* ysairfoil_supercritical.cpp */,
+				F314351B1C09F4E000E914E9 /* ysairfoil.cpp */,
+				F314351C1C09F4E000E914E9 /* ysairfoil.h */,
+			);
+			name = airfoil;
+			sourceTree = "<group>";
+		};
+		F31435421C09F54F00E914E9 /* boolmenu */ = {
+			isa = PBXGroup;
+			children = (
+				F31435441C09F58700E914E9 /* booldialog.h */,
+				F31435451C09F58700E914E9 /* boolmenu.cpp */,
+			);
+			name = boolmenu;
+			sourceTree = "<group>";
+		};
+		F31435471C09F5B400E914E9 /* config */ = {
+			isa = PBXGroup;
+			children = (
+				F31435481C09F5C400E914E9 /* config.cpp */,
+				F31435491C09F5C400E914E9 /* config.h */,
+				F314354A1C09F5C400E914E9 /* configmenu.cpp */,
+				F314354B1C09F5C400E914E9 /* configmenu.h */,
+			);
+			name = config;
+			sourceTree = "<group>";
+		};
+		F314354F1C09F5E400E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31435541C09F5E400E914E9 /* libfsguifiledialog.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F31435561C09F64500E914E9 /* dnm */ = {
+			isa = PBXGroup;
+			children = (
+				F31435571C09F65700E914E9 /* dnmmenu.cpp */,
+				F31435581C09F65700E914E9 /* dnmpreview.cpp */,
+				F31435591C09F65700E914E9 /* dnmpreviewdialog.h */,
+				F314355A1C09F65700E914E9 /* dnmtreedialog.cpp */,
+				F314355B1C09F65700E914E9 /* dnmtreedialog.h */,
+			);
+			name = dnm;
+			sourceTree = "<group>";
+		};
+		F314355F1C09F67700E914E9 /* edit */ = {
+			isa = PBXGroup;
+			children = (
+				F31435601C09F68B00E914E9 /* edit_create_airfoil.cpp */,
+				F31435611C09F68B00E914E9 /* edit_create_airfoil.h */,
+				F31435621C09F68B00E914E9 /* edit_createmenu.cpp */,
+				F31435631C09F68B00E914E9 /* edit_createprimitivedialog.h */,
+				F31435641C09F68B00E914E9 /* edit_hemmingdialog.h */,
+				F31435651C09F68B00E914E9 /* edit_insertdialog.h */,
+				F31435661C09F68B00E914E9 /* edit_intersectiondialog.h */,
+				F31435671C09F68B00E914E9 /* edit_intersectionmenu.cpp */,
+				F31435681C09F68B00E914E9 /* edit_mirrorimagedialog.h */,
+				F31435691C09F68B00E914E9 /* edit_offsetdialog.h */,
+				F314356A1C09F68B00E914E9 /* edit_offsetmenu.cpp */,
+				F314356B1C09F68B00E914E9 /* edit_projdialog.h */,
+				F314356C1C09F68B00E914E9 /* edit_rounddialog.h */,
+				F314356D1C09F68B00E914E9 /* edit_roundmenu.cpp */,
+				F314356E1C09F68B00E914E9 /* edit_solidofrevolutiondialog.h */,
+				F314356F1C09F68B00E914E9 /* edit_sweepdialog.h */,
+				F31435701C09F68B00E914E9 /* edit_sweepmenu.cpp */,
+				F31435711C09F68B00E914E9 /* editmenu.cpp */,
+			);
+			name = edit;
+			sourceTree = "<group>";
+		};
+		F31435791C09F6E000E914E9 /* filemenu */ = {
+			isa = PBXGroup;
+			children = (
+				F314357A1C09F6F800E914E9 /* file_slideshowdialog.h */,
+				F314357B1C09F6F800E914E9 /* filemenu.cpp */,
+			);
+			name = filemenu;
+			sourceTree = "<group>";
+		};
+		F31435881C09F71B00E914E9 /* global */ = {
+			isa = PBXGroup;
+			children = (
+				F31435891C09F72800E914E9 /* globalmenu.cpp */,
+			);
+			name = global;
+			sourceTree = "<group>";
+		};
+		F314358B1C09F73200E914E9 /* help */ = {
+			isa = PBXGroup;
+			children = (
+				F314358C1C09F73D00E914E9 /* helpdlg.h */,
+				F314358D1C09F73D00E914E9 /* helpmenu.cpp */,
+			);
+			name = help;
+			sourceTree = "<group>";
+		};
+		F31435921C09F75B00E914E9 /* refbmp */ = {
+			isa = PBXGroup;
+			children = (
+				F31435931C09F76C00E914E9 /* refbmp.cpp */,
+				F31435941C09F76C00E914E9 /* refbmp.h */,
+				F31435951C09F76C00E914E9 /* refbmpdialog.cpp */,
+				F31435961C09F76C00E914E9 /* refbmpdialog.h */,
+			);
+			name = refbmp;
+			sourceTree = "<group>";
+		};
+		F31435991C09F77E00E914E9 /* repair */ = {
+			isa = PBXGroup;
+			children = (
+				F314359A1C09F78900E914E9 /* repairmenu.cpp */,
+			);
+			name = repair;
+			sourceTree = "<group>";
+		};
+		F314359C1C09F78E00E914E9 /* selectmenu */ = {
+			isa = PBXGroup;
+			children = (
+				F314359D1C09F79C00E914E9 /* selectbyproperty.cpp */,
+				F314359E1C09F79C00E914E9 /* selectmenu.cpp */,
+			);
+			name = selectmenu;
+			sourceTree = "<group>";
+		};
+		F31435A11C09F7AB00E914E9 /* shellgui */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = shellgui;
+			sourceTree = "<group>";
+		};
+		F31435A21C09F7BC00E914E9 /* sketch */ = {
+			isa = PBXGroup;
+			children = (
+				F31435A31C09F7CA00E914E9 /* sketch.cpp */,
+				F31435A41C09F7CA00E914E9 /* sketch.h */,
+				F31435A51C09F7CA00E914E9 /* sketchmenu.cpp */,
+			);
+			name = sketch;
+			sourceTree = "<group>";
+		};
+		F31435A81C09F7E100E914E9 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				F31435AC1C09F80F00E914E9 /* smoothmenu.cpp */,
+				F31435AD1C09F80F00E914E9 /* utildlg.h */,
+				F31435AE1C09F80F00E914E9 /* utilmenu.cpp */,
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
+		F31435B11C09F81D00E914E9 /* viewmenu */ = {
+			isa = PBXGroup;
+			children = (
+				F31435B21C09F82A00E914E9 /* viewdialog.cpp */,
+				F31435B31C09F82A00E914E9 /* viewdialog.h */,
+				F31435B41C09F82A00E914E9 /* viewmenu.cpp */,
+			);
+			name = viewmenu;
+			sourceTree = "<group>";
+		};
+		F31435BD1C09FA2900E914E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F31435C21C09FA2900E914E9 /* libfslazywindow.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F31434C11C09F30A00E914E9 /* geblgui */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F31434CB1C09F30A00E914E9 /* Build configuration list for PBXNativeTarget "geblgui" */;
+			buildPhases = (
+				F31434BE1C09F30A00E914E9 /* Sources */,
+				F31434BF1C09F30A00E914E9 /* Frameworks */,
+				F31434C01C09F30A00E914E9 /* CopyFiles */,
+				F33780A31C0B6F1B00C861ED /* CopyFiles */,
+				F337810C1C0B6FFC00C861ED /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = geblgui;
+			productName = geblgui;
+			productReference = F31434C21C09F30A00E914E9 /* libgeblgui.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F31434BA1C09F30A00E914E9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = ysflight.com;
+				TargetAttributes = {
+					F31434C11C09F30A00E914E9 = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
+				};
+			};
+			buildConfigurationList = F31434BD1C09F30A00E914E9 /* Build configuration list for PBXProject "geblgui" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F31434B91C09F30A00E914E9;
+			productRefGroup = F31434C31C09F30A00E914E9 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F314354F1C09F5E400E914E9 /* Products */;
+					ProjectRef = F314354E1C09F5E400E914E9 /* fsguifiledialog.xcodeproj */;
+				},
+				{
+					ProductGroup = F31435BD1C09FA2900E914E9 /* Products */;
+					ProjectRef = F31435BC1C09FA2900E914E9 /* fslazywindow.xcodeproj */;
+				},
+				{
+					ProductGroup = F31434CF1C09F3E900E914E9 /* Products */;
+					ProjectRef = F31434CE1C09F3E900E914E9 /* geblgui_foundation.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				F31434C11C09F30A00E914E9 /* geblgui */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		F31434EF1C09F3E900E914E9 /* libgeblgui_foundation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libgeblgui_foundation.a;
+			remoteRef = F31434EE1C09F3E900E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31435541C09F5E400E914E9 /* libfsguifiledialog.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfsguifiledialog.a;
+			remoteRef = F31435531C09F5E400E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F31435C21C09FA2900E914E9 /* libfslazywindow.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfslazywindow.a;
+			remoteRef = F31435C11C09FA2900E914E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F31434BE1C09F30A00E914E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F31435971C09F76C00E914E9 /* refbmp.cpp in Sources */,
+				F31435A61C09F7CA00E914E9 /* sketch.cpp in Sources */,
+				F31435241C09F4E000E914E9 /* ysairfoil.cpp in Sources */,
+				F31435B61C09F82A00E914E9 /* viewmenu.cpp in Sources */,
+				F31435771C09F68B00E914E9 /* edit_sweepmenu.cpp in Sources */,
+				F31435851C09F71400E914E9 /* fsgui3dapp_menusetup.cpp in Sources */,
+				F31435AF1C09F80F00E914E9 /* smoothmenu.cpp in Sources */,
+				F31435201C09F4E000E914E9 /* ysairfoil_naca6_data.cpp in Sources */,
+				F314358E1C09F73D00E914E9 /* helpmenu.cpp in Sources */,
+				F31435911C09F75100E914E9 /* miscdlg.cpp in Sources */,
+				F31435731C09F68B00E914E9 /* edit_createmenu.cpp in Sources */,
+				F314351E1C09F4E000E914E9 /* ysairfoil_clarky.cpp in Sources */,
+				F3CA3D9B2075D25400F07A36 /* edit_pastemenu.cpp in Sources */,
+				F31435721C09F68B00E914E9 /* edit_create_airfoil.cpp in Sources */,
+				F31435781C09F68B00E914E9 /* editmenu.cpp in Sources */,
+				F31435741C09F68B00E914E9 /* edit_intersectionmenu.cpp in Sources */,
+				F31435831C09F71400E914E9 /* filename.cpp in Sources */,
+				F31435981C09F76C00E914E9 /* refbmpdialog.cpp in Sources */,
+				F31435B51C09F82A00E914E9 /* viewdialog.cpp in Sources */,
+				F314355D1C09F65700E914E9 /* dnmpreview.cpp in Sources */,
+				F31435AB1C09F80200E914E9 /* textresource.cpp in Sources */,
+				F31435871C09F71400E914E9 /* fsgui3dmain.cpp in Sources */,
+				F31435751C09F68B00E914E9 /* edit_offsetmenu.cpp in Sources */,
+				F314358A1C09F72800E914E9 /* globalmenu.cpp in Sources */,
+				F3B72A641DB4707600418A0B /* edit_align.cpp in Sources */,
+				F314351F1C09F4E000E914E9 /* ysairfoil_lens.cpp in Sources */,
+				F314354D1C09F5C400E914E9 /* configmenu.cpp in Sources */,
+				F314351D1C09F4E000E914E9 /* ysairfoil_clarky_data.cpp in Sources */,
+				F31435B01C09F80F00E914E9 /* utilmenu.cpp in Sources */,
+				F314359B1C09F78900E914E9 /* repairmenu.cpp in Sources */,
+				F31435BB1C09F83A00E914E9 /* ysgebl_gui_extension_base.cpp in Sources */,
+				F31435461C09F58700E914E9 /* boolmenu.cpp in Sources */,
+				F31435A71C09F7CA00E914E9 /* sketchmenu.cpp in Sources */,
+				F31435221C09F4E000E914E9 /* ysairfoil_supercritical_data.cpp in Sources */,
+				F31435761C09F68B00E914E9 /* edit_roundmenu.cpp in Sources */,
+				F314359F1C09F79C00E914E9 /* selectbyproperty.cpp in Sources */,
+				F314355C1C09F65700E914E9 /* dnmmenu.cpp in Sources */,
+				F3CA3D9A2075D25400F07A36 /* edit_stitch.cpp in Sources */,
+				F31435861C09F71400E914E9 /* fsgui3dapp.cpp in Sources */,
+				F31435231C09F4E000E914E9 /* ysairfoil_supercritical.cpp in Sources */,
+				F314355E1C09F65700E914E9 /* dnmtreedialog.cpp in Sources */,
+				F31435211C09F4E000E914E9 /* ysairfoil_naca6.cpp in Sources */,
+				F314357C1C09F6F800E914E9 /* filemenu.cpp in Sources */,
+				F314354C1C09F5C400E914E9 /* config.cpp in Sources */,
+				F31435841C09F71400E914E9 /* fsgui3dapp_draw.cpp in Sources */,
+				F31435A01C09F79C00E914E9 /* selectmenu.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F31434C91C09F30A00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F31434CA1C09F30A00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F31434CC1C09F30A00E914E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		F31434CD1C09F30A00E914E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F31434BD1C09F30A00E914E9 /* Build configuration list for PBXProject "geblgui" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31434C91C09F30A00E914E9 /* Debug */,
+				F31434CA1C09F30A00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F31434CB1C09F30A00E914E9 /* Build configuration list for PBXNativeTarget "geblgui" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F31434CC1C09F30A00E914E9 /* Debug */,
+				F31434CD1C09F30A00E914E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F31434BA1C09F30A00E914E9 /* Project object */;
+}

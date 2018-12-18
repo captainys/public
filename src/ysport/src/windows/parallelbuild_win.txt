@@ -1,0 +1,4 @@
+nmake -nologo -f makefile objset0
+nmake -nologo -f makefile objset1
+nmake -nologo -f makefile objset2
+nmake -nologo -f makefile objset3

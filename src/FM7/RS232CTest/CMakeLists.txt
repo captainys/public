@@ -1,0 +1,7 @@
+set(TARGET_NAME comsend comrecv comsendrecv)
+add_executable(comsend comsend.cpp)
+target_link_libraries(comsend comportlib)
+add_executable(comrecv comrecv.cpp)
+target_link_libraries(comrecv comportlib)
+add_executable(comsendrecv comsendrecv.cpp)
+target_link_libraries(comsendrecv comportlib)

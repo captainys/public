@@ -1,0 +1,1 @@
+	fogZ=-vertexInView.z*fogEnabled;

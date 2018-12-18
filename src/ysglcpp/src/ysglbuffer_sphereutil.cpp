@@ -1,0 +1,60 @@
+/* ////////////////////////////////////////////////////////////
+
+File Name: ysglbuffer_sphereutil.cpp
+Copyright (c) 2017 Soji Yamakawa.  All rights reserved.
+http://www.ysflight.com
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, 
+   this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, 
+   this list of conditions and the following disclaimer in the documentation 
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS 
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
+OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+//////////////////////////////////////////////////////////// */
+
+#include "ysglbuffer_sphereutil.h"
+
+
+
+YSRESULT YsGLCreateSphereOutlineVertexBufferForGL_LINES(YsGLVertexBuffer &vtxBuf,const double radius,int nDiv)
+{
+	vtxBuf.CleanUp();
+
+	for(int i=0; i<nDiv; ++i)
+	{
+		const double a0=YsPi*2.0*(double)i/(double)nDiv;
+		const double a1=YsPi*2.0*(double)(i+1)/(double)nDiv;
+
+		const double x0=radius*cos(a0);
+		const double y0=radius*sin(a0);
+		const double x1=radius*cos(a1);
+		const double y1=radius*sin(a1);
+
+		vtxBuf.AddVertex(x0,y0,0.0);
+		vtxBuf.AddVertex(x1,y1,0.0);
+
+		vtxBuf.AddVertex(x0,0.0,y0);
+		vtxBuf.AddVertex(x1,0.0,y1);
+
+		vtxBuf.AddVertex(0.0,x0,y0);
+		vtxBuf.AddVertex(0.0,x1,y1);
+	}
+
+	return YSOK;
+}
+
