@@ -10,7 +10,7 @@
 #include "fm77avkeyboardemu.h"
 #include "filedialog.h"
 #include "comport.h"
-#include "util.h"
+#include "cheaputil.h"
 #include "gui.h"
 
 

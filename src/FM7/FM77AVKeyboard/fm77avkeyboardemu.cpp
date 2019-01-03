@@ -8,7 +8,7 @@
 #include <chrono>
 
 #include "fm77avkeyboardemu.h"
-#include "util.h"
+#include "cheaputil.h"
 #include "gui.h"
 
 /*
