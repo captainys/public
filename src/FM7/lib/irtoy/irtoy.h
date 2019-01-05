@@ -145,10 +145,17 @@ public:
 	bool StartRecording(void);
 	bool EndRecording(void);
 	bool IsInRecordingMode(void) const;
+	std::vector <unsigned char> GetRecording(void) const;
 private:
 	void State_Recording(void);
 
 public:
+	/*! Load recorded data and make it ready for transmission.
+	*/
+	bool SetRecording(const std::vector <unsigned char> &recorded);
+
+	/*! Transmit recorded data.
+	*/
 	bool StartTransmit(void);
 private:
 	void State_Transmitting(void);

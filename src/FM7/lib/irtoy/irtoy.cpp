@@ -474,6 +474,11 @@ bool IRToy_Controller::EndRecording(void)
 	return false;
 }
 
+std::vector <unsigned char> IRToy_Controller::GetRecording(void) const
+{
+	return recording;
+}
+
 bool IRToy_Controller::IsInRecordingMode(void) const
 {
 	if(STATE_RECORDING==state)
@@ -490,6 +495,16 @@ void IRToy_Controller::State_Recording(void)
 		printf(".");
 		recording.push_back(c);
 	}
+}
+
+bool IRToy_Controller::SetRecording(const std::vector <unsigned char> &recorded)
+{
+	if(STATE_GOWILD==state)
+	{
+		recording=recorded;
+		return true;
+	}
+	return false;
 }
 
 bool IRToy_Controller::StartTransmit(void)
