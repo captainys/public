@@ -42,6 +42,16 @@ public:
 	}
 	return available;
 }
+
+static void TryBaudRate(HANDLE hComm,DCB &dcb,int baud)
+{
+	dcb.BaudRate=baud;
+	if(0==SetCommState(hComm,&dcb))
+	{
+		printf("Failed to set %d bits-per-second.\n",baud);
+	}
+}
+
 bool YsCOMPort::Open(int portNumber)
 {
 	Close();
@@ -190,23 +200,14 @@ bool YsCOMPort::Open(int portNumber)
 
 		printf("Set up for polling-mode.  I need to be fast!\n");
 
-		dcb.BaudRate=921600;
-		if(0==SetCommState(hComm,&dcb))
-		{
-			printf("Failed to set 921600 bits-per-second.\n");
-		}
-
-		dcb.BaudRate=1280000;
-		if(0==SetCommState(hComm,&dcb))
-		{
-			printf("Failed to set 1280000 bits-per-second.\n");
-		}
-
-		dcb.BaudRate=1600000;
-		if(0==SetCommState(hComm,&dcb))
-		{
-			printf("Failed to set 1600000 bits-per-second.\n");
-		}
+		TryBaudRate(hComm,dcb,38400);
+		TryBaudRate(hComm,dcb,57600);
+		TryBaudRate(hComm,dcb,115200);
+		TryBaudRate(hComm,dcb,128000);
+		TryBaudRate(hComm,dcb,256000);
+		TryBaudRate(hComm,dcb,921600);
+		TryBaudRate(hComm,dcb,1280000);
+		TryBaudRate(hComm,dcb,1600000);
 
 	SPEEDSET:
 		GetCommState(hComm,&dcb);
