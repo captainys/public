@@ -319,6 +319,92 @@ YsShellPolygonHandle GeblGuiFoundation::PickedPlHdAmongSelection(int mx,int my,c
 	return candidatePlHd;
 }
 
+YsArray <YsPair <YsShellPolygonHandle,double> > GeblGuiFoundation::EnclosedPlHd(YsConstArrayMask <YsVec2> strokePnt,const YsMatrix4x4 &modelTfm) const
+{
+	YsArray <YsPair <YsShellPolygonHandle,double> > plHdDepthPairArray;
+
+	YsShell2d strokeShl;
+	{
+		YsArray <YsShell2dVertexHandle> allVtHd;
+		for(auto p : strokePnt)
+		{
+			allVtHd.push_back(strokeShl.AddVertexH(p));
+		}
+		for(YSSIZE_T i=0; i<allVtHd.size(); ++i)
+		{
+			strokeShl.AddEdgeH(allVtHd[i],allVtHd.GetCyclic(i+1));
+		}
+	}
+
+	YsShell2dLattice strokeLtc;
+	strokeLtc.SetDomain(strokeShl,strokePnt.size()+1);
+
+	if(NULL!=slHd)
+	{
+		YsKeyStore exclusion;
+		// for(YSSIZE_T idx=0; idx<nExclude; ++idx)
+		// {
+		// 	exclusion.AddKey(slHd->GetSearchKey(excludePlHd[idx]));
+		// }
+
+		YsShellExtDrawingBuffer &drawBuf=slHd->GetDrawingBuffer();
+
+		if(YSTRUE==actuallyDrawShrunkPolygon)
+		{
+			for(auto pair : EnclosedIndexInEdgeBuffer(strokeShl,strokeLtc,drawBuf.shrunkEdgePosBuffer,drawBuf.shrunkEdgeIdxBuffer,NULL,&exclusion,modelTfm))
+			{
+				YsShellPolygonHandle plHd=slHd->FindPolygon(pair.a);
+				if(NULL!=plHd)
+				{
+					plHdDepthPairArray.Increment();
+					plHdDepthPairArray.Last().a=plHd;
+					plHdDepthPairArray.Last().b=pair.b;
+					exclusion.AddKey(pair.a);
+				}
+			}
+		}
+
+		for(auto pair : plHdDepthPairArray)
+		{
+			exclusion.AddKey(slHd->GetSearchKey(pair.a));
+		}
+
+		if(YSTRUE==actuallyDrawPolygon)
+		{
+			for(int i=0; i<5; ++i)
+			{
+				const YsGLVertexBuffer &vtxBuf=
+				   (i==0 ? drawBuf.solidShadedVtxBuffer :
+				   (i==1 ? drawBuf.solidUnshadedVtxBuffer :
+				   (i==2 ? drawBuf.trspShadedVtxBuffer :
+				   (i==3 ? drawBuf.backFaceVtxBuffer :
+				          (drawBuf.trspUnshadedVtxBuffer)))));
+				const YsArray <int> &idxBuf=
+				   (i==0 ? drawBuf.solidShadedIdxBuffer :
+				   (i==1 ? drawBuf.solidUnshadedIdxBuffer :
+				   (i==2 ? drawBuf.trspShadedIdxBuffer :
+				   (i==3 ? drawBuf.backFaceIdxBuffer :
+				          (drawBuf.trspUnshadedIdxBuffer)))));
+
+
+				for(auto pair : EnclosedIndexInTriangleBuffer(strokeShl,strokeLtc,vtxBuf,idxBuf,NULL,&exclusion,modelTfm))
+				{
+					YsShellPolygonHandle plHd=slHd->FindPolygon(pair.a);
+					if(NULL!=plHd)
+					{
+						plHdDepthPairArray.Increment();
+						plHdDepthPairArray.Last().a=plHd;
+						plHdDepthPairArray.Last().b=pair.b;
+						exclusion.AddKey(pair.a);
+					}
+				}
+			}
+		}
+	}
+
+	return plHdDepthPairArray;
+}
+
 YsArray <YsPair <YsShellPolygonHandle,double> > GeblGuiFoundation::BoxedPlHd(int x0,int y0,int x1,int y1,YSSIZE_T nExclude,const YsShellPolygonHandle excludePlHd[],const YsMatrix4x4 &modelTfm) const
 {
 	YsArray <YsPair <YsShellPolygonHandle,double> > plHdDepthPairArray;
@@ -1122,3 +1208,17 @@ YsArray <YsPair <int,double> > GeblGuiFoundation::BoxedIndexInTriangleBuffer(
 	return indexDepthPairArray;
 }
 
+YsArray <YsPair <int,double> > GeblGuiFoundation::EnclosedIndexInEdgeBuffer(
+	    const YsShell2d &shl,const YsShell2dLattice &ltc,
+	    const YsGLVertexBuffer &edgeVtxBuffer,const YsArray <int> &edgeIdxBuffer,const YsKeyStore *limit,const YsKeyStore *exclusion,const YsMatrix4x4 &modelTfm) const
+{
+	YsArray <YsPair <int,double> > indexDepthPairArray;
+	return indexDepthPairArray;
+}
+YsArray <YsPair <int,double> > GeblGuiFoundation::EnclosedIndexInTriangleBuffer(
+	    const YsShell2d &shl,const YsShell2dLattice &ltc,
+	    const YsGLVertexBuffer &triVtxBuffer,const YsArray <int> &triIdxBuffer,const YsKeyStore *limit,const YsKeyStore *exclusion,const YsMatrix4x4 &modelTfm) const
+{
+	YsArray <YsPair <int,double> > indexDepthPairArray;
+	return indexDepthPairArray;
+}

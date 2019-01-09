@@ -1304,6 +1304,22 @@ YsArray <YsPair <YsShellPolygonHandle,double> > GeblGuiEditorBase::BoxedPlHdAmon
 	}
 	return GeblGuiFoundation::BoxedPlHdAmongSelection(x0,y0,x1,y1,modelTfm);
 }
+
+YsArray <YsPair <YsShellPolygonHandle,double> > GeblGuiEditorBase::EnclosedPlHd(const class PolyCreSketchInterface &sketchUI) const
+{
+	YsArray <YsVec2> winCoord;
+	for(auto c : sketchUI.GetStroke())
+	{
+		winCoord.push_back(c.winCoord);
+	}
+	YsMatrix4x4 modelTfm;
+	if(YSTRUE==dnmEditMode && nullptr!=slHd)
+	{
+		modelTfm=dnmState.GetNodeToRootTransformation(slHd);
+	}
+	return GeblGuiFoundation::EnclosedPlHd(winCoord,modelTfm);
+}
+
 YsShellExt::ConstEdgeHandle GeblGuiEditorBase::PickedCeHd(int mx,int my,YSSIZE_T nExclude,const YsShellExt::ConstEdgeHandle excludeCeHd[]) const
 {
 	YsMatrix4x4 modelTfm;

@@ -412,6 +412,8 @@ public:
 		return GeblGuiFoundation::PickedPlHd(mx,my,excludePlHd,modelTfm);
 	}
 
+	YsArray <YsPair <YsShellPolygonHandle,double> > EnclosedPlHd(const class PolyCreSketchInterface &sketchUI) const;
+
 	YsShellPolygonHandle PickedPlHdAmongSelection(int mx,int my) const;
 
 	YsArray <YsPair <YsShellPolygonHandle,double> > BoxedPlHd(int x0,int y0,int x1,int y1,YSSIZE_T nExclude,const YsShellPolygonHandle excludePlHd[]) const;

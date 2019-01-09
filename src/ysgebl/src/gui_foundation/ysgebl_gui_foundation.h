@@ -123,6 +123,8 @@ public:
 
 	YsShellPolygonHandle PickedPlHdAmongSelection(int mx,int my,const YsMatrix4x4 &modelTfm) const;
 
+	YsArray <YsPair <YsShellPolygonHandle,double> > EnclosedPlHd(YsConstArrayMask <YsVec2> strokePnt,const YsMatrix4x4 &modelTfm) const;
+
 	YsArray <YsPair <YsShellPolygonHandle,double> > BoxedPlHd(int x0,int y0,int x1,int y1,YSSIZE_T nExclude,const YsShellPolygonHandle excludePlHd[],const YsMatrix4x4 &modelTfm) const;
 	template <const int N>
 	YsArray <YsPair <YsShellPolygonHandle,double> > BoxedPlHd(int x0,int y0,int x1,int y1,YsArray <YsShellPolygonHandle,N> &excludePlHd,const YsMatrix4x4 &modelTfm) const;
@@ -166,6 +168,13 @@ private:
 	    int x0,int y0,int x1,int y1,const YsGLVertexBuffer &edgeVtxBuffer,const YsArray <int> &edgeIdxBuffer,const YsKeyStore *limit,const YsKeyStore *exclusion,const YsMatrix4x4 &modelTfm) const;
 	YsArray <YsPair <int,double> > BoxedIndexInTriangleBuffer(
 	    int x0,int y0,int x1,int y1,const YsGLVertexBuffer &triVtxBuffer,const YsArray <int> &triIdxBuffer,const YsKeyStore *limit,const YsKeyStore *exclusion,const YsMatrix4x4 &modelTfm) const;
+
+	YsArray <YsPair <int,double> > EnclosedIndexInEdgeBuffer(
+	    const YsShell2d &shl,const YsShell2dLattice &ltc,
+	    const YsGLVertexBuffer &edgeVtxBuffer,const YsArray <int> &edgeIdxBuffer,const YsKeyStore *limit,const YsKeyStore *exclusion,const YsMatrix4x4 &modelTfm) const;
+	YsArray <YsPair <int,double> > EnclosedIndexInTriangleBuffer(
+	    const YsShell2d &shl,const YsShell2dLattice &ltc,
+	    const YsGLVertexBuffer &triVtxBuffer,const YsArray <int> &triIdxBuffer,const YsKeyStore *limit,const YsKeyStore *exclusion,const YsMatrix4x4 &modelTfm) const;
 
 };
 
