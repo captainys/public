@@ -35,6 +35,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ysshellext_astar.h>
 
 #include "../ysgebl_gui_editor_base.h"
+#include "../sketch/sketch.h"
 #include "../textresource.h"
 
 void GeblGuiEditorBase::Select_All(FsGuiPopUpMenuItem *)
@@ -1296,6 +1297,78 @@ void GeblGuiEditorBase::SelectZeroNormalPolygon(FsGuiPopUpMenuItem *)
 		needRemakeDrawingBuffer|=NEED_REMAKE_DRAWING_SELECTED_POLYGON;
 		SetNeedRedraw(YSTRUE);
 	}
+}
+
+void GeblGuiEditorBase::Select_PolygonByStroke(FsGuiPopUpMenuItem *)
+{
+	Edit_ClearUIMode();
+
+	if(nullptr!=slHd)
+	{
+		auto &shl=*slHd;
+		sketchUI->StartSketchInterface(shl.Conv(),drawEnv);
+		draw2dCallBack=std::bind(&GeblGuiEditorBase::Select_PolygonByStroke_DrawCallBack2D,this);
+		mouseMoveCallBack=std::bind(&GeblGuiEditorBase::Select_PolygonByStroke_MouseMoveCallBack,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4,std::placeholders::_5);
+		lButtonDownCallBack=std::bind(&GeblGuiEditorBase::Select_PolygonByStroke_LButtonDownCallBack,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4,std::placeholders::_5);
+		lButtonUpCallBack=std::bind(&GeblGuiEditorBase::Select_PolygonByStroke_LButtonUpCallBack,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4,std::placeholders::_5);
+		SetNeedRedraw(YSTRUE);
+	}
+}
+void GeblGuiEditorBase::Select_PolygonByStroke_DrawCallBack2D(void)
+{
+	auto strokePoint=sketchUI->GetStroke();
+
+	YsArray <GLfloat> coord,color;
+	for(auto &point : strokePoint)
+	{
+		coord.Append((GLfloat)point.winCoord.x());
+		coord.Append((GLfloat)point.winCoord.y());
+
+		color.Append(0.0f);
+		color.Append(1.0f);
+		color.Append(0.0f);
+		color.Append(1.0f);
+	}
+
+	glDepthMask(0);
+	YsGLSLUsePlain2DRenderer(YsGLSLSharedPlain2DRenderer());
+	YsGLSLUseWindowCoordinateInPlain2DDrawing(YsGLSLSharedPlain2DRenderer(),YSTRUE);
+	YsGLSLDrawPlain2DPrimitivefv(YsGLSLSharedPlain2DRenderer(),GL_LINE_STRIP,coord.GetN()/2,coord,color);
+	YsGLSLEndUsePlain2DRenderer(YsGLSLSharedPlain2DRenderer());
+	glDepthMask(1);
+}
+YSRESULT GeblGuiEditorBase::Select_PolygonByStroke_LButtonDownCallBack(YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my)
+{
+	sketchUI->BeginStroke();
+	return YSOK;
+}
+YSRESULT GeblGuiEditorBase::Select_PolygonByStroke_LButtonUpCallBack(YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my)
+{
+	sketchUI->EndStroke();
+
+	if(nullptr!=slHd)
+	{
+		auto &shl=*slHd;
+		decltype(shl.GetSelectedPolygon()) selPlHd;
+		for(auto plHdDepth : EnclosedPlHd(*sketchUI))
+		{
+			selPlHd.Add(plHdDepth.a);
+		}
+		shl.SelectPolygon(selPlHd);
+		needRemakeDrawingBuffer|=NEED_REMAKE_DRAWING_SELECTED_POLYGON;
+		SetNeedRedraw(YSTRUE);
+	}
+
+	return YSOK;
+}
+YSRESULT GeblGuiEditorBase::Select_PolygonByStroke_MouseMoveCallBack(YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my)
+{
+	if(YSTRUE==lb)
+	{
+		sketchUI->AddStrokePoint(YsVec2(mx,my));
+		SetNeedRedraw(YSTRUE);
+	}
+	return YSOK;
 }
 
 class Select_PolygonSameColorFromCurrentSelection_Condition : public YsShellExt_TrackingUtil::SearchCondition

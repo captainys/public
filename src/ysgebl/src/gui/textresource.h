@@ -483,6 +483,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_MENU_SELECT_SHELL_NEXTSHELL                 FsGetTextResource("menu/select/shell/nextshell",L"Next Shell\tCtrl+Tab")
 #define FSGUI_MENU_SELECT_SHELL_PICKCURRENTSHELL          FsGetTextResource("menu/select/shell/pickcurrentshell",L"Pick Current Shell\tShift+S")
 #define FSGUI_MENU_SELECT_SHELL_PREVSHELL                 FsGetTextResource("menu/select/shell/prevshell",L"Previous Shell\tCtrl+Shift+Tab")
+#define FSGUI_MENU_SELECT_SKETCHSTROKE                    FsGetTextResource("menu/select/sketchstroke",L"by Sketch Stroke")
 #define FSGUI_MENU_SELECT_UNSELECT                        FsGetTextResource("menu/select/unselect",L"Unselect")
 #define FSGUI_MENU_SELECT_UNSELECT_ALL                    FsGetTextResource("menu/select/unselect/all",L"Unselect All\tT")
 #define FSGUI_MENU_SELECT_VERTEX                          FsGetTextResource("menu/select/vertex",L"Vertex")

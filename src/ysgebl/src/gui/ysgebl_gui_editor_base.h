@@ -942,6 +942,14 @@ public:
 
 	void SelectZeroNormalPolygon(FsGuiPopUpMenuItem *);
 
+	void Select_PolygonByStroke(FsGuiPopUpMenuItem *);
+	void Select_PolygonByStroke_DrawCallBack2D(void);
+	YSRESULT Select_PolygonByStroke_LButtonDownCallBack(YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my);
+	YSRESULT Select_PolygonByStroke_LButtonUpCallBack(YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my);
+	YSRESULT Select_PolygonByStroke_MouseMoveCallBack(YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my);
+
+
+
 	void View_RefreshBuffer(FsGuiPopUpMenuItem *);
 
 	void View_ResetViewRange(FsGuiPopUpMenuItem *);

@@ -443,6 +443,7 @@ $BGCOL 0
 +menu/select/shell/nextshell                       #Next Shell\tCtrl+Tab
 +menu/select/shell/pickcurrentshell                #Pick Current Shell\tShift+S
 +menu/select/shell/prevshell                       #Previous Shell\tCtrl+Shift+Tab
++menu/select/sketchstroke                          #by Sketch Stroke
 +menu/select/unselect                              #Unselect
 +menu/select/unselect/all                          #Unselect All\tT
 +menu/select/vertex                                #Vertex

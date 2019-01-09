@@ -442,6 +442,7 @@ $BGCOL 0
 +menu/select/shell/nextshell                       #次のシェル\tCtrl+Tab
 +menu/select/shell/pickcurrentshell                #カレントシェルをピックして選択\tShift+S
 +menu/select/shell/prevshell                       #前のシェル\tCtrl+Shift+Tab
++menu/select/sketchstroke                          #スケッチストロークで選択f
 +menu/select/unselect                              #選択解除
 +menu/select/unselect/all                          #選択解除\tT
 +menu/select/vertex                                #頂点

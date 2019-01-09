@@ -393,6 +393,9 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 		{
 			select_pick=selectSubMenu->AddTextItem(0,FSKEY_S,FSGUI_MENU_SELECT_PICK)->AddSubMenu();
 		}
+
+		auto select_sketch=selectSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_SELECT_SKETCHSTROKE)->AddSubMenu();
+
 		if(0!=(mainMenuOpt.selectMenuOption&mainMenuOpt.ADD_SELECT_VERTEX))
 		{
 			select_vertex=selectSubMenu->AddTextItem(0,FSKEY_R,FSGUI_MENU_SELECT_VERTEX)->AddSubMenu();
@@ -442,7 +445,10 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 					BindKeyCallBack(FSKEY_C,YSTRUE,YSFALSE,YSFALSE,&THISCLASS::Select_PickFaceGroup,this);
 				}
 			}
-
+			if(nullptr!=select_sketch)
+			{
+				select_sketch->AddTextItem(0,FSKEY_F,FSGUI_COMMON_POLYGON)->BindCallBack(&THISCLASS::Select_PolygonByStroke,this);
+			}
 
 			if(nullptr!=select_vertex)
 			{
