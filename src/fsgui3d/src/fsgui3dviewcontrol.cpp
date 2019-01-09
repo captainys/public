@@ -613,10 +613,33 @@ YSBOOL FsGui3DDrawingEnvironment::IsPointWithinRect(double &z,int x0,int y0,int 
 
 YSBOOL FsGui3DDrawingEnvironment::IsLineWithinRect(double &z,int x0,int y0,int x1,int y1,const YsVec3 &p1,const YsVec3 &p2) const
 {
-	const YsVec3 p[2]={p1,p2};
+	const YsVec3 edVtPos[2]={p1,p2};
+	return IsLineWithinRect(z,x0,y0,x1,y1,edVtPos);
+}
 
+YSBOOL FsGui3DDrawingEnvironment::IsLineWithinRect(double &z,int x0,int y0,int x1,int y1,const YsVec3 edVtPos[2]) const
+{
 	double minz=YsInfinity;
 	for(YSSIZE_T idx=0; idx<2; ++idx)
+	{
+		double z;
+		if(YSTRUE!=IsPointWithinRect(z,x0,y0,x1,y1,edVtPos[idx]))
+		{
+			return YSFALSE;
+		}
+		if(0==idx || z<minz)
+		{
+			minz=z;
+		}
+	}
+	z=minz;
+	return YSTRUE;
+}
+
+YSBOOL FsGui3DDrawingEnvironment::IsPolygonWithinRect(double &z,int x0,int y0,int x1,int y1,YSSIZE_T np,const YsVec3 p[]) const
+{
+	double minz=YsInfinity;
+	for(YSSIZE_T idx=0; idx<np; ++idx)
 	{
 		double z;
 		if(YSTRUE!=IsPointWithinRect(z,x0,y0,x1,y1,p[idx]))
@@ -632,18 +655,75 @@ YSBOOL FsGui3DDrawingEnvironment::IsLineWithinRect(double &z,int x0,int y0,int x
 	return YSTRUE;
 }
 
-YSBOOL FsGui3DDrawingEnvironment::IsLineWithinRect(double &z,int x0,int y0,int x1,int y1,const YsVec3 edVtPos[2]) const
+YSBOOL FsGui3DDrawingEnvironment::IsPointWithinPolygon(double &z,const YsShell2d &shl,const YsShell2dLattice &ltc,const YsVec3 &p) const
 {
-	return IsLineWithinRect(z,x0,y0,x1,y1,edVtPos[0],edVtPos[1]);
+	int viewport[4];
+	YsVec2 v2d;
+	YsVec3 prjPos;
+
+	GetOpenGlCompatibleViewport(viewport);
+	const YsMatrix4x4 &projMat=GetProjectionMatrix();
+	const YsMatrix4x4 &viewMat=GetViewMatrix();
+	const YsMatrix4x4 projViewMat=(projMat*viewMat);
+
+
+	double nearz,farz;
+	GetNearFar(nearz,farz);
+	YsVec3 tfm;
+	viewMat.Mul(tfm,p,1.0);
+	if(tfm.z()>-nearz)
+	{
+		return YSFALSE;
+	}
+
+
+	YsTransform3DCoordToScreenCoord(prjPos,p,viewport,projViewMat);
+	v2d.Set(prjPos.x(),prjPos.y());
+
+	int winWid,winHei;
+	FsGetWindowSize(winWid,winHei);
+
+	double y=(double)(winHei-1)-v2d.y();
+	v2d.SetY(y);
+
+	if(YSINSIDE==ltc.CheckInsidePolygon(v2d))
+	{
+		z=prjPos.z();
+		return YSTRUE;
+	}
+	return YSFALSE;
 }
 
-YSBOOL FsGui3DDrawingEnvironment::IsPolygonWithinRect(double &z,int x0,int y0,int x1,int y1,YSSIZE_T np,const YsVec3 p[]) const
+YSBOOL FsGui3DDrawingEnvironment::IsLineWithinPolygon(double &z,const YsShell2d &shl,const YsShell2dLattice &ltc,const YsVec3 &p1,const YsVec3 &p2) const
+{
+	const YsVec3 edVtPos[2]={p1,p2};
+	return IsLineWithinPolygon(z,shl,ltc,edVtPos);
+}
+YSBOOL FsGui3DDrawingEnvironment::IsLineWithinPolygon(double &z,const YsShell2d &shl,const YsShell2dLattice &ltc,const YsVec3 edVtPos[2]) const
+{
+	double minz=YsInfinity;
+	for(YSSIZE_T idx=0; idx<2; ++idx)
+	{
+		double z;
+		if(YSTRUE!=IsPointWithinPolygon(z,shl,ltc,edVtPos[idx]))
+		{
+			return YSFALSE;
+		}
+		if(0==idx || z<minz)
+		{
+			minz=z;
+		}
+	}
+	z=minz;
+	return YSTRUE;
+}
+YSBOOL FsGui3DDrawingEnvironment::IsPolygonWithinPolygon(double &z,const YsShell2d &shl,const YsShell2dLattice &ltc,YSSIZE_T np,const YsVec3 p[]) const
 {
 	double minz=YsInfinity;
 	for(YSSIZE_T idx=0; idx<np; ++idx)
 	{
 		double z;
-		if(YSTRUE!=IsPointWithinRect(z,x0,y0,x1,y1,p[idx]))
+		if(YSTRUE!=IsPointWithinPolygon(z,shl,ltc,p[idx]))
 		{
 			return YSFALSE;
 		}
