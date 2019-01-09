@@ -1213,6 +1213,119 @@ YsArray <YsPair <int,double> > GeblGuiFoundation::EnclosedIndexInEdgeBuffer(
 	    const YsGLVertexBuffer &edgeVtxBuffer,const YsArray <int> &edgeIdxBuffer,const YsKeyStore *limit,const YsKeyStore *exclusion,const YsMatrix4x4 &modelTfm) const
 {
 	YsArray <YsPair <int,double> > indexDepthPairArray;
+
+	if(NULL!=slHd)
+	{
+		for(YSSIZE_T edIdx=0; edIdx<=edgeVtxBuffer.GetNumVertex()-2; edIdx+=2)
+		{
+			if(NULL!=limit && YSTRUE!=limit->IsIncluded((YSHASHKEY)edgeIdxBuffer[edIdx/2]))
+			{
+				continue;
+			}
+
+			if(NULL==exclusion || YSTRUE!=exclusion->IsIncluded((YSHASHKEY)edgeIdxBuffer[edIdx/2]))
+			{
+				YsVec3 edVtPos[2]=
+				{
+					YsVec3(edgeVtxBuffer[edIdx  ][0],edgeVtxBuffer[edIdx  ][1],edgeVtxBuffer[edIdx  ][2]),
+					YsVec3(edgeVtxBuffer[edIdx+1][0],edgeVtxBuffer[edIdx+1][1],edgeVtxBuffer[edIdx+1][2]),
+				};
+
+				edVtPos[0]=modelTfm*edVtPos[0];
+				edVtPos[1]=modelTfm*edVtPos[1];
+
+				double depth;
+				if(YSTRUE==drawEnv.IsLineWithinPolygon(depth,shl,ltc,edVtPos))
+				{
+					indexDepthPairArray.Increment();
+					indexDepthPairArray.Last().a=edgeIdxBuffer[edIdx/2];
+					indexDepthPairArray.Last().b=depth;
+				}
+			}
+		}
+
+
+		YsKeyStore mayBeIncluded;
+		for(auto pair : indexDepthPairArray)
+		{
+			mayBeIncluded.AddKey(pair.a);
+		}
+
+
+		// When identifying a constraint edge, one piece may be within rect, but other pieces
+		// maybe extending outside of the rect.  The following loop filters out const edges
+		// that are extending outside of the rect and not fitting within the rect.
+		YsKeyStore actuallyExtendOutside;
+		for(YSSIZE_T edIdx=0; edIdx<=edgeVtxBuffer.GetNumVertex()-2; edIdx+=2)
+		{
+			if(YSTRUE==mayBeIncluded.IsIncluded(edgeIdxBuffer[edIdx/2]))
+			{
+				YsVec3 edVtPos[2]=
+				{
+					YsVec3(edgeVtxBuffer[edIdx  ][0],edgeVtxBuffer[edIdx  ][1],edgeVtxBuffer[edIdx  ][2]),
+					YsVec3(edgeVtxBuffer[edIdx+1][0],edgeVtxBuffer[edIdx+1][1],edgeVtxBuffer[edIdx+1][2]),
+				};
+
+				edVtPos[0]=modelTfm*edVtPos[0];
+				edVtPos[1]=modelTfm*edVtPos[1];
+
+				double depth;
+				if(YSTRUE!=drawEnv.IsLineWithinPolygon(depth,shl,ltc,edVtPos))
+				{
+					actuallyExtendOutside.AddKey(edgeIdxBuffer[edIdx/2]);
+				}
+			}
+		}
+
+
+		for(YSSIZE_T idx=indexDepthPairArray.GetN()-1; 0<=idx; --idx)
+		{
+			if(YSTRUE==actuallyExtendOutside.IsIncluded(indexDepthPairArray[idx].a))
+			{
+				indexDepthPairArray.DeleteBySwapping(idx);
+			}
+		}
+
+
+		YsHashTable <double> idxToDepth;
+		for(auto pair : indexDepthPairArray)
+		{
+			double depth;
+			if(YSOK!=idxToDepth.FindElement(depth,pair.a))
+			{
+				idxToDepth.AddElement(pair.a,pair.b);
+			}
+			else if(depth>pair.b)
+			{
+				idxToDepth.UpdateElement(pair.a,pair.b);
+			}
+		}
+
+
+		indexDepthPairArray.CleanUp();
+
+		YsHashElementEnumHandle hd;
+		if(YSOK==idxToDepth.RewindElementEnumHandle(hd))
+		{
+			for(;;)
+			{
+				YSHASHKEY key;
+				double elem;
+				idxToDepth.GetKey(key,hd);
+				idxToDepth.GetElement(elem,hd);
+
+				indexDepthPairArray.Increment();
+				indexDepthPairArray.Last().a=(int)key;
+				indexDepthPairArray.Last().b=elem;
+
+				if(YSOK!=idxToDepth.FindNextElement(hd))
+				{
+					break;
+				}
+			}
+		}
+	}
+
 	return indexDepthPairArray;
 }
 YsArray <YsPair <int,double> > GeblGuiFoundation::EnclosedIndexInTriangleBuffer(
@@ -1220,5 +1333,123 @@ YsArray <YsPair <int,double> > GeblGuiFoundation::EnclosedIndexInTriangleBuffer(
 	    const YsGLVertexBuffer &triVtxBuffer,const YsArray <int> &triIdxBuffer,const YsKeyStore *limit,const YsKeyStore *exclusion,const YsMatrix4x4 &modelTfm) const
 {
 	YsArray <YsPair <int,double> > indexDepthPairArray;
+
+	if(NULL!=slHd)
+	{
+		for(YSSIZE_T plIdx=0; plIdx<=triVtxBuffer.GetNumVertex()-3; plIdx+=3)
+		{
+			if(NULL!=limit && YSTRUE!=limit->IsIncluded(triIdxBuffer[plIdx/3]))
+			{
+				continue;
+			}
+
+			if(NULL==exclusion || YSTRUE!=exclusion->IsIncluded(triIdxBuffer[plIdx/3]))
+			{
+				YsVec3 triVtPos[3]=
+				{
+					YsVec3(triVtxBuffer[plIdx  ][0],triVtxBuffer[plIdx  ][1],triVtxBuffer[plIdx  ][2]),
+					YsVec3(triVtxBuffer[plIdx+1][0],triVtxBuffer[plIdx+1][1],triVtxBuffer[plIdx+1][2]),
+					YsVec3(triVtxBuffer[plIdx+2][0],triVtxBuffer[plIdx+2][1],triVtxBuffer[plIdx+2][2])
+				};
+
+				triVtPos[0]=modelTfm*triVtPos[0];
+				triVtPos[1]=modelTfm*triVtPos[1];
+				triVtPos[2]=modelTfm*triVtPos[2];
+
+				double depth;
+				if(YSTRUE==drawEnv.IsPolygonWithinPolygon(depth,shl,ltc,3,triVtPos))
+				{
+					indexDepthPairArray.Increment();
+					indexDepthPairArray.Last().a=triIdxBuffer[plIdx/3];
+					indexDepthPairArray.Last().b=depth;
+				}
+			}
+		}
+
+
+		YsKeyStore mayBeIncluded;
+		for(auto pair : indexDepthPairArray)
+		{
+			mayBeIncluded.AddKey(pair.a);
+		}
+
+
+		// The following loop is for identifying polygons that are actually not fitting inside the rect.
+		// Non-triangular polygons will be divided into multiple triangles.  Therefore, one triangle fitting within rect
+		// does not mean it is completely inside the rect.  The following loop filters out a polygon that are extending
+		// outside the rect.
+		YsKeyStore actuallyExtendOutside;
+		for(YSSIZE_T plIdx=0; plIdx<=triVtxBuffer.GetNumVertex()-3; plIdx+=3)
+		{
+			if(YSTRUE==mayBeIncluded.IsIncluded(triIdxBuffer[plIdx/3]))
+			{
+				YsVec3 triVtPos[3]=
+				{
+					YsVec3(triVtxBuffer[plIdx  ][0],triVtxBuffer[plIdx  ][1],triVtxBuffer[plIdx  ][2]),
+					YsVec3(triVtxBuffer[plIdx+1][0],triVtxBuffer[plIdx+1][1],triVtxBuffer[plIdx+1][2]),
+					YsVec3(triVtxBuffer[plIdx+2][0],triVtxBuffer[plIdx+2][1],triVtxBuffer[plIdx+2][2])
+				};
+
+				triVtPos[0]=modelTfm*triVtPos[0];
+				triVtPos[1]=modelTfm*triVtPos[1];
+				triVtPos[2]=modelTfm*triVtPos[2];
+
+				double depth;
+				if(YSTRUE!=drawEnv.IsPolygonWithinPolygon(depth,shl,ltc,3,triVtPos))
+				{
+					actuallyExtendOutside.AddKey(triIdxBuffer[plIdx/3]);
+				}
+			}
+		}
+
+
+		for(YSSIZE_T idx=indexDepthPairArray.GetN()-1; 0<=idx; --idx)
+		{
+			if(YSTRUE==actuallyExtendOutside.IsIncluded(indexDepthPairArray[idx].a))
+			{
+				indexDepthPairArray.DeleteBySwapping(idx);
+			}
+		}
+
+
+		YsHashTable <double> idxToDepth;
+		for(auto pair : indexDepthPairArray)
+		{
+			double depth;
+			if(YSOK!=idxToDepth.FindElement(depth,pair.a))
+			{
+				idxToDepth.AddElement(pair.a,pair.b);
+			}
+			else if(depth>pair.b)
+			{
+				idxToDepth.UpdateElement(pair.a,pair.b);
+			}
+		}
+
+
+		indexDepthPairArray.CleanUp();
+
+		YsHashElementEnumHandle hd;
+		if(YSOK==idxToDepth.RewindElementEnumHandle(hd))
+		{
+			for(;;)
+			{
+				YSHASHKEY key;
+				double elem;
+				idxToDepth.GetKey(key,hd);
+				idxToDepth.GetElement(elem,hd);
+
+				indexDepthPairArray.Increment();
+				indexDepthPairArray.Last().a=(int)key;
+				indexDepthPairArray.Last().b=elem;
+
+				if(YSOK!=idxToDepth.FindNextElement(hd))
+				{
+					break;
+				}
+			}
+		}
+	}
+
 	return indexDepthPairArray;
 }
