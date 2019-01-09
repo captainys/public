@@ -126,6 +126,15 @@ public:
 
 	/*! This function returns YSTRUE if all points of the given polygon fits within the rectangle (x0,y0)-(x1,y1). */
 	YSBOOL IsPolygonWithinRect(double &z,int x0,int y0,int x1,int y1,YSSIZE_T np,const YsVec3 p[]) const;
+
+	/*! This function returns YSTRUE if all points of the given line are inside the polygon defined in shell2d. */
+	YSBOOL IsLineWithinPolygon(const YsShell2d &shl,const YsShell2dLattice &ltc,const YsVec3 &p1,const YsVec3 &p2) const;
+
+	/*! This function returns YSTRUE if all points of the given line are inside the polygon defined in shell2d. */
+	YSBOOL IsLineWithinPolygon(const YsShell2d &shl,const YsShell2dLattice &ltc,const YsVec3 &edVtPos[2]) const;
+
+	/*! This function returns YSTRUE if all points of the polygon are inside the polygon defined in shell2d. */
+	YSBOOL IsPolygonWithinPolygon(const YsShell2d &shl,const YsShell2dLattice &ltc,YSSIZE_T np,const YsVec3 p[]) const;
 };
 
 /*! This class provides a standard view control. */
