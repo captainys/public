@@ -1596,6 +1596,8 @@ void FsPollDeviceC(void)
 		}
 	}
 
+	FsMakeCurrentC();
+
 #if !__has_feature(objc_arc)
 	[pool release];	
 #endif
