@@ -1,0 +1,33 @@
+Terminal -> FM7
+
+[ASCII BASIC File]
+Ffilename
+A
+(ASCII format program.  Each line starts with a line number
+QQQ$    ("QQQ" means the end of file.)
+
+Example:
+Fascii
+A
+10 CLS
+20 LINE(10,10)-(100,100),PSET,7
+QQQ
+
+
+
+
+[Binary]
+Ffilename
+Baaaabbbbccccssssxx  (aaaa=Begin addr,bbbb=Total number of bytes, cccc=Exec addr, ssss=Check Sum, xx=Xor)  (Line break by only CR(0x0d).  Not CRLF(0x0d0x0a))
+(Binary)
+
+
+Example:
+Fbintfr
+B210000302100176000
+303132333435363738393A3B3C3D3E3F
+00102030405060708090A0B0C0D0E0F0
+DEDEDEDEDEDEDEDEAFAFAFAFAFAFAFAF
+QQQ
+
+
