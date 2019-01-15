@@ -1,4 +1,4 @@
-D77 to RS232C - RS232CŒo—RD77ƒCƒ[ƒW‘‚«–ß‚µƒ†[ƒeƒBƒŠƒeƒB
+D77toRS232C - FM-7/77ƒVƒŠ[ƒY—pRS232CŒo—RD77ƒCƒ[ƒW‘‚«–ß‚µƒ†[ƒeƒBƒŠƒeƒB
 
 by ŽRì‹@’· (http://www.ysflight.com)
 
@@ -14,7 +14,7 @@ by ŽRì‹@’· (http://www.ysflight.com)
 
 XM7‚ª“oê‚µ‚½‚Æ‚«ŽèŒ³‚ÌƒfƒBƒXƒN‚ðD77ƒCƒ[ƒW‚ÉƒoƒbƒNƒAƒbƒv‚µ‚½‚à‚Ì‚ÌA¡“x‚Í¶ƒtƒƒbƒs[ƒfƒBƒXƒN‚É‘‚«–ß‚µ‚½‚­‚Ä‚à‘‚«–ß‚·Žè’i‚ª–³‚¢A‚Æ‚¢‚¤–â‘è‚ª”­¶‚µ‚Ü‚·B
 
-ƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒX‚Åƒf[ƒ^‚ð—¬‚µž‚Þ‚±‚Æ‚Í‰Â”\‚Å‚·‚ªAFM77AV—pƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒXƒP[ƒuƒ‹‚ª‚Ù‚Æ‚ñ‚ÇŽè‚É“ü‚è‚Ü‚¹‚ñB‚Í‚ñ‚¾•t‚¯‚ÉŽ©M‚ª‚ ‚ê‚ÎŽ©ì‚Å‚«‚Ü‚·‚ªA‚»‚¤‚Å‚È‚¢‚Æ“ï‚µ‚¢‚Å‚µ‚å‚¤B‰¼‚Éƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒXƒP[ƒuƒ‹‚ðì‚Á‚½‚Æ‚µ‚ÄA¡“x‚ÍPC‚©‚ç.WAVƒtƒ@ƒCƒ‹Œo—R‚Åƒf[ƒ^‚ð—¬‚µž‚ß‚é•ÛØ‚ª‚ ‚è‚Ü‚¹‚ñBŽèŒ³‚ÅŽÀŒ±‚µ‚½‚Æ‚±‚ë‚Å‚ÍAThinkPad 230T, 250‚Å.WAVƒtƒ@ƒCƒ‹‚ðÄ¶‚µ‚Ä‚àŽÀ‹@‚Å“Ç‚Ýž‚Þ‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B“¯‚¶.WAVƒtƒ@ƒCƒ‹‚ð2008 MacBook Pro, Dell XPS Desktop‚ÅÄ¶‚µ‚½‚Æ‚±‚ë‚Ü‚Á‚½‚­–â‘è‚È‚­“Ç‚Ýž‚Þ‚±‚Æ‚ª‚Å‚«‚Ü‚µ‚½B‚½‚Ü‚½‚ÜŽèŒ³‚ÌPC‚Å“Ç‚Ýž‚Ý‚É¬Œ÷‚·‚é‚©‚Ç‚¤‚©‚Í‚â‚Á‚Ä‚Ý‚é‚Ü‚Å‚í‚©‚è‚Ü‚¹‚ñB
+ƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒX‚Åƒf[ƒ^‚ð—¬‚µž‚Þ‚±‚Æ‚Í‰Â”\(http://########)‚Å‚·‚ªAFM77AV—pƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒXƒP[ƒuƒ‹‚ª‚Ù‚Æ‚ñ‚ÇŽè‚É“ü‚è‚Ü‚¹‚ñB‚Í‚ñ‚¾•t‚¯‚ÉŽ©M‚ª‚ ‚ê‚ÎŽ©ì‚Å‚«‚Ü‚·‚ªA‚»‚¤‚Å‚È‚¢‚Æ“ï‚µ‚¢‚Å‚µ‚å‚¤B‰¼‚Éƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒXƒP[ƒuƒ‹‚ðì‚Á‚½‚Æ‚µ‚ÄA¡“x‚ÍPC‚©‚ç.WAVƒtƒ@ƒCƒ‹Œo—R‚Åƒf[ƒ^‚ð—¬‚µž‚ß‚é•ÛØ‚ª‚ ‚è‚Ü‚¹‚ñBŽèŒ³‚ÅŽÀŒ±‚µ‚½‚Æ‚±‚ë‚Å‚ÍAThinkPad 230T, 250‚Å.WAVƒtƒ@ƒCƒ‹‚ðÄ¶‚µ‚Ä‚àŽÀ‹@‚Å“Ç‚Ýž‚Þ‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B“¯‚¶.WAVƒtƒ@ƒCƒ‹‚ð2008 MacBook Pro, Dell XPS Desktop‚ÅÄ¶‚µ‚½‚Æ‚±‚ë‚Ü‚Á‚½‚­–â‘è‚È‚­“Ç‚Ýž‚Þ‚±‚Æ‚ª‚Å‚«‚Ü‚µ‚½B‚½‚Ü‚½‚ÜŽèŒ³‚ÌPC‚Å“Ç‚Ýž‚Ý‚É¬Œ÷‚·‚é‚©‚Ç‚¤‚©‚Í‚â‚Á‚Ä‚Ý‚é‚Ü‚Å‚í‚©‚è‚Ü‚¹‚ñB
 
 ‹t‚ÉAŽèŒ³‚ÉƒŒƒA‚Èƒ\ƒtƒg‚ªŽc‚Á‚Ä‚¢‚é‚Æ‚µ‚ÄA‚»‚ÌƒfƒBƒXƒNƒCƒ[ƒW‚ðPCã‚ÉƒoƒbƒNƒAƒbƒv‚µ‚½‚¢‚Æ‚µ‚Ü‚µ‚å‚¤BŠ„‚Æ‚ ‚è‚ª‚¿‚¾‚ÆŽv‚¤‚Ì‚ªA“–ŽžŽÐ‰ï¶Šˆ‚ÆŽá‚³‚Æ‹à‚ÆŒ’N‚Æ“ª”¯‚ð‹]µ‚É‚µ‚Ä’b‚¦‚Ê‚¢‚½Wizardry‚Ìƒf[ƒ^‚ðƒoƒbƒNƒAƒbƒv‚µ‚½‚¢‚Æ‚©‚¢‚¤Žù—v‚à‚ ‚é‚©‚ÆŽv‚¢‚Ü‚·BÌ‚ÍDITT.EXE‚ðŽg‚¤‚Ì‚ªŽå—¬‚¾‚Á‚½‚æ‚¤‚Å‚·‚ªADITT‚ðŽÀs‚Å‚«‚éPC‚ðŒ©‚Â‚¯‚é‚Ì‚Í“ï‚µ‚­‚È‚Á‚Ä‚¢‚Ü‚·B(‚¢‚âA“®ì•i‚ÌFM77AV‚ðŒ©‚Â‚¯‚é•û‚ªŠÈ’P‚È‹C‚ª‚·‚é)BWindows XP‚ÅŽÀs‰Â”\‚ÈNDITT‚à‚ ‚è‚Ü‚·‚ªAƒRƒs[ƒvƒƒeƒNƒg‚ÅCHRN‚É×H‚Ì‚ ‚éƒZƒNƒ^‚Í‚Ù‚Æ‚ñ‚ÇƒGƒ‰[‚ª‚ ‚é‚Æ”»’f‚µ‚Ä“Ç‚Ýž‚Ý‚Ü‚¹‚ñB‚»‚à‚»‚àDITT‚Å‚Í‚·‚×‚Ä‚Ìî•ñ‚ð“Ç‚Ýž‚ñ‚Å‚¢‚é‚í‚¯‚Å‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚Ì–â‘è‚ð‰ðŒˆ‚·‚é‚½‚ß‚ÉARAWREAD‚È‚éƒvƒƒOƒ‰ƒ€‚ð‘‚«‚Ü‚µ‚½‚ªA(http://########)A‚±‚ê‚à‚È‚ñ‚Æ‚©‚µ‚ÄŽÀ‹@ã‚ÉŽ‚Á‚Ä‚¢‚©‚È‚¢‚ÆˆÓ–¡‚ª‚ ‚è‚Ü‚¹‚ñB
 
@@ -30,7 +30,7 @@ FM77AV1, AV2A‚ ‚é‚¢‚ÍAV‚æ‚è‘O‚ÌFM-77‚¾‚ÆRS232Cƒ|[ƒg‚ªƒfƒtƒHƒ‹ƒg‚Å‚Í‚Â‚¢‚Ä‚¢‚È‚
 
 RS232Cƒ|[ƒg‚ªÅ‰‚©‚ç‚ ‚éA‚Ü‚½‚Íƒ³•i‚©ŒÝŠ·RS232CƒJ[ƒh‚ª‚ ‚éB“®ìó‘Ô‚Ìƒtƒƒbƒs[ƒfƒBƒXƒNƒhƒ‰ƒCƒu‚à‚ ‚éB‚ ‚Æ‚ÍA‚±‚Ìƒ†[ƒeƒBƒŠƒeƒB‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚³‚¦ŽÀ‹@‚É—¬‚µž‚Þ‚±‚Æ‚ª‚Å‚«‚ê‚ÎƒfƒBƒXƒNƒCƒ[ƒW‚©‚ç¶ƒtƒƒbƒs[ƒfƒBƒXƒN‚ðÄ‚­‚±‚Æ‚ª‚Å‚«‚éB
 
-‚¾‚Æ‚µ‚Ä‚àA‚Å‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ð‚Ç‚¤‚â‚Á‚ÄFM77‚É‘—‚Á‚½‚à‚ñ‚Å‚µ‚å‚¤‚©HƒNƒ‰ƒCƒAƒ“ƒg‚³‚¦‚ ‚ê‚Î‚È‚ñ‚Ú‚Å‚àƒfƒBƒXƒNƒCƒ[ƒW‚ð‘—‚ê‚é‚©‚çD7CLIENT‚ª“ü‚Á‚½ƒfƒBƒXƒNƒCƒ[ƒW‚à“]‘—‚Å‚«‚Ü‚·‚ªA–â‘è‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ª–³‚¢‚©‚çƒfƒBƒXƒNƒCƒ[ƒW‚ð‘—M‚Å‚«‚È‚¢Bø‚ªæ‚©ƒCƒNƒ‰‚ªæ‚©‚Æ‚¢‚¤‹c˜_‚©‚çAø‚ÆƒCƒNƒ‰–â‘è‚Æ‚µ‚Ä’m‚ç‚ê‚Ä‚¢‚éó‘Ô‚ÉŠ×‚Á‚Ä‚µ‚Ü‚¢‚Ü‚·B(ƒjƒƒgƒŠ‚Æ—‘‚¾‚Á‚½‚©‚ÈH)
+‚¾‚Æ‚µ‚Ä‚àA‚Å‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ð‚Ç‚¤‚â‚Á‚ÄFM77‚É‘—‚Á‚½‚à‚ñ‚Å‚µ‚å‚¤‚©HƒNƒ‰ƒCƒAƒ“ƒg‚³‚¦‚ ‚ê‚Î‚È‚ñ‚Ú‚Å‚àƒfƒBƒXƒNƒCƒ[ƒW‚ð‘—‚ê‚é‚©‚çD7CLIENT‚ª“ü‚Á‚½ƒfƒBƒXƒNƒCƒ[ƒW‚à“]‘—‚Å‚«‚Ü‚·‚ªA–â‘è‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ª–³‚¢‚©‚çƒfƒBƒXƒNƒCƒ[ƒW‚ð‘—M‚Å‚«‚È‚¢Bø‚ªæ‚©ƒCƒNƒ‰‚ªæ‚©AøEƒCƒNƒ‰–â‘è‚Æ‚µ‚Ä’m‚ç‚ê‚Ä‚¢‚éó‘Ô‚ÉŠ×‚Á‚Ä‚µ‚Ü‚¢‚Ü‚·B(ƒjƒƒgƒŠ‚Æ—‘‚¾‚Á‚½‚©‚ÈH)
 
 ‚»‚¤‚¢‚¤Ž–‘Ô‚É”õ‚¦‚ÄAŽŸ‚ÌŽè‡‚ÅD77ƒT[ƒo[‚©‚çŽÀ‹@‚ÉŠÈ’P‚ÈF-BASIC‚ÌƒvƒƒOƒ‰ƒ€‚ÅƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒOƒ‰ƒ€‚ð—¬‚µž‚ÝA‚»‚µ‚ÄA‚³‚ç‚ÉƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒOƒ‰ƒ€("D7CLIENT")‚ðŠÜ‚ÞRS232Cƒ†[ƒeƒBƒŠƒeƒB‚ª“ü‚Á‚ÄF-BASIC‚ª‹N“®‰Â”\‚ÈƒfƒBƒXƒNƒCƒ[ƒW‚ðŽÀ‹@‚É“]‘—‚Å‚«‚é‚æ‚¤‚É‚È‚Á‚Ä‚¢‚Ü‚·B
 
@@ -41,7 +41,16 @@ RS232Cƒ|[ƒg‚ªÅ‰‚©‚ç‚ ‚éA‚Ü‚½‚Íƒ³•i‚©ŒÝŠ·RS232CƒJ[ƒh‚ª‚ ‚éB“®ìó‘Ô‚Ìƒtƒ
 
 ã‚ÌƒŠƒ“ƒN‚ÌŒÝŠ·RS232CƒJ[ƒh‚ðŽ©ì‚µ‚½‚ ‚é‚¢‚Íƒ„ƒtƒIƒN‚Å–l‚©‚ç”ƒ‚Á‚½ê‡‚ÍƒfƒtƒHƒ‹ƒg‚ÅƒWƒƒƒ“ƒpƒsƒ“‚Ì5”Ô‚ªƒIƒ“‚É‚È‚Á‚Ä‚¢‚é‚Í‚¸‚È‚Ì‚Å‚»‚Ì‚Ü‚Ü‚É‚µ‚Ä‚­‚¾‚³‚¢B–œ‚ªˆê—A‘—’†‚ÉŠO‚ê‚Ä‚µ‚Ü‚Á‚Ä‚¢‚½ê‡‚ÍAƒWƒƒƒ“ƒp‚Ì5”Ô‚¾‚¯ƒIƒ“‚Å‚·B
 
-‚±‚Ì‚æ‚¤‚É‚·‚é‚ÆAD7CLIENT (8•¶Žš‚É—}‚¦‚é‚½‚ß‚ÉD77‚É‚Å‚«‚È‚©‚Á‚½)‚Í19200bps‚Å’ÊM‚µ‚Ü‚·B
+‚±‚Ì‚æ‚¤‚É‚·‚é‚ÆAƒNƒ‰ƒCƒAƒ“ƒg‚Í (8•¶Žš‚É—}‚¦‚é‚½‚ß‚ÉD77‚É‚Å‚«‚È‚©‚Á‚½)‚Í19200bps‚Å’ÊM‚µ‚Ü‚·B
+
+(1.5) Žg‚Á‚Ä‚é‚Ì‚ªFM77AV40/20ˆÈ~‚Ì‹@Ží‚Ìê‡‚ÍRS232C‚ÌƒCƒl[ƒuƒ‹
+FM77AV20‚Ü‚½‚ÍFM77AV40ˆÈ~‚Ì‹@Ží‚Å‚Í–{‘Ì‚ÉRS232C‚ª‚Â‚¢‚Ä‚¢‚Ü‚·‚ªA•’Ê‚É‹N“®‚·‚é‚Æ‚È‚º‚©RS232C‚ªƒIƒt‚Ìó‘Ô‚É‚È‚Á‚Ä‚¢‚Ü‚·B‚È‚ºƒIƒt‚É‚È‚Á‚Ä‚¢‚é‚©‚Æ‚¢‚¤‚ÆRS232C‚ª‚ ‚é‚à‚Ì‚ÆF-BASIC‚ª”FŽ¯‚·‚é‚Æ128ƒoƒCƒg‚¾‚Á‚½‚©‚ðRS232C’ÊMƒoƒbƒtƒ@‚Æ‚µ‚ÄŠm•Û‚µ‚Ä‚µ‚Ü‚Á‚ÄAƒvƒƒOƒ‰ƒ€‚É‚æ‚Á‚Ä‚Íƒƒ‚ƒŠ‚ª‘«‚è‚È‚­‚È‚é‚©‚ç‚Å‚·B‘½•ªB‚»‚Ì‚Ü‚Ü‚Å‚ÍF-BASIC‚ÅCOMƒ|[ƒg‚ªŽg‚¦‚È‚¢‚Ì‚ÅA‹N“®‚µ‚½‚çA
+
+POKE &HFD0C,5
+POKE &HFD0B,16
+EXEC -512
+
+‚Æƒ^ƒCƒv‚µ‚Ä‚µ‚Î‚ç‚­‘Ò‚Â‚ÆF-BASIC‚ªÄ‹N“®‚µ‚ÄCOM0‚ªŽg‚¦‚é‚æ‚¤‚É‚È‚é‚Í‚¸‚Å‚·B‚È‚¨A‚¢‚Á‚½‚ñD7CLIENT‚ðƒfƒBƒXƒN‚©‚ç‹N“®‚Å‚«‚é‚æ‚¤‚É‚µ‚Ä‚µ‚Ü‚¦‚ÎAD7CLIENT‚ª’†‚ÅŽ©“®“I‚ÉRS232C‚ðƒCƒl[ƒuƒ‹‚·‚é‚Ì‚ÅAF-BASIC‚©‚çCOMƒ|[ƒg‚ðŽg‚¤——R‚ª‚Æ‚­‚É‚È‚¯‚ê‚Î‚ ‚Æ‚Í‚±‚ÌŽè‡‚Í•s—v‚É‚È‚è‚Ü‚·B
 
 (2) ƒT[ƒo[‚Ì‹N“®
 Windows PCã‚ÅAƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒg‚Ü‚½‚ÍPower Shell‚ð‹N“®‚µ‚ÄAD77Server.exe‚ª’u‚¢‚Ä‚ ‚éƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®‚µ‚Ä(‚Ü‚½‚ÍD77Server.exe‚Ì’u‚¢‚Ä‚ ‚éƒfƒBƒŒƒNƒgƒŠ‚ÉƒpƒX‚ð’£‚Á‚Ä)AŽŸ‚Ì‚æ‚¤‚Éƒ^ƒCƒv‚µ‚ÄƒT[ƒo[‚ð‹N“®‚µ‚Ä‚­‚¾‚³‚¢B‚È‚¨Aƒpƒ‰ƒ[ƒ^‚Ìu3v‚Íƒ|[ƒg”Ô†‚È‚Ì‚ÅAŠÂ‹«‚É‰ž‚¶‚Ä³‚µ‚¢”Ô†‚ðŽw’è‚µ‚Ä‚­‚¾‚³‚¢B
@@ -64,14 +73,6 @@ PC‘¤‚©‚ç2.5KB‚®‚ç‚¢‚ÌƒoƒCƒg”‚ðF-BASIC‚ÅŽó‚¯Žæ‚é‚Ì‚Å1•ª’ö“x‘Ò‚Â‚ÆƒNƒ‰ƒCƒAƒ“ƒgƒvƒ
 
 210s‚ÌƒRƒƒ“ƒg‚ð‚Í‚¸‚·‚Æƒhƒ‰ƒCƒu0‚É‘‚«ž‚Ý‚Ü‚·‚ªAƒfƒtƒHƒ‹ƒg‚¾‚Æƒhƒ‰ƒCƒu1‚É‘‚«ž‚Ý‚Ü‚·B
 
-‚È‚¨AFM77AV20‚Ü‚½‚ÍFM77AV40ˆÈ~‚Ì‹@Ží‚Å‚Í–{‘Ì‚ÉRS232C‚ª‚Â‚¢‚Ä‚¢‚Ü‚·‚ªA•’Ê‚É‹N“®‚·‚é‚Æ‚È‚º‚©RS232C‚ªƒIƒt‚Ìó‘Ô‚É‚È‚Á‚Ä‚¢‚Ü‚·B‚È‚Ì‚ÅA‹N“®‚µ‚½‚çA
-
-POKE &HFD0C,5
-POKE &HFD0B,16
-EXEC -512
-
-‚Æƒ^ƒCƒv‚µ‚Ä‚µ‚Î‚ç‚­‘Ò‚Â‚ÆF-BASIC‚ªÄ‹N“®‚µ‚ÄCOM0‚ªŽg‚¦‚é‚æ‚¤‚É‚È‚é‚Í‚¸‚Å‚·B
-
 ‚±‚ê‚É‚æ‚èAƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN‚³‚¦ì‚Á‚Ä‚µ‚Ü‚¦‚Î‚ ‚Æ‚Í‚±‚Á‚¿‚Ì‚à‚Ì‚ÅAƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN‚©‚ç‹N“®‚µ‚ÄAƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒOƒ‰ƒ€‚ðŠÈ’P‚É‹N“®‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚·B
 
 
@@ -81,10 +82,7 @@ EXEC -512
 Žg‚¢•û
 
 (1) RS232C‚ÌÚ‘±
-
 ã‚ÌøEƒCƒNƒ‰–â‘è‚Å‘‚¢‚½’Ê‚èB
-
-
 
 (2) ƒT[ƒo[‚Ì‹N“®
 
