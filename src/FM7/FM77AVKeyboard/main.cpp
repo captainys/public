@@ -42,7 +42,7 @@ private:
 	CheapGUI::CheckBox *rKanaModeBtn;
 	std::vector <CheapGUI::CheckBox *> modeBtn;
 
-	CheapGUI::PushButton *autoTypingBtn;
+	CheapGUI::PushButton *autoTypingBtn,*autoTypingBasicBtn;
 
 	CheapGUI::PushButton *exitBtn;
 	CheapGUI::PushButton *secretBtn;
@@ -171,7 +171,10 @@ void FM77AVKeyboardEmulatorMain::SetUpCheapGUI(void)
 	pauseBtn->SetCheck(fm77avKeyboardEmu.GetPause());
 	autoStopBtn=gui.AddCheckBox(128,guiY,150,32,"AUTO-STOP");
 	autoFireBtn=gui.AddCheckBox(286,guiY,150,32,"AUTO-FIRE");
-	autoTypingBtn=gui.AddPushButton(444,guiY,150,32,"AUTO-TYPE");
+	guiY+=34;
+
+	autoTypingBtn=gui.AddPushButton(8,guiY,150,32,"AUTO-TYPE");
+	autoTypingBasicBtn=gui.AddPushButton(180,guiY,260,32,"AUTO-TYPE(BASIC)");
 	guiY+=34;
 
 	zxcTxt=gui.AddText(8,guiY,112,32,"ZXC:");
@@ -253,7 +256,13 @@ void FM77AVKeyboardEmulatorMain::ProcessUserInput(void)
 	{
 		FileDialogOption opt;
 		auto fName=SelectFile(opt);
-		fm77avKeyboardEmu.StartAutoTyping(fName.c_str());
+		fm77avKeyboardEmu.StartAutoTyping(fName.c_str(),0);
+	}
+	if(autoTypingBasicBtn==gui.PeekLastClicked() && fm77avKeyboardEmu.GetIRToyState()==IRToy_Controller::STATE_GOWILD)
+	{
+		FileDialogOption opt;
+		auto fName=SelectFile(opt);
+		fm77avKeyboardEmu.StartAutoTyping(fName.c_str(),500);
 	}
 	if(autoStopBtn==gui.PeekLastClicked())
 	{
@@ -586,7 +595,7 @@ bool OnCloseWindow(void *incoming)
 {
 	auto appPtr=(FM77AVKeyboardEmulatorMain *)incoming;
 	appPtr->Quit();
-	return true;
+	return false;
 }
 
 int main(void)

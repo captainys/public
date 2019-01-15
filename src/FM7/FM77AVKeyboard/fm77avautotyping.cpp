@@ -2,7 +2,7 @@
 #include <string.h>
 #include "fm77avkeyboardemu.h"
 
-void FM77AVKeyboardEmulator::StartAutoTyping(const char fName[])
+void FM77AVKeyboardEmulator::StartAutoTyping(const char fName[],int lineBreakWait)
 {
 	if(nullptr==fName || 0==fName[0])
 	{
@@ -24,6 +24,8 @@ void FM77AVKeyboardEmulator::StartAutoTyping(const char fName[])
 
 			autoTypingTxt.push_back(0);
 
+			autoTypingLineBreakWait=lineBreakWait;
+
 			nextAutoTypingTimer=std::chrono::system_clock::now();
 			fclose(fp);
 		}
@@ -37,6 +39,7 @@ void FM77AVKeyboardEmulator::StopAutoTyping(void)
 {
 	autoTypingFName="";
 	autoTypingPtr=0;
+	autoTypingLineBreakWait=0;
 	autoTypingTxt.clear();
 	nextAutoTypingTimer=std::chrono::system_clock::now();
 }
@@ -66,6 +69,7 @@ void FM77AVKeyboardEmulator::AutoType(void)
 		if(0==nConsumed && 0x0d==nextLetter)
 		{
 			keySched.AddStroke(AVKEY_RETURN,false,false,false);
+			nextAutoTypingTimer+=std::chrono::milliseconds(autoTypingLineBreakWait);
 			nConsumed=1;
 			if(0x0a==autoTypingTxt[autoTypingPtr+1])
 			{

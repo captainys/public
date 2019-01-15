@@ -81,6 +81,7 @@ private:
 
 	std::string autoTypingFName;
 	long long int autoTypingPtr;
+	long long int autoTypingLineBreakWait;
 	std::vector <unsigned char> autoTypingTxt;
 	std::chrono::time_point <std::chrono::system_clock> nextAutoTypingTimer;
 public:
@@ -111,7 +112,7 @@ public:
 	void SetArrowFor8Dir(bool arrowFor8Dir);
 	bool GetArrowFor8Dir(void) const;
 
-	void StartAutoTyping(const char fName[]);
+	void StartAutoTyping(const char fName[],int lineBreakWait);
 	void StopAutoTyping(void);
 	bool IsAutoTyping(void) const;
 	std::string GetAutoTypingFileName(void) const;
