@@ -174,9 +174,17 @@ bool YsCOMPort::Open(int portNumber)
 
 		switch(desiredFlowControl)
 		{
+		case FLOWCONTROL_NONE:
+			dcb.fOutxCtsFlow=FALSE;
+			dcb.fRtsControl=RTS_CONTROL_ENABLE;
+			dcb.fDtrControl=DTR_CONTROL_ENABLE;
+			dcb.fOutX=FALSE;
+			dcb.fInX=FALSE;
+			break;
 		case FLOWCONTROL_HARDWARE:
 			dcb.fOutxCtsFlow=TRUE;
-			dcb.fRtsControl=RTS_CONTROL_HANDSHAKE; // ???
+			dcb.fRtsControl=RTS_CONTROL_ENABLE;
+			dcb.fDtrControl=DTR_CONTROL_ENABLE;
 			break;
 		case FLOWCONTROL_XON_XOFF:
 			// Note: Good for text transmission only

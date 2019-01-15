@@ -46,9 +46,21 @@ RS232C_RECEIVE_FILE
 					PSHS	A,B,X,Y,U,CC
 
 					ORCC	#$50
-					STA		$FD0F
-
 					LBSR	RS232C_OPEN
+					BSR		RS232C_RECEIVE_FILE_SUB
+					LBSR	RS232C_CLOSE
+
+					PULS	A,B,X,Y,U,CC,PC
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+					; RS232C_RECEIVE_FILE_SUB
+					;   Does not open and close RS232C (therefore does not reset at start.)
+					;	Does not save registers.
+					;	Does not mask IRQs
+					;   These must be done in the calling process.
+
+RS232C_RECEIVE_FILE_SUB
+					STA		$FD0F
 
 					LDX		RS232C_RECEIVE_FILE_BEGIN,PCR
 					STX		RS232C_RECEIVE_FILE_EXEC,PCR
@@ -95,9 +107,8 @@ RS232C_RECEIVE_FILE_NOT_BINARY
 RS232C_RECEIVE_FILE_NOT_FILENAME
 
 RS232C_RECEIVE_FILE_EXIT
-					LBSR	RS232C_CLOSE
 					LDA		$FD0F
-					PULS	A,B,X,Y,U,CC,PC
+					RTS
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -422,7 +422,10 @@ bool D77Server::Run(int ac,char *av[])
 
 
 	comPort.SetDesiredBaudRate(19200);
+	comPort.SetDesiredBitLength(YsCOMPort::BITLENGTH_8);
 	comPort.SetDesiredStopBit(YsCOMPort::STOPBIT_1);
+	comPort.SetDesiredParity(YsCOMPort::PARITY_NOPARITY);
+	comPort.SetDesiredFlowControl(YsCOMPort::FLOWCONTROL_NONE);
 	if(true!=comPort.Open(atoi(cpi.portStr.data())))
 	{
 		fprintf(stderr,"Cannot open port %s.\n",cpi.portStr.data());
@@ -445,6 +448,8 @@ bool D77Server::Run(int ac,char *av[])
 		auto recv=comPort.Receive();
 		for(auto b : recv)
 		{
+			printf("(%02x)\n",b);
+
 			if(0x0d==b || 0x0a==b)
 			{
 				printf("Command: %s\n",cmdLine.c_str());
