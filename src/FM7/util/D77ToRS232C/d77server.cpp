@@ -323,6 +323,7 @@ bool D77Server::Run(int ac,char *av[])
 
 	if("####UTILDISK####"==cpi.d77FName)
 	{
+		cpi.fBasic=true;
 		rawD77.assign(utilDiskImg,utilDiskImg+utilDiskImg_size);
 	}
 	else
@@ -453,6 +454,7 @@ bool D77Server::Run(int ac,char *av[])
 			if(0x0d==b || 0x0a==b)
 			{
 				printf("Command: %s\n",cmdLine.c_str());
+				
 				// Process command
 				if("REQFMT"==cmdLine)
 				{
