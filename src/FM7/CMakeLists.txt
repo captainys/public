@@ -1,7 +1,7 @@
-add_subdirectory("lib/yscomport")
 add_subdirectory("lib/irtoy")
 add_subdirectory("lib/cheaplib")
 add_subdirectory("lib/cheapgui")
 add_subdirectory("FM77AVKeyboard")
 add_subdirectory("RomajiToKanaKey")
 add_subdirectory("RS232CTest")
+add_subdirectory("util")

@@ -26,15 +26,63 @@ FM77AV1, AV2A‚ ‚é‚¢‚ÍAV‚æ‚è‘O‚ÌFM-77‚¾‚ÆRS232Cƒ|[ƒg‚ªƒfƒtƒHƒ‹ƒg‚Å‚Í‚Â‚¢‚Ä‚¢‚È‚
 
 
 
-Žg‚¢•û
+øEƒCƒNƒ‰–â‘è
+
+RS232Cƒ|[ƒg‚ªÅ‰‚©‚ç‚ ‚éA‚Ü‚½‚Íƒ³•i‚©ŒÝŠ·RS232CƒJ[ƒh‚ª‚ ‚éB“®ìó‘Ô‚Ìƒtƒƒbƒs[ƒfƒBƒXƒNƒhƒ‰ƒCƒu‚à‚ ‚éB‚ ‚Æ‚ÍA‚±‚Ìƒ†[ƒeƒBƒŠƒeƒB‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚³‚¦ŽÀ‹@‚É—¬‚µž‚Þ‚±‚Æ‚ª‚Å‚«‚ê‚ÎƒfƒBƒXƒNƒCƒ[ƒW‚©‚ç¶ƒtƒƒbƒs[ƒfƒBƒXƒN‚ðÄ‚­‚±‚Æ‚ª‚Å‚«‚éB
+
+‚¾‚Æ‚µ‚Ä‚àA‚Å‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ð‚Ç‚¤‚â‚Á‚ÄFM77‚É‘—‚Á‚½‚à‚ñ‚Å‚µ‚å‚¤‚©HƒNƒ‰ƒCƒAƒ“ƒg‚³‚¦‚ ‚ê‚Î‚È‚ñ‚Ú‚Å‚àƒfƒBƒXƒNƒCƒ[ƒW‚ð‘—‚ê‚é‚©‚çD7CLIENT‚ª“ü‚Á‚½ƒfƒBƒXƒNƒCƒ[ƒW‚à“]‘—‚Å‚«‚Ü‚·‚ªA–â‘è‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ª–³‚¢‚©‚çƒfƒBƒXƒNƒCƒ[ƒW‚ð‘—M‚Å‚«‚È‚¢Bø‚ªæ‚©ƒCƒNƒ‰‚ªæ‚©‚Æ‚¢‚¤‹c˜_‚©‚çAø‚ÆƒCƒNƒ‰–â‘è‚Æ‚µ‚Ä’m‚ç‚ê‚Ä‚¢‚éó‘Ô‚ÉŠ×‚Á‚Ä‚µ‚Ü‚¢‚Ü‚·B(ƒjƒƒgƒŠ‚Æ—‘‚¾‚Á‚½‚©‚ÈH)
+
+‚»‚¤‚¢‚¤Ž–‘Ô‚É”õ‚¦‚ÄAŽŸ‚ÌŽè‡‚ÅD77ƒT[ƒo[‚©‚çŽÀ‹@‚ÉŠÈ’P‚ÈF-BASIC‚ÌƒvƒƒOƒ‰ƒ€‚ÅƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒOƒ‰ƒ€‚ð—¬‚µž‚ÝA‚»‚µ‚ÄA‚³‚ç‚ÉƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒOƒ‰ƒ€("D7CLIENT")‚ðŠÜ‚ÞRS232Cƒ†[ƒeƒBƒŠƒeƒB‚ª“ü‚Á‚ÄF-BASIC‚ª‹N“®‰Â”\‚ÈƒfƒBƒXƒNƒCƒ[ƒW‚ðŽÀ‹@‚É“]‘—‚Å‚«‚é‚æ‚¤‚É‚È‚Á‚Ä‚¢‚Ü‚·B
+
+
 
 (1) RS232C‚ÌÚ‘±
-
 ‚È‚É‚æ‚èÅ‰‚ÉPC‚ÆFM77(‚ ‚é‚¢‚ÍƒfƒBƒXƒNƒhƒ‰ƒCƒu‚Â‚«‚ÌFM-7)‚ðƒNƒƒXƒP[ƒuƒ‹‚ÅÚ‘±‚µ‚Ü‚·BFM77‘¤‚ÌRS232C‚ÌÝ’è‚Å‚·‚ªAFM77AVˆÈ‘O‚Ì‹@Ží‚ÉRS232CƒJ[ƒh‚ð‘•’…‚µ‚Ä‚¢‚éê‡‚ÍƒfƒBƒbƒvƒXƒCƒbƒ`‚Ì5”Ô‚Æ6”Ô‚¾‚¯‚ðƒIƒ“‚É‚µ‚Ä‚­‚¾‚³‚¢B‚»‚êˆÈŠO‚ÌƒfƒBƒbƒvƒXƒCƒbƒ`‚Í‚·‚×‚ÄƒIƒt‚Å‚·B‚È‚¨AƒJ[ƒlƒM[ƒƒƒ“‘åŠw‚ÌƒRƒ“ƒsƒ…[ƒ^ƒNƒ‰ƒu‚Ì‹¦—Í‚Åƒ³RS232CƒJ[ƒh‚ð•ªÍ‚µ‚½‚Æ‚±‚ë1`5”Ô‚ÌƒXƒCƒbƒ`‚Ì‚¤‚¿“ñ‚ÂˆÈã‚ðƒIƒ“‚É‚·‚é‚ÆƒJ[ƒh‚ªÄ‚¯‚é‰Â”\«‚ª‚ ‚é‚Ì‚ÅA•K‚¸1`4‚ðƒIƒtA5”Ô‚¾‚¯ƒIƒ“‚É‚µ‚Ä‚­‚¾‚³‚¢B6”ÔˆÈ~‚ÍŠÔˆá‚Á‚Ä‚Ä‚àÄ‚¯‚é‚±‚Æ‚Í‚È‚³‚»‚¤‚Å‚·B
 
 ã‚ÌƒŠƒ“ƒN‚ÌŒÝŠ·RS232CƒJ[ƒh‚ðŽ©ì‚µ‚½‚ ‚é‚¢‚Íƒ„ƒtƒIƒN‚Å–l‚©‚ç”ƒ‚Á‚½ê‡‚ÍƒfƒtƒHƒ‹ƒg‚ÅƒWƒƒƒ“ƒpƒsƒ“‚Ì5”Ô‚ªƒIƒ“‚É‚È‚Á‚Ä‚¢‚é‚Í‚¸‚È‚Ì‚Å‚»‚Ì‚Ü‚Ü‚É‚µ‚Ä‚­‚¾‚³‚¢B–œ‚ªˆê—A‘—’†‚ÉŠO‚ê‚Ä‚µ‚Ü‚Á‚Ä‚¢‚½ê‡‚ÍAƒWƒƒƒ“ƒp‚Ì5”Ô‚¾‚¯ƒIƒ“‚Å‚·B
 
 ‚±‚Ì‚æ‚¤‚É‚·‚é‚ÆAD7CLIENT (8•¶Žš‚É—}‚¦‚é‚½‚ß‚ÉD77‚É‚Å‚«‚È‚©‚Á‚½)‚Í19200bps‚Å’ÊM‚µ‚Ü‚·B
+
+(2) ƒT[ƒo[‚Ì‹N“®
+Windows PCã‚ÅAƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒg‚Ü‚½‚ÍPower Shell‚ð‹N“®‚µ‚ÄAD77Server.exe‚ª’u‚¢‚Ä‚ ‚éƒfƒBƒŒƒNƒgƒŠ‚ÉˆÚ“®‚µ‚Ä(‚Ü‚½‚ÍD77Server.exe‚Ì’u‚¢‚Ä‚ ‚éƒfƒBƒŒƒNƒgƒŠ‚ÉƒpƒX‚ð’£‚Á‚Ä)AŽŸ‚Ì‚æ‚¤‚Éƒ^ƒCƒv‚µ‚ÄƒT[ƒo[‚ð‹N“®‚µ‚Ä‚­‚¾‚³‚¢B‚È‚¨Aƒpƒ‰ƒ[ƒ^‚Ìu3v‚Íƒ|[ƒg”Ô†‚È‚Ì‚ÅAŠÂ‹«‚É‰ž‚¶‚Ä³‚µ‚¢”Ô†‚ðŽw’è‚µ‚Ä‚­‚¾‚³‚¢B
+
+    .\D77Server "####UTILDISK####" 3 -fbasic
+
+(3) ƒNƒ‰ƒCƒAƒ“ƒg‚ðRS232CŒo—R‚Å“Ç‚Ýž‚ñ‚ÅŽÀs
+‘±‚¢‚ÄFM77ã‚ÅF-BASIC (ƒe[ƒvƒ‚[ƒh‚Å‚à‰Â) ‚ð—§‚¿ã‚°‚ÄAˆÈ‰º‚ÌƒvƒƒOƒ‰ƒ€‚ðŽÀs‚µ‚Ä‚­‚¾‚³‚¢B
+
+100 CLEAR ,&H17FF:DEFINT A-Z:WIDTH 80,25:A=&H1800
+110 OPEN "I",#1,"COM0:(F8N1)"
+120 OPEN "O",#2,"COM0:(F8N1)":PRINT #2,"REQCLI":CLOSE #2
+130 INPUT #1,D$:PRINT ".";
+140 POKE A,VAL("&H"+D$):A=A+1
+150 IF LEFT$(D$,1)<>"Q" THEN 130
+160 ' POKE &H1802,0
+170 EXEC &H1800
+
+PC‘¤‚©‚ç2.5KB‚®‚ç‚¢‚ÌƒoƒCƒg”‚ðF-BASIC‚ÅŽó‚¯Žæ‚é‚Ì‚Å1•ª’ö“x‘Ò‚Â‚ÆƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒOƒ‰ƒ€‚ª‹N“®‚µ‚Ü‚·Bƒhƒ‰ƒCƒu1‚É¶ƒfƒBƒXƒN‚ð“ü‚ê‚ÄAƒŠƒ^[ƒ“ƒL[‚ð‰Ÿ‚·‚Æƒhƒ‰ƒCƒu1‚Éƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN‚ª‚Å‚«‚Ü‚·B
+
+210s‚ÌƒRƒƒ“ƒg‚ð‚Í‚¸‚·‚Æƒhƒ‰ƒCƒu0‚É‘‚«ž‚Ý‚Ü‚·‚ªAƒfƒtƒHƒ‹ƒg‚¾‚Æƒhƒ‰ƒCƒu1‚É‘‚«ž‚Ý‚Ü‚·B
+
+‚È‚¨AFM77AV20‚Ü‚½‚ÍFM77AV40ˆÈ~‚Ì‹@Ží‚Å‚Í–{‘Ì‚ÉRS232C‚ª‚Â‚¢‚Ä‚¢‚Ü‚·‚ªA•’Ê‚É‹N“®‚·‚é‚Æ‚È‚º‚©RS232C‚ªƒIƒt‚Ìó‘Ô‚É‚È‚Á‚Ä‚¢‚Ü‚·B‚È‚Ì‚ÅA‹N“®‚µ‚½‚çA
+
+POKE &HFD0C,5
+POKE &HFD0B,16
+EXEC -512
+
+‚Æƒ^ƒCƒv‚µ‚Ä‚µ‚Î‚ç‚­‘Ò‚Â‚ÆF-BASIC‚ªÄ‹N“®‚µ‚ÄCOM0‚ªŽg‚¦‚é‚æ‚¤‚É‚È‚é‚Í‚¸‚Å‚·B
+
+‚±‚ê‚É‚æ‚èAƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN‚³‚¦ì‚Á‚Ä‚µ‚Ü‚¦‚Î‚ ‚Æ‚Í‚±‚Á‚¿‚Ì‚à‚Ì‚ÅAƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN‚©‚ç‹N“®‚µ‚ÄAƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒOƒ‰ƒ€‚ðŠÈ’P‚É‹N“®‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚·B
+
+
+
+
+
+Žg‚¢•û
+
+(1) RS232C‚ÌÚ‘±
+
+ã‚ÌøEƒCƒNƒ‰–â‘è‚Å‘‚¢‚½’Ê‚èB
 
 
 
@@ -75,14 +123,14 @@ DITT.EXE‚Åì‚Á‚½D77ƒCƒ[ƒW‚Ì’†‚É“¯‚¶ƒZƒNƒ^‚ª‰½“x‚à‘‚©‚ê‚Ä‚¢‚é‚à‚Ì‚ª‚ ‚é‚æ‚¤‚È‚
 
 (3) ƒNƒ‰ƒCƒAƒ“ƒgŽÀs
 
-‚»‚µ‚Ä¡“x‚ÍFM77ã‚ÅA
+‚»‚µ‚Ä¡“x‚ÍFM77ã‚ÅAã‚ÌuøEƒCƒNƒ‰–â‘èv‚Åì‚Á‚½ƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN‚©‚ç‹N“®‚µ‚ÄA
 
     CLEAR ,&H17FF
     LOADM "D7CLIENT",,R
 
 ‚ÅƒNƒ‰ƒCƒAƒ“ƒg‚ðŽÀs‚µ‚Ü‚·BƒfƒtƒHƒ‹ƒg‚Å‚Íƒhƒ‰ƒCƒu1‚ÌƒfƒBƒXƒN‚É‘‚«ž‚Þ‚æ‚¤‚É‚È‚Á‚Ä‚¢‚é‚Ì‚ÅAƒhƒ‰ƒCƒu1‚É¶ƒfƒBƒXƒN‚ ‚é‚¢‚ÍÁ‚µ‚Ä‚à‚¢‚¢ƒfƒBƒXƒN‚ð“ü‚ê‚ÄƒL[‚ð‰Ÿ‚·‚ÆƒT[ƒo[‚ÆƒNƒ‰ƒCƒAƒ“ƒg‚Å’ÊM‚µ‚ÄƒCƒ[ƒW‚ðƒfƒBƒXƒN‚É‘‚«–ß‚µ‚Ü‚·B
 
-‚à‚µ‚àƒhƒ‰ƒCƒu1‚ªŠù‚É“®‚©‚È‚¢(‘½•ªƒhƒ‰ƒCƒu0‚Ì•û‚ª“Žg‚³‚ê‚Ä‚é‚Ì‚Å‚»‚ê‚Í–³‚¢‚ÆŽv‚¢‚Ü‚·‚ª)ê‡‚ÍA
+‚à‚µ‚àƒhƒ‰ƒCƒu1‚ªŠù‚É“®‚©‚È‚¢(‘½•ªŒ»–ðŽž‘ã‚Íƒhƒ‰ƒCƒu0‚Ì•û‚ª“Žg‚³‚ê‚Ä‚é‚Í‚¸‚È‚Ì‚Å‚»‚ê‚Í–³‚¢‚ÆŽv‚¢‚Ü‚·‚ª)ê‡‚ÍA
 
     CLEAR ,&H17FF
     LOADM "D7CLIENT"
@@ -91,27 +139,6 @@ DITT.EXE‚Åì‚Á‚½D77ƒCƒ[ƒW‚Ì’†‚É“¯‚¶ƒZƒNƒ^‚ª‰½“x‚à‘‚©‚ê‚Ä‚¢‚é‚à‚Ì‚ª‚ ‚é‚æ‚¤‚È‚
 
 ‚ÅŽÀs‚·‚é‚Æƒhƒ‰ƒCƒu0‚É‘‚«ž‚Ý‚Ü‚·B
 
+‚ ‚Æ‚ÍAƒvƒƒeƒNƒg‚ª‚©‚©‚Á‚Ä‚È‚¢ƒvƒƒOƒ‰ƒ€‚ÌƒCƒ[ƒW‚¾‚Á‚½‚ç (COMPACŒn‚Ìƒ\ƒtƒg‚Æ‚©) ‚»‚Ì‚Ü‚Ü“]‘—‚µ‚Ä‚â‚ê‚ÎŽÀs‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚·BƒvƒƒeƒNƒg‚ª‚©‚©‚Á‚Ä‚éƒvƒƒOƒ‰ƒ€‚¾‚ÆA‚Ü‚¸ƒvƒƒeƒNƒg‚ð‰ðœ‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 
-
-
-
-Œ{‚Æ—‘–â‘è
-
-‚³‚ÄAƒNƒ‰ƒCƒAƒ“ƒg‚ð‚Ç‚¤‚â‚Á‚ÄFM77‚É‘—‚Á‚½‚à‚ñ‚Å‚µ‚å‚¤‚©HƒNƒ‰ƒCƒAƒ“ƒg‚³‚¦‚ ‚ê‚Î‚È‚ñ‚Ú‚Å‚àƒfƒBƒXƒNƒCƒ[ƒW‚ð‘—‚ê‚é‚©‚çD7CLIENT‚ª“ü‚Á‚½ƒfƒBƒXƒNƒCƒ[ƒW‚à“]‘—‚Å‚«‚Ü‚·‚ªA–â‘è‚ÍƒNƒ‰ƒCƒAƒ“ƒg‚ª–³‚¢‚©‚çƒfƒBƒXƒNƒCƒ[ƒW‚ð‘—M‚Å‚«‚È‚¢B
-
-‚»‚¤‚¢‚¤ê‡AD77ƒT[ƒo[‚ðA"####UTILDISK####"‚ð‘—M‚·‚éƒ‚[ƒhA-fbasicƒIƒvƒVƒ‡ƒ“‚Å—§‚¿ã‚°‚Ä (—á: ƒ|[ƒg‚ª3”Ô‚¾‚Á‚½‚ç    d77server "####UTILDISK####" 3 -fbasic)A‘±‚¢‚ÄFM77ã‚ÅF-BASIC (ƒe[ƒvƒ‚[ƒh‚Å‚à‰Â) ‚ð—§‚¿ã‚°‚ÄAˆÈ‰º‚ÌƒvƒƒOƒ‰ƒ€‚ðŽÀs‚µ‚Ä‚­‚¾‚³‚¢B
-
-100 CLEAR ,&H17FF:DEFINT A-Z:WIDTH 80,25:A=&H1800
-110 OPEN "I",#1,"COM0:(F8N1)"
-120 OPEN "O",#2,"COM0:(F8N1)":PRINT #2,"REQCLI":CLOSE #2
-130 INPUT #1,D$:PRINT ".";
-140 POKE A,VAL("&H"+D$):A=A+1
-150 IF LEFT$(D$,1)<>"Q" THEN 130
-160 ' POKE &H1802,0
-170 EXEC &H1800
-
-PC‘¤‚©‚ç2.5KB‚®‚ç‚¢‚ÌƒoƒCƒg”‚ðF-BASIC‚ÅŽó‚¯Žæ‚é‚Ì‚Å1•ª’ö“x‘Ò‚Â‚ÆƒNƒ‰ƒCƒAƒ“ƒgƒvƒƒOƒ‰ƒ€‚ª‹N“®‚µ‚Ü‚·Bƒhƒ‰ƒCƒu1‚É¶ƒfƒBƒXƒN‚ð“ü‚ê‚ÄAƒŠƒ^[ƒ“ƒL[‚ð‰Ÿ‚·‚Æƒhƒ‰ƒCƒu1‚Éƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN‚ª‚Å‚«‚Ü‚·B
-
-210s‚ÌƒRƒƒ“ƒg‚ð‚Í‚¸‚·‚Æƒhƒ‰ƒCƒu0‚É‘‚«ž‚Ý‚Ü‚·‚ªAƒfƒtƒHƒ‹ƒg‚¾‚Æƒhƒ‰ƒCƒu1‚É‘‚«ž‚Ý‚Ü‚·B
-
-
+“ú–{‚Á‚ÄƒŒƒgƒƒQ[ƒ€‚ÌƒvƒƒeƒNƒg‚Ì‰ðœ‚à‚Ü‚¾ˆá–@‚È‚Ì‚Å‚µ‚å‚¤‚©HƒRƒ“ƒsƒ…[ƒ^ƒvƒƒOƒ‰ƒ€‚É‚ÍAH‹Æ»•i‚Æ‚¢‚¤‘¤–Ê‚Æ“¯Žž‚ÉŒ|pì•i‚Æ‚µ‚Ä‚Ì‘¤–Ê‚à‚ ‚é‚ÆŽv‚¢‚Ü‚·B‚Æ‚­‚ÉƒRƒ“ƒsƒ…[ƒ^‚ÌŒvŽZ—Í‚ª”ñ—Í‚¾‚Á‚½“–Žž’´â‹ZIƒvƒƒOƒ‰ƒ~ƒ“ƒO‚Å‚ ‚è‚¦‚È‚¢ƒpƒtƒH[ƒ}ƒ“ƒX‚ðˆø‚«o‚µ‚Ä‚¢‚½ƒvƒƒOƒ‰ƒ€‚Í•¶‰»ˆâŽY‚Æ‚µ‚Ä•ÛŒì‚³‚ê‚é‚×‚«ƒŒƒxƒ‹‚Å‚·BƒAƒƒŠƒJ‚Å‚Í‚»‚Ìl‚¦•û‚ð‘¸d‚µ‚Ä‚©AƒŒƒgƒƒQ[ƒ€‚ÌƒvƒƒeƒNƒg‚Ì‰ðœ‚Í‡–@‚Æ‚³‚ê‚Ä‚¢‚é‚ç‚µ‚¢‚Å‚·B“ú–{‚à‚»‚¤‚È‚Á‚Ä—~‚µ‚¢‚Å‚·‚ËB

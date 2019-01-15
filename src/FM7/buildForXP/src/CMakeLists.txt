@@ -7,7 +7,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(../../../imported/include)
 
 add_subdirectory("../../FM77AVKeyboard" "${CMAKE_BINARY_DIR}/FM77AVKeyboard")
-add_subdirectory("../../lib/yscomport" "${CMAKE_BINARY_DIR}/yscomport")
+add_subdirectory("../../util/lib/yscomport" "${CMAKE_BINARY_DIR}/yscomport")
 # add_subdirectory("../../RomajiToKanaKey" "${CMAKE_BINARY_DIR}/RomajiToKanaKey")
 
 add_subdirectory("../../../ysgl/src" "${CMAKE_BINARY_DIR}/ysgl")

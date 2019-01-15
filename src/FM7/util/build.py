@@ -75,7 +75,10 @@ def BuildForFM7(outDir):
 
 	if True==makeD77:
 		d77Fn=os.path.join(outDir,"FM7_rs232c_util.d77");
-		shutil.copyfile("empty.d77",d77Fn);
+		subprocess.Popen([
+			"build64/exe/d77fileutil.exe",
+			d77Fn,
+			"-new"]).wait();
 
 	for asm in asmSource:
 		symFn=asm[0]+".sym"

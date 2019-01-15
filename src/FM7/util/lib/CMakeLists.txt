@@ -9,5 +9,7 @@ fm7lib.h
 cpplib.h
 )
 
+add_subdirectory(yscomport)
+
 add_library(${TARGET_NAME} ${SRCS} ${HEADERS})
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
