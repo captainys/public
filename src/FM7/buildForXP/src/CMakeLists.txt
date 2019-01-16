@@ -8,6 +8,9 @@ include_directories(../../../imported/include)
 
 add_subdirectory("../../FM77AVKeyboard" "${CMAKE_BINARY_DIR}/FM77AVKeyboard")
 add_subdirectory("../../util/lib/yscomport" "${CMAKE_BINARY_DIR}/yscomport")
+add_subdirectory("../../lib/irtoy" "${CMAKE_BINARY_DIR}/irtoy")
+add_subdirectory("../../lib/cheaplib" "${CMAKE_BINARY_DIR}/cheaplib")
+add_subdirectory("../../lib/cheapgui" "${CMAKE_BINARY_DIR}/cheapgui")
 # add_subdirectory("../../RomajiToKanaKey" "${CMAKE_BINARY_DIR}/RomajiToKanaKey")
 
 add_subdirectory("../../../ysgl/src" "${CMAKE_BINARY_DIR}/ysgl")
