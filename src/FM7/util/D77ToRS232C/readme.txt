@@ -6,7 +6,7 @@ by ŽRì‹@’· (http://www.ysflight.com)
 
 
 
-‚Í‚¶‚ß‚É
+[‚Í‚¶‚ß‚É]
 
 ‚±‚Ìƒ†[ƒeƒBƒŠƒeƒB‚ÌŽg—p‚ÍŽ©ŒÈÓ”C‚Å‚¨Šè‚¢‚µ‚Ü‚·B
 
@@ -14,19 +14,26 @@ by ŽRì‹@’· (http://www.ysflight.com)
 
 XM7‚ª“oê‚µ‚½‚Æ‚«ŽèŒ³‚ÌƒfƒBƒXƒN‚ðD77ƒCƒ[ƒW‚ÉƒoƒbƒNƒAƒbƒv‚µ‚½‚à‚Ì‚ÌA¡“x‚Í¶ƒtƒƒbƒs[ƒfƒBƒXƒN‚É‘‚«–ß‚µ‚½‚­‚Ä‚à‘‚«–ß‚·Žè’i‚ª–³‚¢A‚Æ‚¢‚¤–â‘è‚ª”­¶‚µ‚Ü‚·B
 
-ƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒX‚Åƒf[ƒ^‚ð—¬‚µž‚Þ‚±‚Æ‚Í‰Â”\(http://########)‚Å‚·‚ªAFM77AV—pƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒXƒP[ƒuƒ‹‚ª‚Ù‚Æ‚ñ‚ÇŽè‚É“ü‚è‚Ü‚¹‚ñB‚Í‚ñ‚¾•t‚¯‚ÉŽ©M‚ª‚ ‚ê‚ÎŽ©ì‚Å‚«‚Ü‚·‚ªA‚»‚¤‚Å‚È‚¢‚Æ“ï‚µ‚¢‚Å‚µ‚å‚¤B‰¼‚Éƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒXƒP[ƒuƒ‹‚ðì‚Á‚½‚Æ‚µ‚ÄA¡“x‚ÍPC‚©‚ç.WAVƒtƒ@ƒCƒ‹Œo—R‚Åƒf[ƒ^‚ð—¬‚µž‚ß‚é•ÛØ‚ª‚ ‚è‚Ü‚¹‚ñBŽèŒ³‚ÅŽÀŒ±‚µ‚½‚Æ‚±‚ë‚Å‚ÍAThinkPad 230T, 250‚Å.WAVƒtƒ@ƒCƒ‹‚ðÄ¶‚µ‚Ä‚àŽÀ‹@‚Å“Ç‚Ýž‚Þ‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B“¯‚¶.WAVƒtƒ@ƒCƒ‹‚ð2008 MacBook Pro, Dell XPS Desktop‚ÅÄ¶‚µ‚½‚Æ‚±‚ë‚Ü‚Á‚½‚­–â‘è‚È‚­“Ç‚Ýž‚Þ‚±‚Æ‚ª‚Å‚«‚Ü‚µ‚½B‚½‚Ü‚½‚ÜŽèŒ³‚ÌPC‚Å“Ç‚Ýž‚Ý‚É¬Œ÷‚·‚é‚©‚Ç‚¤‚©‚Í‚â‚Á‚Ä‚Ý‚é‚Ü‚Å‚í‚©‚è‚Ü‚¹‚ñB
+ƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒX‚Åƒf[ƒ^‚ð—¬‚µž‚Þ‚±‚Æ‚Í‰Â”\(http://www.ysflight.com/FM/realutil_j.html)‚Å‚·‚ªAFM77AV—pƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒXƒP[ƒuƒ‹‚ª‚Ù‚Æ‚ñ‚ÇŽè‚É“ü‚è‚Ü‚¹‚ñB‚Í‚ñ‚¾•t‚¯‚ÉŽ©M‚ª‚ ‚ê‚ÎŽ©ì‚Å‚«‚Ü‚·‚ªA‚»‚¤‚Å‚È‚¢‚Æ“ï‚µ‚¢‚Å‚µ‚å‚¤B‰¼‚Éƒe[ƒvƒCƒ“ƒ^[ƒtƒF[ƒXƒP[ƒuƒ‹‚ðì‚Á‚½‚Æ‚µ‚ÄA¡“x‚ÍPC‚©‚ç.WAVƒtƒ@ƒCƒ‹Œo—R‚Åƒf[ƒ^‚ð—¬‚µž‚ß‚é•ÛØ‚ª‚ ‚è‚Ü‚¹‚ñBŽèŒ³‚ÅŽÀŒ±‚µ‚½‚Æ‚±‚ë‚Å‚ÍAThinkPad 230T, 250‚Å.WAVƒtƒ@ƒCƒ‹‚ðÄ¶‚µ‚Ä‚àŽÀ‹@‚Å“Ç‚Ýž‚Þ‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½B“¯‚¶.WAVƒtƒ@ƒCƒ‹‚ð2008 MacBook Pro, Dell XPS Desktop‚ÅÄ¶‚µ‚½‚Æ‚±‚ë‚Ü‚Á‚½‚­–â‘è‚È‚­“Ç‚Ýž‚Þ‚±‚Æ‚ª‚Å‚«‚Ü‚µ‚½B‚½‚Ü‚½‚ÜŽèŒ³‚ÌPC‚Å“Ç‚Ýž‚Ý‚É¬Œ÷‚·‚é‚©‚Ç‚¤‚©‚Í‚â‚Á‚Ä‚Ý‚é‚Ü‚Å‚í‚©‚è‚Ü‚¹‚ñB
 
-‹t‚ÉAŽèŒ³‚ÉƒŒƒA‚Èƒ\ƒtƒg‚ªŽc‚Á‚Ä‚¢‚é‚Æ‚µ‚ÄA‚»‚ÌƒfƒBƒXƒNƒCƒ[ƒW‚ðPCã‚ÉƒoƒbƒNƒAƒbƒv‚µ‚½‚¢‚Æ‚µ‚Ü‚µ‚å‚¤BŠ„‚Æ‚ ‚è‚ª‚¿‚¾‚ÆŽv‚¤‚Ì‚ªA“–ŽžŽÐ‰ï¶Šˆ‚ÆŽá‚³‚Æ‹à‚ÆŒ’N‚Æ“ª”¯‚ð‹]µ‚É‚µ‚Ä’b‚¦‚Ê‚¢‚½Wizardry‚Ìƒf[ƒ^‚ðƒoƒbƒNƒAƒbƒv‚µ‚½‚¢‚Æ‚©‚¢‚¤Žù—v‚à‚ ‚é‚©‚ÆŽv‚¢‚Ü‚·BÌ‚ÍDITT.EXE‚ðŽg‚¤‚Ì‚ªŽå—¬‚¾‚Á‚½‚æ‚¤‚Å‚·‚ªADITT‚ðŽÀs‚Å‚«‚éPC‚ðŒ©‚Â‚¯‚é‚Ì‚Í“ï‚µ‚­‚È‚Á‚Ä‚¢‚Ü‚·B(‚¢‚âA“®ì•i‚ÌFM77AV‚ðŒ©‚Â‚¯‚é•û‚ªŠÈ’P‚È‹C‚ª‚·‚é)BWindows XP‚ÅŽÀs‰Â”\‚ÈNDITT‚à‚ ‚è‚Ü‚·‚ªAƒRƒs[ƒvƒƒeƒNƒg‚ÅCHRN‚É×H‚Ì‚ ‚éƒZƒNƒ^‚Í‚Ù‚Æ‚ñ‚ÇƒGƒ‰[‚ª‚ ‚é‚Æ”»’f‚µ‚Ä“Ç‚Ýž‚Ý‚Ü‚¹‚ñB‚»‚à‚»‚àDITT‚Å‚Í‚·‚×‚Ä‚Ìî•ñ‚ð“Ç‚Ýž‚ñ‚Å‚¢‚é‚í‚¯‚Å‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚Ì–â‘è‚ð‰ðŒˆ‚·‚é‚½‚ß‚ÉARAWREAD‚È‚éƒvƒƒOƒ‰ƒ€‚ð‘‚«‚Ü‚µ‚½‚ªA(http://########)A‚±‚ê‚à‚È‚ñ‚Æ‚©‚µ‚ÄŽÀ‹@ã‚ÉŽ‚Á‚Ä‚¢‚©‚È‚¢‚ÆˆÓ–¡‚ª‚ ‚è‚Ü‚¹‚ñB
+‹t‚ÉAŽèŒ³‚ÉƒŒƒA‚Èƒ\ƒtƒg‚ªŽc‚Á‚Ä‚¢‚é‚Æ‚µ‚ÄA‚»‚ÌƒfƒBƒXƒNƒCƒ[ƒW‚ðPCã‚ÉƒoƒbƒNƒAƒbƒv‚µ‚½‚¢‚Æ‚µ‚Ü‚µ‚å‚¤BŠ„‚Æ‚ ‚è‚ª‚¿‚¾‚ÆŽv‚¤‚Ì‚ªA“–ŽžŽÐ‰ï¶Šˆ‚ÆŽá‚³‚Æ‹à‚ÆŒ’N‚Æ“ª”¯‚ð‹]µ‚É‚µ‚Ä’b‚¦‚Ê‚¢‚½Wizardry‚Ìƒf[ƒ^‚ðƒoƒbƒNƒAƒbƒv‚µ‚½‚¢‚Æ‚©‚¢‚¤Žù—v‚à‚ ‚é‚©‚ÆŽv‚¢‚Ü‚·BÌ‚ÍDITT.EXE‚ðŽg‚¤‚Ì‚ªŽå—¬‚¾‚Á‚½‚æ‚¤‚Å‚·‚ªADITT‚ðŽÀs‚Å‚«‚éPC‚ðŒ©‚Â‚¯‚é‚Ì‚Í“ï‚µ‚­‚È‚Á‚Ä‚¢‚Ü‚·B(‚¢‚âA“®ì•i‚ÌFM77AV‚ðŒ©‚Â‚¯‚é•û‚ªŠÈ’P‚È‹C‚ª‚·‚é)BWindows XP‚ÅŽÀs‰Â”\‚ÈNDITT‚à‚ ‚è‚Ü‚·‚ªAƒRƒs[ƒvƒƒeƒNƒg‚ÅCHRN‚É×H‚Ì‚ ‚éƒZƒNƒ^‚Í‚Ù‚Æ‚ñ‚ÇƒGƒ‰[‚ª‚ ‚é‚Æ”»’f‚µ‚Ä“Ç‚Ýž‚Ý‚Ü‚¹‚ñB‚»‚à‚»‚àDITT‚Å‚Í‚·‚×‚Ä‚Ìî•ñ‚ð“Ç‚Ýž‚ñ‚Å‚¢‚é‚í‚¯‚Å‚Í‚ ‚è‚Ü‚¹‚ñB‚±‚Ì–â‘è‚ð‰ðŒˆ‚·‚é‚½‚ß‚ÉARAWREAD‚È‚éƒvƒƒOƒ‰ƒ€‚ð‘‚«‚Ü‚µ‚½‚ªA(http://www.ysflight.com/FM/realutil_j.html)A‚±‚ê‚à‚È‚ñ‚Æ‚©‚µ‚ÄŽÀ‹@ã‚ÉŽ‚Á‚Ä‚¢‚©‚È‚¢‚ÆˆÓ–¡‚ª‚ ‚è‚Ü‚¹‚ñB
 
-FM77AV1, AV2A‚ ‚é‚¢‚ÍAV‚æ‚è‘O‚ÌFM-77‚¾‚ÆRS232Cƒ|[ƒg‚ªƒfƒtƒHƒ‹ƒg‚Å‚Í‚Â‚¢‚Ä‚¢‚È‚­‚ÄA‚à‚Í‚âƒ³RS232CƒJ[ƒh‚Ì“üŽè‚Í‚Ù‚Æ‚ñ‚Ç•s‰Â”\‚Å‚·‚ªAV‚½‚É¶ŽY‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚µ‚½B(http://########)
+FM77AV1, AV2A‚ ‚é‚¢‚ÍAV‚æ‚è‘O‚ÌFM-77‚¾‚ÆRS232Cƒ|[ƒg‚ªƒfƒtƒHƒ‹ƒg‚Å‚Í‚Â‚¢‚Ä‚¢‚È‚­‚ÄA‚à‚Í‚âƒ³RS232CƒJ[ƒh‚Ì“üŽè‚Í‚Ù‚Æ‚ñ‚Ç•s‰Â”\‚Å‚·‚ªAV‚½‚É¶ŽY‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚µ‚½B(http://www.ysflight.com/FM/fm7_rs232c/j.html)
 
 ‚»‚±‚ÅARS232Cƒ|[ƒgŒo—R‚ÅPC‚ÆÚ‘±‚µ‚ÄƒfƒBƒXƒNƒCƒ[ƒW‚ðŽÀ‹@‚Å‘‚«–ß‚·ƒ†[ƒeƒBƒŠƒeƒB‚ð‘‚«‚Ü‚µ‚½B
 
 
 
 
+[ƒ\[ƒXƒR[ƒh]
+https://github.com/captainys/public/tree/master/src/FM7/util
 
-øEƒCƒNƒ‰–â‘è
+
+
+
+[øEƒCƒNƒ‰–â‘è]
+
+ø‚ªæ‚©AƒCƒNƒ‰‚ªæ‚©H
 
 RS232Cƒ|[ƒg‚ªÅ‰‚©‚ç‚ ‚éA‚Ü‚½‚Íƒ³•i‚©ŒÝŠ·RS232CƒJ[ƒh‚ª‚ ‚éB“®ìó‘Ô‚Ìƒtƒƒbƒs[ƒfƒBƒXƒNƒhƒ‰ƒCƒu‚à‚ ‚éB‚ ‚Æ‚ÍA‚±‚Ìƒ†[ƒeƒBƒŠƒeƒB‚ÌƒNƒ‰ƒCƒAƒ“ƒg‚³‚¦ŽÀ‹@‚É—¬‚µž‚Þ‚±‚Æ‚ª‚Å‚«‚ê‚ÎƒfƒBƒXƒNƒCƒ[ƒW‚©‚ç¶ƒtƒƒbƒs[ƒfƒBƒXƒN‚ðÄ‚­‚±‚Æ‚ª‚Å‚«‚éB
 
@@ -79,7 +86,9 @@ PC‘¤‚©‚ç2.5KB‚®‚ç‚¢‚ÌƒoƒCƒg”‚ðF-BASIC‚ÅŽó‚¯Žæ‚é‚Ì‚Å1•ª’ö“x‘Ò‚Â‚ÆƒNƒ‰ƒCƒAƒ“ƒgƒvƒ
 
 
 
-Žg‚¢•û
+[Žg‚¢•û]
+
+ˆê“xƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN‚³‚¦ì‚Á‚Ä‚µ‚Ü‚¦‚ÎAƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN‚©‚ç‹N“®‚µ‚ÄŠÈ’P‚ÉƒfƒBƒXƒNƒCƒ[ƒW‚ðÄ‚­‚±‚Æ‚ª‚Å‚«‚Ü‚·B
 
 (1) RS232C‚ÌÚ‘±
 ã‚ÌøEƒCƒNƒ‰–â‘è‚Å‘‚¢‚½’Ê‚èB
@@ -89,8 +98,6 @@ PC‘¤‚©‚ç2.5KB‚®‚ç‚¢‚ÌƒoƒCƒg”‚ðF-BASIC‚ÅŽó‚¯Žæ‚é‚Ì‚Å1•ª’ö“x‘Ò‚Â‚ÆƒNƒ‰ƒCƒAƒ“ƒgƒvƒ
 ŽŸ‚ÉAPCã‚ÅƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒg‚©‚çƒT[ƒo[‚ð‹N“®‚µ‚Ü‚·BƒT[ƒo[‚Íƒpƒ‰ƒ[ƒ^‚ðÅ’á‚Ó‚½‚ÂŽæ‚è‚Ü‚·BÅ‰‚Ìƒpƒ‰ƒ[ƒ^‚ªD77ƒCƒ[ƒWƒtƒ@ƒCƒ‹–¼A“ñ‚Â–Ú‚ªƒ|[ƒg”Ô†‚Å‚·B—á‚¦‚ÎA
 
     d77server.exe diskimage.d77 0
-
-‚±‚Ì‚æ‚¤‚É‚·‚é‚Æ diskimage.d77 ‚ðƒ|[ƒg0‚©‚ç‘—M‚Å‚«‚éó‘Ô‚É‚È‚Á‚ÄƒXƒ^ƒ“ƒoƒC(ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌƒŠƒNƒGƒXƒg‘Ò‚¿)‚É‚È‚è‚Ü‚·B‚È‚¨Adiskimage.d77‚É"####UTILDISK####"‚ðŽw’è‚·‚é‚ÆRS232Cƒ†[ƒeƒBƒŠƒeƒBƒfƒBƒXƒN(Disk BASIC‹N“®‰Â”\)‚ð‘—M‚Å‚«‚Ü‚·B(ŽÀsƒtƒ@ƒCƒ‹‚ÉƒGƒ“ƒxƒbƒh)
 
 •¡”‚ÌƒfƒBƒXƒN‚ÌD77ƒtƒ@ƒCƒ‹‚Ìê‡A
 
@@ -140,3 +147,5 @@ DITT.EXE‚Åì‚Á‚½D77ƒCƒ[ƒW‚Ì’†‚É“¯‚¶ƒZƒNƒ^‚ª‰½“x‚à‘‚©‚ê‚Ä‚¢‚é‚à‚Ì‚ª‚ ‚é‚æ‚¤‚È‚
 ‚ ‚Æ‚ÍAƒvƒƒeƒNƒg‚ª‚©‚©‚Á‚Ä‚È‚¢ƒvƒƒOƒ‰ƒ€‚ÌƒCƒ[ƒW‚¾‚Á‚½‚ç (COMPACŒn‚Ìƒ\ƒtƒg‚Æ‚©) ‚»‚Ì‚Ü‚Ü“]‘—‚µ‚Ä‚â‚ê‚ÎŽÀs‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚·BƒvƒƒeƒNƒg‚ª‚©‚©‚Á‚Ä‚éƒvƒƒOƒ‰ƒ€‚¾‚ÆA‚Ü‚¸ƒvƒƒeƒNƒg‚ð‰ðœ‚·‚é•K—v‚ª‚ ‚è‚Ü‚·B
 
 “ú–{‚Á‚ÄƒŒƒgƒƒQ[ƒ€‚ÌƒvƒƒeƒNƒg‚Ì‰ðœ‚à‚Ü‚¾ˆá–@‚È‚Ì‚Å‚µ‚å‚¤‚©HƒRƒ“ƒsƒ…[ƒ^ƒvƒƒOƒ‰ƒ€‚É‚ÍAH‹Æ»•i‚Æ‚¢‚¤‘¤–Ê‚Æ“¯Žž‚ÉŒ|pì•i‚Æ‚µ‚Ä‚Ì‘¤–Ê‚à‚ ‚é‚ÆŽv‚¢‚Ü‚·B‚Æ‚­‚ÉƒRƒ“ƒsƒ…[ƒ^‚ÌŒvŽZ—Í‚ª”ñ—Í‚¾‚Á‚½“–Žž’´â‹ZIƒvƒƒOƒ‰ƒ~ƒ“ƒO‚Å‚ ‚è‚¦‚È‚¢ƒpƒtƒH[ƒ}ƒ“ƒX‚ðˆø‚«o‚µ‚Ä‚¢‚½ƒvƒƒOƒ‰ƒ€‚Í•¶‰»ˆâŽY‚Æ‚µ‚Ä•ÛŒì‚³‚ê‚é‚×‚«ƒŒƒxƒ‹‚Å‚·BƒAƒƒŠƒJ‚Å‚Í‚»‚Ìl‚¦•û‚ð‘¸d‚µ‚Ä‚©AƒŒƒgƒƒQ[ƒ€‚ÌƒvƒƒeƒNƒg‚Ì‰ðœ‚Í‡–@‚Æ‚³‚ê‚Ä‚¢‚é‚ç‚µ‚¢‚Å‚·B“ú–{‚à‚»‚¤‚È‚Á‚Ä—~‚µ‚¢‚Å‚·‚ËB
+
+ŽÀ‰Æ‚©‚çFM-7‰ñŽû‚µ‚Ä‚«‚ÄA‚»‚ÌŒãFM77AV‚ðŽv‚í‚¸ƒ„ƒtƒIƒN‚Å—Ž‚Æ‚µ‚Ä‚µ‚Ü‚Á‚Ä‚©‚ç‚¸‚¢‚Ô‚ñ6809‚ÌƒAƒZƒ“ƒuƒŠƒR[ƒh‘‚¢‚½‚ÈB‚µ‚©‚µA‚ß‚¿‚á‚­‚¿‚áŠy‚µ‚¢B

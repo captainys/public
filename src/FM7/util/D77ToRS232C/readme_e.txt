@@ -5,7 +5,7 @@ by CaptainYS (http://www.ysflight.com)
 
 
 
-Introduction
+[Introduction]
 
 DISCLAIMER: If you want to try this program, do it on your own risks.  I won't take any responsibilities for the consequences.
 
@@ -13,13 +13,13 @@ If you are interested in owning and keeping a Fujitsu FM-7/77 series 8-bit compu
 
 But, the problem is how to get a working floppy disk.  If you have a disk image that you want to play on an actual unit, the options are limited.
 
-You can stream disk image via audio-cassette interface (http://########).  To do so, you need to fabricate or somehow get a audio-cassette interface cable for FM-7/77.  The bad news is FM-7 and FM-77 use different connector.  It is very difficult to find an audio-cassette interface cable for FM-77.
+You can stream disk image via audio-cassette interface (http://www.ysflight.com/FM/realutil_e.html).  To do so, you need to fabricate or somehow get a audio-cassette interface cable for FM-7/77.  The bad news is FM-7 and FM-77 use different connector.  It is very difficult to find an audio-cassette interface cable for FM-77.
 
 Let's say somehow you fabricated or acquired one.  Then, you need to play .WAV file on your PC and feed it to FM-7/77.  The problem is some PCs works fine, but some don't.  My 2008 MacBook Pro and Dell XPS desktop work fine.  I play .WAV file at max volume, and my FM-7/77 have no problem recognizing it.  All of my ThinkPads doesn't.  Also a new Dell desktop that came to my desk this year doesn't work, either.  I have a feeling that you have less than 50% chance that your PC can play .WAV file loud enough for FM-7/77.
 
-Or, if you happens to have a rare software title for FM-7/77 and want to make an image for back up.  There used to be a DOS tool called DITT.exe.  But, it runs on DOS.  In my environment, it didn't run on DOS for Windows 95 installation.  It really needs to be a pure DOS.  There is another tool called NDITT.exe that runs on Windows XP.  However, this tool fails to recognize sectors with altered CHRN for copy protection.  If it at least reads sector data and writes to the image file, you can look into it and find how the copy protection worked.  It's also a piece of history.  After many failures from NDITT, I wrote a program that captures a disk image on actual FM-7/77 and transfer to a PC via a serial cable (http://########).  For me, I have already transferred the program to a 3.5 inch floppy, but for you, you somehow need to write to a 3.5 inch 2D floppy disk that can be recognized by FM-7/77.
+Or, if you happens to have a rare software title for FM-7/77 and want to make an image for back up.  There used to be a DOS tool called DITT.exe.  But, it runs on DOS.  In my environment, it didn't run on DOS for Windows 95 installation.  It really needs to be a pure DOS.  There is another tool called NDITT.exe that runs on Windows XP.  However, this tool fails to recognize sectors with altered CHRN for copy protection.  If it at least reads sector data and writes to the image file, you can look into it and find how the copy protection worked.  It's also a piece of history.  After many failures from NDITT, I wrote a program that captures a disk image on actual FM-7/77 and transfer to a PC via a serial cable (http://www.ysflight.com/FM/realutil_e.html)  For me, I have already transferred the program to a 3.5 inch floppy, but for you, you somehow need to write to a 3.5 inch 2D floppy disk that can be recognized by FM-7/77.
 
-What about transferring a disk image to actual FM-7/77 via serial connection?  Sure.  It can be done.  But, FM-7 series PCs, before FM77AV20/40, does not have on-board serial RS232C port.  It is virtually impossible to find an original Fujitsu RS232C expansion card for FM-7/77.  But, now we can fabricate it.  (http://########)
+What about transferring a disk image to actual FM-7/77 via serial connection?  Sure.  It can be done.  But, FM-7 series PCs, before FM77AV20/40, does not have on-board serial RS232C port.  It is virtually impossible to find an original Fujitsu RS232C expansion card for FM-7/77.  But, now we can fabricate it.  (http://www.ysflight.com/FM/fm7_rs232c/e.html)
 
 So, to free FM-7/77 series computers from isolation, I wrote a disk-image server that runs on Windows, and a client that runs on FM-7/77 and write an image to a disk.
 
@@ -27,7 +27,14 @@ So, to free FM-7/77 series computers from isolation, I wrote a disk-image server
 
 
 
-Salmon or Ikura Problem
+[Source Codes]
+https://github.com/captainys/public/tree/master/src/FM7/util
+
+
+
+
+
+[Salmon or Ikura Problem]
 
 So you set up your FM-77 with RS232C card.  Your floppy drive is working in perfect condition.  You have a serial cross-cable.  If you can run this client on actual FM-7, you are good to burn D77 disk images into actual disks.
 
@@ -78,6 +85,62 @@ to start the program.  It receives about 2.5KB program from the Windows PC.  In 
 Once it is done, insert a raw 3.5inch 2D or 2DD (they are really the same thing) disk in Drive 1, and press key.  The bootable utility disk will be created.
 
 Then, move the disk to Drive 0 and reset.  You'll boot into Disk BASIC (F-BASIC with disk extension.)
+
+
+
+
+
+[Usage]
+Once you create a bootable utility disk, it is easy to burn a D77 image to an actual disk.
+
+(1) Connect your FM-7/77 and a PC with a RS232C (serial) cross cable
+Just same as I described in Salmon or Ikura Problem section.
+
+(2) Start the server
+On Windows PC, start a server like:
+
+    d77server.exe diskimage.d77 0
+
+Replace "0" with the com-port number.
+
+If you are dealing with a multi-disk D77 file, start like:
+
+    d77server.exe diskimage.d77@1 0
+
+The number following @ is a zero-based index to your disk in the file.
+
+You can add following options:
+
+-fbasic
+Burn a F-BASIC disk.  The program identifies unused tracks and will not send sector dump of such tracks.
+
+-noquit
+If you want to burn multiple disks from a same image, add this option, and the server will not quit after transmitting a disk image.
+
+-renumfx
+Software titles for FM-7/77 series computer very often used a sector number 0xF5, 0xF6, or 0xF7 since its floppy-disk controller could not create such sector numbers with a normal procedure.  The client program cannot either.  In that situation if this option is specified, the server converts F5, F6, and F7 sectors into E5, E6, and E7 sectors respectively.
+
+-deldupsec
+Apparently DITT.EXE and NDITT.EXE often create duplicate sectors with the same content, which will be a problem when writing to an actual disk.  This option will check and remove such duplicate sectors before sending image to the client.
+
+-h, -help, -?
+Show help.
+
+(3) Start the client
+On FM-7/77 computer, boot from the utility disk, and type:
+
+    CLEAR ,&H17FF
+    LOADM "D7CLIENT",,R
+
+to start the client.  By default, the disk will be written to Drive 1.  If you need to write to Drive 0 for some reason,
+    CLEAR ,&H17FF
+    LOADM "D7CLIENT"
+    POKE &H1802,0
+    EXEC
+
+type those four lines.
+
+If the disk is free of copy protection, you should be able to run the software title on the actual FM-7/77.
 
 
 

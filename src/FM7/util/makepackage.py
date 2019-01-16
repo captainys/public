@@ -40,7 +40,6 @@ def MakePackagingDir():
 	os.makedirs(PackagingDir())
 	os.makedirs(os.path.join(PackagingDir(),"exe32"))
 	os.makedirs(os.path.join(PackagingDir(),"exe64"))
-	os.makedirs(os.path.join(PackagingDir(),"src"))
 	os.makedirs(FM7CodeDir())
 
 
@@ -83,12 +82,13 @@ def CopySource():
 def main():
 	ClearDir(PackagingDir())
 	MakePackagingDir()
-	CopySource()
+	# CopySource() Sources are now from github
 	if True==winCode:
 		if True==clearBuild:
 			ClearDir("build32")
 			ClearDir("build64")
 
+		build.RunCMakeAndDeleteExe()
 		build.BuildForWin()
 
 		for fn in os.listdir("build32/exe"):
@@ -103,11 +103,32 @@ def main():
 			if ext==".EXE":
 				shutil.copyfile(os.path.join("build64","exe",fn),os.path.join(PackagingDir(),"exe64",fn))
 
-		shutil.copytree(os.path.join("..","DiskFormat"),os.path.join(PackagingDir(),"src","fm7code","DiskFormat"))
+		# Source files are open in github
+		# shutil.copytree(os.path.join("..","DiskFormat"),os.path.join(PackagingDir(),"src","fm7code","DiskFormat"))
 
 
 	if True==fm7Code:
 		build.BuildForFM7(FM7CodeDir())
+		if True==winCode:
+			build.UpdateWinSource()
+			build.BuildForWin()
+
+
+	shutil.copyfile(
+		"readme.txt",
+		os.path.expanduser(os.path.join("~","Packaging","FM7_RESURRECTION_UTIL","readme.txt")))
+	shutil.copyfile(
+		"readme_e.txt",
+		os.path.expanduser(os.path.join("~","Packaging","FM7_RESURRECTION_UTIL","readme_e.txt")))
+	shutil.copyfile(
+		os.path.join("D77ToRS232C","readme.txt"),
+		os.path.expanduser(os.path.join("~","Packaging","FM7_RESURRECTION_UTIL","readme_D77ToRS232C.txt")))
+	shutil.copyfile(
+		os.path.join("D77ToRS232C","readme_e.txt"),
+		os.path.expanduser(os.path.join("~","Packaging","FM7_RESURRECTION_UTIL","readme_D77ToRS232C_e.txt")))
+	shutil.copyfile(
+		os.path.join("rawReadToRS232C","readme.txt"),
+		os.path.expanduser(os.path.join("~","Packaging","FM7_RESURRECTION_UTIL","readme_rawReadToRS232C.txt")))
 
 
 	if True==makeZip:

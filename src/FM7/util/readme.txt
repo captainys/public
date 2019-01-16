@@ -12,6 +12,8 @@ RAWREAD            RS232CŒo—RƒfƒBƒXƒNƒCƒ[ƒW‘—Mƒc[ƒ‹ (Windows—pD77‰»ƒc[ƒ‹•t‚
 232CFILE           RS232CŒo—Rƒtƒ@ƒCƒ‹ŽóMƒc[ƒ‹ (Windows—pƒGƒ“ƒR[ƒ_•t‚«)
 MEM2COM            RS232CŒo—Rƒƒ‚ƒŠƒ_ƒ“ƒv‘—Mƒc[ƒ‹
 
+˜AŒg‹Z
+D77ToRS232C        RS232CŒo—RƒfƒBƒXƒNƒCƒ[ƒW‘‚«–ß‚µƒ†[ƒeƒBƒŠƒeƒB (Windows—pD77ƒT[ƒo[‚ÆFM-7/77—pƒNƒ‰ƒCƒAƒ“ƒg)
 
 
 
@@ -462,3 +464,12 @@ RUN "MEM2COM"
 FM-7‚Ìƒƒ‚ƒŠƒ_ƒ“ƒv‚ðPC‚É‘—M‚µ‚Ü‚·BŽó‚¯‘¤‚ÌPC‚Ìƒ^[ƒ~ƒiƒ‹‚ÉƒeƒLƒXƒg‚Å‘—‚Á‚Ä‚­‚é‚Ì‚Å‰ðŽß‚Í“K“–‚É‚â‚Á‚Ä‚­‚¾‚³‚¢BC/C++ƒR[ƒh‚®‚ç‚¢‘‚¯‚Ü‚·‚æ‚ËIH
 
 ƒvƒƒOƒ‰ƒ€Ž©‘Ì‚Í$1200‚®‚ç‚¢‚Ü‚Å‚ÉŽû‚Ü‚Á‚Ä‚é‚Ì‚Å‚»‚ê‚æ‚èŒã”¼‚ÌƒƒCƒ“ƒƒ‚ƒŠ‚Í‘—M‚Å‚«‚Ü‚·B‚È‚¨‹N“®Žž‚É— RAM‚ðƒIƒ“‚É‚·‚é‚Ì‚Å— RAM‚Ì“à—e‚à‘—M‚Å‚«‚Ü‚·A‚Æ‚¢‚¤‚©F-BASIC ROM‚ð‘—M‚Å‚«‚È‚¢‚¯‚Ç‚»‚¤‚¢‚¤ê‡‚Í‚ ‚ç‚©‚¶‚ßF-BASIC ROM‚ð— RAM‚É‚»‚Á‚­‚èƒRƒs[‚µ‚Ä‚©‚çŽÀs‚·‚ê‚Î‚¢‚¢‚¾‚¯‚©B
+
+
+
+
+
+
+-D77ToRS232C        RS232CŒo—RƒfƒBƒXƒNƒCƒ[ƒW‘‚«–ß‚µƒ†[ƒeƒBƒŠƒeƒB (Windows—pD77ƒT[ƒo[‚ÆFM-7/77—pƒNƒ‰ƒCƒAƒ“ƒg)
+
+’·‚­‚È‚Á‚½‚Ì‚ÅAreadme_D77ToRS232C.txt ‚ðŽQÆ‚µ‚Ä‚­‚¾‚³‚¢B

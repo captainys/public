@@ -369,3 +369,10 @@ Files: MEM2COM, MEM2COMM
 RUN "MEM2COM"
 
 Transmit FM-7 memory dump to a PC.
+
+
+
+
+- D77ToRS232C
+
+Please read readme_D77ToRS232C_e.txt for more details.
