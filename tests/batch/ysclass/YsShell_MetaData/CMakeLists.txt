@@ -23,7 +23,7 @@ list(APPEND YS_ALL_BATCH_TEST ${TARGET_NAME})
 set(YS_ALL_BATCH_TEST ${YS_ALL_BATCH_TEST} PARENT_SCOPE)
 
 
-set(DATA_FILE_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/data)
+set(DATA_FILE_LOCATION)
 # If DATA_FILE_LOCATION is set, files and directories under DATA_FILE_LOCATION will be copied to DATA_COPY_DIR.
 # For example, if DATA_FILE_LOCATION is ${CMAKE_SOURCE_DIR}/runtime, and the directory structure under this directory is:
 #    ${CMAKE_SOURCE_DIR}/runtime
