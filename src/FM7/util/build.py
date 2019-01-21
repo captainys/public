@@ -31,6 +31,8 @@ asmSource=[
 		 "6809lib/rs232c_reset.asm",
 		 "6809lib/rs232c_recv.asm",
 		 "6809lib/rs232c_send.asm"]],
+	["CAS0COM0",
+		["T77ToRS232C/bioshook.asm"]],
 	["232CFILM",
 		["rs232cTfr/org.asm",
 		 "rs232cTfr/rs232ctfr.asm",
@@ -245,9 +247,14 @@ def UpdateWinSource():
 		print("D7CLIENT.srec does not exist.")
 		print("This file must be created during FM-7 build.")
 		quit(1)
+	if not os.path.isfile("buildFM7/CAS0COM0.srec"):
+		print("CAS0COM0.srec does not exist.")
+		print("This file must be created during FM-7 build.")
+		quit(1)
 
 	bin2cpp.BinaryFileToCpp("D77ToRS232C/diskimg.cpp","D77ToRS232C/diskimg.h","utilDiskImg","buildFM7/FM7_rs232c_util.d77")
 	txt2cpp.TextFileToCpp("D77ToRS232C/clientbin.cpp","D77ToRS232C/clientbin.h","clientBinary","buildFM7/D7CLIENT.srec")
+	txt2cpp.TextFileToCpp("T77ToRS232C/bioshook.cpp","T77ToRS232C/bioshook.h","clientBinary","buildFM7/CAS0COM0.srec")
 
 
 
