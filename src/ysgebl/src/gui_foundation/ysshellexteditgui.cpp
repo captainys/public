@@ -155,6 +155,7 @@ YsShellExtEditGui::YsShellExtEditGui()
 }
 void YsShellExtEditGui::CleanUp(void)
 {
+	YsShellExtEdit::CleanUp();
 	highlight.CleanUp();
 	temporaryModification.CleanUp();
 	needRemakeHighlightVertexBuffer=YSFALSE;
