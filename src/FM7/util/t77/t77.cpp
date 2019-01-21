@@ -892,3 +892,57 @@ bool T77Decoder::Decode(void)
 	}
 	return fm;
 }
+
+
+
+T77Decoder::RawDecodingInfo T77Decoder::BeginRawDecoding(void) const
+{
+	RawDecodingInfo info;
+	info.endOfFile=false;
+	info.ptr=0x10;  // Skip 16 byte header
+	info.byteData=0;
+	info.byteCtr=0;
+	return info;
+}
+T77Decoder::RawDecodingInfo T77Decoder::RawReadByte(RawDecodingInfo info) const
+{
+	if(true!=info.endOfFile)
+	{
+		int bit[11];
+		for(int i=0; i<11; ++i)
+		{
+			bit[i]=GetBit(info.ptr);
+		}
+
+		if(0!=bit[0] || 0==bit[9] || 0==bit[10])
+		{
+			if(true==FindFirstFFFFFF(info.ptr))
+			{
+				for(int i=0; i<11; ++i)
+				{
+					bit[i]=GetBit(info.ptr);
+				}
+				info.byteData=0xff;
+				++info.byteCtr;
+			}
+			else
+			{
+				info.endOfFile=true;
+			}
+		}
+		else
+		{
+			++info.byteCtr;
+			info.byteData=
+				 bit[1]+
+				(bit[2]<<1)+
+				(bit[3]<<2)+
+				(bit[4]<<3)+
+				(bit[5]<<4)+
+				(bit[6]<<5)+
+				(bit[7]<<6)+
+				(bit[8]<<7);
+		}
+	}
+	return info;
+}

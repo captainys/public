@@ -97,6 +97,20 @@ public:
 	bool FindFirstFFFFFF(long long int &ptr) const;
 	bool Decode(void);
 
+
+
+	class RawDecodingInfo
+	{
+	public:
+		bool endOfFile;
+		long long int ptr;
+		long long int byteCtr;
+		int byteData;
+	};
+	RawDecodingInfo BeginRawDecoding(void) const;
+	RawDecodingInfo RawReadByte(RawDecodingInfo info) const;
+
+
 	static long long int GetHeaderBlockPointer(const std::vector <unsigned char> &dump);
 	static std::string GetDumpFileName(const std::vector <unsigned char> &dump);
 	static std::vector <unsigned char> DumpToFMFormat(const std::vector <unsigned char> &dump);
