@@ -146,6 +146,9 @@ std::string GetFileNameFromFMFile(const std::vector <unsigned char> &dat);
 
 
 
+const char *BoolToStr(bool b);
+
+
 } // namespace FM7Lib
 
 /* } */

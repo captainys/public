@@ -603,3 +603,15 @@ std::string FM7Lib::GetFileNameFromFMFile(const std::vector <unsigned char> &dat
 	}
 	return fn;
 }
+
+const char *FM7Lib::BoolToStr(bool b)
+{
+	if(b==true)
+	{
+		return "TRUE";
+	}
+	else
+	{
+		return "FALSE";
+	}
+}
