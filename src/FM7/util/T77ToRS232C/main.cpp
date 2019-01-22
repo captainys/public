@@ -813,6 +813,10 @@ void SubCPU(void)
 					printf("\r%d/%d<<<<\n",(int)fc80.decodeInfo.ptr,(int)t77.t77.size());
 					fc80.nextPtrPrint+=5000;
 				}
+				if(true==fc80.decodeInfo.endOfFile)
+				{
+					printf("\rEOF<<<<\n");
+				}
 			}
 		}
 		fc80.Unhalt();

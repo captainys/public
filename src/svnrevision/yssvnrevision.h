@@ -29,5 +29,5 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef YSSVNREVISION_H_IS_INCLUDED
 #define YSSVNREVISION_H_IS_INCLUDED
-const char *YsSvnRevisionString="670";
+const char *YsSvnRevisionString="0";
 #endif
