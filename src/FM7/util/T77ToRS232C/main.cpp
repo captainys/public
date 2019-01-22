@@ -261,6 +261,15 @@ std::vector <unsigned char> T77FileToByteString(
 			{
 				auto fName=t77Dec.GetDumpFileName(t77Dec.fileDump[fileIdx]);
 				auto fType=FM7File::DecodeFMHeaderFileType(fmDat[10],fmDat[11]);
+				if(fType!=FM7File::FTYPE_UNKNOWN)
+				{
+					printf("File:%s\n",fName.c_str());
+				}
+				else
+				{
+					printf("Binary Chunk\n");
+				}
+
 				if(fType==FM7File::FTYPE_BINARY)
 				{
 					FM7BinaryFile binFile;
@@ -505,6 +514,9 @@ int main(int ac,char *av[])
 		fprintf(stderr,"Cannot open .T77 file.\n");
 		return 1;
 	}
+
+	// T77FileToByteString(t77file,true,cpi.bridgeAddr);  Test
+
 	std::swap(t77.t77,t77file);
 
 	t77.Decode();
