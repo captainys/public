@@ -664,6 +664,7 @@ bool T77Decoder::FindFirstFFFFFF(long long int &ptr) const
 bool T77Decoder::Decode(void)
 {
 	long long int ptr=0x10;  // Skip 16-byte header.
+	long long int dumpStart;
 	std::vector <unsigned char> dump;
 
 	int state=0; // 0 Outside   1 Inside   2 Following the end-block
@@ -672,6 +673,7 @@ bool T77Decoder::Decode(void)
 	unsigned char lastBlkIdent[4],lastFive[5];
 	long long int blkSize=0;
 
+	filePtr.clear();
 	fileDump.clear();
 
 	while(ptr+4<(long long)t77.size())
@@ -682,6 +684,7 @@ bool T77Decoder::Decode(void)
 			{
 				printf("Found FFFFFF at 0x%08x\n",(int)ptr);
 				state=1;
+				dumpStart=ptr;
 				dump.clear();
 				lastFive[0]=0;
 				lastFive[1]=0;
@@ -787,6 +790,7 @@ bool T77Decoder::Decode(void)
 
 			if(0!=bit[0] || 0==bit[9] || 0==bit[10])
 			{
+				filePtr.push_back(dumpStart);
 				fileDump.push_back((std::vector <unsigned char> &&)dump);
 				dump.clear();
 				printf("End of file.\n");
@@ -812,6 +816,7 @@ bool T77Decoder::Decode(void)
 
 	if(0<dump.size())
 	{
+		filePtr.push_back(dumpStart);
 		fileDump.push_back((std::vector <unsigned char> &&)dump);
 	}
 

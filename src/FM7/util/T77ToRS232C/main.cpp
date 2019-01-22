@@ -17,6 +17,11 @@ void MainCPU(void);
 void SubCPU(void);
 
 
+// 6809 code to look for
+//  AD9FFBFA                                                JSR             [$FBFA]
+//  6E9FFBFA                                                JMP             [$FBFA]
+//  BDF17D                                                  JSR             $F17D
+//  7EF17D                                                  JMP             $F17D
 
 ////////////////////////////////////////////////////////////
 
@@ -33,6 +38,16 @@ void ShowOptionHelp(void)
 	printf("\tConnecting to XM7, not actual FM-7/77.\n");
 	printf("\tDue to RS232C-handling bug, XM7 requires 5ms delay after receiving\n");
 	printf("\tand after transmitting.  Real FM-7/77 does not require such delay.\n");
+	printf("-install ADDR\n");
+	printf("\tSpecify install address of BIOS hook in FM-7.\n");
+	printf("\tDefault location is at the back end of the URA RAM (shadow RAM)\n");
+	printf("\tADDR must be hexadecimal WITHOUT $ or &H or 0x in front of it.\n");
+	printf("-bridge ADDR\n");
+	printf("\tSpecify bridge address in FM-7.\n");
+	printf("\tIf the same address is given as the bridge address, bridge will not \n");
+	printf("\tbe used, but the BIOS hook needs to be in the main RAM, not in URA RAM\n");
+	printf("\tDefault location is FC00.\n");
+	printf("\tADDR must be hexadecimal WITHOUT $ or &H or 0x in front of it.\n");
 }
 
 void ShowCommandHelp(void)
@@ -57,12 +72,64 @@ void Title(void)
 }
 
 
+////////////////////////////////////////////////////////////
+
+
+void Files(const T77Decoder &t77Dec)
+{
+	printf("%d files\n",(int)t77Dec.fileDump.size());
+
+	int i=0;
+	for(const auto &dump : t77Dec.fileDump)
+	{
+		auto fmDat=t77Dec.DumpToFMFormat(dump);
+		if(16<=fmDat.size())
+		{
+			auto fName=t77Dec.GetDumpFileName(dump);
+			auto fType=FM7File::DecodeFMHeaderFileType(fmDat[10],fmDat[11]);
+
+			printf("%10d:",(int)t77Dec.filePtr[i]);
+
+			if(fType!=FM7File::FTYPE_UNKNOWN)
+			{
+				printf("%-8s  ",fName.c_str());
+				printf("RawSize:%-8d",fmDat.size());
+			}
+			else
+			{
+				printf("--------  ");
+				printf("RawSize:--------");
+			}
+
+			printf("%-12s  ",FM7File::FileTypeToString(fType));
+			if(fType==FM7File::FTYPE_BINARY)
+			{
+				FM7BinaryFile binFile;
+				binFile.Decode2B0(fmDat);
+				printf("LEN:0x%04x FRM:0x%04x EXE:0x%04x",
+				    (int)binFile.dat.size(),
+				    binFile.storeAddr,
+				    binFile.execAddr);
+			}
+			printf("\n");
+		}
+		++i;
+	}
+}
+
+
+////////////////////////////////////////////////////////////
+
+
 class T77ServerCommandParameterInfo
 {
 public:
 	std::string portStr;
 	std::string t77FName;
 	bool xm7;
+
+	bool useInstAddr,useBridgeAddr;
+	unsigned int instAddr,bridgeAddr;
 
 	T77ServerCommandParameterInfo();
 	bool Recognize(int ac,char *av[]);
@@ -79,6 +146,10 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	portStr="";
 	t77FName="";
 	xm7=false;
+	useInstAddr=false;
+	useBridgeAddr=false;
+	instAddr=0;
+	bridgeAddr=0;
 }
 
 bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
@@ -94,6 +165,34 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		else if("-xm7"==arg || "-XM7"==arg || "-Xm7"==arg)
 		{
 			xm7=true;
+		}
+		else if("-install"==arg || "-INSTALL"==arg || "-Install"==arg)
+		{
+			if(i+1<ac)
+			{
+				useInstAddr=true;
+				instAddr=FM7Lib::Xtoi(av[i+1]);
+				++i;
+			}
+			else
+			{
+				fprintf(stderr,"Insufficient parameter for -install.\n");
+				return false;
+			}
+		}
+		else if("-bridge"==arg || "-BRIDGE"==arg || "-Bridge"==arg)
+		{
+			if(i+1<ac)
+			{
+				useBridgeAddr=true;
+				bridgeAddr=FM7Lib::Xtoi(av[i+1]);
+				++i;
+			}
+			else
+			{
+				fprintf(stderr,"Insufficient parameter for -install.\n");
+				return false;
+			}
 		}
 		else if('-'==arg[0])
 		{
@@ -238,6 +337,8 @@ public:
 static FC80 fc80;
 
 
+////////////////////////////////////////////////////////////
+
 
 char *Fgets(char str[],int len,FILE *fp)
 {
@@ -263,6 +364,10 @@ int main(int ac,char *av[])
 		return 1;
 	}
 
+	fc80.useInstAddr=cpi.useInstAddr;
+	fc80.instAddr=cpi.instAddr;
+	fc80.useBridgeAddr=cpi.useBridgeAddr;
+	fc80.bridgeAddr=cpi.bridgeAddr;
 
 	auto t77file=FM7Lib::ReadBinaryFile(cpi.t77FName.c_str());
 	if(0==t77file.size())
@@ -271,6 +376,11 @@ int main(int ac,char *av[])
 		return 1;
 	}
 	std::swap(t77.t77,t77file);
+
+	t77.Decode();
+
+	Title();
+	Files(t77);
 
 // T77 Dump.  I'll make it a command output.
 //	{
@@ -301,7 +411,6 @@ void GetInstallAddress(bool &useInstAddr,unsigned int &instAddr,bool &useBridgeA
 {
 	if(6==cmdStr.size())
 	{
-printf("%s %d\n",__FUNCTION__,__LINE__);
 		useInstAddr=true;
 		useBridgeAddr=false;
 
@@ -316,7 +425,6 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 	}
 	else if(10==cmdStr.size())
 	{
-printf("%s %d\n",__FUNCTION__,__LINE__);
 		useInstAddr=true;
 		useBridgeAddr=true;
 
