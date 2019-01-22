@@ -223,6 +223,136 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 }
 
 
+////////////////////////////////////////////////////////////
+
+
+std::vector <unsigned char> T77FileToByteString(
+    const std::vector <unsigned char> &t77File,
+    bool updateBIOScall,
+    unsigned int bridgeAddr)
+{
+	std::vector <unsigned char> rawDecode;
+
+	T77Decoder t77Dec;
+	t77Dec.t77=t77File;
+
+	if(true!=updateBIOScall)
+	{
+		auto info=t77Dec.BeginRawDecoding();
+		while(true!=info.endOfFile)
+		{
+			info=t77Dec.RawReadByte(info);
+			rawDecode.push_back(info.byteData);
+		}
+	}
+	else
+	{
+		t77Dec.Decode();
+
+		auto ptrStop=t77Dec.filePtr;
+		ptrStop.push_back(t77Dec.t77.size());
+
+		for(long long int fileIdx=0; fileIdx<t77Dec.fileDump.size(); ++fileIdx)
+		{
+			auto fmDat=t77Dec.DumpToFMFormat(t77Dec.fileDump[fileIdx]);
+			bool processed=false;
+
+			if(16<=fmDat.size())
+			{
+				auto fName=t77Dec.GetDumpFileName(t77Dec.fileDump[fileIdx]);
+				auto fType=FM7File::DecodeFMHeaderFileType(fmDat[10],fmDat[11]);
+				if(fType==FM7File::FTYPE_BINARY)
+				{
+					FM7BinaryFile binFile;
+					if(true==binFile.Decode2B0(t77Dec.DumpToFMFormat(t77Dec.fileDump[fileIdx])))
+					{
+						for(long long int ptr=0; ptr+3<=binFile.dat.size(); ++ptr)
+						{
+							// 6809 code to look for
+							//  AD9FFBFA    JSR             [$FBFA]
+							//  6E9FFBFA    JMP             [$FBFA]
+							//  BDF17D      JSR             $F17D
+							//  7EF17D      JMP             $F17D
+
+							if(ptr+4<=binFile.dat.size() &&
+							   binFile.dat[ptr  ]==0xAD &&
+							   binFile.dat[ptr+1]==0x9F &&
+							   binFile.dat[ptr+2]==0xFB &&
+							   binFile.dat[ptr+3]==0xFA)
+							{
+								printf("Found JSR [$FBFA] at offset $%04x\n",ptr);
+								binFile.dat[ptr  ]=0xBD;				// JSR
+								binFile.dat[ptr+1]=((bridgeAddr>>8)&0xff);
+								binFile.dat[ptr+2]=(bridgeAddr&0xff);
+								binFile.dat[ptr+3]=0x12;				// NOP
+							}
+							else if(ptr+4<=binFile.dat.size() &&
+							   binFile.dat[ptr  ]==0x6E &&
+							   binFile.dat[ptr+1]==0x9F &&
+							   binFile.dat[ptr+2]==0xFB &&
+							   binFile.dat[ptr+3]==0xFA)
+							{
+								printf("Found JMP [$FBFA] at offset $%04x\n",ptr);
+								binFile.dat[ptr  ]=0x7E;				// JMP
+								binFile.dat[ptr+1]=((bridgeAddr>>8)&0xff);
+								binFile.dat[ptr+2]=(bridgeAddr&0xff);
+								binFile.dat[ptr+3]=0x12;				// NOP
+							}
+							else if(
+							   binFile.dat[ptr  ]==0xBD &&
+							   binFile.dat[ptr+1]==0xF1 &&
+							   binFile.dat[ptr+2]==0x7D)
+							{
+								printf("Found JSR $F17D at offset $%04x\n",ptr);
+								binFile.dat[ptr+1]=((bridgeAddr>>8)&0xff);
+								binFile.dat[ptr+2]=(bridgeAddr&0xff);
+							}
+							else if(
+							   binFile.dat[ptr  ]==0x7E &&
+							   binFile.dat[ptr+1]==0xF1 &&
+							   binFile.dat[ptr+2]==0x7D)
+							{
+								printf("Found JMP $F17D at offset $%04x\n",ptr);
+								binFile.dat[ptr+1]=((bridgeAddr>>8)&0xff);
+								binFile.dat[ptr+2]=(bridgeAddr&0xff);
+							}
+						}
+
+						T77Encoder enc;
+						enc.StartT77Header();
+						enc.Encode(fType,fName.c_str(),binFile);
+
+						T77Decoder dec;
+						std::swap(dec.t77,enc.t77);
+
+						auto info=dec.BeginRawDecoding();
+						while(true!=info.endOfFile)
+						{
+							info=dec.RawReadByte(info);
+							rawDecode.push_back(info.byteData);
+						}
+
+						processed=true;
+					}
+				}
+			}
+
+			if(true!=processed)
+			{
+				auto info=t77Dec.BeginRawDecoding();
+				info.ptr=t77Dec.filePtr[fileIdx];
+				while(info.ptr<t77Dec.filePtr[fileIdx+1] && true!=info.endOfFile)
+				{
+					info=t77Dec.RawReadByte(info);
+					rawDecode.push_back(info.byteData);
+				}
+			}
+		}
+	}
+
+	return rawDecode;
+}
+
 
 ////////////////////////////////////////////////////////////
 
