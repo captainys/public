@@ -117,6 +117,20 @@ void Files(const T77Decoder &t77Dec)
 	}
 }
 
+unsigned int GetDefaultInstallAddress(void)
+{
+	FM7BinaryFile binFile;
+	binFile.DecodeSREC(clientBinary);
+	return 0x100*binFile.dat[2]+binFile.dat[3];
+}
+
+unsigned int GetDefaultBridgeAddress(void)
+{
+	FM7BinaryFile binFile;
+	binFile.DecodeSREC(clientBinary);
+	return 0x100*binFile.dat[4]+binFile.dat[5];
+}
+
 
 ////////////////////////////////////////////////////////////
 
@@ -148,8 +162,8 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	xm7=false;
 	useInstAddr=false;
 	useBridgeAddr=false;
-	instAddr=0;
-	bridgeAddr=0;
+	instAddr=GetDefaultInstallAddress();
+	bridgeAddr=GetDefaultBridgeAddress();
 }
 
 bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
@@ -395,15 +409,10 @@ public:
 		installASCII=false;
 
 		useInstAddr=false;
-		instAddr=0;
+		instAddr=GetDefaultInstallAddress();
 		useBridgeAddr=false;
-		bridgeAddr=0;
+		bridgeAddr=GetDefaultBridgeAddress();
 
-		FM7BinaryFile binFile;
-		binFile.DecodeSREC(clientBinary);
-
-		instAddr=0x100*binFile.dat[2]+binFile.dat[3];
-		bridgeAddr=0x100*binFile.dat[4]+binFile.dat[5];
 		printf("Default Install Address=%04x\n",instAddr);
 		printf("Default Bridge Address =%04x\n",bridgeAddr);
 	}
@@ -651,6 +660,7 @@ void MainCPU(void)
 void SubCPU(void)
 {
 	YsCOMPort comPort;
+	auto activityTimer=std::chrono::system_clock::now();
 
 	comPort.SetDesiredBaudRate(19200);
 	comPort.SetDesiredBitLength(YsCOMPort::BITLENGTH_8);
@@ -738,6 +748,9 @@ void SubCPU(void)
 		auto recv=comPort.Receive();
 		for(auto c : recv)
 		{
+			// If something incoming, don't sleep next 10ms.
+			activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(10);
+
 			//printf("%02x",c);
 			//if(0x20<=c && c<=0x7f)
 			//{
@@ -803,7 +816,10 @@ void SubCPU(void)
 			}
 		}
 		fc80.Unhalt();
-		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		if(activityTimer<std::chrono::system_clock::now())
+		{
+			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		}
 	}
 
 	comPort.Close();
