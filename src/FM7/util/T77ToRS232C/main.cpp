@@ -75,48 +75,6 @@ void Title(void)
 ////////////////////////////////////////////////////////////
 
 
-void Files(const T77Decoder &t77Dec)
-{
-	printf("%d files\n",(int)t77Dec.fileDump.size());
-
-	int i=0;
-	for(const auto &dump : t77Dec.fileDump)
-	{
-		auto fmDat=t77Dec.DumpToFMFormat(dump);
-		if(16<=fmDat.size())
-		{
-			auto fName=t77Dec.GetDumpFileName(dump);
-			auto fType=FM7File::DecodeFMHeaderFileType(fmDat[10],fmDat[11]);
-
-			printf("%10d:",(int)t77Dec.filePtr[i]);
-
-			if(fType!=FM7File::FTYPE_UNKNOWN)
-			{
-				printf("%-8s  ",fName.c_str());
-				printf("RawSize:%-8d",fmDat.size());
-			}
-			else
-			{
-				printf("--------  ");
-				printf("RawSize:--------");
-			}
-
-			printf("%-12s  ",FM7File::FileTypeToString(fType));
-			if(fType==FM7File::FTYPE_BINARY)
-			{
-				FM7BinaryFile binFile;
-				binFile.Decode2B0(fmDat);
-				printf("LEN:0x%04x FRM:0x%04x EXE:0x%04x",
-				    (int)binFile.dat.size(),
-				    binFile.storeAddr,
-				    binFile.execAddr);
-			}
-			printf("\n");
-		}
-		++i;
-	}
-}
-
 unsigned int GetDefaultInstallAddress(void)
 {
 	FM7BinaryFile binFile;
@@ -265,20 +223,30 @@ public:
 			execAddr=0;
 		}
 	};
+	std::vector <unsigned char> rawT77file;
 	std::vector <FileInfo> dir;
 	std::vector <unsigned char> byteString;
+	long long int currentPtr,nextPrintPtr;
 
-	static void RedirectBiosCall(std::vector<unsigned char> &bin,unsigned int bridgeAddr);
+	/*! Returns how many occurrences have been replaced.
+	*/
+	static int RedirectBiosCall(std::vector<unsigned char> &bin,unsigned int bridgeAddr);
 
 	void CleanUp(void);
 	void Make(
 	    const std::vector <unsigned char> &t77File,
 	    bool updateBiosCallInMachingo,
 	    unsigned int bridgeAddr);
+	void Remake(
+	    bool updateBiosCallInMachingo,
+	    unsigned int bridgeAddr);
+	void Files(void) const;
 };
 
-/* static */ void FM7CassetteTape::RedirectBiosCall(std::vector<unsigned char> &bin,unsigned int bridgeAddr)
+/* static */ int FM7CassetteTape::RedirectBiosCall(std::vector<unsigned char> &bin,unsigned int bridgeAddr)
 {
+	int nRepl=0;
+
 	for(long long int ptr=0; ptr+3<=bin.size(); ++ptr)
 	{
 		// 6809 code to look for
@@ -298,6 +266,7 @@ public:
 			bin[ptr+1]=((bridgeAddr>>8)&0xff);
 			bin[ptr+2]=(bridgeAddr&0xff);
 			bin[ptr+3]=0x12;				// NOP
+			++nRepl;
 		}
 		else if(ptr+4<=bin.size() &&
 		   bin[ptr  ]==0x6E &&
@@ -310,6 +279,7 @@ public:
 			bin[ptr+1]=((bridgeAddr>>8)&0xff);
 			bin[ptr+2]=(bridgeAddr&0xff);
 			bin[ptr+3]=0x12;				// NOP
+			++nRepl;
 		}
 		else if(
 		   bin[ptr  ]==0xBD &&
@@ -319,6 +289,7 @@ public:
 			printf("Found JSR $F17D at offset $%04x\n",ptr);
 			bin[ptr+1]=((bridgeAddr>>8)&0xff);
 			bin[ptr+2]=(bridgeAddr&0xff);
+			++nRepl;
 		}
 		else if(
 		   bin[ptr  ]==0x7E &&
@@ -328,14 +299,21 @@ public:
 			printf("Found JMP $F17D at offset $%04x\n",ptr);
 			bin[ptr+1]=((bridgeAddr>>8)&0xff);
 			bin[ptr+2]=(bridgeAddr&0xff);
+			++nRepl;
 		}
 	}
+
+	return nRepl;
 }
 
 void FM7CassetteTape::CleanUp(void)
 {
+	rawT77file.clear();
 	dir.clear();
 	byteString.clear();
+
+	currentPtr=0;
+	nextPrintPtr=0;
 }
 
 void FM7CassetteTape::Make(
@@ -344,9 +322,16 @@ void FM7CassetteTape::Make(
 	    unsigned int bridgeAddr)
 {
 	CleanUp();
+	rawT77file=t77File;
+	Remake(updateBiosCallInMachingo,bridgeAddr);
+}
 
+void FM7CassetteTape::Remake(
+	    bool updateBiosCallInMachingo,
+	    unsigned int bridgeAddr)
+{
 	T77Decoder t77Dec;
-	t77Dec.t77=t77File;
+	t77Dec.t77=rawT77file;
 	t77Dec.Decode();
 
 	auto ptrStop=t77Dec.filePtr;
@@ -363,18 +348,13 @@ void FM7CassetteTape::Make(
 		if(16<=fmDat.size())
 		{
 			auto fName=t77Dec.GetDumpFileName(t77Dec.fileDump[fileIdx]);
-			auto fType=FM7File::DecodeFMHeaderFileType(fmDat[10],fmDat[11]);
-			if(fType!=FM7File::FTYPE_UNKNOWN)
+			file.fType=FM7File::DecodeFMHeaderFileType(fmDat[10],fmDat[11]);
+			if(file.fType!=FM7File::FTYPE_UNKNOWN)
 			{
-				printf("File:%s\n",fName.c_str());
 				file.fName=fName;
 			}
-			else
-			{
-				printf("Binary Chunk\n");
-			}
 
-			if(fType==FM7File::FTYPE_BINARY)
+			if(file.fType==FM7File::FTYPE_BINARY)
 			{
 				FM7BinaryFile binFile;
 				if(true==binFile.Decode2B0(t77Dec.DumpToFMFormat(t77Dec.fileDump[fileIdx])))
@@ -382,13 +362,12 @@ void FM7CassetteTape::Make(
 					file.len=binFile.dat.size();
 					file.storeAddr=binFile.storeAddr;
 				    file.execAddr=binFile.execAddr;
-					if(true==updateBiosCallInMachingo)
+					if(true==updateBiosCallInMachingo &&
+					   0<FM7CassetteTape::RedirectBiosCall(binFile.dat,bridgeAddr))
 					{
-						FM7CassetteTape::RedirectBiosCall(binFile.dat,bridgeAddr);
-
 						T77Encoder enc;
 						enc.StartT77Header();
-						enc.Encode(fType,fName.c_str(),binFile);
+						enc.Encode(file.fType,fName.c_str(),binFile);
 
 						T77Decoder dec;
 						std::swap(dec.t77,enc.t77);
@@ -421,12 +400,40 @@ void FM7CassetteTape::Make(
 	}
 }
 
+void FM7CassetteTape::Files(void) const
+{
+	printf("%d files\n",(int)dir.size());
+
+	int i=0;
+	for(auto f : dir)
+	{
+		printf("%10d:",(int)f.ptr);
+
+		if(f.fType!=FM7File::FTYPE_UNKNOWN)
+		{
+			printf("%-8s  ",f.fName.c_str());
+		}
+		else
+		{
+			printf("--------  ");
+		}
+
+		printf("%-12s  ",FM7File::FileTypeToString(f.fType));
+		if(f.fType==FM7File::FTYPE_BINARY)
+		{
+			printf("LEN:0x%04x FRM:0x%04x EXE:0x%04x",
+			    (int)f.len,
+			    (int)f.storeAddr,
+			    (int)f.execAddr);
+		}
+		printf("\n");
+	}
+}
 
 ////////////////////////////////////////////////////////////
 
 
 static std::mutex fd05;
-static T77Decoder t77;
 static T77ServerCommandParameterInfo cpi;
 
 
@@ -438,8 +445,10 @@ public:
 	bool fatalError;
 	bool verbose;
 	bool installASCII;
-	long long int nextPtrPrint;
-	T77Decoder::RawDecodingInfo decodeInfo;
+
+	FM7CassetteTape loadTape;
+	FM7CassetteTape *tapePtr;
+
 
 	bool useInstAddr,useBridgeAddr;
 	unsigned int instAddr,bridgeAddr;
@@ -449,7 +458,7 @@ public:
 	{
 		terminate=false;
 		subCPUready=false;
-		nextPtrPrint=0;
+
 		verbose=false;
 		installASCII=false;
 
@@ -457,6 +466,8 @@ public:
 		instAddr=GetDefaultInstallAddress();
 		useBridgeAddr=false;
 		bridgeAddr=GetDefaultBridgeAddress();
+
+		tapePtr=&loadTape;
 
 		printf("Default Install Address=%04x\n",instAddr);
 		printf("Default Bridge Address =%04x\n",bridgeAddr);
@@ -508,8 +519,8 @@ public:
 	void RewindAllTheWay(void)
 	{
 		std::lock_guard <std::mutex> lock(fd05);
-		decodeInfo=t77.BeginRawDecoding();
-		nextPtrPrint=0;
+		tapePtr->currentPtr=0;
+		tapePtr->nextPrintPtr=0;
 	}
 	void InstallASCII(void)
 	{
@@ -562,21 +573,18 @@ int main(int ac,char *av[])
 	fc80.useBridgeAddr=cpi.useBridgeAddr;
 	fc80.bridgeAddr=cpi.bridgeAddr;
 
-	auto t77file=FM7Lib::ReadBinaryFile(cpi.t77FName.c_str());
-	if(0==t77file.size())
 	{
-		fprintf(stderr,"Cannot open .T77 file.\n");
-		return 1;
+		auto t77file=FM7Lib::ReadBinaryFile(cpi.t77FName.c_str());
+		if(0==t77file.size())
+		{
+			fprintf(stderr,"Cannot open .T77 file.\n");
+			return 1;
+		}
+		fc80.tapePtr->Make(t77file,true,fc80.bridgeAddr);
 	}
 
-	// T77FileToByteString(t77file,true,cpi.bridgeAddr);  Test
-
-	std::swap(t77.t77,t77file);
-
-	t77.Decode();
-
 	Title();
-	Files(t77);
+	fc80.tapePtr->Files();
 
 // T77 Dump.  I'll make it a command output.
 //	{
@@ -721,7 +729,6 @@ void SubCPU(void)
 
 	fc80.Halt();
 	fc80.subCPUready=true;
-	fc80.decodeInfo=t77.BeginRawDecoding();
 	fc80.Unhalt();
 	for(;;)
 	{
@@ -808,10 +815,12 @@ void SubCPU(void)
 
 			if('R'==c)
 			{
-				if(true!=fc80.decodeInfo.endOfFile)
+				unsigned char toSend=0xff;
+				if(fc80.tapePtr->currentPtr<fc80.tapePtr->byteString.size())
 				{
-					fc80.decodeInfo=t77.RawReadByte(fc80.decodeInfo);
+					toSend=fc80.tapePtr->byteString[fc80.tapePtr->currentPtr++];
 				}
+
 				long long int nSend=1;
 				unsigned char sendByte[2];
 				// FM-7 Emulator XM7 cannot receive a binary number zero.
@@ -827,16 +836,16 @@ void SubCPU(void)
 				// it breaks.
 				// At this time, I need 5ms delay after sending and receiving.
 
-				if(0==fc80.decodeInfo.byteData || 1==fc80.decodeInfo.byteData)
+				if(0==toSend || 1==toSend)
 				{
 					nSend=2;
 					sendByte[0]=1;
-					sendByte[1]=fc80.decodeInfo.byteData+1;
+					sendByte[1]=toSend+1;
 				}
 				else
 				{
 					nSend=1;
-					sendByte[0]=fc80.decodeInfo.byteData;
+					sendByte[0]=toSend;
 				}
 
 
@@ -853,12 +862,12 @@ void SubCPU(void)
 					std::this_thread::sleep_for(std::chrono::milliseconds(5));
 				}
 
-				if(fc80.nextPtrPrint<fc80.decodeInfo.ptr)
+				if(fc80.tapePtr->nextPrintPtr<fc80.tapePtr->currentPtr)
 				{
-					printf("\r%d/%d<<<<\n",(int)fc80.decodeInfo.ptr,(int)t77.t77.size());
-					fc80.nextPtrPrint+=5000;
+					printf("\r%d/%d<<<<\n",(int)fc80.tapePtr->currentPtr,(int)fc80.tapePtr->byteString.size());
+					fc80.tapePtr->nextPrintPtr+=200;
 				}
-				if(true==fc80.decodeInfo.endOfFile)
+				if(fc80.tapePtr->byteString.size()<=fc80.tapePtr->currentPtr)
 				{
 					printf("\rEOF<<<<\n");
 				}
