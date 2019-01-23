@@ -67,6 +67,7 @@ private:
 
 public:
 	bool quit;
+	bool ignoreNextLButtonUp;
 
 public:
 	void Initialize(void);
@@ -89,6 +90,7 @@ private:
 void FM77AVKeyboardEmulatorMain::Initialize(void)
 {
 	quit=false;
+	ignoreNextLButtonUp=false;
 	autoPortScan=true;
 
 	availablePort=YsCOMPort::FindAvailablePort();
@@ -222,8 +224,20 @@ void FM77AVKeyboardEmulatorMain::ProcessUserInput(void)
 	auto mouseEvt=FsGetMouseEvent(lb,mb,rb,mx,my);
 	if(FSMOUSEEVENT_LBUTTONUP==mouseEvt)
 	{
-		gui.NotifyLButtonUp(mx,my);
+		if(true==ignoreNextLButtonUp)
+		{
+			ignoreNextLButtonUp=false;
+		}
+		else
+		{
+			gui.NotifyLButtonUp(mx,my);
+		}
 	}
+	if(FSMOUSEEVENT_LBUTTONDOWN==mouseEvt)
+	{
+		ignoreNextLButtonUp=false;
+	}
+
 	if(exitBtn==gui.PeekLastClicked())
 	{
 		Quit();
@@ -257,12 +271,14 @@ void FM77AVKeyboardEmulatorMain::ProcessUserInput(void)
 		FileDialogOption opt;
 		auto fName=SelectFile(opt);
 		fm77avKeyboardEmu.StartAutoTyping(fName.c_str(),0);
+		ignoreNextLButtonUp=true;
 	}
 	if(autoTypingBasicBtn==gui.PeekLastClicked() && fm77avKeyboardEmu.GetIRToyState()==IRToy_Controller::STATE_GOWILD)
 	{
 		FileDialogOption opt;
 		auto fName=SelectFile(opt);
 		fm77avKeyboardEmu.StartAutoTyping(fName.c_str(),500);
+		ignoreNextLButtonUp=true;
 	}
 	if(autoStopBtn==gui.PeekLastClicked())
 	{
