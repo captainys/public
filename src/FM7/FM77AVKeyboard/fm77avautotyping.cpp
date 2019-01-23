@@ -35,6 +35,19 @@ void FM77AVKeyboardEmulator::StartAutoTyping(const char fName[],int lineBreakWai
 		}
 	}
 }
+void FM77AVKeyboardEmulator::StartAutoTyping(const std::vector <char> text,int lineBreakWait)
+{
+	autoTypingFName="Clipboard";
+	autoTypingPtr=0;
+
+	autoTypingTxt.clear();
+	autoTypingTxt.insert(autoTypingTxt.end(),text.begin(),text.end());
+	autoTypingTxt.push_back(0);
+
+	autoTypingLineBreakWait=lineBreakWait;
+
+	nextAutoTypingTimer=std::chrono::system_clock::now();
+}
 void FM77AVKeyboardEmulator::StopAutoTyping(void)
 {
 	autoTypingFName="";

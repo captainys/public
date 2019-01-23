@@ -30,6 +30,8 @@ add_executable(${TARGET_NAME} MACOSX_BUNDLE
 	fm77avautotyping.cpp
 	filedialog.h
 	filedialog.cpp
+	clipboard.h
+	clipboard.cpp
 )
 
 add_executable(${TARGET_NAME}_gl1 MACOSX_BUNDLE
@@ -39,6 +41,8 @@ add_executable(${TARGET_NAME}_gl1 MACOSX_BUNDLE
 	fm77avautotyping.cpp
 	filedialog.h
 	filedialog.cpp
+	clipboard.h
+	clipboard.cpp
 )
 
 

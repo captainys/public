@@ -113,6 +113,7 @@ public:
 	bool GetArrowFor8Dir(void) const;
 
 	void StartAutoTyping(const char fName[],int lineBreakWait);
+	void StartAutoTyping(const std::vector <char> text,int lineBreakWait);
 	void StopAutoTyping(void);
 	bool IsAutoTyping(void) const;
 	std::string GetAutoTypingFileName(void) const;

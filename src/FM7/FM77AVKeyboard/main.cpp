@@ -12,6 +12,7 @@
 #include "comport.h"
 #include "cheaputil.h"
 #include "gui.h"
+#include "clipboard.h"
 
 
 
@@ -42,7 +43,7 @@ private:
 	CheapGUI::CheckBox *rKanaModeBtn;
 	std::vector <CheapGUI::CheckBox *> modeBtn;
 
-	CheapGUI::PushButton *autoTypingBtn,*autoTypingBasicBtn;
+	CheapGUI::PushButton *autoTypingBtn,*autoTypingBasicBtn,*autoTypeClipboardBtn;
 
 	CheapGUI::PushButton *exitBtn;
 	CheapGUI::PushButton *secretBtn;
@@ -176,7 +177,10 @@ void FM77AVKeyboardEmulatorMain::SetUpCheapGUI(void)
 	guiY+=34;
 
 	autoTypingBtn=gui.AddPushButton(8,guiY,150,32,"AUTO-TYPE");
-	autoTypingBasicBtn=gui.AddPushButton(180,guiY,260,32,"AUTO-TYPE(BASIC)");
+	autoTypingBasicBtn=gui.AddPushButton(176,guiY,260,32,"AUTO-TYPE(BASIC)");
+#ifdef _WIN32
+	autoTypeClipboardBtn=gui.AddPushButton(440,guiY,112,32,"PASTE");
+#endif
 	guiY+=34;
 
 	zxcTxt=gui.AddText(8,guiY,112,32,"ZXC:");
@@ -278,6 +282,12 @@ void FM77AVKeyboardEmulatorMain::ProcessUserInput(void)
 		FileDialogOption opt;
 		auto fName=SelectFile(opt);
 		fm77avKeyboardEmu.StartAutoTyping(fName.c_str(),500);
+		ignoreNextLButtonUp=true;
+	}
+	if(autoTypeClipboardBtn==gui.PeekLastClicked() && fm77avKeyboardEmu.GetIRToyState()==IRToy_Controller::STATE_GOWILD)
+	{
+		auto clipboard=ReadFromClipboard();
+		fm77avKeyboardEmu.StartAutoTyping(clipboard,500);
 		ignoreNextLButtonUp=true;
 	}
 	if(autoStopBtn==gui.PeekLastClicked())
