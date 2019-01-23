@@ -226,6 +226,8 @@ T77Encoder::~T77Encoder()
 void T77Encoder::CleanUp(void)
 {
 	T77File::CleanUp();
+	debug_makeIntentionalCheckSumError_headerBlock=false;
+	debug_makeIntentionalCheckSumError_dataBlock=false;
 }
 
 unsigned char T77Encoder::CalculateCheckSum(const std::vector <unsigned char> &blk)
@@ -291,6 +293,11 @@ std::vector <unsigned char> T77Encoder::MakeHeaderBlock(const char t77fName[],in
 	}
 	blk.push_back(0); // Tentative.
 	blk.back()=CalculateCheckSum(blk);
+
+	if(true==debug_makeIntentionalCheckSumError_headerBlock)
+	{
+		blk.back()=(blk.back()+0x80)&0xff;
+	}
 	return blk;
 }
 
@@ -307,6 +314,11 @@ std::vector <unsigned char> T77Encoder::MakeDataBlock(const std::vector <unsigne
 	}
 	blk.push_back(0); // Tentative
 	blk.back()=CalculateCheckSum(blk);
+
+	if(true==debug_makeIntentionalCheckSumError_dataBlock)
+	{
+		blk.back()=(blk.back()+0x80)&0xff;
+	}
 	return blk;
 }
 

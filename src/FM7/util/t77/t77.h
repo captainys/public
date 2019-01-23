@@ -63,6 +63,9 @@ protected:
 class T77Encoder : public T77File
 {
 public:
+	bool debug_makeIntentionalCheckSumError_headerBlock;
+	bool debug_makeIntentionalCheckSumError_dataBlock;
+
 	T77Encoder();
 	~T77Encoder();
 	void CleanUp(void);

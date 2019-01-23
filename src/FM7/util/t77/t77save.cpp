@@ -41,6 +41,13 @@ void CommandHelp(void)
 	printf("-not77\n");
 	printf("\tDon't save .T77 file.\n");
 	printf("\tThis option only affects what file will be saved in the end.\n");
+	printf("-dbgcsum\n");
+	printf("\tThis option causes intentional check-sum error.\n");
+	printf("\tExperiment if FM-7 gives Device I/O Error if check sum is wrong.\n");
+	printf("-dbgcsumd\n");
+	printf("\tThis option causes intentional check-sum error of data blocks.\n");
+	printf("-dbgcsumh\n");
+	printf("\tThis option causes intentional check-sum error of header blocks.\n");
 }
 
 bool WriteFMFile(T77Encoder &encoder,const char fmFName[],const char filenameInT77[])
@@ -227,6 +234,22 @@ int T77Save::ProcessOption(int ac,char *av[],int ptr)
 	else if("-NOT77"==opt)
 	{
 		saveAsT77=false;
+		return 1;
+	}
+	else if("-DBGCSUM"==opt)
+	{
+		encoder.debug_makeIntentionalCheckSumError_headerBlock=true;
+		encoder.debug_makeIntentionalCheckSumError_dataBlock=true;
+		return 1;
+	}
+	else if("-DBGCSUMD"==opt)
+	{
+		encoder.debug_makeIntentionalCheckSumError_dataBlock=true;
+		return 1;
+	}
+	else if("-DBGCSUMH"==opt)
+	{
+		encoder.debug_makeIntentionalCheckSumError_headerBlock=true;
 		return 1;
 	}
 
