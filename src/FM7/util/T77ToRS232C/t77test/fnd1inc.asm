@@ -4,7 +4,7 @@
 						CLRA
 LOOP					CMPA	,X+
 						BNE		FOUND
-						ADDA	#$10
+						INCA
 						CMPX	#$6000
 						BNE		LOOP
 						LDX		#$FFFF

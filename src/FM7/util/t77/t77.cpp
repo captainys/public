@@ -228,6 +228,7 @@ void T77Encoder::CleanUp(void)
 	T77File::CleanUp();
 	debug_makeIntentionalCheckSumError_headerBlock=false;
 	debug_makeIntentionalCheckSumError_dataBlock=false;
+	debug_mixNonFFinDataGap=false;
 }
 
 unsigned char T77Encoder::CalculateCheckSum(const std::vector <unsigned char> &blk)
@@ -435,7 +436,14 @@ bool T77Encoder::Encode(int fType,const char t77fName[],const std::vector <unsig
 			{
 				for(int i=0; i<20; ++i)
 				{
-					AddByte(0xff);
+					if(10==i && true==debug_mixNonFFinDataGap)
+					{
+						AddByte(0x77);
+					}
+					else
+					{
+						AddByte(0xff);
+					}
 				}
 			}
 			else

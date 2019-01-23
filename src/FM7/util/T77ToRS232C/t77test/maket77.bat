@@ -11,6 +11,8 @@ asm6809 fndnot4e.asm -S -o fndnot4e.srec
 t77save t77test.t77 -new
 t77save t77test.t77 -srecwrite csum1.srec CSUM1 
 t77save t77test.t77 -srecwrite csum2.srec CSUM2 
+t77save t77test.t77 -savem random.bin RANDOM 0x2000 0x1400 
+t77save t77test.t77 -srecwrite csum.srec CSUM 
 t77save t77test.t77 -savem all4e.bin ALL4E 0x2000 0x1400 
 t77save t77test.t77 -srecwrite csum.srec CSUM 
 t77save t77test.t77 -srecwrite fndnot4e.srec FNDNOT4E

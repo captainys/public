@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 
 unsigned char buf[0x7000-0x2000];
@@ -33,5 +34,12 @@ int main(void)
 		i=(i+0x10)&255;
 	}
 	Save("inc10.bin");
+
+	for(auto &c : buf)
+	{
+		c=rand()&255;
+	}
+	Save("random.bin");
+	return 0;
 }
 

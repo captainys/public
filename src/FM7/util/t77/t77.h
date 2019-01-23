@@ -65,6 +65,7 @@ class T77Encoder : public T77File
 public:
 	bool debug_makeIntentionalCheckSumError_headerBlock;
 	bool debug_makeIntentionalCheckSumError_dataBlock;
+	bool debug_mixNonFFinDataGap;
 
 	T77Encoder();
 	~T77Encoder();

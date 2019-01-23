@@ -48,6 +48,9 @@ void CommandHelp(void)
 	printf("\tThis option causes intentional check-sum error of data blocks.\n");
 	printf("-dbgcsumh\n");
 	printf("\tThis option causes intentional check-sum error of header blocks.\n");
+	printf("-dbgmix77datagap\n");
+	printf("\tThis option mixes 0x77 in the data-gap where it needs to be 0xFF.\n");
+	printf("\tFor testing an effect of error in the data-gap.\n");
 }
 
 bool WriteFMFile(T77Encoder &encoder,const char fmFName[],const char filenameInT77[])
@@ -250,6 +253,11 @@ int T77Save::ProcessOption(int ac,char *av[],int ptr)
 	else if("-DBGCSUMH"==opt)
 	{
 		encoder.debug_makeIntentionalCheckSumError_headerBlock=true;
+		return 1;
+	}
+	else if("-DBGMIX77DATAGAP"==opt)
+	{
+		encoder.debug_mixNonFFinDataGap=true;
 		return 1;
 	}
 
