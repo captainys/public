@@ -240,106 +240,151 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 ////////////////////////////////////////////////////////////
 
 
-std::vector <unsigned char> T77FileToByteString(
-    const std::vector <unsigned char> &t77File,
-    bool updateBIOScall,
-    unsigned int bridgeAddr)
+class FM7CassetteTape
 {
-	std::vector <unsigned char> rawDecode;
+public:
+	class FileInfo
+	{
+	public:
+		int fType;
+		std::string fName;
+		long long int ptr;
+		unsigned int len,storeAddr,execAddr;
+
+		FileInfo()
+		{
+			CleanUp();
+		}
+		void CleanUp(void)
+		{
+			fType=FM7File::FTYPE_UNKNOWN;
+			fName="";
+			ptr=0;
+			len=0;
+			storeAddr=0;
+			execAddr=0;
+		}
+	};
+	std::vector <FileInfo> dir;
+	std::vector <unsigned char> byteString;
+
+	static void RedirectBiosCall(std::vector<unsigned char> &bin,unsigned int bridgeAddr);
+
+	void CleanUp(void);
+	void Make(
+	    const std::vector <unsigned char> &t77File,
+	    bool updateBiosCallInMachingo,
+	    unsigned int bridgeAddr);
+};
+
+/* static */ void FM7CassetteTape::RedirectBiosCall(std::vector<unsigned char> &bin,unsigned int bridgeAddr)
+{
+	for(long long int ptr=0; ptr+3<=bin.size(); ++ptr)
+	{
+		// 6809 code to look for
+		//  AD9FFBFA    JSR             [$FBFA]
+		//  6E9FFBFA    JMP             [$FBFA]
+		//  BDF17D      JSR             $F17D
+		//  7EF17D      JMP             $F17D
+
+		if(ptr+4<=bin.size() &&
+		   bin[ptr  ]==0xAD &&
+		   bin[ptr+1]==0x9F &&
+		   bin[ptr+2]==0xFB &&
+		   bin[ptr+3]==0xFA)
+		{
+			printf("Found JSR [$FBFA] at offset $%04x\n",ptr);
+			bin[ptr  ]=0xBD;				// JSR
+			bin[ptr+1]=((bridgeAddr>>8)&0xff);
+			bin[ptr+2]=(bridgeAddr&0xff);
+			bin[ptr+3]=0x12;				// NOP
+		}
+		else if(ptr+4<=bin.size() &&
+		   bin[ptr  ]==0x6E &&
+		   bin[ptr+1]==0x9F &&
+		   bin[ptr+2]==0xFB &&
+		   bin[ptr+3]==0xFA)
+		{
+			printf("Found JMP [$FBFA] at offset $%04x\n",ptr);
+			bin[ptr  ]=0x7E;				// JMP
+			bin[ptr+1]=((bridgeAddr>>8)&0xff);
+			bin[ptr+2]=(bridgeAddr&0xff);
+			bin[ptr+3]=0x12;				// NOP
+		}
+		else if(
+		   bin[ptr  ]==0xBD &&
+		   bin[ptr+1]==0xF1 &&
+		   bin[ptr+2]==0x7D)
+		{
+			printf("Found JSR $F17D at offset $%04x\n",ptr);
+			bin[ptr+1]=((bridgeAddr>>8)&0xff);
+			bin[ptr+2]=(bridgeAddr&0xff);
+		}
+		else if(
+		   bin[ptr  ]==0x7E &&
+		   bin[ptr+1]==0xF1 &&
+		   bin[ptr+2]==0x7D)
+		{
+			printf("Found JMP $F17D at offset $%04x\n",ptr);
+			bin[ptr+1]=((bridgeAddr>>8)&0xff);
+			bin[ptr+2]=(bridgeAddr&0xff);
+		}
+	}
+}
+
+void FM7CassetteTape::CleanUp(void)
+{
+	dir.clear();
+	byteString.clear();
+}
+
+void FM7CassetteTape::Make(
+	    const std::vector <unsigned char> &t77File,
+	    bool updateBiosCallInMachingo,
+	    unsigned int bridgeAddr)
+{
+	CleanUp();
 
 	T77Decoder t77Dec;
 	t77Dec.t77=t77File;
+	t77Dec.Decode();
 
-	if(true!=updateBIOScall)
+	auto ptrStop=t77Dec.filePtr;
+	ptrStop.push_back(t77Dec.t77.size());
+
+	for(long long int fileIdx=0; fileIdx<t77Dec.fileDump.size(); ++fileIdx)
 	{
-		auto info=t77Dec.BeginRawDecoding();
-		while(true!=info.endOfFile)
+		auto fmDat=t77Dec.DumpToFMFormat(t77Dec.fileDump[fileIdx]);
+		bool processed=false;
+
+		FM7CassetteTape::FileInfo file;
+		file.ptr=byteString.size();
+
+		if(16<=fmDat.size())
 		{
-			info=t77Dec.RawReadByte(info);
-			rawDecode.push_back(info.byteData);
-		}
-	}
-	else
-	{
-		t77Dec.Decode();
-
-		auto ptrStop=t77Dec.filePtr;
-		ptrStop.push_back(t77Dec.t77.size());
-
-		for(long long int fileIdx=0; fileIdx<t77Dec.fileDump.size(); ++fileIdx)
-		{
-			auto fmDat=t77Dec.DumpToFMFormat(t77Dec.fileDump[fileIdx]);
-			bool processed=false;
-
-			if(16<=fmDat.size())
+			auto fName=t77Dec.GetDumpFileName(t77Dec.fileDump[fileIdx]);
+			auto fType=FM7File::DecodeFMHeaderFileType(fmDat[10],fmDat[11]);
+			if(fType!=FM7File::FTYPE_UNKNOWN)
 			{
-				auto fName=t77Dec.GetDumpFileName(t77Dec.fileDump[fileIdx]);
-				auto fType=FM7File::DecodeFMHeaderFileType(fmDat[10],fmDat[11]);
-				if(fType!=FM7File::FTYPE_UNKNOWN)
-				{
-					printf("File:%s\n",fName.c_str());
-				}
-				else
-				{
-					printf("Binary Chunk\n");
-				}
+				printf("File:%s\n",fName.c_str());
+				file.fName=fName;
+			}
+			else
+			{
+				printf("Binary Chunk\n");
+			}
 
-				if(fType==FM7File::FTYPE_BINARY)
+			if(fType==FM7File::FTYPE_BINARY)
+			{
+				FM7BinaryFile binFile;
+				if(true==binFile.Decode2B0(t77Dec.DumpToFMFormat(t77Dec.fileDump[fileIdx])))
 				{
-					FM7BinaryFile binFile;
-					if(true==binFile.Decode2B0(t77Dec.DumpToFMFormat(t77Dec.fileDump[fileIdx])))
+					file.len=binFile.dat.size();
+					file.storeAddr=binFile.storeAddr;
+				    file.execAddr=binFile.execAddr;
+					if(true==updateBiosCallInMachingo)
 					{
-						for(long long int ptr=0; ptr+3<=binFile.dat.size(); ++ptr)
-						{
-							// 6809 code to look for
-							//  AD9FFBFA    JSR             [$FBFA]
-							//  6E9FFBFA    JMP             [$FBFA]
-							//  BDF17D      JSR             $F17D
-							//  7EF17D      JMP             $F17D
-
-							if(ptr+4<=binFile.dat.size() &&
-							   binFile.dat[ptr  ]==0xAD &&
-							   binFile.dat[ptr+1]==0x9F &&
-							   binFile.dat[ptr+2]==0xFB &&
-							   binFile.dat[ptr+3]==0xFA)
-							{
-								printf("Found JSR [$FBFA] at offset $%04x\n",ptr);
-								binFile.dat[ptr  ]=0xBD;				// JSR
-								binFile.dat[ptr+1]=((bridgeAddr>>8)&0xff);
-								binFile.dat[ptr+2]=(bridgeAddr&0xff);
-								binFile.dat[ptr+3]=0x12;				// NOP
-							}
-							else if(ptr+4<=binFile.dat.size() &&
-							   binFile.dat[ptr  ]==0x6E &&
-							   binFile.dat[ptr+1]==0x9F &&
-							   binFile.dat[ptr+2]==0xFB &&
-							   binFile.dat[ptr+3]==0xFA)
-							{
-								printf("Found JMP [$FBFA] at offset $%04x\n",ptr);
-								binFile.dat[ptr  ]=0x7E;				// JMP
-								binFile.dat[ptr+1]=((bridgeAddr>>8)&0xff);
-								binFile.dat[ptr+2]=(bridgeAddr&0xff);
-								binFile.dat[ptr+3]=0x12;				// NOP
-							}
-							else if(
-							   binFile.dat[ptr  ]==0xBD &&
-							   binFile.dat[ptr+1]==0xF1 &&
-							   binFile.dat[ptr+2]==0x7D)
-							{
-								printf("Found JSR $F17D at offset $%04x\n",ptr);
-								binFile.dat[ptr+1]=((bridgeAddr>>8)&0xff);
-								binFile.dat[ptr+2]=(bridgeAddr&0xff);
-							}
-							else if(
-							   binFile.dat[ptr  ]==0x7E &&
-							   binFile.dat[ptr+1]==0xF1 &&
-							   binFile.dat[ptr+2]==0x7D)
-							{
-								printf("Found JMP $F17D at offset $%04x\n",ptr);
-								binFile.dat[ptr+1]=((bridgeAddr>>8)&0xff);
-								binFile.dat[ptr+2]=(bridgeAddr&0xff);
-							}
-						}
+						FM7CassetteTape::RedirectBiosCall(binFile.dat,bridgeAddr);
 
 						T77Encoder enc;
 						enc.StartT77Header();
@@ -352,28 +397,28 @@ std::vector <unsigned char> T77FileToByteString(
 						while(true!=info.endOfFile)
 						{
 							info=dec.RawReadByte(info);
-							rawDecode.push_back(info.byteData);
+							byteString.push_back(info.byteData);
 						}
 
 						processed=true;
 					}
 				}
 			}
+		}
 
-			if(true!=processed)
+		if(true!=processed)
+		{
+			auto info=t77Dec.BeginRawDecoding();
+			info.ptr=t77Dec.filePtr[fileIdx];
+			while(info.ptr<t77Dec.filePtr[fileIdx+1] && true!=info.endOfFile)
 			{
-				auto info=t77Dec.BeginRawDecoding();
-				info.ptr=t77Dec.filePtr[fileIdx];
-				while(info.ptr<t77Dec.filePtr[fileIdx+1] && true!=info.endOfFile)
-				{
-					info=t77Dec.RawReadByte(info);
-					rawDecode.push_back(info.byteData);
-				}
+				info=t77Dec.RawReadByte(info);
+				byteString.push_back(info.byteData);
 			}
 		}
-	}
 
-	return rawDecode;
+		dir.push_back(file);
+	}
 }
 
 
