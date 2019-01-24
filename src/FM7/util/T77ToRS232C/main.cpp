@@ -867,6 +867,11 @@ void SubCPU(void)
 					std::this_thread::sleep_for(std::chrono::milliseconds(5));
 				}
 
+				if(true==fc80.verbose)
+				{
+					printf("R%02x\n",toSend);
+				}
+
 				if(fc80.tapePtr->nextPrintPtr<fc80.tapePtr->currentPtr)
 				{
 					printf("\r%d/%d<<<<\n",(int)fc80.tapePtr->currentPtr,(int)fc80.tapePtr->byteString.size());
