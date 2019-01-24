@@ -100,7 +100,6 @@ public:
 	std::string t77FName;
 	bool xm7;
 
-	bool useInstAddr,useBridgeAddr;
 	unsigned int instAddr,bridgeAddr;
 
 	T77ServerCommandParameterInfo();
@@ -118,10 +117,10 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	portStr="";
 	t77FName="";
 	xm7=false;
-	useInstAddr=false;
-	useBridgeAddr=false;
 	instAddr=GetDefaultInstallAddress();
 	bridgeAddr=GetDefaultBridgeAddress();
+	printf("Default Install Address=%04x\n",instAddr);
+	printf("Default Bridge Address =%04x\n",bridgeAddr);
 }
 
 bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
@@ -142,7 +141,6 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		{
 			if(i+1<ac)
 			{
-				useInstAddr=true;
 				instAddr=FM7Lib::Xtoi(av[i+1]);
 				++i;
 			}
@@ -156,7 +154,6 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		{
 			if(i+1<ac)
 			{
-				useBridgeAddr=true;
 				bridgeAddr=FM7Lib::Xtoi(av[i+1]);
 				++i;
 			}
@@ -434,7 +431,6 @@ void FM7CassetteTape::Files(void) const
 
 
 static std::mutex fd05;
-static T77ServerCommandParameterInfo cpi;
 
 
 class FC80
@@ -449,9 +445,8 @@ public:
 	FM7CassetteTape loadTape;
 	FM7CassetteTape *tapePtr;
 
+	T77ServerCommandParameterInfo cpi;
 
-	bool useInstAddr,useBridgeAddr;
-	unsigned int instAddr,bridgeAddr;
 
 
 	FC80()
@@ -462,24 +457,18 @@ public:
 		verbose=false;
 		installASCII=false;
 
-		useInstAddr=false;
-		instAddr=GetDefaultInstallAddress();
-		useBridgeAddr=false;
-		bridgeAddr=GetDefaultBridgeAddress();
-
 		tapePtr=&loadTape;
-
-		printf("Default Install Address=%04x\n",instAddr);
-		printf("Default Bridge Address =%04x\n",bridgeAddr);
 	}
 
-	void SetInstallAddress(bool useInst,unsigned int instAddr,bool useBridge,unsigned int bridgeAddr)
+	void SetInstallAddress(unsigned int instAddr)
 	{
 		std::lock_guard <std::mutex> lock(fd05);
-		this->useInstAddr=useInst;
-		this->instAddr=instAddr;
-		this->useBridgeAddr=useBridge;
-		this->bridgeAddr=bridgeAddr;
+		cpi.instAddr=instAddr;
+	}
+	void SetBridgeAddress(unsigned int bridgeAddr)
+	{
+		std::lock_guard <std::mutex> lock(fd05);
+		cpi.bridgeAddr=bridgeAddr;
 	}
 	bool GetSubCPUReady(void) const
 	{
@@ -563,24 +552,19 @@ char *Fgets(char str[],int len,FILE *fp)
 
 int main(int ac,char *av[])
 {
-	if(true!=cpi.Recognize(ac,av))
+	if(true!=fc80.cpi.Recognize(ac,av))
 	{
 		return 1;
 	}
 
-	fc80.useInstAddr=cpi.useInstAddr;
-	fc80.instAddr=cpi.instAddr;
-	fc80.useBridgeAddr=cpi.useBridgeAddr;
-	fc80.bridgeAddr=cpi.bridgeAddr;
-
 	{
-		auto t77file=FM7Lib::ReadBinaryFile(cpi.t77FName.c_str());
+		auto t77file=FM7Lib::ReadBinaryFile(fc80.cpi.t77FName.c_str());
 		if(0==t77file.size())
 		{
 			fprintf(stderr,"Cannot open .T77 file.\n");
 			return 1;
 		}
-		fc80.tapePtr->Make(t77file,true,fc80.bridgeAddr);
+		fc80.tapePtr->Make(t77file,true,fc80.cpi.bridgeAddr);
 	}
 
 	Title();
@@ -611,7 +595,7 @@ int main(int ac,char *av[])
 	return 0;
 }
 
-void GetInstallAddress(bool &useInstAddr,unsigned int &instAddr,bool &useBridgeAddr,unsigned int &bridgeAddr,std::string cmdStr)
+void GetInstallAddressFromIACommand(bool &useInstAddr,unsigned int &instAddr,bool &useBridgeAddr,unsigned int &bridgeAddr,std::string cmdStr)
 {
 	if(6==cmdStr.size())
 	{
@@ -680,8 +664,15 @@ void MainCPU(void)
 			unsigned int instAddr,bridgeAddr;
 			if('A'==CMD[1])
 			{
-				GetInstallAddress(useInstAddr,instAddr,useBridgeAddr,bridgeAddr,CMD);
-				fc80.SetInstallAddress(useInstAddr,instAddr,useBridgeAddr,bridgeAddr);
+				GetInstallAddressFromIACommand(useInstAddr,instAddr,useBridgeAddr,bridgeAddr,CMD);
+				if(true==useInstAddr)
+				{
+					fc80.SetInstallAddress(useInstAddr);
+				}
+				if(true==useBridgeAddr)
+				{
+					fc80.SetBridgeAddress(bridgeAddr);
+				}
 				fc80.InstallASCII();
 			}
 			else
@@ -720,7 +711,7 @@ void SubCPU(void)
 	comPort.SetDesiredStopBit(YsCOMPort::STOPBIT_1);
 	comPort.SetDesiredParity(YsCOMPort::PARITY_NOPARITY);
 	comPort.SetDesiredFlowControl(YsCOMPort::FLOWCONTROL_NONE);
-	if(true!=comPort.Open(FM7Lib::Atoi(cpi.portStr.c_str())))
+	if(true!=comPort.Open(FM7Lib::Atoi(fc80.cpi.portStr.c_str())))
 	{
 		fprintf(stderr,"Cannot open port.\n");
 		fc80.SetFatalError();
@@ -744,27 +735,13 @@ void SubCPU(void)
 			FM7BinaryFile binFile;
 			binFile.DecodeSREC(clientBinary);
 
-			if(true==fc80.useInstAddr)
-			{
-				binFile.dat[2]=((fc80.instAddr>>8)&255);
-				binFile.dat[3]=(fc80.instAddr&255);
-			}
-			else
-			{
-				fc80.instAddr=0x100*binFile.dat[2]+binFile.dat[3];
-			}
-			if(true==fc80.useBridgeAddr)
-			{
-				binFile.dat[4]=((fc80.bridgeAddr>>8)&255);
-				binFile.dat[5]=(fc80.bridgeAddr&255);
-			}
-			else
-			{
-				fc80.bridgeAddr=0x100*binFile.dat[4]+binFile.dat[5];
-			}
+			binFile.dat[2]=((fc80.cpi.instAddr>>8)&255);
+			binFile.dat[3]=(fc80.cpi.instAddr&255);
+			binFile.dat[4]=((fc80.cpi.bridgeAddr>>8)&255);
+			binFile.dat[5]=(fc80.cpi.bridgeAddr&255);
 
-			printf("Install Addr=%04x\n",fc80.instAddr);
-			printf("Bridge Addr =%04x\n",fc80.bridgeAddr);
+			printf("Install Addr=%04x\n",fc80.cpi.instAddr);
+			printf("Bridge Addr =%04x\n",fc80.cpi.bridgeAddr);
 
 			printf("\nTransmitting Installer ASCII\n");
 			int ctr=0;
@@ -849,14 +826,14 @@ void SubCPU(void)
 				}
 
 
-				if(true==cpi.xm7)
+				if(true==fc80.cpi.xm7)
 				{
 					// In XM7, I need to make sure ThreadRcv is idle, then
 					std::this_thread::sleep_for(std::chrono::milliseconds(5));
 				}
 				// send data, and then
 				comPort.Send(nSend,sendByte);
-				if(true==cpi.xm7)
+				if(true==fc80.cpi.xm7)
 				{
 					// make sure rs232c_senddata is over.
 					std::this_thread::sleep_for(std::chrono::milliseconds(5));
