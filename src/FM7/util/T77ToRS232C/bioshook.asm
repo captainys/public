@@ -146,11 +146,15 @@ NO_BRIDGE_FALLBACK		JMP		DEF_BIOS_ENTRY
 
 NO_BRIDGE_RTS			PULS	A,B,X,U,CC,PC
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 BIOS_HOOK				LDU		#$FD00
-						LDB		#$B7 ; This will be written to RS232C command
-								     ; in BIOS_CTBWRT and BIOS_CTBRED
+						LDB		#$B7 
+						; #$B7 will be written to RS232C command
+						; in BIOS_CTBWRT and BIOS_CTBRED
+						; In "Dig Dug" (COMPAC) loader, subsequent LOADM commands call
+						; MOTOR OFF and then start reading without calling MOTOR ON.
+						; Need to guarantee to enable RS232C Rx/Tx by writing #$B7 to 7,U.
 						LDA		,X
 						DECA
 						BEQ		BIOS_MOTOR
@@ -171,16 +175,27 @@ BIOS_MOTOR				LDA		2,X
 						BNE		BIOS_MOTOR_OFF
 
 BIOS_MOTOR_ON			LEAX	RS232C_RESET_CMD,PCR
+						; According to http://vorkosigan.cocolog-nifty.com/blog/2009/12/a-b085.html
+						; Need to wait 8 clocks between writes.
 MOTOR_RS232C_RESET_LOOP
-						MUL
-						LDA		,X+
+						CLRA								; 2 clocks
+						LDA		,X+							; 5 clocks
 						STA		7,U ; IO_RS232C_COMMAND
-						BPL		MOTOR_RS232C_RESET_LOOP	; Only last command is negative
-						CLRA	; Also clears carry
+						BPL		MOTOR_RS232C_RESET_LOOP	; Only last command is negative ; 3 clocks
+
+						; CLRA clears carry flag.
+						; LDA, STA, and BPL does not change.
+						; Can take 10 clocks after each STA 7,U
+
 						RTS
 
+						; 8251A Data Sheet pp.12 'NOTE' paragraph
+						; Regarding Internal Reset on Power-up.
 RS232C_RESET_CMD		FCB		0,0,0,$40,$4E,$B7
 
+						; Need to make sure RS232C does nothing after MOTOR OFF.
+						; "Emergency" (COMPAC) cannot take key inputs unless
+						; RS232C is set to do nothing.
 BIOS_MOTOR_OFF			CLR		2,U ; Re-clear IRQ
 						CLR		7,U ; IO_RS232C_COMMAND
 						RTS		; Previous CLR 7,U also clears carry
@@ -189,9 +204,13 @@ BIOS_MOTOR_OFF			CLR		2,U ; Re-clear IRQ
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
+						; 8251A Data Sheet pp.16 "NOTES" #4
+						; Recovery time between writes for asynchronous mode is 8 tCY
+						; Probably it is recovery time between sends.
+						; May not need wait after setting the status bits.
 BIOS_CTBWRT				STB		7,U ; IO_RS232C_COMMAND
-						LDA		#'W'
-						BSR		RS232C_WRITE
+						LDA		#'W'			; 2 clocks
+						BSR		RS232C_WRITE	; 7 clocks
 						LDA		2,X
 						BSR		RS232C_WRITE
 						CLRA
@@ -202,8 +221,8 @@ BIOS_CTBWRT				STB		7,U ; IO_RS232C_COMMAND
 
 
 BIOS_CTBRED				STB		7,U ; IO_RS232C_COMMAND
-						LDA		#'R'
-						BSR		RS232C_WRITE
+						LDA		#'R'			; 2 clocks
+						BSR		RS232C_WRITE	; 7 clocks
 						BSR		RS232C_READ
 						CMPA	#1
 						BNE		BIOS_CTBRED_EXIT
@@ -212,7 +231,7 @@ BIOS_CTBRED				STB		7,U ; IO_RS232C_COMMAND
 						DECA
 
 						; XM7 emulator cannot receive binary number zero.
-						; Need to use #1 as escape.  Taking 6 extra bytes.
+						; Need to use #1 as escape.  Taking 7 extra bytes.
 
 BIOS_CTBRED_EXIT		STA		2,X
 						CLRA
@@ -221,8 +240,8 @@ BIOS_CTBRED_EXIT		STA		2,X
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-RS232C_READ				LDA		7,U ; IO_RS232C_COMMAND
-						BITA	#2
+RS232C_READ				LDA		#2
+						ANDA	7,U ; IO_RS232C_COMMAND
 						BEQ		RS232C_READ
 						LDA		6,U	; IO_RS232C_DATA
 						RTS
