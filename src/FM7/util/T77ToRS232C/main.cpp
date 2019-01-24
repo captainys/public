@@ -695,7 +695,7 @@ void MainCPU(void)
 				GetInstallAddressFromIACommand(useInstAddr,instAddr,useBridgeAddr,bridgeAddr,CMD);
 				if(true==useInstAddr)
 				{
-					fc80.SetInstallAddress(useInstAddr);
+					fc80.SetInstallAddress(instAddr);
 				}
 				if(true==useBridgeAddr)
 				{

@@ -38,6 +38,7 @@ BRIDGE_ADDRESS_BEGIN	FDB		DEF_BRIDGE_ADDRESS
 INSTALL_BIOS_HOOK		LDA		IO_URARAM
 						LDX		BIOS_VECTOR
 						STX		BRIDGE_FALLBACK+1,PCR
+						STX		NO_BRIDGE_FALLBACK+1,PCR
 
 						; Re-enabling RS232C in FM77AV20/40 and newer >>
 						LDD		#$0510
@@ -58,9 +59,13 @@ CLEAR_FBASIC_LOOP		CLR		,U+
 						CLR		IO_IRQ_MASK
 						STA		IO_URARAM
 
-						LEAX	BIOS_HOOK,PCR
+
 						LDU		INSTALL_ADDRESS_BEGIN,PCR
+						CMPU	BRIDGE_ADDRESS_BEGIN,PCR
+						BEQ		INSTALL_NO_BRIDGE
+
 						STU		BRIDGE_JUMP+1,PCR
+						LEAX	BIOS_HOOK,PCR
 						LDB		#BIOS_HOOK_END-BIOS_HOOK
 INSTALL_HOOK_LOOP		LDA		,X+
 						STA		,U+
@@ -69,9 +74,6 @@ INSTALL_HOOK_LOOP		LDA		,X+
 
 						LEAX	BRIDGE_CODE,PCR
 						LDU		BRIDGE_ADDRESS_BEGIN,PCR
-						CMPU	INSTALL_ADDRESS_BEGIN,PCR
-						BEQ		DONT_USE_BRIDGE				; If Bridge==Install, then don't use separate bridge.
-
 						LDB		#BRIDGE_CODE_END-BRIDGE_CODE
 INSTALL_BRIDGE_LOOP		LDA		,X+
 						STA		,U+
@@ -80,12 +82,15 @@ INSTALL_BRIDGE_LOOP		LDA		,X+
 						BRA		INSTALL_EXIT
 
 
-DONT_USE_BRIDGE			; Modify ORCC #1 RTS to JMP $F17D
-						LDX		INSTALL_ADDRESS_BEGIN,PCR
-						LDA		HOOK_CODE,PCR		; Instruction for JMP
-						STA		BIOS_HOOK_FALLBACK-BIOS_HOOK,X
-						LDD		BRIDGE_FALLBACK+1,PCR
-						STD		BIOS_HOOK_FALLBACK-BIOS_HOOK+1,X
+
+INSTALL_NO_BRIDGE		LEAX	NO_BRIDGE,PCR
+						LDB		#BIOS_HOOK_END-NO_BRIDGE
+
+INSTALL_NO_BRIDGE_LOOP	LDA		,X+
+						STA		,U+
+						DECB
+						BNE		INSTALL_NO_BRIDGE_LOOP
+
 
 
 INSTALL_EXIT
@@ -111,12 +116,18 @@ HOOK_CODE				JMP		DEF_BRIDGE_ADDRESS
 ; To be installed in $FC00 to $FC0F by default.
 
 
-BRIDGE_CODE				STA		$FD0F				; 3 bytes
-BRIDGE_JUMP				JSR		DEF_INSTALL_ADDRESS	; 3 bytes	6
-						TST		$FD0F				; 3 bytes	9
-						BCC		BRIDGE_CODE_RTS		; 2 bytes	11
-BRIDGE_FALLBACK			JMP		DEF_BIOS_ENTRY		; 3 bytes	14
-BRIDGE_CODE_RTS			RTS							; 1 byte	15
+BRIDGE_CODE				CLR		1,X ; Also clears carry ; 2 bytes
+						PSHS	A,B,X,U,CC				; 2 bytes 4
+						ORCC	#$50					; 2 bytes 6
+						STA		$FD0F					; 3 bytes 9
+BRIDGE_JUMP				JSR		DEF_INSTALL_ADDRESS		; 3 bytes 12
+						TST		$FD0F					; 3 bytes 15
+						BCC		BRIDGE_RTS				; 2 bytes 17
+
+						PULS	A,B,X,U,CC				; 2 bytes 19
+BRIDGE_FALLBACK			JMP		DEF_BIOS_ENTRY			; 3 bytes 22
+
+BRIDGE_RTS				PULS	A,B,X,U,CC,PC			; 2 bytes 24
 BRIDGE_CODE_END
 
 
@@ -124,11 +135,22 @@ BRIDGE_CODE_END
 ; BIOS Audio Cassette functions override.
 ; To be installed at the back end of URA RAM by default.
 
-
-BIOS_HOOK				ANDCC	#$FE
+NO_BRIDGE				CLR		1,X ; Also clears carry
 						PSHS	A,B,X,U,CC
 						ORCC	#$50
-						LDU		#$FD00
+						BSR		BIOS_HOOK
+						BCC		NO_BRIDGE_RTS
+
+						PULS	A,B,X,U,CC
+NO_BRIDGE_FALLBACK		JMP		DEF_BIOS_ENTRY
+
+NO_BRIDGE_RTS			PULS	A,B,X,U,CC,PC
+
+
+
+BIOS_HOOK				LDU		#$FD00
+						LDB		#$B7 ; This will be written to RS232C command
+								     ; in BIOS_CTBWRT and BIOS_CTBRED
 						LDA		,X
 						DECA
 						BEQ		BIOS_MOTOR
@@ -136,9 +158,8 @@ BIOS_HOOK				ANDCC	#$FE
 						BEQ		BIOS_CTBWRT
 						DECA
 						BEQ		BIOS_CTBRED
-						PULS	A,B,X,U,CC
-BIOS_HOOK_FALLBACK		ORCC	#1		; These two lines will be changed to JSR $F17D by the installer
-						RTS				; when the bridge is not used.
+						ORCC	#1
+						RTS
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -155,29 +176,33 @@ MOTOR_RS232C_RESET_LOOP
 						LDA		,X+
 						STA		7,U ; IO_RS232C_COMMAND
 						BPL		MOTOR_RS232C_RESET_LOOP	; Only last command is negative
-						PULS	A,B,X,U,CC,PC
+						CLRA	; Also clears carry
+						RTS
 
 RS232C_RESET_CMD		FCB		0,0,0,$40,$4E,$B7
 
 BIOS_MOTOR_OFF			CLR		2,U ; Re-clear IRQ
 						CLR		7,U ; IO_RS232C_COMMAND
-						PULS	A,B,X,U,CC,PC
+						RTS		; Previous CLR 7,U also clears carry
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-BIOS_CTBWRT				LDA		#'W'
+BIOS_CTBWRT				STB		7,U ; IO_RS232C_COMMAND
+						LDA		#'W'
 						BSR		RS232C_WRITE
 						LDA		2,X
 						BSR		RS232C_WRITE
-						PULS	A,B,X,U,CC,PC
+						CLRA
+						RTS
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-BIOS_CTBRED				LDA		#'R'
+BIOS_CTBRED				STB		7,U ; IO_RS232C_COMMAND
+						LDA		#'R'
 						BSR		RS232C_WRITE
 						BSR		RS232C_READ
 						CMPA	#1
@@ -190,7 +215,8 @@ BIOS_CTBRED				LDA		#'R'
 						; Need to use #1 as escape.  Taking 6 extra bytes.
 
 BIOS_CTBRED_EXIT		STA		2,X
-						PULS	A,B,X,U,CC,PC
+						CLRA
+						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
