@@ -101,6 +101,8 @@ public:
 	bool xm7;
 
 	unsigned int instAddr,bridgeAddr;
+	bool redirectBiosCallMachingo;
+	bool redirectBiosCallBinaryString;
 
 	T77ServerCommandParameterInfo();
 	bool Recognize(int ac,char *av[]);
@@ -121,6 +123,9 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	bridgeAddr=GetDefaultBridgeAddress();
 	printf("Default Install Address=%04x\n",instAddr);
 	printf("Default Bridge Address =%04x\n",bridgeAddr);
+
+	redirectBiosCallMachingo=true;
+	redirectBiosCallBinaryString=false;
 }
 
 bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
@@ -232,10 +237,12 @@ public:
 	void CleanUp(void);
 	void Make(
 	    const std::vector <unsigned char> &t77File,
-	    bool updateBiosCallInMachingo,
+	    bool redirectBiosCallMachingo,
+	    bool redirectBiosCallByteString,
 	    unsigned int bridgeAddr);
 	void Remake(
-	    bool updateBiosCallInMachingo,
+	    bool redirectBiosCallMachingo,
+	    bool redirectBiosCallByteString,
 	    unsigned int bridgeAddr);
 	void Files(void) const;
 };
@@ -315,16 +322,18 @@ void FM7CassetteTape::CleanUp(void)
 
 void FM7CassetteTape::Make(
 	    const std::vector <unsigned char> &t77File,
-	    bool updateBiosCallInMachingo,
+	    bool redirectBiosCallMachingo,
+	    bool redirectBiosCallBinaryString,
 	    unsigned int bridgeAddr)
 {
 	CleanUp();
 	rawT77file=t77File;
-	Remake(updateBiosCallInMachingo,bridgeAddr);
+	Remake(redirectBiosCallMachingo,redirectBiosCallBinaryString,bridgeAddr);
 }
 
 void FM7CassetteTape::Remake(
-	    bool updateBiosCallInMachingo,
+	    bool redirectBiosCallMachingo,
+	    bool redirectBiosCallBinaryString,
 	    unsigned int bridgeAddr)
 {
 	T77Decoder t77Dec;
@@ -359,7 +368,7 @@ void FM7CassetteTape::Remake(
 					file.len=binFile.dat.size();
 					file.storeAddr=binFile.storeAddr;
 				    file.execAddr=binFile.execAddr;
-					if(true==updateBiosCallInMachingo &&
+					if(true==redirectBiosCallMachingo &&
 					   0<FM7CassetteTape::RedirectBiosCall(binFile.dat,bridgeAddr))
 					{
 						T77Encoder enc;
@@ -380,13 +389,28 @@ void FM7CassetteTape::Remake(
 					}
 				}
 			}
+			else if(file.fType==FM7File::FTYPE_UNKNOWN &&
+			    true==redirectBiosCallBinaryString)
+			{
+				auto info=t77Dec.BeginRawDecoding();
+				info.ptr=ptrStop[fileIdx];
+				std::vector <unsigned char> bin;
+				while(info.ptr<ptrStop[fileIdx+1] && true!=info.endOfFile)
+				{
+					info=t77Dec.RawReadByte(info);
+					bin.push_back(info.byteData);
+				}
+				FM7CassetteTape::RedirectBiosCall(bin,bridgeAddr);
+				byteString.insert(byteString.end(),bin.begin(),bin.end());
+				processed=true;
+			}
 		}
 
 		if(true!=processed)
 		{
 			auto info=t77Dec.BeginRawDecoding();
-			info.ptr=t77Dec.filePtr[fileIdx];
-			while(info.ptr<t77Dec.filePtr[fileIdx+1] && true!=info.endOfFile)
+			info.ptr=ptrStop[fileIdx];
+			while(info.ptr<ptrStop[fileIdx+1] && true!=info.endOfFile)
 			{
 				info=t77Dec.RawReadByte(info);
 				byteString.push_back(info.byteData);
@@ -564,7 +588,11 @@ int main(int ac,char *av[])
 			fprintf(stderr,"Cannot open .T77 file.\n");
 			return 1;
 		}
-		fc80.tapePtr->Make(t77file,true,fc80.cpi.bridgeAddr);
+		fc80.tapePtr->Make(
+		    t77file,
+		    fc80.cpi.redirectBiosCallMachingo,
+		    fc80.cpi.redirectBiosCallBinaryString,
+		    fc80.cpi.bridgeAddr);
 	}
 
 	Title();
