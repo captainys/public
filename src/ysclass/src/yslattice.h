@@ -107,12 +107,13 @@ YsLattice2d <T>::YsLattice2d()
 	lyBlk=0.0;
 	min.Set(0.0,0.0);
 	max.Set(0.0,0.0);
-	blk=NULL;
+	blk=nullptr;
 }
 
 template <class T>
 YsLattice2d <T>::YsLattice2d(const YsLattice2d <T> &from)
 {
+	blk=nullptr;	// 2019/01/25  Was missing.  This bug was hiding for almost two decades.
 	*this=from;
 }
 
@@ -750,13 +751,14 @@ protected:
 template <class T>
 YsLattice3d <T>::YsLattice3d()
 {
-	blk=NULL;
+	blk=nullptr;
 	CleanUp();
 }
 
 template <class T>
 YsLattice3d <T>::YsLattice3d(const YsLattice3d <T> &from)
 {
+	blk=nullptr;	// 2019/01/25  Was missing.  This bug was hiding for almost two decades.
 	*this=from;
 }
 
