@@ -125,14 +125,16 @@ def BuildForFM7(outDir):
 
 	fbasic.symPath=[outDir]
 	for bas in basSource:
-		fbasic.PreProc(bas[1],os.path.join(outDir,bas[0]+".bas"))
+		basFn=os.path.join(outDir,bas[0]+".bas")
+		fbasic.PreProc(bas[1],basFn)
 
 		fn232c=bas[0]+".232c"
 		subprocess.Popen([
 			"build64/exe/rs232ctfr.exe",
 			os.path.join(outDir,fn232c),
-			"-srecwrite",
-			os.path.join(outDir,srecFn),
+			"-save",
+			basFn,
+			bas[0],
 		]).wait()
 
 		if True==makeD77:
