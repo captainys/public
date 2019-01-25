@@ -6,7 +6,7 @@ F-BASIC起動直後に、次のプログラムを入力。
 20 FOR I=0 TO 255
 30 INPUT #1,A$:POKE &H6000+I,VAL(A$)
 40 NEXT
-50 CLOSE #1
+50 CLOSE
 
 F-BASIC起動直後に実行すること。他のプログラムを使った後だと動作しない鴨
 しれない。本来であれば CLEAR ,&H5FFF とするべきところだが、次にロードす
