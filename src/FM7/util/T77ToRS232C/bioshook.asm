@@ -94,21 +94,13 @@ INSTALL_NO_BRIDGE_LOOP	LDA		,X+
 
 
 INSTALL_EXIT
-						LDA		HOOK_CODE,PCR
+						LDA		#$7E		; JMP instruction
 						STA		$DE
 						LDX		BRIDGE_ADDRESS_BEGIN,PCR
 						STX		$DF
 
 						LDA		IO_URARAM
 						RTS
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; BIOS_HOOK for F-BASIC programs.
-; To be installed in $00DE to $00E0
-
-
-HOOK_CODE				JMP		DEF_BRIDGE_ADDRESS
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -148,19 +140,26 @@ NO_BRIDGE_RTS			PULS	A,B,X,U,CC,PC
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-BIOS_HOOK				LDU		#$FD00
-						LDB		#$B7 
+BIOS_HOOK				; Typical way of handling I/O can bd
+						; LDA	#$FD
+						; TFR	A,DP
+						; and then use direct-page access.
+						; But, it takes 4 bytes.
+						; If I use U register, I can set #$FD00 to U in 3 bytes.
+
+						LDU		#$FD00
+						LDA		#$B7 
 						; #$B7 will be written to RS232C command
 						; in BIOS_CTBWRT and BIOS_CTBRED
 						; In "Dig Dug" (COMPAC) loader, subsequent LOADM commands call
 						; MOTOR OFF and then start reading without calling MOTOR ON.
 						; Need to guarantee to enable RS232C Rx/Tx by writing #$B7 to 7,U.
-						LDA		,X
-						DECA
+						LDB		,X
+						DECB
 						BEQ		BIOS_MOTOR
-						DECA
+						DECB
 						BEQ		BIOS_CTBWRT
-						DECA
+						DECB
 						BEQ		BIOS_CTBRED
 						ORCC	#1
 						RTS
@@ -196,7 +195,22 @@ RS232C_RESET_CMD		FCB		0,0,0,$40,$4E,$B7
 						; Need to make sure RS232C does nothing after MOTOR OFF.
 						; "Emergency" (COMPAC) cannot take key inputs unless
 						; RS232C is set to do nothing.
-BIOS_MOTOR_OFF			CLR		2,U ; Re-clear IRQ
+BIOS_MOTOR_OFF			
+						; Commonly known I/O map tells bit1 of $FD00 means
+						;    1: Motor off
+						;    0: Motor on
+						; which is flipped from actual.  Actual FM-7 write 1 to bit1 of $FD00 to MOTOR-ON.
+
+						; Also, F-BASIC "SAVE" command write $42 outside of BIOS.  Overriding the BIOS
+						; does not stop F-BASIC from MOTOR-ON.  Therefore, after loading, it must be set
+						; to OFF.  
+						; To motor off, $40 needs to be written to $FD00.  Bit6 carries a printer strobe
+						; I need that 1 bit to prevent printer confusion.
+						; I don't want to do it, but it wastes another 4 bytes.
+						LDA		#$40
+						STA		,U
+
+						CLR		2,U ; Re-clear IRQ
 						CLR		7,U ; IO_RS232C_COMMAND
 						RTS		; Previous CLR 7,U also clears carry
 
@@ -208,8 +222,8 @@ BIOS_MOTOR_OFF			CLR		2,U ; Re-clear IRQ
 						; Recovery time between writes for asynchronous mode is 8 tCY
 						; Probably it is recovery time between sends.
 						; May not need wait after setting the status bits.
-BIOS_CTBWRT				STB		7,U ; IO_RS232C_COMMAND
-						LDA		#'W'			; 2 clocks
+BIOS_CTBWRT				STA		7,U ; IO_RS232C_COMMAND
+						; A=#$B7=WRITE_REQUEST
 						BSR		RS232C_WRITE	; 7 clocks
 						LDA		2,X
 						BSR		RS232C_WRITE
@@ -220,8 +234,9 @@ BIOS_CTBWRT				STB		7,U ; IO_RS232C_COMMAND
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-BIOS_CTBRED				STB		7,U ; IO_RS232C_COMMAND
-						LDA		#'R'			; 2 clocks
+BIOS_CTBRED				STA		7,U ; IO_RS232C_COMMAND
+						DECA					; A=#$B7 -> #$B6
+						; A=#$B6=READ_REQUEST
 						BSR		RS232C_WRITE	; 7 clocks
 						BSR		RS232C_READ
 						CMPA	#1

@@ -490,8 +490,9 @@ public:
 	bool verbose;
 	bool installASCII;
 
-	FM7CassetteTape loadTape,saveTape;
-	FM7CassetteTape *loadTapePtr,*saveTapePtr;
+	FM7CassetteTape loadTape;
+	FM7CassetteTape *loadTapePtr;
+	T77Encoder saveTape;
 	std::chrono::time_point<std::chrono::system_clock> lastByteReceivedClock;
 	bool tapeSaved;
 
@@ -511,7 +512,6 @@ public:
 		lastByteReceivedClock=std::chrono::system_clock::now();
 
 		loadTapePtr=&loadTape;
-		saveTapePtr=&saveTape;
 	}
 
 	void SetInstallAddress(unsigned int instAddr)
@@ -574,11 +574,7 @@ public:
 	{
 		std::lock_guard <std::mutex> lock(fd05);
 		T77Encoder enc;
-		enc.StartT77Header();
-		for(auto c : saveTapePtr->byteString)
-		{
-			enc.AddByte(c);
-		}
+
 		FILE *fp=fopen(fName,"wb");
 		if(nullptr==fp)
 		{
@@ -586,7 +582,7 @@ public:
 		}
 		else
 		{
-			FM7Lib::WriteBinaryFile(fp,enc.t77);
+			FM7Lib::WriteBinaryFile(fp,saveTape.t77);
 			fclose(fp);
 			fprintf(stderr,"Saved %s\n",fName);
 		}
@@ -632,6 +628,7 @@ int main(int ac,char *av[])
 		return 1;
 	}
 
+	if("####EMPTY####"!=fc80.cpi.t77FName)
 	{
 		auto t77file=FM7Lib::ReadBinaryFile(fc80.cpi.t77FName.c_str());
 		if(0==t77file.size())
@@ -648,27 +645,30 @@ int main(int ac,char *av[])
 
 	if(""!=fc80.cpi.saveT77FName)
 	{
-		auto t77file=FM7Lib::ReadBinaryFile(fc80.cpi.t77FName.c_str());
+		auto t77file=FM7Lib::ReadBinaryFile(fc80.cpi.saveT77FName.c_str());
 		if(0==t77file.size())
 		{
-			FILE *fp=fopen(fc80.cpi.t77FName.c_str(),"ab");
-			if(nullptr!=fp)
+			FILE *fp=fopen(fc80.cpi.saveT77FName.c_str(),"ab");
+			if(nullptr==fp)
 			{
 				fclose(fp);
 				printf("Cannot open a T77 for save.\n");
 				return 1;
 			}
 			printf("Creating a new T77 for saving.\n");
-			fc80.saveTapePtr->CleanUp();
+			fc80.saveTape.CleanUp();
+			fc80.saveTape.StartT77Header();
 		}
 		else
 		{
-			fc80.saveTapePtr->Make(
-			    t77file,
-			    false,
-			    false,
-			    fc80.cpi.bridgeAddr);
+			fc80.saveTape.t77=t77file;
+			fc80.saveTape.AddGapBetweenFile();
 		}
+	}
+	else
+	{
+		fc80.saveTape.CleanUp();
+		fc80.saveTape.StartT77Header();
 	}
 
 
@@ -841,6 +841,26 @@ void SubCPU(void)
 	};
 	STATE state=STATE_NORMAL;
 
+	// Why 0xB6 and 0xB7?
+	// I have observed some occasions in which MOTOR-ON BIOS-call was not
+	// issued between subsequent LOADMs.  Good part is that the first LOADM
+	// seems to always issue the MOTOR-ON BIOS-call.
+	//
+	// Therefore, RS232C is made ready in the first BIOS-call, but in the
+	// middle, the MOTOR is turned off, which is interpreted as RS232C
+	// TxRDY, RxRDY clear.
+	//
+	// So, at the beginning of CTBRED, CTBWRT override, I need to make sure
+	// RS232C (8251A) is in TxRDY, RxRDY state, which requires to write
+	// #$B7 to $FD07.  So, I have one LDA #$B7.
+	//
+	// Then, why not use this value as a command.  I can directly write it, or 
+	// DECA and write it to RS232C.  I save three bytes compared to using a 
+	// different REQUEST code.
+	const unsigned int READ_REQUEST=0xB6;
+	const unsigned int WRITE_REQUEST=0xB7;
+
+
 	fc80.Halt();
 	fc80.subCPUready=true;
 	fc80.Unhalt();
@@ -906,7 +926,7 @@ void SubCPU(void)
 			switch(state)
 			{
 			case STATE_NORMAL:
-				if('R'==c)
+				if(READ_REQUEST==c)
 				{
 					unsigned char toSend=0xff;
 					if(fc80.loadTapePtr->currentPtr<fc80.loadTapePtr->byteString.size())
@@ -970,7 +990,7 @@ void SubCPU(void)
 						printf("\rEOF<<<<\n");
 					}
 				}
-				else if('W'==c)
+				else if(WRITE_REQUEST==c)
 				{
 					state=STATE_WAIT_WRITE_BYTE;
 				}
@@ -981,7 +1001,12 @@ void SubCPU(void)
 					{
 						printf("W%02x\n",c);
 					}
-					fc80.saveTapePtr->byteString.push_back(c);
+					fc80.saveTape.AddByte(c);
+
+					if(std::chrono::milliseconds(500)<std::chrono::system_clock::now()-fc80.lastByteReceivedClock)
+					{
+						printf("\rReceiving Data...\n");
+					}
 					fc80.lastByteReceivedClock=std::chrono::system_clock::now();
 					fc80.tapeSaved=false;
 					state=STATE_NORMAL;
@@ -1007,6 +1032,7 @@ void SubCPU(void)
 		   ""!=fc80.cpi.saveT77FName)
 		{
 			fc80.SaveT77(fc80.cpi.saveT77FName.c_str());
+			fc80.saveTape.AddGapBetweenFile();
 			fc80.tapeSaved=true;
 		}
 
