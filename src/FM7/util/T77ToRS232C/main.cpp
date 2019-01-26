@@ -53,10 +53,18 @@ void ShowOptionHelp(void)
 void ShowCommandHelp(void)
 {
 	printf("Command Help:\n");
+	printf("IA..Transmit BIOS hook installer to FM-7/77\n");
+	printf("    IAxxxx for specifying hook-install address.\n");
+	printf("    IAxxxxyyyy for specifying hook-install and bridge-addresses.\n");
+	printf("    Hook and bridge address can be same, in which case the address must\n");
+	printf("    point to a conventional RAM address\n");
 	printf("Q...Quit.\n");
 	printf("H...Show this help.\n");
 	printf("V...Verbose mode on/off\n");
 	printf("R...Rewind all the way.\n");
+	printf("SV..Save current save-tape to a T77 file.\n");
+	printf("    SVfilename for specifying a save file name.\n");
+	printf("    No space between SVfilename\n");
 }
 
 void Title(void)
@@ -98,6 +106,7 @@ class T77ServerCommandParameterInfo
 public:
 	std::string portStr;
 	std::string t77FName;
+	std::string saveT77FName;
 	bool xm7;
 
 	unsigned int instAddr,bridgeAddr;
@@ -118,6 +127,7 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 {
 	portStr="";
 	t77FName="";
+	saveT77FName="";
 	xm7=false;
 	instAddr=GetDefaultInstallAddress();
 	bridgeAddr=GetDefaultBridgeAddress();
@@ -134,15 +144,16 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 	for(int i=1; i<ac; ++i)
 	{
 		std::string arg(av[i]);
-		if("-h"==arg || "-help"==arg || "-?"==arg)
+		FM7Lib::Capitalize(arg);
+		if("-H"==arg || "-HELP"==arg || "-?"==arg)
 		{
 			ShowOptionHelp();
 		}
-		else if("-xm7"==arg || "-XM7"==arg || "-Xm7"==arg)
+		else if("-XM7"==arg)
 		{
 			xm7=true;
 		}
-		else if("-install"==arg || "-INSTALL"==arg || "-Install"==arg)
+		else if("-INSTALL"==arg)
 		{
 			if(i+1<ac)
 			{
@@ -155,7 +166,7 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 				return false;
 			}
 		}
-		else if("-bridge"==arg || "-BRIDGE"==arg || "-Bridge"==arg)
+		else if("-BRIDGE"==arg)
 		{
 			if(i+1<ac)
 			{
@@ -165,6 +176,19 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 			else
 			{
 				fprintf(stderr,"Insufficient parameter for -install.\n");
+				return false;
+			}
+		}
+		else if("-SAVE"==arg)
+		{
+			if(i+1<ac)
+			{
+				saveT77FName=av[i+1];
+				++i;
+			}
+			else
+			{
+				fprintf(stderr,"Insufficient parameter for -save.\n");
 				return false;
 			}
 		}
@@ -466,8 +490,10 @@ public:
 	bool verbose;
 	bool installASCII;
 
-	FM7CassetteTape loadTape;
-	FM7CassetteTape *tapePtr;
+	FM7CassetteTape loadTape,saveTape;
+	FM7CassetteTape *loadTapePtr,*saveTapePtr;
+	std::chrono::time_point<std::chrono::system_clock> lastByteReceivedClock;
+	bool tapeSaved;
 
 	T77ServerCommandParameterInfo cpi;
 
@@ -481,7 +507,11 @@ public:
 		verbose=false;
 		installASCII=false;
 
-		tapePtr=&loadTape;
+		tapeSaved=true;
+		lastByteReceivedClock=std::chrono::system_clock::now();
+
+		loadTapePtr=&loadTape;
+		saveTapePtr=&saveTape;
 	}
 
 	void SetInstallAddress(unsigned int instAddr)
@@ -532,13 +562,34 @@ public:
 	void RewindAllTheWay(void)
 	{
 		std::lock_guard <std::mutex> lock(fd05);
-		tapePtr->currentPtr=0;
-		tapePtr->nextPrintPtr=0;
+		loadTapePtr->currentPtr=0;
+		loadTapePtr->nextPrintPtr=0;
 	}
 	void InstallASCII(void)
 	{
 		std::lock_guard <std::mutex> lock(fd05);
 		installASCII=true;
+	}
+	void SaveT77(const char fName[]) const
+	{
+		std::lock_guard <std::mutex> lock(fd05);
+		T77Encoder enc;
+		enc.StartT77Header();
+		for(auto c : saveTapePtr->byteString)
+		{
+			enc.AddByte(c);
+		}
+		FILE *fp=fopen(fName,"wb");
+		if(nullptr==fp)
+		{
+			fprintf(stderr,"Error!  Cannot save to %s\n",fName);
+		}
+		else
+		{
+			FM7Lib::WriteBinaryFile(fp,enc.t77);
+			fclose(fp);
+			fprintf(stderr,"Saved %s\n",fName);
+		}
 	}
 
 	void Halt(void)
@@ -588,15 +639,41 @@ int main(int ac,char *av[])
 			fprintf(stderr,"Cannot open .T77 file.\n");
 			return 1;
 		}
-		fc80.tapePtr->Make(
+		fc80.loadTapePtr->Make(
 		    t77file,
 		    fc80.cpi.redirectBiosCallMachingo,
 		    fc80.cpi.redirectBiosCallBinaryString,
 		    fc80.cpi.bridgeAddr);
 	}
 
+	if(""!=fc80.cpi.saveT77FName)
+	{
+		auto t77file=FM7Lib::ReadBinaryFile(fc80.cpi.t77FName.c_str());
+		if(0==t77file.size())
+		{
+			FILE *fp=fopen(fc80.cpi.t77FName.c_str(),"ab");
+			if(nullptr!=fp)
+			{
+				fclose(fp);
+				printf("Cannot open a T77 for save.\n");
+				return 1;
+			}
+			printf("Creating a new T77 for saving.\n");
+			fc80.saveTapePtr->CleanUp();
+		}
+		else
+		{
+			fc80.saveTapePtr->Make(
+			    t77file,
+			    false,
+			    false,
+			    fc80.cpi.bridgeAddr);
+		}
+	}
+
+
 	Title();
-	fc80.tapePtr->Files();
+	fc80.loadTapePtr->Files();
 
 // T77 Dump.  I'll make it a command output.
 //	{
@@ -724,6 +801,17 @@ void MainCPU(void)
 			fc80.SetVerboseMode(v);
 			printf("VerboseMode=%s\n",FM7Lib::BoolToStr(v));
 		}
+		else if("SV"==CMD)
+		{
+			if(0==CMD[2])
+			{
+				fc80.SaveT77(fc80.cpi.saveT77FName.c_str());
+			}
+			else
+			{
+				fc80.SaveT77(cmdIn+2);
+			}
+		}
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
 	}
@@ -745,6 +833,13 @@ void SubCPU(void)
 		fc80.SetFatalError();
 		return;
 	}
+
+	enum STATE
+	{
+		STATE_NORMAL,
+		STATE_WAIT_WRITE_BYTE,
+	};
+	STATE state=STATE_NORMAL;
 
 	fc80.Halt();
 	fc80.subCPUready=true;
@@ -808,6 +903,92 @@ void SubCPU(void)
 			// If something incoming, don't sleep next 10ms.
 			activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(10);
 
+			switch(state)
+			{
+			case STATE_NORMAL:
+				if('R'==c)
+				{
+					unsigned char toSend=0xff;
+					if(fc80.loadTapePtr->currentPtr<fc80.loadTapePtr->byteString.size())
+					{
+						toSend=fc80.loadTapePtr->byteString[fc80.loadTapePtr->currentPtr++];
+					}
+
+					long long int nSend=1;
+					unsigned char sendByte[2];
+					// FM-7 Emulator XM7 cannot receive a binary number zero.
+					// The source code w32_comm.c is looking for EV_RXCHAR event.
+					// Probably this event ignores zero.
+					// I use #1 as escape.  The actual number is the subsequent number -1.
+					// unsigned 8-bit integers, both of which are non-zero.
+					// The client loses six bytes to deal with it, but otherwise I cannot test.
+
+					// Also w32_comm.c is running a RS232C reader thread, which is not correctly
+					// locking and unlocking resources.
+					// Therefore if something is received immediately after sending something,
+					// it breaks.
+					// At this time, I need 5ms delay after sending and receiving.
+
+					if(0==toSend || 1==toSend)
+					{
+						nSend=2;
+						sendByte[0]=1;
+						sendByte[1]=toSend+1;
+					}
+					else
+					{
+						nSend=1;
+						sendByte[0]=toSend;
+					}
+
+
+					if(true==fc80.cpi.xm7)
+					{
+						// In XM7, I need to make sure ThreadRcv is idle, then
+						std::this_thread::sleep_for(std::chrono::milliseconds(5));
+					}
+					// send data, and then
+					comPort.Send(nSend,sendByte);
+					if(true==fc80.cpi.xm7)
+					{
+						// make sure rs232c_senddata is over.
+						std::this_thread::sleep_for(std::chrono::milliseconds(5));
+					}
+
+					if(true==fc80.verbose)
+					{
+						printf("R%02x\n",toSend);
+					}
+
+					if(fc80.loadTapePtr->nextPrintPtr<fc80.loadTapePtr->currentPtr)
+					{
+						printf("\r%d/%d<<<<\n",(int)fc80.loadTapePtr->currentPtr,(int)fc80.loadTapePtr->byteString.size());
+						fc80.loadTapePtr->nextPrintPtr+=200;
+					}
+					if(fc80.loadTapePtr->byteString.size()<=fc80.loadTapePtr->currentPtr)
+					{
+						printf("\rEOF<<<<\n");
+					}
+				}
+				else if('W'==c)
+				{
+					state=STATE_WAIT_WRITE_BYTE;
+				}
+				break;
+			case STATE_WAIT_WRITE_BYTE:
+				{
+					if(true==fc80.verbose)
+					{
+						printf("W%02x\n",c);
+					}
+					fc80.saveTapePtr->byteString.push_back(c);
+					fc80.lastByteReceivedClock=std::chrono::system_clock::now();
+					fc80.tapeSaved=false;
+					state=STATE_NORMAL;
+				}
+				break;
+			}
+
 			//printf("%02x",c);
 			//if(0x20<=c && c<=0x7f)
 			//{
@@ -818,72 +999,18 @@ void SubCPU(void)
 			//	printf("   ");
 			//}
 
-			if('R'==c)
-			{
-				unsigned char toSend=0xff;
-				if(fc80.tapePtr->currentPtr<fc80.tapePtr->byteString.size())
-				{
-					toSend=fc80.tapePtr->byteString[fc80.tapePtr->currentPtr++];
-				}
-
-				long long int nSend=1;
-				unsigned char sendByte[2];
-				// FM-7 Emulator XM7 cannot receive a binary number zero.
-				// The source code w32_comm.c is looking for EV_RXCHAR event.
-				// Probably this event ignores zero.
-				// I use #1 as escape.  The actual number is the subsequent number -1.
-				// unsigned 8-bit integers, both of which are non-zero.
-				// The client loses six bytes to deal with it, but otherwise I cannot test.
-
-				// Also w32_comm.c is running a RS232C reader thread, which is not correctly
-				// locking and unlocking resources.
-				// Therefore if something is received immediately after sending something,
-				// it breaks.
-				// At this time, I need 5ms delay after sending and receiving.
-
-				if(0==toSend || 1==toSend)
-				{
-					nSend=2;
-					sendByte[0]=1;
-					sendByte[1]=toSend+1;
-				}
-				else
-				{
-					nSend=1;
-					sendByte[0]=toSend;
-				}
-
-
-				if(true==fc80.cpi.xm7)
-				{
-					// In XM7, I need to make sure ThreadRcv is idle, then
-					std::this_thread::sleep_for(std::chrono::milliseconds(5));
-				}
-				// send data, and then
-				comPort.Send(nSend,sendByte);
-				if(true==fc80.cpi.xm7)
-				{
-					// make sure rs232c_senddata is over.
-					std::this_thread::sleep_for(std::chrono::milliseconds(5));
-				}
-
-				if(true==fc80.verbose)
-				{
-					printf("R%02x\n",toSend);
-				}
-
-				if(fc80.tapePtr->nextPrintPtr<fc80.tapePtr->currentPtr)
-				{
-					printf("\r%d/%d<<<<\n",(int)fc80.tapePtr->currentPtr,(int)fc80.tapePtr->byteString.size());
-					fc80.tapePtr->nextPrintPtr+=200;
-				}
-				if(fc80.tapePtr->byteString.size()<=fc80.tapePtr->currentPtr)
-				{
-					printf("\rEOF<<<<\n");
-				}
-			}
 		}
 		fc80.Unhalt();
+
+		if(true!=fc80.tapeSaved && 
+		   std::chrono::milliseconds(50)<std::chrono::system_clock::now()-fc80.lastByteReceivedClock &&
+		   ""!=fc80.cpi.saveT77FName)
+		{
+			fc80.SaveT77(fc80.cpi.saveT77FName.c_str());
+			fc80.tapeSaved=true;
+		}
+
+
 		if(activityTimer<std::chrono::system_clock::now())
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));

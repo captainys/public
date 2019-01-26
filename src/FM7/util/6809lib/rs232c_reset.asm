@@ -16,6 +16,7 @@ RS232C_OPEN
 					LDA		#$10
 					STA		$FD0B			; AV20/40 Baud Rate  100=4x300=1200bps
 					MUL						; Wait 11 cycles
+					LDA		$FD0F			; FM-7 does not distinguish FD0B and FD0F
 
 					CLR		$FD07			; Reset
 					MUL						; Wait 11 cycles
