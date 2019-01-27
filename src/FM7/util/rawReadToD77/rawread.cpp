@@ -365,10 +365,22 @@ void FM7RawDiskRead::VerifyCheckSum(void) const
 		{
 			diskArray.push_back(LoadDisk(ifp));
 
-			auto ptr=FM7Lib::StrSkip(str.c_str(),"NAME:");
-			if(nullptr!=ptr)
+			auto ptr=str.c_str();
+			while(nullptr!=ptr && 0!=*ptr)
 			{
-				diskArray.back().diskName=FM7Lib::StrSkipSpace(ptr);
+				ptr=FM7Lib::StrSkipNonSpace(ptr);
+				ptr=FM7Lib::StrSkipSpace(ptr);
+
+				if(true==FM7Lib::StrStartsWith(ptr,"NAME:"))
+				{
+					ptr+=5;
+					ptr=FM7Lib::StrSkipSpace(ptr);
+					diskArray.back().diskName=ptr;
+				}
+				else if(true==FM7Lib::StrStartsWith(ptr,"2DD"))
+				{
+					diskArray.back().mediaType=FM7RawDiskRead::MEDIA_2DD;
+				}
 			}
 		}
 	}
@@ -387,6 +399,7 @@ D77File::D77Disk FM7RawDiskRead::MakeD77Disk(void) const
 
 	D77File::D77Disk disk;
 	disk.CreateUnformatted(nTrk,diskName.c_str());
+	disk.header.mediaType=this->mediaType;
 
 	for(auto &t : trk)
 	{

@@ -110,6 +110,13 @@ const char *StrSkipSpace(const char str[]);
 
 
 
+/*! Skip non-space (not space and not tab) and return the pointer.  This function will not return nullptr.
+    If it reaches the end of the string, it returns a pointer to an empty string.
+*/
+const char *StrSkipNonSpace(const char str[]);
+
+
+
 /*! Make a FM-FILE header. */
 std::vector <unsigned char> MakeFMFileHeader(const char filenameInD77[],unsigned char byte10,unsigned char byte11);
 

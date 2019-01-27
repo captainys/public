@@ -486,6 +486,18 @@ const char *FM7Lib::StrSkipSpace(const char str[])
 	return str+i;
 }
 
+const char *FM7Lib::StrSkipNonSpace(const char str[])
+{
+	int i;
+	for(i=0; 0!=str[i]; ++i)
+	{
+		if(' '==str[i] || '\t'==str[i])
+		{
+			return str+i;
+		}
+	}
+	return str+i;
+}
 
 
 std::vector <unsigned char> FM7Lib::MakeFMFileHeader(const char filenameInD77[],unsigned char byte10,unsigned char byte11)

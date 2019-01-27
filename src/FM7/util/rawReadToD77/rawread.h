@@ -133,6 +133,12 @@ public:
 		D77File::D77Disk::D77Sector MakeD77Sector(int sectorId) const;
 	};
 
+	enum
+	{
+		MEDIA_2D=0,
+		MEDIA_2DD=0x10
+	};
+	int mediaType=0;
 	std::string diskName;
 	std::vector <Track> trk;
 
