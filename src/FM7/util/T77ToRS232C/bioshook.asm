@@ -232,14 +232,6 @@ BIOS_CTBRED				STA		7,U ; IO_RS232C_COMMAND
 						; A=#$B6=READ_REQUEST
 						BSR		RS232C_WRITE	; 7 clocks
 						BSR		RS232C_READ
-						CMPA	#1
-						BNE		BIOS_CTBRED_EXIT
-
-						BSR		RS232C_READ
-						DECA
-
-						; XM7 emulator cannot receive binary number zero.
-						; Need to use #1 as escape.  Taking 7 extra bytes.
 
 BIOS_CTBRED_EXIT		STA		2,X
 						CLRA

@@ -49,11 +49,7 @@ void ShowOptionHelp(void)
 void ShowCommandHelp(void)
 {
 	printf("Command Help:\n");
-	printf("IA..Transmit BIOS hook installer to FM-7/77\n");
-	printf("    IAxxxx for specifying hook-install address.\n");
-	printf("    IAxxxxyyyy for specifying hook-install and bridge-addresses.\n");
-	printf("    Hook and bridge address can be same, in which case the address must\n");
-	printf("    point to a conventional RAM address\n");
+	printf("IA..Transmit BIOS redirector installer to FM-7/77\n");
 	printf("Q...Quit.\n");
 	printf("H...Show this help.\n");
 	printf("V...Verbose mode on/off\n");
@@ -753,27 +749,9 @@ void MainCPU(void)
 		{
 			ShowCommandHelp();
 		}
-		else if('I'==CMD[0])
+		else if("IA"==CMD)
 		{
-			bool useInstAddr,useBridgeAddr;
-			unsigned int instAddr,bridgeAddr;
-			if('A'==CMD[1])
-			{
-				GetInstallAddressFromIACommand(useInstAddr,instAddr,useBridgeAddr,bridgeAddr,CMD);
-				if(true==useInstAddr)
-				{
-					fc80.SetInstallAddress(instAddr);
-				}
-				if(true==useBridgeAddr)
-				{
-					fc80.SetBridgeAddress(bridgeAddr);
-				}
-				fc80.InstallASCII();
-			}
-			else
-			{
-				fprintf(stderr,"Unknown installer option %c\n",CMD[1]);
-			}
+			fc80.InstallASCII();
 		}
 		else if('Q'==CMD[0])
 		{
@@ -925,32 +903,7 @@ void SubCPU(void)
 					}
 
 					long long int nSend=1;
-					unsigned char sendByte[2];
-					// FM-7 Emulator XM7 cannot receive a binary number zero.
-					// The source code w32_comm.c is looking for EV_RXCHAR event.
-					// Probably this event ignores zero.
-					// I use #1 as escape.  The actual number is the subsequent number -1.
-					// unsigned 8-bit integers, both of which are non-zero.
-					// The client loses six bytes to deal with it, but otherwise I cannot test.
-
-					// Also w32_comm.c is running a RS232C reader thread, which is not correctly
-					// locking and unlocking resources.
-					// Therefore if something is received immediately after sending something,
-					// it breaks.
-					// At this time, I need 5ms delay after sending and receiving.
-
-					if(0==toSend || 1==toSend)
-					{
-						nSend=2;
-						sendByte[0]=1;
-						sendByte[1]=toSend+1;
-					}
-					else
-					{
-						nSend=1;
-						sendByte[0]=toSend;
-					}
-
+					unsigned char sendByte[1]={toSend};
 					comPort.Send(nSend,sendByte);
 
 					if(true==fc80.verbose)
