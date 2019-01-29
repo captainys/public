@@ -34,10 +34,6 @@ void ShowOptionHelp(void)
 	printf("\n");
 	printf("-h, -help, -?\n");
 	printf("\tShow this help.\n");
-	printf("-xm7\n");
-	printf("\tConnecting to XM7, not actual FM-7/77.\n");
-	printf("\tDue to RS232C-handling bug, XM7 requires 5ms delay after receiving\n");
-	printf("\tand after transmitting.  Real FM-7/77 does not require such delay.\n");
 	printf("-install ADDR\n");
 	printf("\tSpecify install address of BIOS hook in FM-7.\n");
 	printf("\tDefault location is at the back end of the URA RAM (shadow RAM)\n");
@@ -107,7 +103,6 @@ public:
 	std::string portStr;
 	std::string t77FName;
 	std::string saveT77FName;
-	bool xm7;
 
 	unsigned int instAddr,bridgeAddr;
 	bool redirectBiosCallMachingo;
@@ -128,7 +123,6 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	portStr="";
 	t77FName="";
 	saveT77FName="";
-	xm7=false;
 	instAddr=GetDefaultInstallAddress();
 	bridgeAddr=GetDefaultBridgeAddress();
 	printf("Default Install Address=%04x\n",instAddr);
@@ -148,10 +142,6 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		if("-H"==arg || "-HELP"==arg || "-?"==arg)
 		{
 			ShowOptionHelp();
-		}
-		else if("-XM7"==arg)
-		{
-			xm7=true;
 		}
 		else if("-INSTALL"==arg)
 		{
@@ -961,19 +951,7 @@ void SubCPU(void)
 						sendByte[0]=toSend;
 					}
 
-
-					if(true==fc80.cpi.xm7)
-					{
-						// In XM7, I need to make sure ThreadRcv is idle, then
-						std::this_thread::sleep_for(std::chrono::milliseconds(5));
-					}
-					// send data, and then
 					comPort.Send(nSend,sendByte);
-					if(true==fc80.cpi.xm7)
-					{
-						// make sure rs232c_senddata is over.
-						std::this_thread::sleep_for(std::chrono::milliseconds(5));
-					}
 
 					if(true==fc80.verbose)
 					{
