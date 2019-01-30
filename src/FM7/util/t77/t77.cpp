@@ -749,7 +749,11 @@ bool T77Decoder::Decode(void)
 			if(0!=bit[0] || 0==bit[9] || 0==bit[10])
 			{
 				printf("Device I/O Error at ptr=%d (0x%08x)\n",(int)ptr0,(int)ptr0);
-				return false;
+				filePtr.push_back(dumpStart);
+				fileDump.push_back((std::vector <unsigned char> &&)dump);
+				dump.clear();
+				state=0;
+				continue;
 			}
 
 
