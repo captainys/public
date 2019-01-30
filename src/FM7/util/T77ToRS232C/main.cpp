@@ -44,6 +44,8 @@ void ShowOptionHelp(void)
 	printf("\tbe used, but the BIOS hook needs to be in the main RAM, not in URA RAM\n");
 	printf("\tDefault location is FC00.\n");
 	printf("\tADDR must be hexadecimal WITHOUT $ or &H or 0x in front of it.\n");
+	printf("-rdnonfbasic\n");
+	printf("\tRedirect BIOS call non-fbasic binary stream.\n");
 }
 
 void ShowCommandHelp(void)
@@ -177,6 +179,10 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 				fprintf(stderr,"Insufficient parameter for -save.\n");
 				return false;
 			}
+		}
+		else if("-RDNONFBASIC"==arg)
+		{
+			redirectBiosCallBinaryString=true;
 		}
 		else if('-'==arg[0])
 		{
@@ -769,7 +775,7 @@ void MainCPU(void)
 			fc80.SetVerboseMode(v);
 			printf("VerboseMode=%s\n",FM7Lib::BoolToStr(v));
 		}
-		else if("SV"==CMD)
+		else if('S'==CMD[0] && 'V'==CMD[1])
 		{
 			if(0==CMD[2])
 			{
