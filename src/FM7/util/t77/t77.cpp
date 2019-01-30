@@ -653,11 +653,11 @@ bool T77Decoder::FindFirstFFFFFF(long long int &ptr) const
 			bit[i]=GetBit(searchPtr);
 		}
 
-		for(int i=0; i<33; ++i)
-		{
-			printf("%d ",bit[i]);
-		}
-		printf("\n");
+		// for(int i=0; i<33; ++i)
+		// {
+		// 	printf("%d ",bit[i]);
+		// }
+		// printf("\n");
 		//printf(">");
 		//getchar();
 
