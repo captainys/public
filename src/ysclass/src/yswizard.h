@@ -457,6 +457,13 @@ public:
 	{
 		return YsRectTemplate<VecType>::MinMax()[idx];
 	}
+
+	/*! Returns the diagonal (max-min). 
+	*/
+	const VecType GetDiagonal(void) const
+	{
+		return YsRectTemplate<VecType>::Max()-YsRectTemplate<VecType>::Min();
+	}
 };
 
 
