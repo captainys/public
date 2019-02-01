@@ -219,7 +219,7 @@ def RunCMakeAndDeleteExe():
 def BuildForWin():
 	os.chdir("build32")
 
-	build32proc=subprocess.Popen(["msbuild","Project.sln","/p:Configuration=Release","/p:Platform=Win32"])
+	build32proc=subprocess.Popen(["msbuild","Project.sln","/p:Configuration=Release","/p:Platform=Win32","/m"])
 	build32proc.communicate()
 	if 0!=build32proc.returncode:
 		print("MSBuild returned an error.")
@@ -230,7 +230,7 @@ def BuildForWin():
 
 	os.chdir("build64")
 
-	build64proc=subprocess.Popen(["msbuild","Project.sln"])
+	build64proc=subprocess.Popen(["msbuild","Project.sln","/m"])
 	build64proc.communicate()
 	if 0!=build64proc.returncode:
 		print("MSBuild returned an error.")
