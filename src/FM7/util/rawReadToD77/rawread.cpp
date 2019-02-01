@@ -107,12 +107,12 @@ bool FM7RawDiskRead::Track::CheckSumTest(void) const
 	for(auto &rr : rawRead)
 	{
 		auto checkSum=rr.CalculateCheckSum();
-		auto xor=rr.CalculateXor();
+		auto byteWiseXor=rr.CalculateXor();
 		if(checkSum!=rr.mustBeCheckSum)
 		{
 			return false;
 		}
-		if(xor!=rr.mustBeXor)
+		if(byteWiseXor!=rr.mustBeXor)
 		{
 			return false;
 		}
@@ -160,7 +160,7 @@ void FM7RawDiskRead::Track::PrintStat(void) const
 		printf("\n");
 
 		auto checkSum=sd.CalculateCheckSum();
-		auto xor=sd.CalculateXor();
+		auto byteWiseXor=sd.CalculateXor();
 		printf("Sector Dump Sample: %d\n",i);
 		printf("  Check Sum:%04x",(int)checkSum);
 		if(checkSum!=sd.mustBeCheckSum)
@@ -168,8 +168,8 @@ void FM7RawDiskRead::Track::PrintStat(void) const
 			printf("  Mismatch  Expected:%04x",(int)sd.mustBeCheckSum);
 		}
 		printf("\n");
-		printf("  XOR:%04x",(int)xor);
-		if(xor!=sd.mustBeXor)
+		printf("  XOR:%04x",(int)byteWiseXor);
+		if(byteWiseXor!=sd.mustBeXor)
 		{
 			printf("  Mismatch  Expected:%04x",(int)sd.mustBeXor);
 		}
@@ -179,7 +179,7 @@ void FM7RawDiskRead::Track::PrintStat(void) const
 	{
 		auto &rr=rawRead[i];
 		auto checkSum=rr.CalculateCheckSum();
-		auto xor=rr.CalculateXor();
+		auto byteWiseXor=rr.CalculateXor();
 		printf("Raw Read Sample %d\n",i);
 		printf("  Size: %d",(int)rr.dat.size());
 		if(rr.dat.size()!=rr.mustBeSize)
@@ -194,8 +194,8 @@ void FM7RawDiskRead::Track::PrintStat(void) const
 		}
 		printf("\n");
 
-		printf("  XOR:%04x",(int)xor);
-		if(xor!=rr.mustBeXor)
+		printf("  XOR:%04x",(int)byteWiseXor);
+		if(byteWiseXor!=rr.mustBeXor)
 		{
 			printf("  Mismatch  Expected:%04x",(int)rr.mustBeXor);
 		}

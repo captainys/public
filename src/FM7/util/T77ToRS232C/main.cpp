@@ -34,10 +34,6 @@ void ShowOptionHelp(void)
 	printf("\n");
 	printf("-h, -help, -?\n");
 	printf("\tShow this help.\n");
-	printf("-xm7\n");
-	printf("\tConnecting to XM7, not actual FM-7/77.\n");
-	printf("\tDue to RS232C-handling bug, XM7 requires 5ms delay after receiving\n");
-	printf("\tand after transmitting.  Real FM-7/77 does not require such delay.\n");
 	printf("-install ADDR\n");
 	printf("\tSpecify install address of BIOS hook in FM-7.\n");
 	printf("\tDefault location is at the back end of the URA RAM (shadow RAM)\n");
@@ -48,16 +44,14 @@ void ShowOptionHelp(void)
 	printf("\tbe used, but the BIOS hook needs to be in the main RAM, not in URA RAM\n");
 	printf("\tDefault location is FC00.\n");
 	printf("\tADDR must be hexadecimal WITHOUT $ or &H or 0x in front of it.\n");
+	printf("-rdnonfbasic\n");
+	printf("\tRedirect BIOS call non-fbasic binary stream.\n");
 }
 
 void ShowCommandHelp(void)
 {
 	printf("Command Help:\n");
-	printf("IA..Transmit BIOS hook installer to FM-7/77\n");
-	printf("    IAxxxx for specifying hook-install address.\n");
-	printf("    IAxxxxyyyy for specifying hook-install and bridge-addresses.\n");
-	printf("    Hook and bridge address can be same, in which case the address must\n");
-	printf("    point to a conventional RAM address\n");
+	printf("IA..Transmit BIOS redirector installer to FM-7/77\n");
 	printf("Q...Quit.\n");
 	printf("H...Show this help.\n");
 	printf("V...Verbose mode on/off\n");
@@ -107,7 +101,6 @@ public:
 	std::string portStr;
 	std::string t77FName;
 	std::string saveT77FName;
-	bool xm7;
 
 	unsigned int instAddr,bridgeAddr;
 	bool redirectBiosCallMachingo;
@@ -128,7 +121,6 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	portStr="";
 	t77FName="";
 	saveT77FName="";
-	xm7=false;
 	instAddr=GetDefaultInstallAddress();
 	bridgeAddr=GetDefaultBridgeAddress();
 	printf("Default Install Address=%04x\n",instAddr);
@@ -148,10 +140,6 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		if("-H"==arg || "-HELP"==arg || "-?"==arg)
 		{
 			ShowOptionHelp();
-		}
-		else if("-XM7"==arg)
-		{
-			xm7=true;
 		}
 		else if("-INSTALL"==arg)
 		{
@@ -191,6 +179,10 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 				fprintf(stderr,"Insufficient parameter for -save.\n");
 				return false;
 			}
+		}
+		else if("-RDNONFBASIC"==arg)
+		{
+			redirectBiosCallBinaryString=true;
 		}
 		else if('-'==arg[0])
 		{
@@ -763,27 +755,9 @@ void MainCPU(void)
 		{
 			ShowCommandHelp();
 		}
-		else if('I'==CMD[0])
+		else if("IA"==CMD)
 		{
-			bool useInstAddr,useBridgeAddr;
-			unsigned int instAddr,bridgeAddr;
-			if('A'==CMD[1])
-			{
-				GetInstallAddressFromIACommand(useInstAddr,instAddr,useBridgeAddr,bridgeAddr,CMD);
-				if(true==useInstAddr)
-				{
-					fc80.SetInstallAddress(instAddr);
-				}
-				if(true==useBridgeAddr)
-				{
-					fc80.SetBridgeAddress(bridgeAddr);
-				}
-				fc80.InstallASCII();
-			}
-			else
-			{
-				fprintf(stderr,"Unknown installer option %c\n",CMD[1]);
-			}
+			fc80.InstallASCII();
 		}
 		else if('Q'==CMD[0])
 		{
@@ -801,7 +775,7 @@ void MainCPU(void)
 			fc80.SetVerboseMode(v);
 			printf("VerboseMode=%s\n",FM7Lib::BoolToStr(v));
 		}
-		else if("SV"==CMD)
+		else if('S'==CMD[0] && 'V'==CMD[1])
 		{
 			if(0==CMD[2])
 			{
@@ -935,45 +909,8 @@ void SubCPU(void)
 					}
 
 					long long int nSend=1;
-					unsigned char sendByte[2];
-					// FM-7 Emulator XM7 cannot receive a binary number zero.
-					// The source code w32_comm.c is looking for EV_RXCHAR event.
-					// Probably this event ignores zero.
-					// I use #1 as escape.  The actual number is the subsequent number -1.
-					// unsigned 8-bit integers, both of which are non-zero.
-					// The client loses six bytes to deal with it, but otherwise I cannot test.
-
-					// Also w32_comm.c is running a RS232C reader thread, which is not correctly
-					// locking and unlocking resources.
-					// Therefore if something is received immediately after sending something,
-					// it breaks.
-					// At this time, I need 5ms delay after sending and receiving.
-
-					if(0==toSend || 1==toSend)
-					{
-						nSend=2;
-						sendByte[0]=1;
-						sendByte[1]=toSend+1;
-					}
-					else
-					{
-						nSend=1;
-						sendByte[0]=toSend;
-					}
-
-
-					if(true==fc80.cpi.xm7)
-					{
-						// In XM7, I need to make sure ThreadRcv is idle, then
-						std::this_thread::sleep_for(std::chrono::milliseconds(5));
-					}
-					// send data, and then
+					unsigned char sendByte[1]={toSend};
 					comPort.Send(nSend,sendByte);
-					if(true==fc80.cpi.xm7)
-					{
-						// make sure rs232c_senddata is over.
-						std::this_thread::sleep_for(std::chrono::milliseconds(5));
-					}
 
 					if(true==fc80.verbose)
 					{
