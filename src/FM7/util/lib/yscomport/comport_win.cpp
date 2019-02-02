@@ -279,6 +279,47 @@ void YsCOMPort::FlushWriteBuffer(void)
 	}
 }
 
+bool YsCOMPort::GetCTS(void) const
+{
+	DWORD stat=0;
+	if(nullptr!=this->portPtr && INVALID_HANDLE_VALUE!=this->portPtr->hComm)
+	{
+		GetCommModemStatus(this->portPtr->hComm,&stat);
+	}
+	return 0!=(MS_CTS_ON & stat);
+}
+bool YsCOMPort::GetDSR(void) const
+{
+	DWORD stat=0;
+	if(nullptr!=this->portPtr && INVALID_HANDLE_VALUE!=this->portPtr->hComm)
+	{
+		GetCommModemStatus(this->portPtr->hComm,&stat);
+	}
+	return 0!=(MS_DSR_ON & stat);
+}
+void YsCOMPort::SetDTR(bool dtr)
+{
+	if(true!=dtr)
+	{
+		EscapeCommFunction(this->portPtr->hComm,CLRDTR);
+	}
+	else
+	{
+		EscapeCommFunction(this->portPtr->hComm,SETDTR);
+	}
+}
+void YsCOMPort::SetRTS(bool rts)
+{
+	if(true!=rts)
+	{
+		EscapeCommFunction(this->portPtr->hComm,CLRRTS);
+	}
+	else
+	{
+		EscapeCommFunction(this->portPtr->hComm,SETRTS);
+	}
+}
+
 std::vector <unsigned char> YsCOMPort::Receive(void)
 {
 	std::vector <unsigned char> dat;

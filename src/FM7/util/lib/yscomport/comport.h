@@ -119,6 +119,18 @@ public:
 	*/
 	void FlushWriteBuffer(void);
 
+	/*! Get CTS state. */
+	bool GetCTS(void) const;
+
+	/*! Get DSR state. */
+	bool GetDSR(void) const;
+
+	/*! Set DTR signal. */
+	void SetDTR(bool dtr);
+
+	/*! Set RTS signal. */
+	void SetRTS(bool rts);
+
 	/*! Reads byte data from the port.
 	*/
 	std::vector <unsigned char> Receive(void);
