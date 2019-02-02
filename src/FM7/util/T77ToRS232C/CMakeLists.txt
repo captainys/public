@@ -1,6 +1,6 @@
 set(TARGET_NAME t77Server)
 
-add_executable(${TARGET_NAME} main.cpp bioshook.cpp bioshook.h)
+add_executable(${TARGET_NAME} main.cpp bioshook.cpp bioshook.h bioshook_burst.cpp bioshook_burst.h)
 target_link_libraries(${TARGET_NAME} t77lib comportlib)
 
 foreach(TARGET ${TARGET_NAME})

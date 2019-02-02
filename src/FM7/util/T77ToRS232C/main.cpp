@@ -11,6 +11,7 @@
 #include "cpplib.h"
 
 #include "bioshook.h"
+#include "bioshook_burst.h"
 
 
 void MainCPU(void);
@@ -77,17 +78,31 @@ void Title(void)
 ////////////////////////////////////////////////////////////
 
 
-unsigned int GetDefaultInstallAddress(void)
+unsigned int GetDefaultInstallAddress(bool burstMode)
 {
 	FM7BinaryFile binFile;
-	binFile.DecodeSREC(clientBinary);
+	if(true!=burstMode)
+	{
+		binFile.DecodeSREC(clientBinary);
+	}
+	else
+	{
+		binFile.DecodeSREC(clientBinary_burst);
+	}
 	return 0x100*binFile.dat[2]+binFile.dat[3];
 }
 
-unsigned int GetDefaultBridgeAddress(void)
+unsigned int GetDefaultBridgeAddress(bool burstMode)
 {
 	FM7BinaryFile binFile;
-	binFile.DecodeSREC(clientBinary);
+	if(true!=burstMode)
+	{
+		binFile.DecodeSREC(clientBinary);
+	}
+	else
+	{
+		binFile.DecodeSREC(clientBinary_burst);
+	}
 	return 0x100*binFile.dat[4]+binFile.dat[5];
 }
 
@@ -101,6 +116,7 @@ public:
 	std::string portStr;
 	std::string t77FName;
 	std::string saveT77FName;
+	bool burstMode;
 
 	unsigned int instAddr,bridgeAddr;
 	bool redirectBiosCallMachingo;
@@ -121,10 +137,10 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	portStr="";
 	t77FName="";
 	saveT77FName="";
-	instAddr=GetDefaultInstallAddress();
-	bridgeAddr=GetDefaultBridgeAddress();
-	printf("Default Install Address=%04x\n",instAddr);
-	printf("Default Bridge Address =%04x\n",bridgeAddr);
+
+	burstMode=false;
+	instAddr=GetDefaultInstallAddress(burstMode);
+	bridgeAddr=GetDefaultBridgeAddress(burstMode);
 
 	redirectBiosCallMachingo=true;
 	redirectBiosCallBinaryString=false;
@@ -132,6 +148,8 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 
 bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 {
+	bool instAddrSet=false,bridgeAddrSet=false;
+
 	int fixedOrderIndex=0;
 	for(int i=1; i<ac; ++i)
 	{
@@ -146,6 +164,7 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 			if(i+1<ac)
 			{
 				instAddr=FM7Lib::Xtoi(av[i+1]);
+				instAddrSet=true;
 				++i;
 			}
 			else
@@ -159,6 +178,7 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 			if(i+1<ac)
 			{
 				bridgeAddr=FM7Lib::Xtoi(av[i+1]);
+				bridgeAddrSet=true;
 				++i;
 			}
 			else
@@ -184,6 +204,10 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		{
 			redirectBiosCallBinaryString=true;
 		}
+		else if("-BURST"==arg)
+		{
+			burstMode=true;
+		}
 		else if('-'==arg[0])
 		{
 			printf("Unknown option: %s\n",arg.c_str());
@@ -203,6 +227,17 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 			++fixedOrderIndex;
 		}
 	}
+
+	if(true!=instAddrSet)
+	{
+		instAddr=GetDefaultInstallAddress(burstMode);
+	}
+	if(true!=bridgeAddrSet)
+	{
+		bridgeAddr=GetDefaultBridgeAddress(burstMode);
+	}
+	printf("Default Install Address=%04x\n",instAddr);
+	printf("Default Bridge Address =%04x\n",bridgeAddr);
 
 	if(fixedOrderIndex<2)
 	{
@@ -791,6 +826,9 @@ void MainCPU(void)
 	}
 }
 
+static void SendOneByte(YsCOMPort &comPort);
+static void SaveOneByte(unsigned char c);
+
 void SubCPU(void)
 {
 	YsCOMPort comPort;
@@ -850,7 +888,14 @@ void SubCPU(void)
 		if(true==fc80.installASCII)
 		{
 			FM7BinaryFile binFile;
-			binFile.DecodeSREC(clientBinary);
+			if(true!=fc80.cpi.burstMode)
+			{
+				binFile.DecodeSREC(clientBinary);
+			}
+			else
+			{
+				binFile.DecodeSREC(clientBinary_burst);
+			}
 
 			binFile.dat[2]=((fc80.cpi.instAddr>>8)&255);
 			binFile.dat[3]=(fc80.cpi.instAddr&255);
@@ -892,75 +937,99 @@ void SubCPU(void)
 
 
 		auto recv=comPort.Receive();
-		for(auto c : recv)
+		if(fc80.cpi.burstMode)
 		{
-			// If something incoming, don't sleep next 10ms.
-			activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(10);
-
-			switch(state)
+			if(true==comPort.GetCTS())
 			{
-			case STATE_NORMAL:
-				if(READ_REQUEST==c)
+				// Burst-Mode Protocol
+				// What's ideal is (first attempt):
+				//   FM-7 raises RTS
+				//                        T77 Server detects CTS=1
+				//                        T77 Server sends a byte
+				//   FM-7 receives a byte
+				//   FM-7 lower RTS
+				//                        T77 Server detects CTS=0
+				//   FM-7 raises RTS
+				//        :
+				//
+				// What's actually happening
+				//   FM-7 raises RTS
+				//                        T77 Server detects CTS=1
+				//                        T77 Server sends a byte
+				//   FM-7 receives a byte
+				//   FM-7 lower RTS
+				//   FM-7 raises RTS for the next byte
+				//                        T77 Server waiting to detect CTS=0 forever
+				//        :
+				//
+				// How about using DTR/DSR from T77Server side? (Second attempt)
+				//                        DTR=1 on connect
+				//   FM-7 observing DSR=1 ($FD07 bit 7=1)
+				//
+				//   FM-7 raises RTS
+				//                        T77 Server detects CTS=1
+				//                        T77 Server lowers DTR
+				//   FM-7 waits for DSR=0
+				//                        T77 Server sends a byte
+				//   FM-7 receives a byte
+				//   FM-7 lower RTS
+				//                        T77 Server detects CTS=0
+				//                        T77 Server raises DTR
+				//   FM-7 wait for DSR=1
+				
+				
+
+				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(10);
+				comPort.SetDTR(false);
+				SendOneByte(comPort);
+				while(true==comPort.GetCTS())
 				{
-					unsigned char toSend=0xff;
-					if(fc80.loadTapePtr->currentPtr<fc80.loadTapePtr->byteString.size())
-					{
-						toSend=fc80.loadTapePtr->byteString[fc80.loadTapePtr->currentPtr++];
-					}
-
-					long long int nSend=1;
-					unsigned char sendByte[1]={toSend};
-					comPort.Send(nSend,sendByte);
-
-					if(true==fc80.verbose)
-					{
-						printf("R%02x\n",toSend);
-					}
-
-					if(fc80.loadTapePtr->nextPrintPtr<fc80.loadTapePtr->currentPtr)
-					{
-						printf("\r%d/%d<<<<\n",(int)fc80.loadTapePtr->currentPtr,(int)fc80.loadTapePtr->byteString.size());
-						fc80.loadTapePtr->nextPrintPtr+=200;
-					}
-					if(fc80.loadTapePtr->byteString.size()<=fc80.loadTapePtr->currentPtr)
-					{
-						printf("\rEOF<<<<\n");
-					}
 				}
-				else if(WRITE_REQUEST==c)
-				{
-					state=STATE_WAIT_WRITE_BYTE;
-				}
-				break;
-			case STATE_WAIT_WRITE_BYTE:
-				{
-					if(true==fc80.verbose)
-					{
-						printf("W%02x\n",c);
-					}
-					fc80.saveTape.AddByte(c);
-
-					if(std::chrono::milliseconds(500)<std::chrono::system_clock::now()-fc80.lastByteReceivedClock)
-					{
-						printf("\rReceiving Data...\n");
-					}
-					fc80.lastByteReceivedClock=std::chrono::system_clock::now();
-					fc80.tapeSaved=false;
-					state=STATE_NORMAL;
-				}
-				break;
+				comPort.SetDTR(true);
 			}
+			for(auto c : recv)
+			{
+				SaveOneByte(c);
+			}
+		}
+		else
+		{
+			for(auto c : recv)
+			{
+				// If something incoming, don't sleep next 10ms.
+				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(10);
 
-			//printf("%02x",c);
-			//if(0x20<=c && c<=0x7f)
-			//{
-			//	printf("(%c)",c);
-			//}
-			//else
-			//{
-			//	printf("   ");
-			//}
+				switch(state)
+				{
+				case STATE_NORMAL:
+					if(READ_REQUEST==c)
+					{
+						SendOneByte(comPort);
+					}
+					else if(WRITE_REQUEST==c)
+					{
+						state=STATE_WAIT_WRITE_BYTE;
+					}
+					break;
+				case STATE_WAIT_WRITE_BYTE:
+					{
+						SaveOneByte(c);
+						state=STATE_NORMAL;
+					}
+					break;
+				}
 
+				//printf("%02x",c);
+				//if(0x20<=c && c<=0x7f)
+				//{
+				//	printf("(%c)",c);
+				//}
+				//else
+				//{
+				//	printf("   ");
+				//}
+
+			}
 		}
 		fc80.Unhalt();
 
@@ -981,4 +1050,48 @@ void SubCPU(void)
 	}
 
 	comPort.Close();
+}
+
+void SendOneByte(YsCOMPort &comPort)
+{
+	unsigned char toSend=0xff;
+	if(fc80.loadTapePtr->currentPtr<fc80.loadTapePtr->byteString.size())
+	{
+		toSend=fc80.loadTapePtr->byteString[fc80.loadTapePtr->currentPtr++];
+	}
+
+	long long int nSend=1;
+	unsigned char sendByte[1]={toSend};
+	comPort.Send(nSend,sendByte);
+
+	if(true==fc80.verbose)
+	{
+		printf("R%02x\n",toSend);
+	}
+
+	if(fc80.loadTapePtr->nextPrintPtr<fc80.loadTapePtr->currentPtr)
+	{
+		printf("\r%d/%d<<<<\n",(int)fc80.loadTapePtr->currentPtr,(int)fc80.loadTapePtr->byteString.size());
+		fc80.loadTapePtr->nextPrintPtr+=200;
+	}
+	if(fc80.loadTapePtr->byteString.size()<=fc80.loadTapePtr->currentPtr)
+	{
+		printf("\rEOF<<<<\n");
+	}
+}
+
+void SaveOneByte(unsigned char c)
+{
+	if(true==fc80.verbose)
+	{
+		printf("W%02x\n",c);
+	}
+	fc80.saveTape.AddByte(c);
+
+	if(std::chrono::milliseconds(500)<std::chrono::system_clock::now()-fc80.lastByteReceivedClock)
+	{
+		printf("\rReceiving Data...\n");
+	}
+	fc80.lastByteReceivedClock=std::chrono::system_clock::now();
+	fc80.tapeSaved=false;
 }
