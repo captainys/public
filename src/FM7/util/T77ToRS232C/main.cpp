@@ -778,7 +778,14 @@ void MainCPU(void)
 			return;
 		}
 
-		printf("Command>");
+		if(true==fc80.cpi.burstMode)
+		{
+			printf("Command(BurstMode)>");
+		}
+		else
+		{
+			printf("Command>");
+		}
 
 		char cmdIn[256];
 		Fgets(cmdIn,255,stdin);
