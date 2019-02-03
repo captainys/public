@@ -12,10 +12,18 @@
 
 #include "bioshook.h"
 #include "bioshook_burst.h"
+#include "bioshook_buffered.h"
 
 
 void MainCPU(void);
 void SubCPU(void);
+
+enum T77CLIENT_TYPE
+{
+	T77CLI_NORMAL,
+	T77CLI_BURST,
+	T77CLI_BUFFERED
+};
 
 
 // 6809 code to look for
@@ -84,45 +92,57 @@ void SaveCommandInstruction(void)
 	printf("(No space between SV and filename)\n");
 }
 
-void ShowPrompt(bool burstMode)
+void ShowPrompt(T77CLIENT_TYPE cli)
 {
-	if(true==burstMode)
+	switch(cli)
 	{
+	case T77CLI_BURST:
 		printf("Command(BurstMode) {? for Help}>");
-	}
-	else
-	{
+		break;
+	case T77CLI_NORMAL:
+		printf("Command(BufferedMode) {? for Help}>");
+		break;
+	case T77CLI_BUFFERED:
 		printf("Command {? for Help}>");
+		break;
 	}
 }
 
 ////////////////////////////////////////////////////////////
 
 
-unsigned int GetDefaultInstallAddress(bool burstMode)
+unsigned int GetDefaultInstallAddress(T77CLIENT_TYPE cli)
 {
 	FM7BinaryFile binFile;
-	if(true!=burstMode)
+	switch(cli)
 	{
+	case T77CLI_NORMAL:
 		binFile.DecodeSREC(clientBinary);
-	}
-	else
-	{
+		break;
+	case T77CLI_BURST:
 		binFile.DecodeSREC(clientBinary_burst);
+		break;
+	case T77CLI_BUFFERED:
+		binFile.DecodeSREC(clientBinary_buffered);
+		break;
 	}
 	return 0x100*binFile.dat[2]+binFile.dat[3];
 }
 
-unsigned int GetDefaultBridgeAddress(bool burstMode)
+unsigned int GetDefaultBridgeAddress(T77CLIENT_TYPE cli)
 {
 	FM7BinaryFile binFile;
-	if(true!=burstMode)
+	switch(cli)
 	{
+	case T77CLI_NORMAL:
 		binFile.DecodeSREC(clientBinary);
-	}
-	else
-	{
+		break;
+	case T77CLI_BURST:
 		binFile.DecodeSREC(clientBinary_burst);
+		break;
+	case T77CLI_BUFFERED:
+		binFile.DecodeSREC(clientBinary_buffered);
+		break;
 	}
 	return 0x100*binFile.dat[4]+binFile.dat[5];
 }
@@ -137,7 +157,7 @@ public:
 	std::string portStr;
 	std::string t77FName;
 	std::string saveT77FName;
-	bool burstMode;
+	T77CLIENT_TYPE cliType;
 
 	unsigned int instAddr,bridgeAddr;
 	bool redirectBiosCallMachingo;
@@ -159,9 +179,9 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	t77FName="";
 	saveT77FName="";
 
-	burstMode=false;
-	instAddr=GetDefaultInstallAddress(burstMode);
-	bridgeAddr=GetDefaultBridgeAddress(burstMode);
+	cliType=T77CLI_NORMAL;
+	instAddr=GetDefaultInstallAddress(cliType);
+	bridgeAddr=GetDefaultBridgeAddress(cliType);
 
 	redirectBiosCallMachingo=true;
 	redirectBiosCallBinaryString=false;
@@ -233,7 +253,11 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		}
 		else if("-BURST"==arg)
 		{
-			burstMode=true;
+			cliType=T77CLI_BURST;
+		}
+		else if("-BUFFERED"==arg)
+		{
+			cliType=T77CLI_BUFFERED;
 		}
 		else if('-'==arg[0])
 		{
@@ -257,11 +281,11 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 
 	if(true!=instAddrSet)
 	{
-		instAddr=GetDefaultInstallAddress(burstMode);
+		instAddr=GetDefaultInstallAddress(cliType);
 	}
 	if(true!=bridgeAddrSet)
 	{
-		bridgeAddr=GetDefaultBridgeAddress(burstMode);
+		bridgeAddr=GetDefaultBridgeAddress(cliType);
 	}
 	printf("Default Install Address=%04x\n",instAddr);
 	printf("Default Bridge Address =%04x\n",bridgeAddr);
@@ -790,7 +814,7 @@ void MainCPU(void)
 			return;
 		}
 
-		ShowPrompt(fc80.cpi.burstMode);
+		ShowPrompt(fc80.cpi.cliType);
 
 		char cmdIn[256];
 		Fgets(cmdIn,255,stdin);
@@ -962,6 +986,7 @@ void SubCPU(void)
 	// different REQUEST code.
 	const unsigned int READ_REQUEST=0xB6;
 	const unsigned int WRITE_REQUEST=0xB7;
+	const unsigned int READ_REQUEST16=0xB8;
 
 
 	fc80.Halt();
@@ -979,13 +1004,17 @@ void SubCPU(void)
 		if(true==fc80.installASCII)
 		{
 			FM7BinaryFile binFile;
-			if(true!=fc80.cpi.burstMode)
+			switch(fc80.cpi.cliType)
 			{
+			case T77CLI_NORMAL:
 				binFile.DecodeSREC(clientBinary);
-			}
-			else
-			{
+				break;
+			case T77CLI_BURST:
 				binFile.DecodeSREC(clientBinary_burst);
+				break;
+			case T77CLI_BUFFERED:
+				binFile.DecodeSREC(clientBinary_buffered);
+				break;
 			}
 
 			binFile.dat[2]=((fc80.cpi.instAddr>>8)&255);
@@ -1028,7 +1057,7 @@ void SubCPU(void)
 
 
 		auto recv=comPort.Receive();
-		if(true==fc80.cpi.burstMode)
+		if(T77CLI_BURST==fc80.cpi.cliType)
 		{
 			if(true==comPort.GetCTS())
 			{
@@ -1099,6 +1128,13 @@ void SubCPU(void)
 					{
 						SendOneByte(comPort);
 					}
+					else if(READ_REQUEST16==c)
+					{
+						for(int i=0; i<16; ++i)
+						{
+							SendOneByte(comPort);
+						}
+					}
 					else if(WRITE_REQUEST==c)
 					{
 						state=STATE_WAIT_WRITE_BYTE;
@@ -1129,7 +1165,7 @@ void SubCPU(void)
 				SaveCommandInstruction();
 			}
 			fc80.tapeSaved=true;
-			ShowPrompt(fc80.cpi.burstMode);
+			ShowPrompt(fc80.cpi.cliType);
 		}
 
 
@@ -1139,7 +1175,7 @@ void SubCPU(void)
 			if(true==activity)
 			{
 				activity=false;
-				ShowPrompt(fc80.cpi.burstMode);
+				ShowPrompt(fc80.cpi.cliType);
 			}
 		}
 	}
