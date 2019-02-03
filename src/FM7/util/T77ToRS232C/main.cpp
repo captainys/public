@@ -57,6 +57,9 @@ void ShowCommandHelp(void)
 	printf("H...Show this help.\n");
 	printf("V...Verbose mode on/off\n");
 	printf("R...Rewind all the way.\n");
+	printf("D...Dump raw bytes in T77\n");
+	printf("    Dxxxxxxxx for dump from specific offset.\n");
+	printf("F...Show files in T77 file.\n");
 	printf("SV..Save current save-tape to a T77 file.\n");
 	printf("    SVfilename for specifying a save file name.\n");
 	printf("    No space between SVfilename\n");
@@ -74,6 +77,24 @@ void Title(void)
 	printf("Make sure to configure FM-7/77 side computer at 19200bps.\n");
 }
 
+void SaveCommandInstruction(void)
+{
+	printf("Save file name not specified.\n");
+	printf("Type: SVfilename.t77\n");
+	printf("(No space between SV and filename)\n");
+}
+
+void ShowPrompt(bool burstMode)
+{
+	if(true==burstMode)
+	{
+		printf("Command(BurstMode) {? for Help}>");
+	}
+	else
+	{
+		printf("Command {? for Help}>");
+	}
+}
 
 ////////////////////////////////////////////////////////////
 
@@ -149,6 +170,12 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 {
 	bool instAddrSet=false,bridgeAddrSet=false;
+
+	if(ac<=1)
+	{
+		ShowOptionHelp();
+		return false;
+	}
 
 	int fixedOrderIndex=0;
 	for(int i=1; i<ac; ++i)
@@ -276,6 +303,7 @@ public:
 			execAddr=0;
 		}
 	};
+	std::string t77FName;
 	std::vector <unsigned char> rawT77file;
 	std::vector <FileInfo> dir;
 	std::vector <unsigned char> byteString;
@@ -479,7 +507,7 @@ void FM7CassetteTape::Files(void) const
 	int i=0;
 	for(auto f : dir)
 	{
-		printf("%10d:",(int)f.ptr);
+		printf("0x%-8x:",(int)f.ptr);
 
 		if(f.fType!=FM7File::FTYPE_UNKNOWN)
 		{
@@ -668,6 +696,7 @@ int main(int ac,char *av[])
 		    fc80.cpi.redirectBiosCallMachingo,
 		    fc80.cpi.redirectBiosCallBinaryString,
 		    fc80.cpi.bridgeAddr);
+		fc80.loadTapePtr->t77FName=fc80.cpi.t77FName;
 	}
 
 	if(""!=fc80.cpi.saveT77FName)
@@ -701,24 +730,6 @@ int main(int ac,char *av[])
 
 	Title();
 	fc80.loadTapePtr->Files();
-
-// T77 Dump.  I'll make it a command output.
-//	{
-//		auto info=t77.BeginRawDecoding();
-//		while(true!=info.endOfFile)
-//		{
-//			info=t77.RawReadByte(info);
-//			if(true!=info.endOfFile)
-//			{
-//				printf("%02x",info.byteData);
-//				if(0==info.byteCtr%16)
-//				{
-//					printf("\n");
-//				}
-//			}
-//		}
-//		printf("\n");
-//	}
 
 	std::thread t(SubCPU);
 	MainCPU();
@@ -771,6 +782,7 @@ void MainCPU(void)
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 	}
 
+	unsigned long long int dumpPtr=0;
 	for(;;)
 	{
 		if(true==fc80.GetFatalError())
@@ -778,14 +790,7 @@ void MainCPU(void)
 			return;
 		}
 
-		if(true==fc80.cpi.burstMode)
-		{
-			printf("Command(BurstMode)>");
-		}
-		else
-		{
-			printf("Command>");
-		}
+		ShowPrompt(fc80.cpi.burstMode);
 
 		char cmdIn[256];
 		Fgets(cmdIn,255,stdin);
@@ -793,40 +798,118 @@ void MainCPU(void)
 		std::string CMD(cmdIn);
 		FM7Lib::Capitalize(CMD);
 
-		if('H'==CMD[0])
+		bool processed=false;
+		switch(CMD[0])
 		{
+		case 'H':
+		case '?':
 			ShowCommandHelp();
-		}
-		else if("IA"==CMD)
-		{
-			fc80.InstallASCII();
-		}
-		else if('Q'==CMD[0])
-		{
-			fc80.SetTerminate(true);
+			processed=true;
 			break;
-		}
-		else if('R'==CMD[0])
-		{
+		case 'I':
+			if("IA"==CMD)
+			{
+				fc80.InstallASCII();
+				processed=true;
+			}
+			break;
+		case 'Q':
+			fc80.SetTerminate(true);
+			processed=true;
+			return;
+		case 'R':
 			fc80.RewindAllTheWay();
 			printf("Rewind all the way.\n");
-		}
-		else if('V'==CMD[0])
-		{
-			auto v=(true==fc80.GetVerboseMode() ? false : true);
-			fc80.SetVerboseMode(v);
-			printf("VerboseMode=%s\n",FM7Lib::BoolToStr(v));
-		}
-		else if('S'==CMD[0] && 'V'==CMD[1])
-		{
-			if(0==CMD[2])
+			processed=true;
+			break;
+		case 'V':
+			fc80.SetVerboseMode(true==fc80.GetVerboseMode() ? false : true);
+			printf("VerboseMode=%s\n",FM7Lib::BoolToStr(fc80.GetVerboseMode()));
+			processed=true;
+			break;
+		case 'D':
+			if(2<=CMD.size())
 			{
-				fc80.SaveT77(fc80.cpi.saveT77FName.c_str());
+				dumpPtr=FM7Lib::Xtoi(CMD.data()+1);
+			}
+			if(nullptr!=fc80.loadTapePtr)
+			{
+				char ascii[17];
+				for(long long int i=0; i<256 && dumpPtr<fc80.loadTapePtr->byteString.size(); ++dumpPtr,++i)
+				{
+					if(0==i%16)
+					{
+						printf("%08llx|",dumpPtr);
+					}
+					printf("%02x ",fc80.loadTapePtr->byteString[dumpPtr]);
+					if(' '<=fc80.loadTapePtr->byteString[dumpPtr] && fc80.loadTapePtr->byteString[dumpPtr]<128)
+					{
+						ascii[i%16]=fc80.loadTapePtr->byteString[dumpPtr];
+					}
+					else
+					{
+						ascii[i%16]=' ';
+					}
+					if(15==i%16 || dumpPtr==fc80.loadTapePtr->byteString.size()-1)
+					{
+						ascii[1+i%16]=0;
+						for(auto j=i; 15!=j%16; ++j)
+						{
+							printf("   ");
+						}
+						printf("|%s\n",ascii);
+					}
+				}
+				printf("\n");
+			}
+			if(nullptr==fc80.loadTapePtr || fc80.loadTapePtr->byteString.size()<=dumpPtr)
+			{
+				printf("[EOF]\n");
+			}
+			processed=true;
+			break;
+		case 'F':
+			if(nullptr!=fc80.loadTapePtr)
+			{
+				printf("T77>> %s\n",fc80.loadTapePtr->t77FName.data());
+				fc80.loadTapePtr->Files();
+			}
+			if(0<fc80.cpi.saveT77FName.size())
+			{
+				printf("Incoming data will be auto-saved to: %s\n",fc80.cpi.saveT77FName.c_str());
 			}
 			else
 			{
-				fc80.SaveT77(cmdIn+2);
+				printf("Incoming data will not be auto-saved.\n");
 			}
+			processed=true;
+			break;
+		case 'S':
+			if('V'==CMD[1])
+			{
+				if(0==CMD[2])
+				{
+					if(0==fc80.cpi.saveT77FName.size())
+					{
+						SaveCommandInstruction();
+					}
+					else
+					{
+						fc80.SaveT77(fc80.cpi.saveT77FName.c_str());
+					}
+				}
+				else
+				{
+					fc80.SaveT77(cmdIn+2);
+				}
+				processed=true;
+			}
+			break;
+		}
+		if(true!=processed)
+		{
+			printf("Syntax Error\n");
+			printf("  %s\n",cmdIn);
 		}
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(5));
@@ -839,6 +922,7 @@ static void SaveOneByte(unsigned char c);
 void SubCPU(void)
 {
 	YsCOMPort comPort;
+	bool activity=false;
 	auto activityTimer=std::chrono::system_clock::now();
 
 	comPort.SetDesiredBaudRate(19200);
@@ -944,7 +1028,7 @@ void SubCPU(void)
 
 
 		auto recv=comPort.Receive();
-		if(fc80.cpi.burstMode)
+		if(true==fc80.cpi.burstMode)
 		{
 			if(true==comPort.GetCTS())
 			{
@@ -983,10 +1067,9 @@ void SubCPU(void)
 				//                        T77 Server detects CTS=0
 				//                        T77 Server raises DTR
 				//   FM-7 wait for DSR=1
-				
-				
 
-				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(10);
+				activity=true;
+				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
 				comPort.SetDTR(false);
 				SendOneByte(comPort);
 				while(true==comPort.GetCTS())
@@ -996,6 +1079,8 @@ void SubCPU(void)
 			}
 			for(auto c : recv)
 			{
+				activity=true;
+				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
 				SaveOneByte(c);
 			}
 		}
@@ -1004,7 +1089,8 @@ void SubCPU(void)
 			for(auto c : recv)
 			{
 				// If something incoming, don't sleep next 10ms.
-				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(10);
+				activity=true;
+				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
 
 				switch(state)
 				{
@@ -1025,34 +1111,36 @@ void SubCPU(void)
 					}
 					break;
 				}
-
-				//printf("%02x",c);
-				//if(0x20<=c && c<=0x7f)
-				//{
-				//	printf("(%c)",c);
-				//}
-				//else
-				//{
-				//	printf("   ");
-				//}
-
 			}
 		}
 		fc80.Unhalt();
 
 		if(true!=fc80.tapeSaved && 
-		   std::chrono::milliseconds(50)<std::chrono::system_clock::now()-fc80.lastByteReceivedClock &&
-		   ""!=fc80.cpi.saveT77FName)
+		   std::chrono::milliseconds(50)<std::chrono::system_clock::now()-fc80.lastByteReceivedClock)
 		{
-			fc80.SaveT77(fc80.cpi.saveT77FName.c_str());
-			fc80.saveTape.AddGapBetweenFile();
+			printf("Received data.\n");
+			if(""!=fc80.cpi.saveT77FName)
+			{
+				fc80.SaveT77(fc80.cpi.saveT77FName.c_str());
+				fc80.saveTape.AddGapBetweenFile();
+			}
+			else
+			{
+				SaveCommandInstruction();
+			}
 			fc80.tapeSaved=true;
+			ShowPrompt(fc80.cpi.burstMode);
 		}
 
 
 		if(activityTimer<std::chrono::system_clock::now())
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(1));
+			if(true==activity)
+			{
+				activity=false;
+				ShowPrompt(fc80.cpi.burstMode);
+			}
 		}
 	}
 
