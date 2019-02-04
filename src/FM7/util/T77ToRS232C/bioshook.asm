@@ -23,7 +23,7 @@ BIOS_HOOK				; Typical way of handling I/O can bd
 						BEQ		BIOS_CTBWRT
 						DECB
 						BEQ		BIOS_CTBRED
-						ORCC	#1
+						COMA	; ORCC	#1    <- COM always raise Carry.
 						RTS
 
 
