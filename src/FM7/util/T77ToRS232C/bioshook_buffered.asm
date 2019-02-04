@@ -94,7 +94,7 @@ RS232C_WRITE			LDB		7,U ; IO_RS232C_COMMAND
 						BCC		RS232C_WRITE
 						STA		6,U ; IO_RS232C_DATA
 
-						CLRA
+						CLRB	; The primary purpose is to clear carry, also in BIOS_CTBRED needs B=0 next.
 						RTS
 
 
@@ -108,10 +108,10 @@ BIOS_CTBRED				LEAY	READBUFFER,PCR
 
 						STA		7,U ; IO_RS232C_COMMAND
 						INCA					; A=#$B7 -> #$B8
-						; A=#$B8=READ8_REQUEST
+						; A=#$B8=READ_REQUEST16
 						BSR		RS232C_WRITE	; 7 clocks
 
-						CLRB
+						; RS232C_WRITE clears B at the end.  Therefore B=0.
 FILL_BUFFER_LOOP		LDA		#2
 						ANDA	7,U ; IO_RS232C_COMMAND
 						BEQ		FILL_BUFFER_LOOP
