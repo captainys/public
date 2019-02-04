@@ -100,19 +100,14 @@ BIOS_CTBRED				STA		7,U ; IO_RS232C_COMMAND
 						DECA					; A=#$B7 -> #$B6
 						; A=#$B6=READ_REQUEST
 						BSR		RS232C_WRITE	; 7 clocks
-						BSR		RS232C_READ
-
-BIOS_CTBRED_EXIT		STA		2,X
-						CLRA
-						RTS
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 RS232C_READ				LDA		#2
 						ANDA	7,U ; IO_RS232C_COMMAND
 						BEQ		RS232C_READ
 						LDA		6,U	; IO_RS232C_DATA
+
+BIOS_CTBRED_EXIT		STA		2,X
+						CLRA
 						RTS
 
 

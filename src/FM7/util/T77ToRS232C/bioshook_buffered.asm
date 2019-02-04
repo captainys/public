@@ -107,7 +107,11 @@ BIOS_CTBRED				LEAY	READBUFFER,PCR
 						BSR		RS232C_WRITE	; 7 clocks
 
 						CLRB
-FILL_BUFFER_LOOP		BSR		RS232C_READ
+FILL_BUFFER_LOOP		LDA		#2
+						ANDA	7,U ; IO_RS232C_COMMAND
+						BEQ		FILL_BUFFER_LOOP
+						LDA		6,U	; IO_RS232C_DATA
+
 						STA		B,Y
 						INCB
 						ANDB	#(READBUFFER_SIZE-1)
@@ -120,15 +124,6 @@ BIOS_CTBRED_EXIT		LDA		B,Y
 						STB		-1,Y
 
 						CLRA
-						RTS
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-RS232C_READ				LDA		#2
-						ANDA	7,U ; IO_RS232C_COMMAND
-						BEQ		RS232C_READ
-						LDA		6,U	; IO_RS232C_DATA
 						RTS
 
 

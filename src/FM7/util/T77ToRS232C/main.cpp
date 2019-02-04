@@ -96,14 +96,14 @@ void ShowPrompt(T77CLIENT_TYPE cli)
 {
 	switch(cli)
 	{
+	case T77CLI_NORMAL:
+		printf("Command {? for Help}>");
+		break;
 	case T77CLI_BURST:
 		printf("Command(BurstMode) {? for Help}>");
 		break;
-	case T77CLI_NORMAL:
-		printf("Command(BufferedMode) {? for Help}>");
-		break;
 	case T77CLI_BUFFERED:
-		printf("Command {? for Help}>");
+		printf("Command(BufferedMode) {? for Help}>");
 		break;
 	}
 }
@@ -1032,7 +1032,7 @@ void SubCPU(void)
 				char str[256];
 				sprintf(str,"%d%c%c",(unsigned int)c,0x0d,0x0a);
 				comPort.Send(strlen(str),(unsigned char *)str);
-				std::this_thread::sleep_for(std::chrono::milliseconds(30));
+				std::this_thread::sleep_for(std::chrono::milliseconds(15));
 				ctr++;
 				if(ctr%16==0)
 				{
@@ -1043,7 +1043,7 @@ void SubCPU(void)
 			{
 				unsigned char zero[]={'0',0x0d,0x0a};
 				comPort.Send(3,zero);
-				std::this_thread::sleep_for(std::chrono::milliseconds(30));
+				std::this_thread::sleep_for(std::chrono::milliseconds(15));
 				ctr++;
 				if(ctr%16==0)
 				{
