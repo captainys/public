@@ -1,5 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+DEF_BRIDGE_OFFSET		EQU		$0
+
 BIOS_HOOK				; Typical way of handling I/O can bd
 						; LDA	#$FD
 						; TFR	A,DP
