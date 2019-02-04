@@ -88,7 +88,12 @@ BIOS_CTBWRT				STA		7,U ; IO_RS232C_COMMAND
 						; A=#$B7=WRITE_REQUEST
 						BSR		RS232C_WRITE	; 7 clocks
 						LDA		2,X
-						BSR		RS232C_WRITE
+
+RS232C_WRITE			LDB		7,U ; IO_RS232C_COMMAND
+						LSRB
+						BCC		RS232C_WRITE
+						STA		6,U ; IO_RS232C_DATA
+
 						CLRA
 						RTS
 
@@ -113,12 +118,6 @@ BIOS_CTBRED_EXIT		STA		2,X
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-RS232C_WRITE			LDB		7,U ; IO_RS232C_COMMAND
-						LSRB
-						BCC		RS232C_WRITE
-						STA		6,U ; IO_RS232C_DATA
-						RTS
 
 BIOS_HOOK_END
 
