@@ -1,0 +1,13 @@
+Measurement 2019/02/04 using FM77AV40 and Dell Inspiron 5675 as server
+
+Dragon Slayer
+Buffered mode	1 min 26 sec
+Small mode		2 min 14 sec
+Burst mode		(Device I/O error)
+.WAV Recording	7 min 43 sec
+
+Plazma Line (34201 of 34283 raw bytes)
+Buffered mode	0 min 40 sec
+Small mode		1 min 10 sec
+Burst mode		1 min 31 sec
+.WAV Recording	4 min 28 sec (roughly)

@@ -15,6 +15,10 @@
 #include "bioshook_buffered.h"
 
 
+// This value must match the value in bioshook_buffered.asm 
+static const int READBUFFER_SIZE=8;
+
+
 void MainCPU(void);
 void SubCPU(void);
 
@@ -948,6 +952,7 @@ void SubCPU(void)
 	YsCOMPort comPort;
 	bool activity=false;
 	auto activityTimer=std::chrono::system_clock::now();
+	auto lastSentTimer=std::chrono::system_clock::now();
 
 	comPort.SetDesiredBaudRate(19200);
 	comPort.SetDesiredBitLength(YsCOMPort::BITLENGTH_8);
@@ -986,7 +991,7 @@ void SubCPU(void)
 	// different REQUEST code.
 	const unsigned int READ_REQUEST=0xB6;
 	const unsigned int WRITE_REQUEST=0xB7;
-	const unsigned int READ_REQUEST16=0xB8;
+	const unsigned int READ_REQUESTM=0xB8;
 
 
 	fc80.Halt();
@@ -1062,49 +1067,22 @@ void SubCPU(void)
 			if(true==comPort.GetCTS())
 			{
 				// Burst-Mode Protocol
-				// What's ideal is (first attempt):
-				//   FM-7 raises RTS
-				//                        T77 Server detects CTS=1
-				//                        T77 Server sends a byte
-				//   FM-7 receives a byte
-				//   FM-7 lower RTS
-				//                        T77 Server detects CTS=0
-				//   FM-7 raises RTS
-				//        :
-				//
-				// What's actually happening
-				//   FM-7 raises RTS
-				//                        T77 Server detects CTS=1
-				//                        T77 Server sends a byte
-				//   FM-7 receives a byte
-				//   FM-7 lower RTS
-				//   FM-7 raises RTS for the next byte
-				//                        T77 Server waiting to detect CTS=0 forever
-				//        :
-				//
-				// How about using DTR/DSR from T77Server side? (Second attempt)
-				//                        DTR=1 on connect
-				//   FM-7 observing DSR=1 ($FD07 bit 7=1)
-				//
-				//   FM-7 raises RTS
-				//                        T77 Server detects CTS=1
-				//                        T77 Server lowers DTR
-				//   FM-7 waits for DSR=0
-				//                        T77 Server sends a byte
-				//   FM-7 receives a byte
-				//   FM-7 lower RTS
-				//                        T77 Server detects CTS=0
-				//                        T77 Server raises DTR
-				//   FM-7 wait for DSR=1
+				// FM-7 raises RTS
+				//                        Server detects CTS
+				//                        Server sends a byte
+				// FM-7 losers RTS
+				// FM-7 needs to receive a byte within 550us
+				// 19200bps /(8+start+stop bits)=1920 bytes per sec
+				// 1000000us/1920=520.8us
+				// 68B09 runs while 8251A is receiving next byte, but let's add 30us to be safe.
 
-				activity=true;
-				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
-				comPort.SetDTR(false);
-				SendOneByte(comPort);
-				while(true==comPort.GetCTS())
+				while(std::chrono::system_clock::now()<lastSentTimer+std::chrono::microseconds(550))
 				{
 				}
-				comPort.SetDTR(true);
+				activity=true;
+				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
+				lastSentTimer=std::chrono::system_clock::now();
+				SendOneByte(comPort);
 			}
 			for(auto c : recv)
 			{
@@ -1128,9 +1106,9 @@ void SubCPU(void)
 					{
 						SendOneByte(comPort);
 					}
-					else if(READ_REQUEST16==c)
+					else if(READ_REQUESTM==c)
 					{
-						for(int i=0; i<16; ++i)
+						for(int i=0; i<READBUFFER_SIZE; ++i)
 						{
 							SendOneByte(comPort);
 						}

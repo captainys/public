@@ -67,7 +67,7 @@ BIOS_MOTOR_OFF
 						STA		,U
 
 						CLR		2,U ; Re-clear IRQ
-						CLR		7,U ; IO_RS232C_COMMAND
+						CLR		7,U ; IO_RS232C_COMMAND RTS is off
 						RTS		; Previous CLR 7,U also clears carry
 
 
@@ -98,18 +98,11 @@ RS232C_WRITE_LOOP		LDB		7,U ; IO_RS232C_COMMAND
 BIOS_CTBRED				LDA		#$B7	; RTS=ON
 						STA		7,U ; IO_RS232C_COMMAND
 
-						LDA		#$82	; 
+						LDA		#$2
 RS232C_READ_LOOP		BITA	7,U ; IO_RS232C_COMMAND
-						BMI		RS232C_READ_LOOP	; Wait for DSR=0
 						BEQ		RS232C_READ_LOOP	; Wait for RxRdy
 						LDA		6,U	; IO_RS232C_DATA
 						STA		2,X
-
-						LDA		#$97
-						STA		7,U	; RTS=OFF
-
-WAIT_DSR_ON				TST		7,U
-						BPL		WAIT_DSR_ON
 
 						CLRA
 						RTS

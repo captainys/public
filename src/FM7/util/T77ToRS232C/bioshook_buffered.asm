@@ -108,7 +108,7 @@ BIOS_CTBRED				LEAY	READBUFFER,PCR
 
 						STA		7,U ; IO_RS232C_COMMAND
 						INCA					; A=#$B7 -> #$B8
-						; A=#$B8=READ_REQUEST16
+						; A=#$B8=READ_REQUESTM
 						BSR		RS232C_WRITE	; 7 clocks
 
 						; RS232C_WRITE clears B at the end.  Therefore B=0.
@@ -135,7 +135,7 @@ BIOS_CTBRED_EXIT		LDA		B,Y
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-READBUFFER_SIZE			EQU		16
+READBUFFER_SIZE			EQU		8	; When changing this value, also change the server code.
 READBUFFER_USED			FCB		READBUFFER_SIZE
 READBUFFER				RZB		READBUFFER_SIZE
 
