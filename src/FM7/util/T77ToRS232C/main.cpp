@@ -10,8 +10,7 @@
 #include "t77.h"
 #include "cpplib.h"
 
-#include "bioshook.h"
-#include "bioshook_burst.h"
+#include "bioshook_small.h"
 #include "bioshook_buffered.h"
 
 
@@ -24,8 +23,7 @@ void SubCPU(void);
 
 enum T77CLIENT_TYPE
 {
-	T77CLI_NORMAL,
-	T77CLI_BURST,
+	T77CLI_SMALL,
 	T77CLI_BUFFERED
 };
 
@@ -59,6 +57,10 @@ void ShowOptionHelp(void)
 	printf("\tADDR must be hexadecimal WITHOUT $ or &H or 0x in front of it.\n");
 	printf("-rdnonfbasic\n");
 	printf("\tRedirect BIOS call non-fbasic binary stream.\n");
+	printf("-buffered\n");
+	printf("\tBuffered mode.  Uses 8-byte read-buffer for faster transfer.\n");
+	printf("-small\n");
+	printf("\tSmall mode.  Smallest footprint.\n");
 }
 
 void ShowCommandHelp(void)
@@ -100,11 +102,8 @@ void ShowPrompt(T77CLIENT_TYPE cli)
 {
 	switch(cli)
 	{
-	case T77CLI_NORMAL:
+	case T77CLI_SMALL:
 		printf("Command {? for Help}>");
-		break;
-	case T77CLI_BURST:
-		printf("Command(BurstMode) {? for Help}>");
 		break;
 	case T77CLI_BUFFERED:
 		printf("Command(BufferedMode) {? for Help}>");
@@ -120,11 +119,8 @@ unsigned int GetDefaultInstallAddress(T77CLIENT_TYPE cli)
 	FM7BinaryFile binFile;
 	switch(cli)
 	{
-	case T77CLI_NORMAL:
-		binFile.DecodeSREC(clientBinary);
-		break;
-	case T77CLI_BURST:
-		binFile.DecodeSREC(clientBinary_burst);
+	case T77CLI_SMALL:
+		binFile.DecodeSREC(clientBinary_small);
 		break;
 	case T77CLI_BUFFERED:
 		binFile.DecodeSREC(clientBinary_buffered);
@@ -138,11 +134,8 @@ unsigned int GetDefaultBridgeAddress(T77CLIENT_TYPE cli)
 	FM7BinaryFile binFile;
 	switch(cli)
 	{
-	case T77CLI_NORMAL:
-		binFile.DecodeSREC(clientBinary);
-		break;
-	case T77CLI_BURST:
-		binFile.DecodeSREC(clientBinary_burst);
+	case T77CLI_SMALL:
+		binFile.DecodeSREC(clientBinary_small);
 		break;
 	case T77CLI_BUFFERED:
 		binFile.DecodeSREC(clientBinary_buffered);
@@ -183,7 +176,7 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	t77FName="";
 	saveT77FName="";
 
-	cliType=T77CLI_NORMAL;
+	cliType=T77CLI_SMALL;
 	instAddr=GetDefaultInstallAddress(cliType);
 	bridgeAddr=GetDefaultBridgeAddress(cliType);
 
@@ -255,13 +248,13 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		{
 			redirectBiosCallBinaryString=true;
 		}
-		else if("-BURST"==arg)
-		{
-			cliType=T77CLI_BURST;
-		}
 		else if("-BUFFERED"==arg)
 		{
 			cliType=T77CLI_BUFFERED;
+		}
+		else if("-SMALL"==arg)
+		{
+			cliType=T77CLI_SMALL;
 		}
 		else if('-'==arg[0])
 		{
@@ -1011,11 +1004,8 @@ void SubCPU(void)
 			FM7BinaryFile binFile;
 			switch(fc80.cpi.cliType)
 			{
-			case T77CLI_NORMAL:
-				binFile.DecodeSREC(clientBinary);
-				break;
-			case T77CLI_BURST:
-				binFile.DecodeSREC(clientBinary_burst);
+			case T77CLI_SMALL:
+				binFile.DecodeSREC(clientBinary_small);
 				break;
 			case T77CLI_BUFFERED:
 				binFile.DecodeSREC(clientBinary_buffered);
@@ -1062,69 +1052,37 @@ void SubCPU(void)
 
 
 		auto recv=comPort.Receive();
-		if(T77CLI_BURST==fc80.cpi.cliType)
+		for(auto c : recv)
 		{
-			if(true==comPort.GetCTS())
-			{
-				// Burst-Mode Protocol
-				// FM-7 raises RTS
-				//                        Server detects CTS
-				//                        Server sends a byte
-				// FM-7 losers RTS
-				// FM-7 needs to receive a byte within 550us
-				// 19200bps /(8+start+stop bits)=1920 bytes per sec
-				// 1000000us/1920=520.8us
-				// 68B09 runs while 8251A is receiving next byte, but let's add 30us to be safe.
+			// If something incoming, don't sleep next 10ms.
+			activity=true;
+			activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
 
-				while(std::chrono::system_clock::now()<lastSentTimer+std::chrono::microseconds(550))
+			switch(state)
+			{
+			case STATE_NORMAL:
+				if(READ_REQUEST==c)
 				{
+					SendOneByte(comPort);
 				}
-				activity=true;
-				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
-				lastSentTimer=std::chrono::system_clock::now();
-				SendOneByte(comPort);
-			}
-			for(auto c : recv)
-			{
-				activity=true;
-				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
-				SaveOneByte(c);
-			}
-		}
-		else
-		{
-			for(auto c : recv)
-			{
-				// If something incoming, don't sleep next 10ms.
-				activity=true;
-				activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
-
-				switch(state)
+				else if(READ_REQUESTM==c)
 				{
-				case STATE_NORMAL:
-					if(READ_REQUEST==c)
+					for(int i=0; i<READBUFFER_SIZE; ++i)
 					{
 						SendOneByte(comPort);
 					}
-					else if(READ_REQUESTM==c)
-					{
-						for(int i=0; i<READBUFFER_SIZE; ++i)
-						{
-							SendOneByte(comPort);
-						}
-					}
-					else if(WRITE_REQUEST==c)
-					{
-						state=STATE_WAIT_WRITE_BYTE;
-					}
-					break;
-				case STATE_WAIT_WRITE_BYTE:
-					{
-						SaveOneByte(c);
-						state=STATE_NORMAL;
-					}
-					break;
 				}
+				else if(WRITE_REQUEST==c)
+				{
+					state=STATE_WAIT_WRITE_BYTE;
+				}
+				break;
+			case STATE_WAIT_WRITE_BYTE:
+				{
+					SaveOneByte(c);
+					state=STATE_NORMAL;
+				}
+				break;
 			}
 		}
 		fc80.Unhalt();

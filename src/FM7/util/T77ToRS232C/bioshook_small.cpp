@@ -1,6 +1,6 @@
-#include "bioshook.h"
+#include "bioshook_small.h"
 
-const char * const clientBinary[]=
+const char * const clientBinary_small[]=
 {
 	"S12360002004FBAFFC0034771A50108EFD00BEFBFAAF8C64AF8C72CC0510A72CE72BC60A70",
 	"S1236020CE06F46FC05A26FB6F22A72F308C4DC662EE8CCEEF8C3811A38CC9270F308C4D12",
