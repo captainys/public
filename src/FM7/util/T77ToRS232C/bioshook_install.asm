@@ -38,14 +38,16 @@ BRIDGE_ADDRESS_BEGIN	FDB		DEF_BRIDGE_ADDRESS
 INSTALL_BIOS_HOOK		PSHS	A,B,X,Y,U,CC
 						ORCC	#$50
 
+						LDY		#$FD00
+
 						LDX		BIOS_VECTOR
 						STX		BRIDGE_FALLBACK+1,PCR
 						STX		NO_BRIDGE_FALLBACK+1,PCR
 
 						; Re-enabling RS232C in FM77AV20/40 and newer >>
 						LDD		#$0510
-						STA		IO_RS232C_ENABLE
-						STB		IO_RS232C_MODE	; Be careful!  The very original FM-7 does not distinguish FD0B and FD0F.  This turns on RAM mode.
+						STA		$0C,Y	; IO_RS232C_ENABLE
+						STB		$0B,Y	; IO_RS232C_MODE	; Be careful!  The very original FM-7 does not distinguish FD0B and FD0F.  This turns on RAM mode.
 						; Re-enabling RS232C in FM77AV20/40 and newer <<
 
 						; Clear F-BASIC COMn IRQ handler >>
@@ -58,8 +60,8 @@ CLEAR_FBASIC_LOOP		CLR		,U+
 						BNE		CLEAR_FBASIC_LOOP
 						; Clear F-BASIC COMn IRQ handler <<
 
-						CLR		IO_IRQ_MASK
-						STA		IO_URARAM
+						CLR		$02,Y	; IO_IRQ_MASK
+						STA		$0F,Y	; IO_URARAM
 
 
 						LEAX	NO_BRIDGE,PCR
@@ -86,7 +88,7 @@ INSTALL_NO_BRIDGE		BSR		TRANSFER_LOOP
 						LDX		BRIDGE_ADDRESS_BEGIN,PCR
 						STX		$DF
 
-						LDA		IO_URARAM
+						LDA		$0F,Y	; IO_URARAM
 						PULS	A,B,X,Y,U,CC,PC
 
 TRANSFER_LOOP			LDA		,X+
