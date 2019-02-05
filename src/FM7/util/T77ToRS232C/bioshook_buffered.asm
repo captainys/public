@@ -9,6 +9,8 @@ BIOS_HOOK				; Typical way of handling I/O can bd
 						; But, it takes 4 bytes.
 						; If I use U register, I can set #$FD00 to U in 3 bytes.
 
+						; Bridge code assumes U=#$FD00 on return.
+
 						LDU		#$FD00
 						LDA		#$B7 
 						; #$B7 will be written to RS232C command

@@ -102,11 +102,12 @@ TRANSFER_LOOP			LDA		,X+
 
 
 BRIDGE_CODE				CLR		1,X ; Also clears carry ; 2 bytes
-						PSHS	A,B,X,Y,U,CC				; 2 bytes 4
+						PSHS	A,B,X,Y,U,CC			; 2 bytes 4
 						ORCC	#$50					; 2 bytes 6
 						STA		$FD0F					; 3 bytes 9
 BRIDGE_JUMP				JSR		DEF_INSTALL_ADDRESS		; 3 bytes 12
-						TST		$FD0F					; 3 bytes 15
+						; U=#$FD00 on return.
+						TST		$0F,U					; 3 bytes 15
 						BCC		BRIDGE_RTS				; 2 bytes 17
 
 						PULS	A,B,X,Y,U,CC				; 2 bytes 19
