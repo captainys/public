@@ -3151,6 +3151,7 @@ YSSIDE YsShellLattice::SophisticatedCheckInsideSolidWhenTheCellIsMarkedAsBoundar
 						else if((++failCount)>=10)
 						{
 							YsErrOut("Failed 10 times.  Giving Up.\n");
+							YsErrOut("Position %s\n",pnt.Txt());
 							break;
 						}
 					}
