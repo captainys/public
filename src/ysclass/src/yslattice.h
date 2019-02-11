@@ -738,6 +738,20 @@ public:
 	}
 
 
+public:
+	/*! Returns the number of nodes. */
+	YSSIZE_T NumNode(void) const
+	{
+		return (Nx()+1)*(Ny()+1)*(Nz()+1);
+	}
+
+	/*! Returns the number of blocks. */
+	YSSIZE_T NumBlock(void) const
+	{
+		return Nx()*Ny()*Nz();
+	}
+
+
 protected:
 	YSRESULT Release(void);
 
