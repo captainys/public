@@ -512,6 +512,11 @@ public:
 	YSRESULT Create(YSSIZE_T nCell,const YsVec3 &min,const YsVec3 &max);
 	YSRESULT Create(YSSIZE_T nBlkX,YSSIZE_T nBlkY,YSSIZE_T nBlkZ,const YsVec3 &min,const YsVec3 &max);
 
+	/*! Create a lattice that has the same bounding box and resolution as the given lattice.
+	*/
+	template <class T2>
+	YSRESULT CreateCompatible(const YsLattice3d <T2> &incoming);
+
 	/*! Returns the dimension of the whole lattice. */
 	YsVec3 GetLatticeDimension(void) const;
 
@@ -859,6 +864,13 @@ YSRESULT YsLattice3d <T>::Create(YSSIZE_T nCell,const YsVec3 &mn,const YsVec3 &m
 	nz=YsGreater(1,(int)(fabs(dg.z())/l));
 
 	return Create(nx,ny,nz,mn,mx);
+}
+
+template <class T>
+template <class T2>
+YSRESULT YsLattice3d<T>::CreateCompatible(const YsLattice3d <T2> &incoming)
+{
+	return Create(incoming.Nx(),incoming.Ny(),incoming.Nz(),incoming.GetMin(),incoming.GetMax());
 }
 
 template <class T>
