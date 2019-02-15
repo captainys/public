@@ -45,6 +45,8 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ysshellextedit_duplicateutil.h>
 #include <ysshellext_alignmentutil.h>
 
+#include "filename.h"
+
 // Call back functions from the main framework. >>
 int FsGui3dAppSleepIntervalInMS(void);
 class GeblGuiEditorBase *FsGui3DAppInitialize(int ac,char *av[]);

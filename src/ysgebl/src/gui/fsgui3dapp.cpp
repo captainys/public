@@ -179,6 +179,9 @@ GeblGuiEditorBase *GeblGuiEditorMainMenu::GetMainCanvas(void) const
 
 GeblGuiEditorBase::GeblGuiEditorBase() : threeDInterface(this),viewControlDlg(NULL)
 {
+	// To let GUI extension customize directory names, fileAndDirName must be ready before creating GUI extension.
+	fileAndDirName=PolyCreFileName::Create();
+
 	guiExtension=PolyCreCreateGuiExtension(*this);
 	if(nullptr==guiExtension)
 	{
@@ -194,7 +197,6 @@ GeblGuiEditorBase::GeblGuiEditorBase() : threeDInterface(this),viewControlDlg(NU
 
 	preSelectedMovingDirection=YsXVec();
 
-	fileAndDirName=PolyCreFileName::Create();
 	config=PolyCreConfig::Create();
 
 	dnmCurrentState=-1;
