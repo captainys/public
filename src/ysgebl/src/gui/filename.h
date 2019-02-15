@@ -36,6 +36,8 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class PolyCreFileName
 {
 private:
+	YsWString appDataDirBaseName;
+
 	mutable YsWString ysflightComDir;
 	mutable YsWString appDataDir;
 	mutable YsWString altRootDir;
@@ -58,6 +60,8 @@ public:
 	const YsWString GetRecentFileListFileName(void) const;
 	const YsWString GetLastWindowPositionFileName(void) const;
 	const YsWString GetViewConfigFileName(void) const;
+
+	void SetAppDataDirBaseName(YsWString baseName);
 
 	static void MakeDirectoryForFile(const wchar_t ful[]);
 };

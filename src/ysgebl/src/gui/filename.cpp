@@ -36,6 +36,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 PolyCreFileName::PolyCreFileName()
 {
+	appDataDirBaseName=L"PolygonCrest";
 }
 
 PolyCreFileName::~PolyCreFileName()
@@ -68,7 +69,7 @@ const wchar_t *PolyCreFileName::GetAppDataDir(void) const
 	if(0==appDataDir.Strlen())
 	{
 		const wchar_t *ysflightComDir=GetYsflightComDir();
-		appDataDir.MakeFullPathName(ysflightComDir,L"PolygonCrest");
+		appDataDir.MakeFullPathName(ysflightComDir,appDataDirBaseName);
 	}
 	return appDataDir;
 }
@@ -131,6 +132,11 @@ const YsWString PolyCreFileName::GetViewConfigFileName(void) const
 	wStr.MakeFullPathName(optDir,L"viewoption.txt");
 	printf("Last Window Position is stored in: %ls\n",wStr.Txt());
 	return wStr;
+}
+
+void PolyCreFileName::SetAppDataDirBaseName(YsWString baseName)
+{
+	appDataDirBaseName=baseName;
 }
 
 /* static */ void PolyCreFileName::MakeDirectoryForFile(const wchar_t wfn[])
