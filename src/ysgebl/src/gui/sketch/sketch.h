@@ -102,6 +102,10 @@ public:
 	YsShellPolygonHandle FindPolygonFromWindowCoordinate(YsVec3 &itsc,const YsVec2 &winCoord) const;
 
 	YsConstArrayMask <StrokePoint> GetStroke(void) const;
+
+	/*! Take screen coordinate from outside to emulate sketch stroke.
+	*/
+	void SetStroke(YsConstArrayMask <YsVec2> winCoord);
 };
 
 

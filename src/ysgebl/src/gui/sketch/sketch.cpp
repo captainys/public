@@ -286,3 +286,12 @@ YsConstArrayMask <PolyCreSketchInterface::StrokePoint> PolyCreSketchInterface::G
 {
 	return YsConstArrayMask <StrokePoint> (stroke.GetN(),stroke.GetArray());
 }
+
+void PolyCreSketchInterface::SetStroke(YsConstArrayMask <YsVec2> winCoord)
+{
+	stroke.resize(winCoord.size());
+	for(auto idx : winCoord.AllIndex())
+	{
+		stroke[idx].winCoord=winCoord[idx];
+	}
+}
