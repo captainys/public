@@ -153,6 +153,7 @@ void GeblCmd_WorkOrder::ShowHelp(void) const
 	printf("    constedge delete short_isolated 12.3\n");
 	printf("                                      Delete const edges that are not connected to other const edges\n");
 	printf("                                      and shorter than the given threshold.\n");
+	printf("    constedge delete dhahigh 170      Delete const edges on dihedral angle higher than 170 degrees.\n");
 
 	printf("  Face-Group Commands.\n");
 	printf("    facegroup create fromce            Create face groups based on the constraint edges.\n");

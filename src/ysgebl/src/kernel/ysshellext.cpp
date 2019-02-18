@@ -1347,6 +1347,16 @@ YSRESULT YsShellExt::SetConstEdgeAttrib(YsShellExt::ConstEdgeHandle ceHd,const Y
 	return YSERR;
 }
 
+YSBOOL YsShellExt::GetConstEdgeIsLoop(ConstEdgeHandle ceHd) const
+{
+	auto ceProp=constEdgeArray[ceHd];
+	if(NULL!=ceProp && YSTRUE!=constEdgeArray.IsFrozen(ceHd))
+	{
+		return ceProp->IsLoop();
+	}
+	return YSFALSE;
+}
+
 YSRESULT YsShellExt::SetConstEdgeIsLoop(ConstEdgeHandle ceHd,YSBOOL isLoop)
 {
 	ConstEdge *ceProp=constEdgeArray[ceHd];

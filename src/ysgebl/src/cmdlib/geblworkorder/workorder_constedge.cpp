@@ -183,6 +183,38 @@ YSRESULT GeblCmd_WorkOrder::RunConstEdgeDelete(const YsString &workOrder,const Y
 			return YSERR;
 		}
 	}
+	else if(0==option.STRCMP("DHAHIGH"))
+	{
+		if(4<=args.size())
+		{
+			auto &shl=*slHd;
+			const double dhaThr=YsDegToRad(atof(args[3]));
+			for(auto ceHd : shl.AllConstEdge())
+			{
+				int nCeUseCount=0;
+				YsArray <YsShell::VertexHandle> ceVtHd=shl.GetConstEdgeVertex(ceHd);
+				if(YSTRUE==shl.GetConstEdgeIsLoop(ceHd))
+				{
+					ceVtHd.push_back(ceVtHd[0]);
+				}
+				for(YSSIZE_T idx=0; idx<ceVtHd.size()-1; ++idx)
+				{
+					if(2==shl.GetNumPolygonUsingEdge(ceVtHd[idx],ceVtHd[idx+1]) &&
+					   dhaThr<YsShellExt_CalculateDihedralAngle(shl.Conv(),ceVtHd[idx],ceVtHd[idx+1]))
+					{
+						shl.DeleteConstEdge(ceHd);
+						break;
+					}
+				}
+			}
+			return YSOK;
+		}
+		else
+		{
+			ShowError(workOrder,"Too few arguments.");
+			return YSERR;
+		}
+	}
 	YsString errorReason;
 	errorReason.Printf("Not supported or not implemented yet. [%s]\n",option.Txt());
 	ShowError(workOrder,errorReason);

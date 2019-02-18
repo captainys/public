@@ -463,6 +463,7 @@ public:
 	using YsShellExt::FindConstEdgeFromEdgePiece;
 	using YsShellExt::FindConstEdgeFromFaceGroup;
 	using YsShellExt::IsOnCreaseConstEdge;
+	using YsShellExt::GetConstEdgeIsLoop;
 	using YsShellExt::IsCreaseConstEdge;
 	using YsShellExt::FindConstEdgeFromPolygon;
 	using YsShellExt::GetNumConstEdgeUsingVertex;

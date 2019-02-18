@@ -1378,6 +1378,9 @@ public:
 	/*! This function adds a constraint edge. */
 	ConstEdgeHandle AddConstEdge(const YsConstArrayMask <YsShell::VertexHandle> &ceVtHd,YSBOOL isLoop);
 
+	/*! Returns YSTRUE if the const edge is a loop. */
+	YSBOOL GetConstEdgeIsLoop(ConstEdgeHandle ceHd) const;
+
 	/*! This function sets isLoop flag of the constraint edge. */
 	YSRESULT SetConstEdgeIsLoop(ConstEdgeHandle ceHd,YSBOOL isLoop);
 
