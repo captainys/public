@@ -58,6 +58,11 @@ asmSource=[
 		 "6809lib/rs232c_reset.asm",
 		 "6809lib/rs232c_recv.asm",
 		 "6809lib/rs232c_send.asm"]],
+	["TAPE2COM",
+		["tapeToRS232C/tapedump.asm",
+		 "6809lib/rs232c_reset.asm",
+		 "6809lib/rs232c_send.asm",
+		 "tapeToRS232C/tapedump_end.asm",]],
 ]
 
 basSource=[
