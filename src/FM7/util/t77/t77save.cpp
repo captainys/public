@@ -32,6 +32,9 @@ void CommandHelp(void)
 	printf("\tUnlike SAVEM command of F-BASIC endAddr is automatically calculated from\n");
 	printf("\tthe file size.  Therefore, you only need to give start and exec addresses.\n");
 	printf("\tYou can use &H of 0x to specify address in hexa-decimal number.\n");
+	printf("-saveasciidump dumpfile.txt\n");
+	printf("\tAppend raw binary dump to .T77\n");
+	printf("\tCan be used for creating a .T77 file from raw tape dump.\n");
 	printf("-wav\n");
 	printf("\tSave as .WAV.  Just specifying this option will create both .T77 and .WAV files.\n");
 	printf("\tIf you don't need .T77, also specify -not77\n");
@@ -125,6 +128,25 @@ bool SaveBinaryFileAsMachinGo(
 	return false;
 }
 
+bool AppendAsciiDump(T77Encoder &encoder,const char dumpFName[])
+{
+	auto txt=FM7Lib::ReadTextFile(dumpFName);
+	if(0<txt.size())
+	{
+		for(auto str : txt)
+		{
+			for(int i=0; i+1<str.size(); i+=2)
+			{
+				char hex[3]={str[i],str[i+1],0};
+				auto num=FM7Lib::Xtoi(hex);
+				encoder.AddByte(num);
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
 class T77Save
 {
 public:
@@ -151,6 +173,7 @@ int T77Save::ProcessOption(int ac,char *av[],int ptr)
 	if("-NEW"==opt)
 	{
 		encoder.CleanUp();
+		encoder.StartT77Header();
 		return 1;
 	}
 	else if("-H"==opt || "-HELP"==opt || "-?"==opt)
@@ -221,6 +244,21 @@ int T77Save::ProcessOption(int ac,char *av[],int ptr)
 			    encoder,av[ptr+1],av[ptr+2],FM7Lib::Atoi(av[ptr+3]),FM7Lib::Atoi(av[ptr+4])))
 			{
 				return 5;
+			}
+			goto ERROR_PROCESSING;
+		}
+		else
+		{
+			goto TOO_FEW_ARG;
+		}
+	}
+	else if("-SAVEASCIIDUMP"==opt)
+	{
+		if(ptr+1<=ac)
+		{
+			if(true==AppendAsciiDump(encoder,av[ptr+1]))
+			{
+				return 2;
 			}
 			goto ERROR_PROCESSING;
 		}
