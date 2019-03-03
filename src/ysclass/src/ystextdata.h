@@ -65,7 +65,7 @@ public:
 		byteData.resize(numByte);
 		byteRead=fread(byteData.data(),1,numByte,fp);
 		byteData.resize(byteRead);
-		return IdentifyEOLType(byteRead);
+		return IdentifyEOLType(byteData);
 	}
 
 	/*! Identify EOL-code type based on the input byte array, and
