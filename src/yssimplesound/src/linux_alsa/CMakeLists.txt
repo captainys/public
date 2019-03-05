@@ -4,9 +4,13 @@ else()
 	set(BITNESS 32)
 endif()
 
+
+find_library(ALSALIB NAMES asound)
+
+
 set(TARGET_NAME yssimplesound_linux_alsa)
 set(IS_LIBRARY_PROJECT 1)
-set(LIB_DEPENDENCY asound)
+set(LIB_DEPENDENCY ${ALSALIB})
 set(INCLUDE_DEPENDENCY yssimplesound)
 set(OWN_HEADER_PATH ..)
 set(ADDITIONAL_HEADER_PATH)
@@ -165,9 +169,16 @@ endif()
 
 
 
+if(ALSALIB)
+  set(platform_SRCS yssimplesound_linux_alsa.cpp)
+else()
+  message("ALSA library not found.")
+  message("No sound will be played with yssimplesound library.")
+  set(platform_SRCS ../nownd/yssimplesound_nownd.cpp)
+endif()
+
 set(SRCS
 ${platform_SRCS}
-yssimplesound_linux_alsa.cpp
 )
 
 set(HEADERS
