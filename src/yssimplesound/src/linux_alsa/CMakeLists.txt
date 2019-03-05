@@ -10,7 +10,11 @@ find_library(ALSALIB NAMES asound)
 
 set(TARGET_NAME yssimplesound_linux_alsa)
 set(IS_LIBRARY_PROJECT 1)
-set(LIB_DEPENDENCY ${ALSALIB})
+if(NOT "${ALSALIB}" STREQUAL "ALSALIB-NOTFOUND")
+  set(LIB_DEPENDENCY ${ALSALIB})
+else()
+  set(LIB_DEPENDENCY)
+endif()
 set(INCLUDE_DEPENDENCY yssimplesound)
 set(OWN_HEADER_PATH ..)
 set(ADDITIONAL_HEADER_PATH)
@@ -169,7 +173,7 @@ endif()
 
 
 
-if(ALSALIB)
+if(NOT "${ALSALIB}" STREQUAL "ALSALIB-NOTFOUND")
   set(platform_SRCS yssimplesound_linux_alsa.cpp)
 else()
   message("ALSA library not found.")
