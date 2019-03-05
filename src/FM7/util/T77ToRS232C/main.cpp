@@ -6,6 +6,9 @@
 #include <string>
 
 
+#include <string.h>
+
+
 #include "comport.h"
 #include "t77.h"
 #include "cpplib.h"
