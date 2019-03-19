@@ -1,3 +1,10 @@
+Pre-requisite:
+  Ninja build system seems to be "separately" installed from Android Studio.
+  There is absolutely zero description about this pre-requisite.
+  Good job, Google.
+
+
+
 (1) Creating a new project in Android Studio
 		Check  "Include C++ Support"
 		Select Android 6.0 (5.0 might work, not confirmed)
@@ -116,4 +123,30 @@ Unexpected EOF in LogCat
    Crap!  Who can live with only 256KB log buffer!?  They do everything to make it difficult to create a useful program.
 
    (https://stackoverflow.com/questions/48689930/logcat-crashes-with-read-unexpected-eof)
+
+
+
+Showing CMake Errors.
+  Android Studio succeeds in staying deplorable as of version 3.3.1.
+  It is incredibly difficult to find the way to show CMake errors.
+
+  To see CMake errors:
+  Make sure to open (may already be open):
+    View -> Tools -> Build
+
+  Then, click on this nonsense icon (two overlapping box with ">") underneath the hammer icon on the left.
+
+  People should grow out of hieroglyphy.
+  This two boxes with ">" did not make any sense to me.
+
+  Icons!  Icons we once thought there might be pictures that explains to the people who speaks
+  different languages.  That was a utterly wrong assumption.  Words explain much better than
+  senseless icons.  Icons failed.  Why those developers cannot learn?
+
+  This uninterpretable hieroglyph does give absolutely zero impression that it shows CMake errors.
+  A simple text menu "Show Build Log" or "Show Build Output" makes 2^64 times more sense.
+
+  If they want to live in the time of Egypitian gods, they should get out of my world.
+  I appreciate them travel back in time and never come back.
+
 
