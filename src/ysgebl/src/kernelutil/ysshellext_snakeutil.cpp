@@ -2,6 +2,52 @@
 
 
 
+/*static*/ YsShellExt_SnakeUtil::DefaultEnergyFunction defEnergy;
+
+
+
+YsShellExt_SnakeUtil::DefaultEnergyFunction::DefaultEnergyFunction()
+{
+	// See the original paper for the meaning of alpha and beta.
+	alpha=1.0;
+	beta=1.0;
+}
+
+/* virtual */ double YsShellExt_SnakeUtil::DefaultEnergyFunction::CalculateEnergy(const YsShellExt &shl,const YsShellExt::VertexHandle vtHd[3]) const
+{
+	double eInt=0.0,eExt=0.0;
+
+	const YsVec3 vtPos[3]=
+	{
+		shl.GetVertexPosition(vtHd[0]),
+		shl.GetVertexPosition(vtHd[1]),
+		shl.GetVertexPosition(vtHd[2]),
+	};
+
+	// Interpretation from the original paper:
+	//   eInt makes feature edge to be shorter and straighter.
+	//   One problem:
+	//      Scale dependent.  Difficult to make eExt compatible with eInt.
+	//      In other words, choice of alpha and beta significantlly influences the energy.
+	eInt=alpha*(vtPos[1]-vtPos[0]).GetSquareLength()+beta*(vtPos[2]-2.0*vtPos[1]+vtPos[0]).GetSquareLength();
+
+	//   eExt for aligning the feature edges to the principal curvature direction.
+	//   Three problems:
+	//      I need to know the principal curvature direction.
+	//      I need some feature edges running perpendicular to the principal-curvature direction.
+	//      What's the threshold to identify a vertex lying near the principal-curvature direction?
+	//   Not so good for my purpose after all.
+	// eExt=
+
+	return eInt+eExt;
+}
+
+
+
+////////////////////////////////////////////////////////////
+
+
+
 double YsShellExt_SnakeUtil::Snake::CalculateEnergy(const YsShellExt &shl,const EnergyFunction &func) const
 {
 	if(vtHdChain.size()<=1)
@@ -30,6 +76,12 @@ double YsShellExt_SnakeUtil::Snake::CalculateEnergy(const YsShellExt &shl,const 
 
 	return e;
 }
+
+
+
+////////////////////////////////////////////////////////////
+
+
 
 YsShellExt_SnakeUtil::YsShellExt_SnakeUtil()
 {

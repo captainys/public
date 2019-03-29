@@ -46,6 +46,8 @@ public:
 	class DefaultEnergyFunction
 	{
 	public:
+		double alpha,beta;
+		DefaultEnergyFunction();
 		virtual double CalculateEnergy(const YsShellExt &shl,const YsShellExt::VertexHandle vtHd[3]) const;
 	};
 	static DefaultEnergyFunction defEnergy;
