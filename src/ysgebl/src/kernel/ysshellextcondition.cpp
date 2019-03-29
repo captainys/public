@@ -29,6 +29,17 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "ysshellext.h"
 
+/* virtual */ YSRESULT YsShellExt::Condition::TestVertex(const YsShellExt &shl,YsShell::VertexHandle vtHd) const
+{
+	return YSOK;
+}
+
+////////////////////////////////////////////////////////////
+
+/* virtual */ YSRESULT YsShellExt::PassAll::TestVertex(const YsShellExt &shl,YsShell::VertexHandle vtHd) const
+{
+	return YSOK;
+}
 /* virtual */ YSRESULT YsShellExt::PassAll::TestPolygon(const YsShellExt &,YsShellPolygonHandle) const
 {
 	return YSOK;

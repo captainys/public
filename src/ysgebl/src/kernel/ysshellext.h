@@ -1062,12 +1062,14 @@ public:
 	class Condition
 	{
 	public:
+		virtual YSRESULT TestVertex(const YsShellExt &shl,YsShell::VertexHandle vtHd) const;
 		virtual YSRESULT TestPolygon(const YsShellExt &shl,YsShellPolygonHandle plHd) const=0;
 		virtual YSRESULT TestEdge(const YsShellExt &shl,YsShellVertexHandle edVtHd0,YsShellVertexHandle edVtHd1) const=0;
 	};
 	class PassAll : public Condition
 	{
 	public:
+		virtual YSRESULT TestVertex(const YsShellExt &shl,YsShell::VertexHandle vtHd) const;
 		virtual YSRESULT TestPolygon(const YsShellExt &shl,YsShellPolygonHandle plHd) const;
 		virtual YSRESULT TestEdge(const YsShellExt &shl,YsShellVertexHandle edVtHd0,YsShellVertexHandle edVtHd1) const;
 	};
