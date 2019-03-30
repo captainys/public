@@ -1079,6 +1079,37 @@ bool D77File::D77Disk::SetDDM(int trk,int sid,int sec,bool ddm)
 	return modified;
 }
 
+bool D77File::D77Disk::GetCRCError(int trk,int sid,int sec) const
+{
+	auto trackPtr=FindTrack(trk,sid);
+	if(nullptr!=trackPtr)
+	{
+		for(auto &s : trackPtr->sector)
+		{
+			if(s.sector==sec)
+			{
+				return 0!=s.crcStatus;
+			}
+		}
+	}
+	return false;
+}
+bool D77File::D77Disk::GetDDM(int trk,int sid,int sec) const
+{
+	auto trackPtr=FindTrack(trk,sid);
+	if(nullptr!=trackPtr)
+	{
+		for(auto &s : trackPtr->sector)
+		{
+			if(s.sector==sec)
+			{
+				return 0!=s.deletedData;
+			}
+		}
+	}
+	return false;
+}
+
 bool D77File::D77Disk::DeleteDuplicateSector(int trk,int sid)
 {
 	if(true==IsWriteProtected())

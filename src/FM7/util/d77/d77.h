@@ -323,6 +323,12 @@ public:
 		*/
 		bool SetDDM(int trk,int sid,int sec,bool ddm);
 
+		/*! Get CRC error. */
+		bool GetCRCError(int trk,int sid,int sec) const;
+
+		/*! Get DDM */
+		bool GetDDM(int trk,int sid,int sec) const;
+
 		/*! Deletes duplicate sectors. */
 		bool DeleteDuplicateSector(int trk,int sid);
 
