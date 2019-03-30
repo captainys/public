@@ -1,5 +1,5 @@
 set(TARGET_NAME FM77AVKeyboard)
-set(WIN_SUBSYSTEM WINDOWS)
+set(WIN_SUBSYSTEM CONSOLE) # Don't change to WINDOWS.  For some reason, WINDOWS mode drops too many strokes.
 
 
 if(MSVC)
