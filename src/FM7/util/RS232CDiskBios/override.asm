@@ -32,7 +32,31 @@ BIOS_DISK_OVERRIDE_BEGIN
 
 
 
-; Ç¬Ç¢Ç≈Ç…åæÇ§Ç∆F-BASICèâä˙âªíÜÇ…FC00Å`FCFFÉNÉäÉAÇµÇƒÇÈÅB
+
+; For the first time this program is called, this program will:
+;   (1) Install BIOS Hook to $FC00 to $FC7F (address can be customized)
+;   (2) Change NOP NOP to PULS A,B,X,Y,U,CC,DP,PC
+;   (3) Copy self to $6D00 to $6DFF
+;   (4) Read Track 0 Side 0 Sector 1 to $0100
+;	(5) Jump to $0100
+;
+; F-BASIC IPL does read Disk BASIC and then it does:
+;		LDX		#$6E00
+;		COMA
+;		JMP		[$FBFE]
+; then F-BASIC ROM will erase 0 to $6DFF and then jump to $6E00.
+;
+; The server checks presence of LDX #$6E00 and JMP [$FBFE] in the IPL, and alters $6E00 to $6D00 before transmitting.
+; With this change, Disk BASIC will call the installer in $6D00 and then jump to $6E00.
+; Disk BASIC will read/write sectors from/to RS232C instead of Disk.
+;
+; The server also changes BIOS call to HOOK call before transmitting.
+;
+; This mechanism should support any title that does not encrypt the binary and
+; reads/writes disks using BIOS and it does not overwrites BIOS HOOK.
+;
+; Unfortunate situation may be JSR [$FBFA] lies across sectors.
+
 
 
 BIOS_DISK_OVERRIDE		PSHS	A,DP

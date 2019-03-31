@@ -318,6 +318,73 @@ static FC80 fc80;
 
 ////////////////////////////////////////////////////////////
 
+void AlterSectorData(
+	int track,
+	int side,
+	int sector,
+	std::vector <unsigned char> &dat,
+	unsigned int hookInstAddr,
+	unsigned int fe02Offset,
+	unsigned int fe05Offset,
+	unsigned int fe08Offset)
+{
+	if(0==track && 0==side && 1==sector)
+	{
+		bool jmpFBFE=false;
+		bool ldx6E00=false;
+		int ldxPtr=0;
+
+		for(int i=0; i<dat.size(); ++i)
+		{
+			if(i+2<dat.size() && dat[i]==0x8e && dat[i+1]==0x6e && dat[i+2]==0x00)
+			{
+				ldx6E00=true;
+				ldxPtr=i;
+			}
+			if(i+3<dat.size() && dat[i]==0x6e && dat[i+1]==0x9f && dat[i+2]==0xfb && dat[i+3]==0xfe)
+			{
+				jmpFBFE=true;
+			}
+		}
+		// F-BASIC 3.0 IPL
+		if(true==jmpFBFE && true==ldx6E00)
+		{
+			dat[ldxPtr+1]=0x6D;
+			dat[ldxPtr+2]=0x00;
+		}
+	}
+
+	auto fe02Subst=hookInstAddr+fe02Offset;
+	auto fe05Subst=hookInstAddr+fe05Offset;
+	auto fe08Subst=hookInstAddr+fe08Offset;
+
+	for(int i=0; i<dat.size(); ++i)
+	{
+		// JSR $FE0x
+		if(i+2<dat.size() && dat[i]==0xbd && dat[i+1]==0xfe)
+		{
+			if(dat[i+2]==0x02)
+			{
+				dat[i+1]=(fe02Subst>>8)&0xff;
+				dat[i+2]= fe02Subst&0xff;
+			}
+			else if(dat[i+2]==0x05)
+			{
+				dat[i+1]=(fe05Subst>>8)&0xff;
+				dat[i+2]= fe05Subst&0xff;
+			}
+			else if(dat[i+2]==0x08)
+			{
+				dat[i+1]=(fe08Subst>>8)&0xff;
+				dat[i+2]= fe08Subst&0xff;
+			}
+		}
+	}
+}
+
+
+////////////////////////////////////////////////////////////
+
 
 char *Fgets(char str[],int len,FILE *fp)
 {
@@ -458,6 +525,9 @@ void SubCPU(void)
 	unsigned char sectorDataBuf[1024];
 
 
+	FM7BinaryFile clientCode;
+	clientCode.DecodeSREC(clientBinary);
+
 
 	fc80.Halt();
 	fc80.subCPUready=true;
@@ -473,17 +543,14 @@ void SubCPU(void)
 
 		if(true==fc80.installASCII)
 		{
-			FM7BinaryFile binFile;
-			binFile.DecodeSREC(clientBinary);
-
-			binFile.dat[2]=((fc80.cpi.instAddr>>8)&255);
-			binFile.dat[3]=(fc80.cpi.instAddr&255);
+			clientCode.dat[2]=((fc80.cpi.instAddr>>8)&255);
+			clientCode.dat[3]=(fc80.cpi.instAddr&255);
 
 			printf("Install Addr=%04x\n",fc80.cpi.instAddr);
 
 			printf("\nTransmitting Installer ASCII\n");
 			int ctr=0;
-			for(auto c : binFile.dat)
+			for(auto c : clientCode.dat)
 			{
 				char str[256];
 				sprintf(str,"%d%c%c",(unsigned int)c,0x0d,0x0a);
@@ -495,7 +562,7 @@ void SubCPU(void)
 					printf("%d/256\n",ctr);
 				}
 			}
-			for(auto i=binFile.dat.size(); i<256; ++i)
+			for(auto i=clientCode.dat.size(); i<256; ++i)
 			{
 				unsigned char zero[]={'0',0x0d,0x0a};
 				comPort.Send(3,zero);
@@ -575,6 +642,15 @@ void SubCPU(void)
 						if(nullptr!=diskPtr)
 						{
 							auto sectorData=diskPtr->ReadSector(track,side,sector);
+
+							AlterSectorData(
+								track,side,sector,
+							    sectorData,
+							    fc80.cpi.instAddr,
+							    clientCode.dat[clientCode.dat.size()-3],
+							    clientCode.dat[clientCode.dat.size()-2],
+							    clientCode.dat[clientCode.dat.size()-1]);
+
 							unsigned int sectorSize=sectorData.size();
 							sectorSize>>=7;
 							const unsigned char sendBuf[1]={sectorSize};

@@ -65,7 +65,8 @@ asmSource=[
 		 "tapeToRS232C/tapedump_end.asm",]],
 	["232CDISK",
 		["RS232CDiskBios/install_and_reset.asm",
-		 "RS232CDiskBios/override.asm",]],
+		 "RS232CDiskBios/override.asm",
+		 "RS232CDiskBios/sizes.asm",]],
 ]
 
 basSource=[
