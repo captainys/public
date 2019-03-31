@@ -318,6 +318,65 @@ static FC80 fc80;
 
 ////////////////////////////////////////////////////////////
 
+void IdentifyIPL(
+	std::vector <unsigned char> &sectorData,
+	bool &jmpFBFE,
+	bool &ldx6E00, // Signature for F-BASIC 3.0
+	bool &ldx4D00, // Signature for URADOS
+	int &ldxPtr)
+{
+	jmpFBFE=false;
+	ldx6E00=false;
+	ldx4D00=false;
+	ldxPtr=0;
+
+	for(int i=0; i<sectorData.size(); ++i)
+	{
+		if(i+2<sectorData.size() && sectorData[i]==0x8e && sectorData[i+1]==0x4d && sectorData[i+2]==0x00)
+		{
+			ldx4D00=true;
+			ldxPtr=i;
+		}
+		if(i+2<sectorData.size() && sectorData[i]==0x8e && sectorData[i+1]==0x6e && sectorData[i+2]==0x00)
+		{
+			ldx6E00=true;
+			ldxPtr=i;
+		}
+		if(i+3<sectorData.size() && sectorData[i]==0x6e && sectorData[i+1]==0x9f && sectorData[i+2]==0xfb && sectorData[i+3]==0xfe)
+		{
+			jmpFBFE=true;
+		}
+	}
+}
+
+void SetUpSecondInstallation(std::vector <unsigned char> &clientCode,D77File::D77Disk &bootDisk)
+{
+	int jmp6E00Ptr=-1;
+	for(int i=0; i<clientCode.size(); ++i)
+	{
+	}
+
+	if(0<=jmp6E00Ptr)
+	{
+		auto bootSector=bootDisk.ReadSector(0,0,1);
+
+		// URADOS
+		//   JMP $6E00 -> JMP $4D00
+		bool jmpFBFE=false;
+		bool ldx6E00=false;
+		bool ldx4D00=false;
+		int ldxPtr=0;
+		IdentifyIPL(bootSector,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
+
+		// URADOS
+		if(true==jmpFBFE && true==ldx4D00)
+		{
+			clientCode[ldxPtr+1]=0x4D;
+			clientCode[ldxPtr+2]=0x00;
+		}
+	}
+}
+
 void AlterSectorData(
 	int track,
 	int side,
@@ -332,24 +391,20 @@ void AlterSectorData(
 	{
 		bool jmpFBFE=false;
 		bool ldx6E00=false;
+		bool ldx4D00=false;
 		int ldxPtr=0;
+		IdentifyIPL(dat,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
 
-		for(int i=0; i<dat.size(); ++i)
-		{
-			if(i+2<dat.size() && dat[i]==0x8e && dat[i+1]==0x6e && dat[i+2]==0x00)
-			{
-				ldx6E00=true;
-				ldxPtr=i;
-			}
-			if(i+3<dat.size() && dat[i]==0x6e && dat[i+1]==0x9f && dat[i+2]==0xfb && dat[i+3]==0xfe)
-			{
-				jmpFBFE=true;
-			}
-		}
 		// F-BASIC 3.0 IPL
 		if(true==jmpFBFE && true==ldx6E00)
 		{
-			dat[ldxPtr+1]=0x6D;
+			dat[ldxPtr+1]=0x60;
+			dat[ldxPtr+2]=0x00;
+		}
+		// URADOS IPL
+		if(true==jmpFBFE && true==ldx4D00)
+		{
+			dat[ldxPtr+1]=0x60;
 			dat[ldxPtr+2]=0x00;
 		}
 	}

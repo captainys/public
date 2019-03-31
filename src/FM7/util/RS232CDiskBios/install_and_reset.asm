@@ -74,16 +74,6 @@ INSTALLED_LOWER_ADDRESS
 STACK_POINTER_SET
 
 
-						; To prepare for F-BASIC Boot
-						CLRB
-						LEAX	PROGRAM_ENTRY,PCR
-						LDU		#$6D00
-MAKE_COPY_LOOP			LDA		,X+
-						STA		,U+
-						DECB
-						BNE		MAKE_COPY_LOOP
-
-
 						LDD		#0
 						LDU		#0
 						LDX		#0
