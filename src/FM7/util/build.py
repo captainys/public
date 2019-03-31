@@ -63,6 +63,9 @@ asmSource=[
 		 "6809lib/rs232c_reset.asm",
 		 "6809lib/rs232c_send.asm",
 		 "tapeToRS232C/tapedump_end.asm",]],
+	["232CDISK",
+		["RS232CDiskBios/install_and_reset.asm",
+		 "RS232CDiskBios/override.asm",]],
 ]
 
 basSource=[
@@ -254,6 +257,10 @@ def UpdateWinSource():
 		print("FM7_rs232c_util.d77 does not exist.")
 		print("This file must be created during FM-7 build.")
 		quit(1)
+	if not os.path.isfile("buildFM7/232CDISK.srec"):
+		print("232CDISK.srec does not exist.")
+		print("This file must be created during FM-7 build.")
+		quit(1)
 	if not os.path.isfile("buildFM7/D7CLIENT.srec"):
 		print("D7CLIENT.srec does not exist.")
 		print("This file must be created during FM-7 build.")
@@ -271,6 +278,7 @@ def UpdateWinSource():
 	txt2cpp.TextFileToCpp("D77ToRS232C/clientbin.cpp","D77ToRS232C/clientbin.h","clientBinary","buildFM7/D7CLIENT.srec")
 	txt2cpp.TextFileToCpp("T77ToRS232C/bioshook_small.cpp","T77ToRS232C/bioshook_small.h","clientBinary_small","buildFM7/CAS0COM0.srec")
 	txt2cpp.TextFileToCpp("T77ToRS232C/bioshook_buffered.cpp","T77ToRS232C/bioshook_buffered.h","clientBinary_buffered","buildFM7/CAS0COMF.srec")
+	txt2cpp.TextFileToCpp("RS232CDiskBios/disk_bios_hook_client.cpp","RS232CDiskBios/disk_bios_hook_client.h","clientBinary","buildFM7/232CDISK.srec")
 
 
 

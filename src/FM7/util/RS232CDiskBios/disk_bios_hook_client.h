@@ -1,0 +1,6 @@
+#ifndef RS232CDISKBIOS_DISK_BIOS_HOOK_CLIENT_H_IS_INCLUDED
+#define RS232CDISKBIOS_DISK_BIOS_HOOK_CLIENT_H_IS_INCLUDED
+
+extern const char * const clientBinary[];
+
+#endif
