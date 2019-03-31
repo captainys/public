@@ -23,6 +23,12 @@ void MainCPU(void);
 void SubCPU(void);
 
 
+enum
+{
+	SYSTYPE_UNKNOWN,
+	SYSTYPE_F_BASIC_3_0,
+	SYSTYPE_URADOS
+};
 
 const unsigned char BIOS_ERROR_DRIVE_NOT_READY=		0x0A;
 const unsigned char BIOS_ERROR_WRITE_PROTECTED=		0x0B;
@@ -30,6 +36,148 @@ const unsigned char BIOS_ERROR_HARD_ERROR=			0x0C;
 const unsigned char BIOS_ERROR_CRC_ERROR=			0x0D;
 const unsigned char BIOS_ERROR_DDM_ERROR=			0x0E;
 const unsigned char BIOS_ERROR_TIME_OVER=			0x0F;
+
+////////////////////////////////////////////////////////////
+
+void IdentifyIPL(
+	std::vector <unsigned char> &sectorData,
+	bool &jmpFBFE,
+	bool &ldx6E00, // Signature for F-BASIC 3.0
+	bool &ldx4D00, // Signature for URADOS
+	int &ldxPtr)
+{
+	jmpFBFE=false;
+	ldx6E00=false;
+	ldx4D00=false;
+	ldxPtr=0;
+
+	for(int i=0; i<sectorData.size(); ++i)
+	{
+		if(i+2<sectorData.size() && sectorData[i]==0x8e && sectorData[i+1]==0x4d && sectorData[i+2]==0x00)
+		{
+			ldx4D00=true;
+			ldxPtr=i;
+		}
+		if(i+2<sectorData.size() && sectorData[i]==0x8e && sectorData[i+1]==0x6e && sectorData[i+2]==0x00)
+		{
+			ldx6E00=true;
+			ldxPtr=i;
+		}
+		if(i+3<sectorData.size() && sectorData[i]==0x6e && sectorData[i+1]==0x9f && sectorData[i+2]==0xfb && sectorData[i+3]==0xfe)
+		{
+			jmpFBFE=true;
+		}
+	}
+}
+
+void SetUpSecondInstallation(std::vector <unsigned char> &clientCode,D77File::D77Disk &bootDisk)
+{
+	int jmp6E00Ptr=-1;
+	for(int i=0; i<clientCode.size(); ++i)
+	{
+		if(i+2<clientCode.size() && clientCode[i]==0x7e && clientCode[i+1]==0x6e && clientCode[i+2]==0x00)
+		{
+			jmp6E00Ptr=i;
+			break;
+		}
+	}
+
+	if(0<=jmp6E00Ptr)
+	{
+		auto bootSector=bootDisk.ReadSector(0,0,1);
+
+		bool jmpFBFE=false;
+		bool ldx6E00=false;
+		bool ldx4D00=false;
+		int ldxPtr=0;
+		IdentifyIPL(bootSector,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
+
+		// URADOS
+		if(true==jmpFBFE && true==ldx4D00)
+		{
+			//   JMP $6E00 -> JMP $4D00
+			clientCode[jmp6E00Ptr+1]=0x4D;
+			clientCode[jmp6E00Ptr+2]=0x00;
+		}
+	}
+}
+
+void AlterSectorData(
+	int systemType,
+	int track,
+	int side,
+	int sector,
+	std::vector <unsigned char> &dat,
+	unsigned int hookInstAddr,
+	unsigned int fe02Offset,
+	unsigned int fe05Offset,
+	unsigned int fe08Offset)
+{
+	if(0==track && 0==side && 1==sector)
+	{
+		bool jmpFBFE=false;
+		bool ldx6E00=false;
+		bool ldx4D00=false;
+		int ldxPtr=0;
+		IdentifyIPL(dat,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
+
+		// F-BASIC 3.0 IPL
+		if(true==jmpFBFE && true==ldx6E00)
+		{
+			printf("Tweaking IPL for Disk F-BASIC 3.0\n");
+			dat[ldxPtr+1]=0x60;
+			dat[ldxPtr+2]=0x00;
+		}
+		// URADOS IPL
+		if(true==jmpFBFE && true==ldx4D00)
+		{
+			printf("Tweaking IPL for URADOS\n");
+			dat[ldxPtr+1]=0x40;	// Use one of the clones of the installer.
+			dat[ldxPtr+2]=0x00;
+		}
+	}
+
+	auto fe02Subst=hookInstAddr+fe02Offset;
+	auto fe05Subst=hookInstAddr+fe05Offset;
+	auto fe08Subst=hookInstAddr+fe08Offset;
+
+	for(int i=0; i<dat.size(); ++i)
+	{
+		// JSR $FE0x / JMP $FE0x
+		if(i+2<dat.size() && (dat[i]==0xbd || dat[i]==0x7e) && dat[i+1]==0xfe)
+		{
+			if(dat[i+2]==0x02)
+			{
+				dat[i+1]=(fe02Subst>>8)&0xff;
+				dat[i+2]= fe02Subst&0xff;
+			}
+			else if(dat[i+2]==0x05)
+			{
+				dat[i+1]=(fe05Subst>>8)&0xff;
+				dat[i+2]= fe05Subst&0xff;
+			}
+			else if(dat[i+2]==0x08)
+			{
+				dat[i+1]=(fe08Subst>>8)&0xff;
+				dat[i+2]= fe08Subst&0xff;
+			}
+		}
+
+		if(systemType==SYSTYPE_URADOS)
+		{
+			if(i+3<dat.size() && dat[i]==0x10 && dat[i+1]==0x27 && dat[i+2]==0x42 && dat[i+3]==0xCB)
+			{
+				// URADOS first failure at 0xBB39.  Calling FE08 as:
+				//   LBEQ $FE08
+				// but no disk.
+				int offset=fe08Subst-0xBB3D;
+				dat[i+2]=(offset & 0xff00)>>8;
+				dat[i+3]=(offset&0xff);
+			}
+		}
+	}
+}
+
 
 ////////////////////////////////////////////////////////////
 
@@ -85,13 +233,17 @@ public:
 	std::string portStr;
 	std::string d77FName;
 
+	bool instAddrSpecified;
 	unsigned int instAddr;
+
 	bool redirectBiosCallMachingo;
 	bool redirectBiosCallBinaryString;
 
 	D77ServerCommandParameterInfo();
 	bool Recognize(int ac,char *av[]);
 	void CleanUp(void);
+
+	void FinalizeInstallAddress(D77File::D77Disk *bootDiskPtr);
 };
 
 D77ServerCommandParameterInfo::D77ServerCommandParameterInfo()
@@ -104,6 +256,7 @@ void D77ServerCommandParameterInfo::CleanUp(void)
 	portStr="";
 	d77FName="";
 
+	instAddrSpecified=false;
 	instAddr=GetDefaultInstallAddress();
 
 	redirectBiosCallMachingo=true;
@@ -112,7 +265,7 @@ void D77ServerCommandParameterInfo::CleanUp(void)
 
 bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 {
-	bool instAddrSet=false,bridgeAddrSet=false;
+	instAddrSpecified=false;
 
 	if(ac<=1)
 	{
@@ -134,7 +287,7 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 			if(i+1<ac)
 			{
 				instAddr=FM7Lib::Xtoi(av[i+1]);
-				instAddrSet=true;
+				instAddrSpecified=true;
 				++i;
 			}
 			else
@@ -163,12 +316,6 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		}
 	}
 
-	if(true!=instAddrSet)
-	{
-		instAddr=GetDefaultInstallAddress();
-	}
-	printf("Default Install Address=%04x\n",instAddr);
-
 	if(fixedOrderIndex<2)
 	{
 		return false;
@@ -177,6 +324,27 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 	return true;
 }
 
+void D77ServerCommandParameterInfo::FinalizeInstallAddress(D77File::D77Disk *bootDiskPtr)
+{
+	if(nullptr!=bootDiskPtr && true!=instAddrSpecified)
+	{
+		auto sectorData=bootDiskPtr->ReadSector(0,0,1);
+
+		bool jmpFBFE=false;
+		bool ldx6E00=false;
+		bool ldx4D00=false;
+		int ldxPtr=0;
+		IdentifyIPL(sectorData,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
+
+		// URADOS
+		if(true==jmpFBFE && true==ldx4D00)
+		{
+			// Cannot use $FC00-FC7F
+			instAddr=0x7F80;
+		}
+	}
+	printf("Bios Hook Install Address=%04x\n",instAddr);
+}
 
 ////////////////////////////////////////////////////////////
 
@@ -221,6 +389,8 @@ public:
 	bool verbose;
 	bool installASCII;
 
+
+	int systemType;
 	std::string d77FName[2];
 	D77File d77File[2];
 	FM7Disk drive[2];
@@ -234,6 +404,8 @@ public:
 
 	FC80()
 	{
+		systemType=SYSTYPE_UNKNOWN;
+
 		terminate=false;
 		subCPUready=false;
 
@@ -311,131 +483,37 @@ public:
 	{
 		fd05.unlock();
 	}
+
+	void IdentifySystemType(D77File::D77Disk *bootDiskPtr);
 };
 
+void FC80::IdentifySystemType(D77File::D77Disk *bootDiskPtr)
+{
+	if(nullptr!=bootDiskPtr)
+	{
+		auto sectorData=bootDiskPtr->ReadSector(0,0,1);
+
+		bool jmpFBFE=false;
+		bool ldx6E00=false;
+		bool ldx4D00=false;
+		int ldxPtr=0;
+		IdentifyIPL(sectorData,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
+
+		// URADOS
+		if(true==jmpFBFE && true==ldx4D00)
+		{
+			printf("Identified URADOS IPL\n");
+			systemType=SYSTYPE_URADOS;
+		}
+		else if(true==jmpFBFE && true==ldx6E00)
+		{
+			printf("Identified F-BASIC 3.0 IPL\n");
+			systemType=SYSTYPE_F_BASIC_3_0;
+		}
+	}
+}
+
 static FC80 fc80;
-
-
-////////////////////////////////////////////////////////////
-
-void IdentifyIPL(
-	std::vector <unsigned char> &sectorData,
-	bool &jmpFBFE,
-	bool &ldx6E00, // Signature for F-BASIC 3.0
-	bool &ldx4D00, // Signature for URADOS
-	int &ldxPtr)
-{
-	jmpFBFE=false;
-	ldx6E00=false;
-	ldx4D00=false;
-	ldxPtr=0;
-
-	for(int i=0; i<sectorData.size(); ++i)
-	{
-		if(i+2<sectorData.size() && sectorData[i]==0x8e && sectorData[i+1]==0x4d && sectorData[i+2]==0x00)
-		{
-			ldx4D00=true;
-			ldxPtr=i;
-		}
-		if(i+2<sectorData.size() && sectorData[i]==0x8e && sectorData[i+1]==0x6e && sectorData[i+2]==0x00)
-		{
-			ldx6E00=true;
-			ldxPtr=i;
-		}
-		if(i+3<sectorData.size() && sectorData[i]==0x6e && sectorData[i+1]==0x9f && sectorData[i+2]==0xfb && sectorData[i+3]==0xfe)
-		{
-			jmpFBFE=true;
-		}
-	}
-}
-
-void SetUpSecondInstallation(std::vector <unsigned char> &clientCode,D77File::D77Disk &bootDisk)
-{
-	int jmp6E00Ptr=-1;
-	for(int i=0; i<clientCode.size(); ++i)
-	{
-	}
-
-	if(0<=jmp6E00Ptr)
-	{
-		auto bootSector=bootDisk.ReadSector(0,0,1);
-
-		// URADOS
-		//   JMP $6E00 -> JMP $4D00
-		bool jmpFBFE=false;
-		bool ldx6E00=false;
-		bool ldx4D00=false;
-		int ldxPtr=0;
-		IdentifyIPL(bootSector,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
-
-		// URADOS
-		if(true==jmpFBFE && true==ldx4D00)
-		{
-			clientCode[ldxPtr+1]=0x4D;
-			clientCode[ldxPtr+2]=0x00;
-		}
-	}
-}
-
-void AlterSectorData(
-	int track,
-	int side,
-	int sector,
-	std::vector <unsigned char> &dat,
-	unsigned int hookInstAddr,
-	unsigned int fe02Offset,
-	unsigned int fe05Offset,
-	unsigned int fe08Offset)
-{
-	if(0==track && 0==side && 1==sector)
-	{
-		bool jmpFBFE=false;
-		bool ldx6E00=false;
-		bool ldx4D00=false;
-		int ldxPtr=0;
-		IdentifyIPL(dat,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
-
-		// F-BASIC 3.0 IPL
-		if(true==jmpFBFE && true==ldx6E00)
-		{
-			dat[ldxPtr+1]=0x60;
-			dat[ldxPtr+2]=0x00;
-		}
-		// URADOS IPL
-		if(true==jmpFBFE && true==ldx4D00)
-		{
-			dat[ldxPtr+1]=0x60;
-			dat[ldxPtr+2]=0x00;
-		}
-	}
-
-	auto fe02Subst=hookInstAddr+fe02Offset;
-	auto fe05Subst=hookInstAddr+fe05Offset;
-	auto fe08Subst=hookInstAddr+fe08Offset;
-
-	for(int i=0; i<dat.size(); ++i)
-	{
-		// JSR $FE0x
-		if(i+2<dat.size() && dat[i]==0xbd && dat[i+1]==0xfe)
-		{
-			if(dat[i+2]==0x02)
-			{
-				dat[i+1]=(fe02Subst>>8)&0xff;
-				dat[i+2]= fe02Subst&0xff;
-			}
-			else if(dat[i+2]==0x05)
-			{
-				dat[i+1]=(fe05Subst>>8)&0xff;
-				dat[i+2]= fe05Subst&0xff;
-			}
-			else if(dat[i+2]==0x08)
-			{
-				dat[i+1]=(fe08Subst>>8)&0xff;
-				dat[i+2]= fe08Subst&0xff;
-			}
-		}
-	}
-}
 
 
 ////////////////////////////////////////////////////////////
@@ -480,6 +558,9 @@ int main(int ac,char *av[])
 	}
 
 	Title();
+
+	fc80.IdentifySystemType(fc80.drive[0].diskPtr);
+	fc80.cpi.FinalizeInstallAddress(fc80.drive[0].diskPtr);
 
 	std::thread t(SubCPU);
 	MainCPU();
@@ -582,6 +663,10 @@ void SubCPU(void)
 
 	FM7BinaryFile clientCode;
 	clientCode.DecodeSREC(clientBinary);
+	if(nullptr!=fc80.drive[0].diskPtr)
+	{
+		SetUpSecondInstallation(clientCode.dat,*fc80.drive[0].diskPtr);
+	}
 
 
 	fc80.Halt();
@@ -699,6 +784,7 @@ void SubCPU(void)
 							auto sectorData=diskPtr->ReadSector(track,side,sector);
 
 							AlterSectorData(
+								fc80.systemType,
 								track,side,sector,
 							    sectorData,
 							    fc80.cpi.instAddr,

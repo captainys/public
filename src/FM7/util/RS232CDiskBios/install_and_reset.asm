@@ -56,33 +56,31 @@ PREVENT_SECOND_RESET	NOP
 
 						; The following two lines makes NOP NOP to PULS A,B,X,Y,U,PC
 						; After booting to the Disk BASIC, run EXEC &H6000 again to re-install the hook.
-						LDX		FOR_SECOND_EXEC,PCR
+						LDX		#$35FF ; Binary  PULS	A,B,X,Y,U,CC,DP,PC
 						STX		PREVENT_SECOND_RESET,PCR
+
+
+						LDS		#$FC80
+						LDD		HOOK_ADDRESS,PCR
+						CMPD	#$8000
+						BCS		STACK_POINTER_SET
+						LDS		#$7FFF
+STACK_POINTER_SET
+
 
 						LEAX	IPL_LOAD_COMMAND,PCR
 						JSR		,U
 
-						ORCC	#$50
-						LDD		HOOK_ADDRESS,PCR
-						CMPD	#$8000
-						BLE		INSTALLED_LOWER_ADDRESS
-
-						LDS		#$6FFF
-						BRA		STACK_POINTER_SET
-INSTALLED_LOWER_ADDRESS
-						LDS		#$FCFF
-STACK_POINTER_SET
-
-
+						LEAX	PROGRAM_ENTRY,PCR
+						LDU		#$2000
+						LDY		#$4000
 						LDD		#0
-						LDU		#0
-						LDX		#0
-						LDY		#0
-
+CLONE_INSTALLER_LOOP	LDA		,X+
+						STA		,U+
+						STA		,Y+
+						DECB
+						BNE		CLONE_INSTALLER_LOOP
 						JMP		IPL_LOAD_ADDRESS
-
-
-FOR_SECOND_EXEC			PULS	A,B,X,Y,U,CC,DP,PC
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
