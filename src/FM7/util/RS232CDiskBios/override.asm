@@ -49,7 +49,7 @@ BIOS_DISK_OVERRIDE		PSHS	A,DP
 						JMP		[$FBFA]
 
 BIOS_DISK_NO_ERROR		PULS	A,DP
-						ANDCC	#$FE
+						CLR		1,X
 						RTS
 
 
@@ -64,17 +64,15 @@ BIOS_OVERRIDE_EXIT		PULS	A,DP
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-FE02_DISK_RESTORE		CLRA
+FE02_DISK_RESTORE
+CLRA_AND_THEN_RTS		CLRA
 						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 FE05_DISK_WRITE			PSHS	B,Y,U,CC
+						BSR		FEXX_SETUP
 
-						ORCC	#$50
-						BSR		SEND_COMMAND_RECEIVE_SIZE
-
-						LDU		2,X
 FE05_DISK_WRITE_LOOP
 						LDA		,U+
 						BSR		RS232C_WRITE
@@ -89,10 +87,7 @@ FEXX_DISK_END_READ_WRITE
 						PULS	B,Y,U,CC
 
 						STA		1,X
-						BNE		FEXX_DISK_ERROR
-
-FEXX_DISK_NOERROR		ANDCC	#$FE
-						RTS
+						BEQ		CLRA_AND_THEN_RTS
 
 FEXX_DISK_ERROR			ORCC	#1
 						RTS
@@ -103,12 +98,21 @@ FEXX_DISK_ERROR			ORCC	#1
 
 
 
+FEXX_SETUP				ORCC	#$50
+						BSR		SEND_COMMAND_RECEIVE_SIZE
+						LDU		2,X
+						RTS
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+
 FE08_DISK_READ			PSHS	B,Y,U,CC
 
-						ORCC	#$50
-						BSR		SEND_COMMAND_RECEIVE_SIZE
+						BSR		FEXX_SETUP
 
-						LDU		2,X
 FE08_DISK_READ_LOOP
 						BSR		RS232C_READ
 						STA		,U+
