@@ -744,7 +744,7 @@ void SubCPU(void)
 
 						int track=biosCmdBuf[4];
 						int sector=biosCmdBuf[5];
-						int side=biosCmdBuf[6];
+						int side=(biosCmdBuf[6]&1);
 
 						auto diskPtr=fc80.GetDiskFromBiosCmd(biosCmdBuf);
 						if(nullptr!=diskPtr)
@@ -778,7 +778,7 @@ void SubCPU(void)
 					{
 						int track=biosCmdBuf[4];
 						int sector=biosCmdBuf[5];
-						int side=biosCmdBuf[6];
+						int side=(biosCmdBuf[6]&1);
 
 						printf("R Trk:%d Sid:%d Sec:%d\n",track,side,sector);
 
@@ -833,7 +833,7 @@ void SubCPU(void)
 				{
 					int track=biosCmdBuf[4];
 					int sector=biosCmdBuf[5];
-					int side=biosCmdBuf[6];
+					int side=(biosCmdBuf[6]&1);
 
 					sectorDataBuf[sectorDataFilled++]=c;
 					if(sectorDataFilled==sectorDataNeeded)
