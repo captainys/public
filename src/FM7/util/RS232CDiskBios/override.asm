@@ -185,6 +185,14 @@ RS232C_WRITE_WAIT		LDB		<$07 ; IO_RS232C_COMMAND
 						LSRB
 						BCC		RS232C_WRITE
 						STA		<$06 ; IO_RS232C_DATA
+
+						; Actual FM77AV40 needed post-write wait.
+						; It failed to send third byte and the rest of BIOS command sequence
+						; without the post-write wait.
+						CLRB
+WRITEWAIT				DECB
+						BNE		WRITEWAIT
+
 						PULS	B,PC
 
 
