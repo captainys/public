@@ -113,6 +113,10 @@ void AlterSectorData(
 	unsigned int fe05Offset,
 	unsigned int fe08Offset)
 {
+	auto fe02Subst=hookInstAddr+fe02Offset;
+	auto fe05Subst=hookInstAddr+fe05Offset;
+	auto fe08Subst=hookInstAddr+fe08Offset;
+
 	if(0==track && 0==side && 1==sector)
 	{
 		bool jmpFBFE=false;
@@ -135,11 +139,38 @@ void AlterSectorData(
 			dat[ldxPtr+1]=0x40;	// Use one of the clones of the installer.
 			dat[ldxPtr+2]=0x00;
 		}
+
+
+		// If FE02, FE05, FE08 are called with LBSR inside IPL, it still can be detected.
+		for(int i=0; i<dat.size(); ++i)
+		{
+			if(i+2<dat.size() && dat[i]==0x17) // LBSR
+			{
+				unsigned int jmpOffset=dat[i+1]*256+dat[i+2];
+				unsigned int jmpAddr=0x100+i+3+jmpOffset;
+
+				if(0xFE08==(jmpAddr&0xffff))
+				{
+					dat[i  ]=0xbd; // JSR
+					dat[i+1]=(fe08Subst>>8)&0xff;
+					dat[i+2]= fe08Subst&0xff;
+				}
+				else if(0xFE05==(jmpAddr&0xffff))
+				{
+					dat[i  ]=0xbd; // JSR
+					dat[i+1]=(fe05Subst>>8)&0xff;
+					dat[i+2]= fe05Subst&0xff;
+				}
+				else if(0xFE02==(jmpAddr&0xffff))
+				{
+					dat[i  ]=0xbd; // JSR
+					dat[i+1]=(fe02Subst>>8)&0xff;
+					dat[i+2]= fe02Subst&0xff;
+				}
+			}
+		}
 	}
 
-	auto fe02Subst=hookInstAddr+fe02Offset;
-	auto fe05Subst=hookInstAddr+fe05Offset;
-	auto fe08Subst=hookInstAddr+fe08Offset;
 
 	for(int i=0; i<dat.size(); ++i)
 	{
@@ -160,6 +191,28 @@ void AlterSectorData(
 			{
 				dat[i+1]=(fe08Subst>>8)&0xff;
 				dat[i+2]= fe08Subst&0xff;
+			}
+		}
+		if(i+2<dat.size() && (dat[i]==0xbd || dat[i]==0x7e) && dat[i+1]==0xF1 && dat[i+2]==0x7D)
+		{
+			dat[i+1]=(hookInstAddr>>8)&0xff;
+			dat[i+2]= hookInstAddr&0xff;
+		}
+		if(i+3<dat.size() && dat[i+1]==0x9F && dat[i+2]==0xFB && dat[i+3]==0xFA)
+		{
+			if(dat[i]==0xAD) // JSR [$FBFA]
+			{
+				dat[i  ]=0xBD;  // JSR
+				dat[i+1]=(hookInstAddr>>8)&0xff;
+				dat[i+2]= hookInstAddr&0xff;
+				dat[i+3]=0x12; // NOP
+			}
+			else if(dat[i]==0x6E) // JMP [$FBFA]
+			{
+				dat[i  ]=0x7E;  // JMP
+				dat[i+1]=(hookInstAddr>>8)&0xff;
+				dat[i+2]= hookInstAddr&0xff;
+				dat[i+3]=0x12; // NOP
 			}
 		}
 
