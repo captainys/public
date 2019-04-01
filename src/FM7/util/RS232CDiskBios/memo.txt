@@ -1,12 +1,19 @@
 動作確認
   URADOS
     起動確認。ただし$7F7Fまでしか使えない。
+
   F-BASIC 3.0 [実機AV40]
     起動確認。DEMO1とDEMO2を確認。
+
   (非公式対応)Thexder [実機AV40]
     FC00～FCFFはThexderが使うので、インストール先を変更する必要あり。
-    RS232CDiskBios thexder.d77 2 -instaddr 0040
+    例:
+      RS232CDiskBios thexder.d77 2 -instaddr 0040
 
+  (非公式対応)MAGUS
+    FC00～FCFFはMAGUSがスタックとして使うのでインストール先を変更する必要あり。
+    例:
+      RS232CDiskBios magus.d77 2 -instaddr 0040
 
 
 インストーラ
