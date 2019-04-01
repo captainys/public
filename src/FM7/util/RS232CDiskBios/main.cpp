@@ -722,6 +722,8 @@ void SubCPU(void)
 		auto recv=comPort.Receive();
 		for(auto c : recv)
 		{
+			printf("[%x]",c);
+
 			// If something incoming, don't sleep next 10ms.
 			activity=true;
 			activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
