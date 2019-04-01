@@ -65,10 +65,8 @@ BIOS_DISK_OVERRIDE		PSHS	A,DP
 						LDA		,X
 						SUBA	#$08
 						BEQ		BIOS_DISK_NO_ERROR  ; RESTORE
-						DECA
-						BEQ		BIOS_DISK_WRITE
-						DECA
-						BEQ		BIOS_DISK_READ
+						CMPA	#2
+						BLS		BIOS_DISK_READ_WRITE
 						PULS	A,DP
 						JMP		[$FBFA]
 
@@ -76,11 +74,7 @@ BIOS_DISK_NO_ERROR		CLR		1,X
 						PULS	A,DP,PC
 
 
-BIOS_DISK_WRITE			BSR		FE05_DISK_WRITE
-						BRA		BIOS_OVERRIDE_EXIT
-
-BIOS_DISK_READ			BSR		FE08_DISK_READ
-
+BIOS_DISK_READ_WRITE	BSR		FE05_DISK_WRITE_OR_READ
 BIOS_OVERRIDE_EXIT		PULS	A,DP,PC
 
 
@@ -92,7 +86,15 @@ CLRA_AND_THEN_RTS		CLRA
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-FE05_DISK_WRITE			PSHS	B,Y,U,CC
+FE05_DISK_WRITE_OR_READ
+						; FM-7 BIOS official definition is $FE05=DWRITE and $FE08=DREAD.
+						; Actually $FE05 and $FE08 both jumps to the same address and 
+						; re-checks [,X].
+						LDA		,X
+						CMPA	#10
+						BEQ		FE08_DISK_READ
+
+						PSHS	B,Y,U,CC
 						BSR		FEXX_SETUP
 
 FE05_DISK_WRITE_LOOP
@@ -153,9 +155,7 @@ SEND_COMMAND_RECEIVE_SIZE
 						CLRB
 SEND_COMMAND_LOOP
 						LDA		B,X
-						PSHS	B
-						BSR		RS232C_WRITE	; WRITE will destroy B
-						PULS	B
+						BSR		RS232C_WRITE
 						INCB
 						ANDB	#7
 						BNE		SEND_COMMAND_LOOP
@@ -180,11 +180,12 @@ SEND_COMMAND_LOOP
 
 
 
-RS232C_WRITE			LDB		<$07 ; IO_RS232C_COMMAND
+RS232C_WRITE			PSHS	B
+RS232C_WRITE_WAIT		LDB		<$07 ; IO_RS232C_COMMAND
 						LSRB
 						BCC		RS232C_WRITE
 						STA		<$06 ; IO_RS232C_DATA
-						RTS
+						PULS	B,PC
 
 
 

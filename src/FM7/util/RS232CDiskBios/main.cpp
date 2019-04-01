@@ -186,6 +186,13 @@ void AlterSectorData(
 void ShowOptionHelp(void)
 {
 	printf("Usage:\n");
+	printf("  D77DiskBios d77 file.d77 comPort\n");
+	printf("-h, -help, -?\n");
+	printf("\tShow this help.\n");
+	printf("-install ADDR\n");
+	printf("\tSpecify install address of BIOS hook in FM-7.\n");
+	printf("\tDefault location is at the back end of the URA RAM (shadow RAM)\n");
+	printf("\tADDR must be hexadecimal WITHOUT $ or &H or 0x in front of it.\n");
 }
 
 void ShowCommandHelp(void)
@@ -236,9 +243,6 @@ public:
 	bool instAddrSpecified;
 	unsigned int instAddr;
 
-	bool redirectBiosCallMachingo;
-	bool redirectBiosCallBinaryString;
-
 	D77ServerCommandParameterInfo();
 	bool Recognize(int ac,char *av[]);
 	void CleanUp(void);
@@ -258,9 +262,6 @@ void D77ServerCommandParameterInfo::CleanUp(void)
 
 	instAddrSpecified=false;
 	instAddr=GetDefaultInstallAddress();
-
-	redirectBiosCallMachingo=true;
-	redirectBiosCallBinaryString=false;
 }
 
 bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
@@ -467,7 +468,8 @@ public:
 
 	D77File::D77Disk *GetDiskFromBiosCmd(const unsigned char biosCmd[])
 	{
-		auto d=biosCmd[7];
+		// FM-7 BIOS takes &3.
+		auto d=(biosCmd[7]&3);
 		if(d<2)
 		{
 			return drive[d].diskPtr;
@@ -821,7 +823,7 @@ void SubCPU(void)
 								sendBuf[1+i]=0;
 							}
 							sendBuf[129]=BIOS_ERROR_HARD_ERROR;
-							comPort.Send(1,sendBuf);
+							comPort.Send(130,sendBuf);
 						}
 					}
 					biosCmdFilled=0;
