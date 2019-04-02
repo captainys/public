@@ -58,6 +58,8 @@ BIOS_DISK_OVERRIDE_BEGIN
 ; Unfortunate situation may be JSR [$FBFA] lies across sectors.
 
 
+BIOS_ENTRY				EQU		$F17D
+
 
 BIOS_DISK_OVERRIDE		PSHS	A,B,X,Y,U,CC,DP
 						CLR		1,X
@@ -71,8 +73,9 @@ BIOS_DISK_OVERRIDE		PSHS	A,B,X,Y,U,CC,DP
 						CMPA	#2
 						BLS		BIOS_DISK_READ_WRITE
 						PULS	A,B,X,Y,U,CC,DP
-						JMP		[$FBFA]
-
+BIOS_DISK_NOT_DISKCMD	JMP		BIOS_ENTRY
+						; This address is updated to [$FBFA] from the installer.
+						; Just in case.
 
 BIOS_DISK_READ_WRITE	BSR		FE05_DISK_WRITE_OR_READ
 BIOS_DISK_OVERRIDE_EXIT	PULS	A,B,X,Y,U,CC,DP,PC
