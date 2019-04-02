@@ -1,19 +1,30 @@
-動作確認
-  URADOS
-    起動確認。ただし$7F7Fまでしか使えない。
-
+動作確認 (なおコマンド例の"2"というのはポート番号なので環境に応じて書き換える)
   F-BASIC 3.0 [実機AV40]
     起動確認。DEMO1とDEMO2を確認。
+
+  URADOS
+    起動確認。ただし$7F7Fまでしか使えない。なお、インストールアドレスを指定しなかったらサーバー
+    はURADOSを自動判別してインストールアドレスを7F80に変更する。URADOSはFC00～を使ってしまうの
+    でデフォルトの位置にはインストールできない。
 
   (非公式対応)Thexder [実機AV40]
     FC00～FCFFはThexderが使うので、インストール先を変更する必要あり。
     例:
-      RS232CDiskBios thexder.d77 2 -instaddr 0040
+      RS232CDiskBios thexder.d77 2 -install 0040
 
   (非公式対応)MAGUS
     FC00～FCFFはMAGUSがスタックとして使うのでインストール先を変更する必要あり。
     例:
-      RS232CDiskBios magus.d77 2 -instaddr 0040
+      RS232CDiskBios magus.d77 2 -install 0040
+
+  (非公式対応)A列車で行こう
+    起動中にメインCPUのRAMをほぼ全域使ってしまうので、Disk BAISCのエラーメッセージ領域をつぶして
+    BIOSフックをインストールしなくてはならないが、IPLがDisk BASICを読み込み中はBIOSフックは別の
+    場所に無いと起動しないので、IPL中とIPL後で別のアドレスにBIOSフックをインストールすることで
+    起動できる。
+    例:
+      RS232CDiskBios magus.d77 2 -install2 7F25
+
 
 
 インストーラ
