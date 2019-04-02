@@ -82,7 +82,30 @@ BIOS_DISK_OVERRIDE_EXIT	PULS	A,DP,PC
 
 
 FEXX_SETUP				ORCC	#$50
-						BSR		SEND_COMMAND_RECEIVE_SIZE
+
+
+						CLRB
+SEND_COMMAND_LOOP		; Transmitting BIOS command to the server.
+						LDA		B,X
+						BSR		RS232C_WRITE
+						INCB
+						ANDB	#7
+						BNE		SEND_COMMAND_LOOP
+						; B=0 on exitting the loop.
+
+						BSR		RS232C_READ		; READ will preserve B
+						; Server must send:
+						;   128-byte sector  -> 1
+						;   256-byte sector  -> 2
+						;   512-byte sector  -> 4
+						;   1024-byte sector -> 8
+						LSRA
+						RORB
+						TFR		D,Y
+						; Y will be sector size in bytes
+
+
+						; U needs to be the pointer to the data buffer.
 						LDU		2,X
 
 						; There is no harm clearing A after FEXX_SETUP
@@ -119,35 +142,6 @@ FEXX_DISK_END_READ_WRITE
 						BEQ		CLRA_AND_THEN_RTS
 
 FEXX_DISK_ERROR			ORCC	#1
-						RTS
-
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-
-SEND_COMMAND_RECEIVE_SIZE
-						CLRB
-SEND_COMMAND_LOOP
-						LDA		B,X
-						BSR		RS232C_WRITE
-						INCB
-						ANDB	#7
-						BNE		SEND_COMMAND_LOOP
-						; B=0 on exitting the loop.
-
-						BSR		RS232C_READ		; READ will preserve B
-						; Server must send:
-						;   128-byte sector  -> 1
-						;   256-byte sector  -> 2
-						;   512-byte sector  -> 4
-						;   1024-byte sector -> 8
-						LSRA
-						RORB
-						TFR		D,Y
-						; Y will be sector size in bytes
-
 						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
