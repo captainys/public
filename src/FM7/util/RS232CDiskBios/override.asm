@@ -90,21 +90,18 @@ FE05_DISK_WRITE_OR_READ
 						ORCC	#$50
 
 
-						CLRB
-SEND_COMMAND_LOOP		; Transmitting BIOS command to the server.
-						LDA		B,X
-						BSR		RS232C_WRITE
-						INCB
-						ANDB	#7
-						BNE		SEND_COMMAND_LOOP
-						; B=0 on exitting the loop.
+						; Transmitting BIOS command to the server.
+						TFR		X,U
+						LDY		#16
+						BSR		RS232C_WRITE_MULTI	; On Exit B=0
 
-						BSR		RS232C_READ		; READ will preserve B therefore B=0
-						; Server must send:
+
+						; Server sends:
 						;   128-byte sector  -> 1
 						;   256-byte sector  -> 2
 						;   512-byte sector  -> 4
 						;   1024-byte sector -> 8
+						BSR		RS232C_READ			; RS232C_READ doesn't change B.  Therefore B=0
 						TFR		D,Y
 						; Y is sector size in bytes times 2
 
@@ -118,21 +115,19 @@ SEND_COMMAND_LOOP		; Transmitting BIOS command to the server.
 						; Actually $FE05 and $FE08 both jumps to the same address and 
 						; re-checks [,X].
 						LDA		,X
-						CMPA	#10
-						BEQ		FE08_DISK_READ_LOOP
-
-
-FE05_DISK_WRITE_LOOP	LDA		,U+
-						BSR		RS232C_WRITE
-						LEAY	-2,Y
-						BNE		FE05_DISK_WRITE_LOOP
-						BRA		FEXX_DISK_END_READ_WRITE
+						CMPA	#9
+						BEQ		FE05_DISK_WRITE_LOOP
 
 
 FE08_DISK_READ_LOOP		BSR		RS232C_READ
 						STA		,U+
 						LEAY	-2,Y
 						BNE		FE08_DISK_READ_LOOP
+						FCB		$CE			; Instruction for LDU #xxxx
+											; This skips BSR RS232C_WRITE_MULTI
+											; Saves one byte compared to BRA FEXX_DISK_END_READ_WRITE
+
+FE05_DISK_WRITE_LOOP	BSR		RS232C_WRITE_MULTI
 
 
 FEXX_DISK_END_READ_WRITE
@@ -141,15 +136,21 @@ FEXX_DISK_END_READ_WRITE
 						COMB	; Force carry=1
 
 						STA		1,X
-						BNE		KEEP_CARRY_AND_RTS
+						BEQ		CLEAR_CARRY_AND_RTS
+						RTS		; Return Carry=1
 
-FE02_DISK_RESTORE
-CLRA_AND_THEN_RTS		CLRA	; Carry=0
-KEEP_CARRY_AND_RTS		RTS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+						; U Data Pointer
+						; Y Number of bytes times 2
+RS232C_WRITE_MULTI		LDA		,U+
+						BSR		RS232C_WRITE
+						LEAY	-2,Y
+						BNE		RS232C_WRITE_MULTI	; On Exit B=0
+						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-RS232C_WRITE			PSHS	B
+RS232C_WRITE
 RS232C_WRITE_WAIT		LDB		<$07 ; IO_RS232C_COMMAND
 						LSRB
 						BCC		RS232C_WRITE
@@ -158,11 +159,16 @@ RS232C_WRITE_WAIT		LDB		<$07 ; IO_RS232C_COMMAND
 						; Actual FM77AV40 needed post-write wait.
 						; It failed to send third byte and the rest of BIOS command sequence
 						; without the post-write wait.
-						CLRB
-WRITEWAIT				DECB
-						BNE		WRITEWAIT
 
-						PULS	B,PC
+FE02_DISK_RESTORE		; Share code.  Save bytes.
+CLEAR_CARRY_AND_RTS		; Wastes 256-wait, but saves one byte.
+						CLRB					; Carry=0
+POSTWRITEWAIT			DECB					; DECB doesn't change Carry.
+						BNE		POSTWRITEWAIT	; On Exit B=0
+						; Calling function uses B=0 on exit.  Needs to be BNE.
+						; FE02_DISK_RESTORE uses Carry=0 on exit.
+						; CLEAR_CARRY_AND_RTS uses Carry=0 on exit.
+						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -173,10 +179,6 @@ RS232C_READ				LDA		#2
 						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 
 BIOS_DISK_OVERRIDE_END

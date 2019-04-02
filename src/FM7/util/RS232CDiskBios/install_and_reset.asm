@@ -68,7 +68,7 @@ HOOK_INSTALL_LOOP		LDA		,X+
 						BNE		HOOK_INSTALL_LOOP
 
 
-PREVENT_SECOND_RESET	LDA		#$FF	; $86, $FF -> After first installation -> $35, $FF (PULS A,B,X,Y,U,CC,DP,PC)
+PREVENT_SECOND_RESET	FCB		$86,$FF		; LDA #$FF -> After first installation -> $35, $FF (PULS A,B,X,Y,U,CC,DP,PC)
 
 
 						LDS		#$FC80
