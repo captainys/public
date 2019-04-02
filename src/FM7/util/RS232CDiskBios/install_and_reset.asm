@@ -27,6 +27,7 @@ IO_RS232C_COMMAND		EQU		$FD07
 PROGRAM_ENTRY			BRA		INSTALL_ENTRY
 
 HOOK_ADDRESS			FDB		$FC00
+HOOK_ADDRESS_SECOND		FDB		$FC00
 
 INSTALL_ENTRY			BSR		REAL_INSTALL_ENTRY
 						JMP		$6E00  After Booting
@@ -59,6 +60,10 @@ PREVENT_SECOND_RESET	NOP
 						LDX		#$35FF ; Binary  PULS	A,B,X,Y,U,CC,DP,PC
 						STX		PREVENT_SECOND_RESET,PCR
 
+						; In case the second installation after boot needs to be in the
+						; different address.
+						LDX		HOOK_ADDRESS_SECOND,PCR
+						STX		HOOK_ADDRESS,PCR
 
 						LDS		#$FC80
 						LDD		HOOK_ADDRESS,PCR

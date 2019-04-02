@@ -108,11 +108,18 @@ void AlterSectorData(
 	int side,
 	int sector,
 	std::vector <unsigned char> &dat,
-	unsigned int hookInstAddr,
+	unsigned int hookInstAddr1,	// For IPL
+	unsigned int hookInstAddr2, // For Others
 	unsigned int fe02Offset,
 	unsigned int fe05Offset,
 	unsigned int fe08Offset)
 {
+	auto hookInstAddr=hookInstAddr2;
+	if(0==track && 0==side && 1==sector)
+	{
+		hookInstAddr=hookInstAddr1;
+	}
+
 	auto fe02Subst=hookInstAddr+fe02Offset;
 	auto fe05Subst=hookInstAddr+fe05Offset;
 	auto fe08Subst=hookInstAddr+fe08Offset;
@@ -296,6 +303,34 @@ public:
 	bool instAddrSpecified;
 	unsigned int instAddr;
 
+	/* In most cases, instAddr and instAddr2 are the same.
+
+	   For Disk BASIC based images, the BIOS Hook is installed twice.
+	   First while IPL is loaded and the IPL is loading the Disk BASIC.
+
+	   Then the IPL will set call-back address in X and calls [$FBFE].
+	   F-BASIC will clear everything before X and then call X.
+
+	   Since the installed Hook is cleared, this X is tweaked so that 
+	   the hook-installer is called for the second time, from there it 
+	   calls the original call-back address.
+
+	   If the Disk BASIC based title uses up pretty much entire conventional
+	   RAM and FC00-FC7F, only remaining location for the hook to be installed
+	   is $7F25 where Disk BASIC error messages are stored.  Of course, the
+	   system will crash if there is a disk error.  But, majority of the
+	   titles never show an error.
+
+	   But, $7F25 to $7FC4 will be overwritten by Disk BASIC IPL.
+	   Therefore the hook needs to reside somewhere else in the first 
+	   installation.
+
+	   For this purpose, instAddr2 is introduced.  In such applications,
+	   instAddr can be set to like $FC00.  Then, instAddr2 can be set to $7F25.
+	*/
+	bool instAddr2Specified;
+	unsigned int instAddr2;
+
 	D77ServerCommandParameterInfo();
 	bool Recognize(int ac,char *av[]);
 	void CleanUp(void);
@@ -315,11 +350,15 @@ void D77ServerCommandParameterInfo::CleanUp(void)
 
 	instAddrSpecified=false;
 	instAddr=GetDefaultInstallAddress();
+
+	instAddr2Specified=false;
+	instAddr2=GetDefaultInstallAddress();
 }
 
 bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 {
 	instAddrSpecified=false;
+	instAddr2Specified=false;
 
 	if(ac<=1)
 	{
@@ -347,6 +386,20 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 			else
 			{
 				fprintf(stderr,"Insufficient parameter for -install.\n");
+				return false;
+			}
+		}
+		else if("-INSTALL2"==arg)
+		{
+			if(i+1<ac)
+			{
+				instAddr2=FM7Lib::Xtoi(av[i+1]);
+				instAddr2Specified=true;
+				++i;
+			}
+			else
+			{
+				fprintf(stderr,"Insufficient parameter for -install2.\n");
 				return false;
 			}
 		}
@@ -398,6 +451,15 @@ void D77ServerCommandParameterInfo::FinalizeInstallAddress(D77File::D77Disk *boo
 		}
 	}
 	printf("Bios Hook Install Address=%04x\n",instAddr);
+
+	if(true!=instAddr2Specified)
+	{
+		instAddr2=instAddr;
+	}
+	else
+	{
+		printf("Bios Hook Secondary Install Address=%04x\n",instAddr2);
+	}
 }
 
 ////////////////////////////////////////////////////////////
@@ -469,11 +531,6 @@ public:
 		lastByteReceivedClock=std::chrono::system_clock::now();
 	}
 
-	void SetInstallAddress(unsigned int instAddr)
-	{
-		std::lock_guard <std::mutex> lock(fd05);
-		cpi.instAddr=instAddr;
-	}
 	bool GetSubCPUReady(void) const
 	{
 		std::lock_guard <std::mutex> lock(fd05);
@@ -740,8 +797,14 @@ void SubCPU(void)
 		{
 			clientCode.dat[2]=((fc80.cpi.instAddr>>8)&255);
 			clientCode.dat[3]=(fc80.cpi.instAddr&255);
+			clientCode.dat[4]=((fc80.cpi.instAddr2>>8)&255);
+			clientCode.dat[5]=(fc80.cpi.instAddr2&255);
 
 			printf("Install Addr=%04x\n",fc80.cpi.instAddr);
+			if(fc80.cpi.instAddr!=fc80.cpi.instAddr2)
+			{
+				printf("Secondary Install Addr=%04x\n",fc80.cpi.instAddr2);
+			}
 
 			printf("\nTransmitting Installer ASCII\n");
 			int ctr=0;
@@ -845,6 +908,7 @@ void SubCPU(void)
 								track,side,sector,
 							    sectorData,
 							    fc80.cpi.instAddr,
+							    fc80.cpi.instAddr2,
 							    clientCode.dat[clientCode.dat.size()-3],
 							    clientCode.dat[clientCode.dat.size()-2],
 							    clientCode.dat[clientCode.dat.size()-1]);
