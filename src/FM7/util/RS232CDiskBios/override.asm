@@ -61,24 +61,25 @@ BIOS_DISK_OVERRIDE_BEGIN
 BIOS_ENTRY				EQU		$F17D
 
 
-BIOS_DISK_OVERRIDE		PSHS	A,B,X,Y,U,CC,DP
+BIOS_DISK_OVERRIDE		PSHS	A,B,Y,U,CC,DP
 						CLR		1,X
 						LDA		#$FD
 						TFR		A,DP
 						LDA		,X
 						SUBA	#$08
-						; If [,X]==8 (Restore), need to return with carry=0.
-						; If A-#8==0, zero=1, carry=0.  Safe.
 						BEQ		BIOS_DISK_OVERRIDE_EXIT
 						CMPA	#2
 						BLS		BIOS_DISK_READ_WRITE
-						PULS	A,B,X,Y,U,CC,DP
-BIOS_DISK_NOT_DISKCMD	JMP		BIOS_ENTRY
+
+BIOS_DISK_NOT_DISKCMD	JSR		BIOS_ENTRY
 						; This address is updated to [$FBFA] from the installer.
 						; Just in case.
+						FCB		$CE		; Instruction for LDU #xxxx.
+										; This skips BSR FE05_DISK_WRITE_OR_READ.
+										; Saves one byte.
 
 BIOS_DISK_READ_WRITE	BSR		FE05_DISK_WRITE_OR_READ
-BIOS_DISK_OVERRIDE_EXIT	PULS	A,B,X,Y,U,CC,DP,PC
+BIOS_DISK_OVERRIDE_EXIT	PULS	A,B,Y,U,CC,DP,PC
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -127,17 +128,16 @@ FE08_DISK_READ_LOOP		BSR		RS232C_READ
 											; This skips BSR RS232C_WRITE_MULTI
 											; Saves one byte compared to BRA FEXX_DISK_END_READ_WRITE
 
-FE05_DISK_WRITE_LOOP	BSR		RS232C_WRITE_MULTI
+FE05_DISK_WRITE_LOOP	BSR		RS232C_WRITE_MULTI	; B=0, Carry=0 on exit
 
 
 FEXX_DISK_END_READ_WRITE
 						BSR		RS232C_READ	; Receive error code
 
-						COMB	; Force carry=1
-
 						STA		1,X
-						BEQ		CLEAR_CARRY_AND_RTS
-						RTS		; Return Carry=1
+						BEQ		FEXX_JUST_RTS
+						COMB	; Force carry=1
+FEXX_JUST_RTS			RTS	
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 						; U Data Pointer
@@ -145,7 +145,7 @@ FEXX_DISK_END_READ_WRITE
 RS232C_WRITE_MULTI		LDA		,U+
 						BSR		RS232C_WRITE
 						LEAY	-2,Y
-						BNE		RS232C_WRITE_MULTI	; On Exit B=0
+						BNE		RS232C_WRITE_MULTI	; On Exit B=0, Carry=0
 						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -161,13 +161,11 @@ RS232C_WRITE_WAIT		LDB		<$07 ; IO_RS232C_COMMAND
 						; without the post-write wait.
 
 FE02_DISK_RESTORE		; Share code.  Save bytes.
-CLEAR_CARRY_AND_RTS		; Wastes 256-wait, but saves one byte.
 						CLRB					; Carry=0
 POSTWRITEWAIT			DECB					; DECB doesn't change Carry.
 						BNE		POSTWRITEWAIT	; On Exit B=0
 						; Calling function uses B=0 on exit.  Needs to be BNE.
 						; FE02_DISK_RESTORE uses Carry=0 on exit.
-						; CLEAR_CARRY_AND_RTS uses Carry=0 on exit.
 						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
