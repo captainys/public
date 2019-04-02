@@ -143,28 +143,29 @@ FEXX_JUST_RTS			RTS
 						; U Data Pointer
 						; Y Number of bytes times 2
 RS232C_WRITE_MULTI		LDA		,U+
-						BSR		RS232C_WRITE
-						LEAY	-2,Y
-						BNE		RS232C_WRITE_MULTI	; On Exit B=0, Carry=0
-						RTS
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-RS232C_WRITE
-RS232C_WRITE_WAIT		LDB		<$07 ; IO_RS232C_COMMAND
+RS232C_WRITE_BYTE		LDB		<$07 ; IO_RS232C_COMMAND
 						LSRB
-						BCC		RS232C_WRITE
+						BCC		RS232C_WRITE_BYTE
 						STA		<$06 ; IO_RS232C_DATA
 
 						; Actual FM77AV40 needed post-write wait.
 						; It failed to send third byte and the rest of BIOS command sequence
 						; without the post-write wait.
 
+						CLRB	; Probably I can delete this CLRB.
+								; B7 of B is zero due to LSRB
+								; Gives minimum 129 times loop.
+RS232C_POST_WRITE_WAIT	INCB
+						BNE		RS232C_POST_WRITE_WAIT
+
+						LEAY	-2,Y
+						BNE		RS232C_WRITE_MULTI
+
+
 FE02_DISK_RESTORE		; Share code.  Save bytes.
-						CLRB					; Carry=0
-POSTWRITEWAIT			DECB					; DECB doesn't change Carry.
-						BNE		POSTWRITEWAIT	; On Exit B=0
-						; Calling function uses B=0 on exit.  Needs to be BNE.
+						CLRB	; On exit B=0, Carry=0
+						; Calling function uses B=0 on exit.
 						; FE02_DISK_RESTORE uses Carry=0 on exit.
 						RTS
 
@@ -174,7 +175,7 @@ RS232C_READ				LDA		#2
 						ANDA	<$07 ; IO_RS232C_COMMAND
 						BEQ		RS232C_READ
 						LDA		<$06 ; IO_RS232C_DATA
-						RTS
+						RTS			; No change in Carry
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
