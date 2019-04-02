@@ -35,15 +35,27 @@ INSTALL_ENTRY			BSR		REAL_INSTALL_ENTRY
 
 REAL_INSTALL_ENTRY		PSHS	A,B,X,Y,U,CC,DP
 
+
+
+						LEAX	RS232C_RESET_CMD,PCR
+						; According to http://vorkosigan.cocolog-nifty.com/blog/2009/12/a-b085.html
+						; Need to wait 8 clocks between writes.
+RS232C_RESET_LOOP		
+						; I need minimum 8 CPU clocks delay between writes to IO_RS232C_COMMAND.
+						; Why not doing something I need to do anyway. >>
 						ORCC	#$50
-
-						BSR		RS232C_RESET
-
 						LDB		#BIOS_DISK_OVERRIDE_END-BIOS_DISK_OVERRIDE_BEGIN
-						LEAX	BIOS_DISK_OVERRIDE,PCR
-
 						LDU		HOOK_ADDRESS,PCR
 						STU		BASIC_BIOS_CALL_ADDR
+						; Why not doing something I need to do anyway. <<
+
+						LDA		,X+
+						STA		IO_RS232C_COMMAND
+						BPL		RS232C_RESET_LOOP	; Only last command is negative ; 3 clocks
+
+
+
+						LEAX	BIOS_DISK_OVERRIDE,PCR
 
 HOOK_INSTALL_LOOP		LDA		,X+
 						STA		,U+
@@ -54,6 +66,12 @@ HOOK_INSTALL_LOOP		LDA		,X+
 PREVENT_SECOND_RESET	LDA		#$FF	; $86, $FF -> After first installation -> $35, $FF (PULS A,B,X,Y,U,CC,DP,PC)
 
 
+						LDS		#$FC80
+						LDA		HOOK_ADDRESS,PCR
+						BPL		STACK_POINTER_SET
+						LDS		#$8000
+STACK_POINTER_SET
+
 						; The following two lines makes NOP NOP to PULS A,B,X,Y,U,PC
 						; After booting to the Disk BASIC, run EXEC &H6000 again to re-install the hook.
 						LDA		#$35 ; Instruction  PULS
@@ -61,23 +79,18 @@ PREVENT_SECOND_RESET	LDA		#$FF	; $86, $FF -> After first installation -> $35, $F
 
 						; In case the second installation after boot needs to be in the
 						; different address.
-						LDD		HOOK_ADDRESS,PCR
 						LDX		HOOK_ADDRESS_SECOND,PCR
 						STX		HOOK_ADDRESS,PCR
 
-						LDS		#$FC80
-						TSTA
-						BPL		STACK_POINTER_SET
-						LDS		#$7FFF
-STACK_POINTER_SET
 
 						LEAX	IPL_LOAD_COMMAND,PCR
-						BSR		BIOS_DISK_OVERRIDE
+						BSR		BIOS_DISK_OVERRIDE		; Read Track 0 Side 0 Sector 1 from RS232C
+
 
 						LEAX	PROGRAM_ENTRY,PCR
 						LDU		#$2000
 						LDY		#$4000
-						LDD		#0
+						CLRB
 CLONE_INSTALLER_LOOP	LDA		,X+
 						STA		,U+
 						STA		,Y+
@@ -88,33 +101,15 @@ CLONE_INSTALLER_LOOP	LDA		,X+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
-
-RS232C_RESET			LEAX	RS232C_RESET_CMD,PCR
-						; According to http://vorkosigan.cocolog-nifty.com/blog/2009/12/a-b085.html
-						; Need to wait 8 clocks between writes.
-RS232C_RESET_LOOP
-						CLRA								; 2 clocks
-						LDA		,X+							; 5 clocks
-						STA		IO_RS232C_COMMAND
-						BPL		RS232C_RESET_LOOP	; Only last command is negative ; 3 clocks
-
-						; CLRA clears carry flag.
-						; LDA, STA, and BPL does not change.
-						; Can take 10 clocks after each STA 7,U
-
-						RTS
-
-						; 8251A Data Sheet pp.12 'NOTE' paragraph
-						; Regarding Internal Reset on Power-up.
-RS232C_RESET_CMD		FCB		0,0,0,$40,$4E,$B7
-
-
-
 IPL_LOAD_COMMAND		FCB		$0A		; Read
 						FCB		0		; Error return
 						FDB		$100	; IPL load address
 						FCB		0		; Track 0
 						FCB		1		; Sector 1
-						FCB		0		; Side 0
-						FCB		0		; Drive 0
+						; Need two more zeros.  Shared with RS232C_RESET_CMD
+						; FCB		0		; Side 0
+						; FCB		0		; Drive 0
+
+						; 8251A Data Sheet pp.12 'NOTE' paragraph
+						; Regarding Internal Reset on Power-up.
+RS232C_RESET_CMD		FCB		0,0,0,$40,$4E,$B7

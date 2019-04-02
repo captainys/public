@@ -60,25 +60,22 @@ BIOS_DISK_OVERRIDE_BEGIN
 
 
 BIOS_DISK_OVERRIDE		PSHS	A,DP
+						CLR		1,X
 						LDA		#$FD
 						TFR		A,DP
 						LDA		,X
 						SUBA	#$08
-						BEQ		BIOS_DISK_NO_ERROR  ; RESTORE
+						; If [,X]==8 (Restore), need to return with carry=0.
+						; If A-#8=0, zero=1, carry=0.  Safe.
+						BEQ		BIOS_DISK_OVERRIDE_EXIT
 						CMPA	#2
 						BLS		BIOS_DISK_READ_WRITE
 						PULS	A,DP
 						JMP		[$FBFA]
 
-BIOS_DISK_NO_ERROR		CLR		1,X
-						PULS	A,DP,PC
-
 
 BIOS_DISK_READ_WRITE	BSR		FE05_DISK_WRITE_OR_READ
-BIOS_OVERRIDE_EXIT		PULS	A,DP,PC
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+BIOS_DISK_OVERRIDE_EXIT	PULS	A,DP,PC
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
