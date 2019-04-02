@@ -84,7 +84,10 @@ BIOS_DISK_OVERRIDE_EXIT	PULS	A,B,X,Y,U,CC,DP,PC
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-FEXX_SETUP				ORCC	#$50
+
+FE05_DISK_WRITE_OR_READ
+						; Set up >>
+						ORCC	#$50
 
 
 						CLRB
@@ -103,44 +106,46 @@ SEND_COMMAND_LOOP		; Transmitting BIOS command to the server.
 						;   512-byte sector  -> 4
 						;   1024-byte sector -> 8
 						TFR		D,Y
-						; Y will be sector size in bytes times 2
+						; Y is sector size in bytes times 2
 
 
 						; U needs to be the pointer to the data buffer.
 						LDU		2,X
-
-						; There is no harm clearing A after FEXX_SETUP
-						; Combine with FE02_DISK_RESTORE to save one byte.
-
-FE02_DISK_RESTORE
-CLRA_AND_THEN_RTS		CLRA
-						RTS
+						; Set up <<
 
 
+						; FM-7 BIOS official definition is $FE05=DWRITE and $FE08=DREAD.
+						; Actually $FE05 and $FE08 both jumps to the same address and 
+						; re-checks [,X].
+						LDA		,X
+						CMPA	#10
+						BEQ		FE08_DISK_READ_LOOP
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+FE05_DISK_WRITE_LOOP	LDA		,U+
+						BSR		RS232C_WRITE
+						LEAY	-2,Y
+						BNE		FE05_DISK_WRITE_LOOP
+						BRA		FEXX_DISK_END_READ_WRITE
 
 
-
-FE08_DISK_READ
-						BSR		FEXX_SETUP
-
-FE08_DISK_READ_LOOP
-						BSR		RS232C_READ
+FE08_DISK_READ_LOOP		BSR		RS232C_READ
 						STA		,U+
 						LEAY	-2,Y
 						BNE		FE08_DISK_READ_LOOP
 
-						; Fall down to BIOS_DISK_END_READ_WRITE
 
 FEXX_DISK_END_READ_WRITE
 						BSR		RS232C_READ	; Receive error code
 
-						STA		1,X
-						BEQ		CLRA_AND_THEN_RTS
+						COMB	; Force carry=1
 
-FEXX_DISK_ERROR			COMB	; Force carry=1
-						RTS
+						STA		1,X
+						BNE		KEEP_CARRY_AND_RTS
+
+FE02_DISK_RESTORE
+CLRA_AND_THEN_RTS		CLRA	; Carry=0
+KEEP_CARRY_AND_RTS		RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -168,27 +173,6 @@ RS232C_READ				LDA		#2
 						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-; In most of the read-only programs, DWRITE won't be used.
-; If the program is using FC00-FC7F as stack,
-; Keeping DWRITE at the end makes it more likely to succeed.
-
-FE05_DISK_WRITE_OR_READ
-						; FM-7 BIOS official definition is $FE05=DWRITE and $FE08=DREAD.
-						; Actually $FE05 and $FE08 both jumps to the same address and 
-						; re-checks [,X].
-						LDA		,X
-						CMPA	#10
-						BEQ		FE08_DISK_READ
-
-						BSR		FEXX_SETUP
-
-FE05_DISK_WRITE_LOOP
-						LDA		,U+
-						BSR		RS232C_WRITE
-						LEAY	-2,Y
-						BNE		FE05_DISK_WRITE_LOOP
-						BRA		FEXX_DISK_END_READ_WRITE
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
