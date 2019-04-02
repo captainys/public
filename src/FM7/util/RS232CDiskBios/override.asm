@@ -59,23 +59,23 @@ BIOS_DISK_OVERRIDE_BEGIN
 
 
 
-BIOS_DISK_OVERRIDE		PSHS	A,DP
+BIOS_DISK_OVERRIDE		PSHS	A,B,X,Y,U,CC,DP
 						CLR		1,X
 						LDA		#$FD
 						TFR		A,DP
 						LDA		,X
 						SUBA	#$08
 						; If [,X]==8 (Restore), need to return with carry=0.
-						; If A-#8=0, zero=1, carry=0.  Safe.
+						; If A-#8==0, zero=1, carry=0.  Safe.
 						BEQ		BIOS_DISK_OVERRIDE_EXIT
 						CMPA	#2
 						BLS		BIOS_DISK_READ_WRITE
-						PULS	A,DP
+						PULS	A,B,X,Y,U,CC,DP
 						JMP		[$FBFA]
 
 
 BIOS_DISK_READ_WRITE	BSR		FE05_DISK_WRITE_OR_READ
-BIOS_DISK_OVERRIDE_EXIT	PULS	A,DP,PC
+BIOS_DISK_OVERRIDE_EXIT	PULS	A,B,X,Y,U,CC,DP,PC
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -93,16 +93,14 @@ SEND_COMMAND_LOOP		; Transmitting BIOS command to the server.
 						BNE		SEND_COMMAND_LOOP
 						; B=0 on exitting the loop.
 
-						BSR		RS232C_READ		; READ will preserve B
+						BSR		RS232C_READ		; READ will preserve B therefore B=0
 						; Server must send:
 						;   128-byte sector  -> 1
 						;   256-byte sector  -> 2
 						;   512-byte sector  -> 4
 						;   1024-byte sector -> 8
-						LSRA
-						RORB
 						TFR		D,Y
-						; Y will be sector size in bytes
+						; Y will be sector size in bytes times 2
 
 
 						; U needs to be the pointer to the data buffer.
@@ -121,14 +119,13 @@ CLRA_AND_THEN_RTS		CLRA
 
 
 
-FE08_DISK_READ			PSHS	B,Y,U,CC
-
+FE08_DISK_READ
 						BSR		FEXX_SETUP
 
 FE08_DISK_READ_LOOP
 						BSR		RS232C_READ
 						STA		,U+
-						LEAY	-1,Y
+						LEAY	-2,Y
 						BNE		FE08_DISK_READ_LOOP
 
 						; Fall down to BIOS_DISK_END_READ_WRITE
@@ -136,12 +133,10 @@ FE08_DISK_READ_LOOP
 FEXX_DISK_END_READ_WRITE
 						BSR		RS232C_READ	; Receive error code
 
-						PULS	B,Y,U,CC
-
 						STA		1,X
 						BEQ		CLRA_AND_THEN_RTS
 
-FEXX_DISK_ERROR			ORCC	#1
+FEXX_DISK_ERROR			COMB	; Force carry=1
 						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -183,13 +178,12 @@ FE05_DISK_WRITE_OR_READ
 						CMPA	#10
 						BEQ		FE08_DISK_READ
 
-						PSHS	B,Y,U,CC
 						BSR		FEXX_SETUP
 
 FE05_DISK_WRITE_LOOP
 						LDA		,U+
 						BSR		RS232C_WRITE
-						LEAY	-1,Y
+						LEAY	-2,Y
 						BNE		FE05_DISK_WRITE_LOOP
 						BRA		FEXX_DISK_END_READ_WRITE
 
