@@ -70,7 +70,7 @@ void IdentifyIPL(
 	}
 }
 
-void SetUpSecondInstallation(std::vector <unsigned char> &clientCode,D77File::D77Disk &bootDisk)
+void SetUpClientSecondInstallation(std::vector <unsigned char> &clientCode,D77File::D77Disk &bootDisk)
 {
 	int jmp6E00Ptr=-1;
 	for(int i=0; i<clientCode.size(); ++i)
@@ -98,6 +98,44 @@ void SetUpSecondInstallation(std::vector <unsigned char> &clientCode,D77File::D7
 			//   JMP $6E00 -> JMP $4D00
 			clientCode[jmp6E00Ptr+1]=0x4D;
 			clientCode[jmp6E00Ptr+2]=0x00;
+		}
+	}
+}
+
+void SetUpClientInstallAddress(
+    std::vector <unsigned char> &clientCode,unsigned int instAddr1,unsigned int instAddr2)
+{
+	clientCode[2]=((instAddr1>>8)&255);
+	clientCode[3]= (instAddr1&255);
+	clientCode[4]=((instAddr2>>8)&255);
+	clientCode[5]= (instAddr2&255);
+}
+
+void SetUpClientDosMode(
+    std::vector <unsigned char> &clientCode,bool dosMode)
+{
+	if(true==dosMode)
+	{
+		for(int i=0; i+6<clientCode.size(); ++i)
+		{
+			if(clientCode[i  ]==0xB6 && clientCode[i+1]==0xFD && clientCode[i+2]==0x0F)
+			{
+				clientCode[i  ]=0xB7;
+			} 
+			if(clientCode[i  ]==0x7E && clientCode[i+1]==0x01 && clientCode[i+2]==0x00)
+			{
+				clientCode[i+1]=0x03;
+			}
+			if(clientCode[i  ]==0x0A && // DREAD
+			   // clientCode[i+1]==0x00 && // RCBSTA
+			   clientCode[i+2]==0x01 && // Buffer Addr High
+			   clientCode[i+3]==0x00 && // Buffer Addr Low
+			   clientCode[i+4]==0x00 && // Track
+			   clientCode[i+5]==0x01 && // Sector
+			   clientCode[i+6]==0x00)   // Side
+			{
+				clientCode[i+2]=0x03;
+			}
 		}
 	}
 }
@@ -234,6 +272,22 @@ void AlterSectorData(
 				dat[i+2]=(offset & 0xff00)>>8;
 				dat[i+3]=(offset&0xff);
 			}
+
+			if(i+5<dat.size() && 
+			   dat[i  ]==0x8E && dat[i+1]==0x7F && dat[i+2]==0xFF &&
+			   dat[i+3]==0xBF && dat[i+4]==0x05 && dat[i+5]==0x9D)
+			{
+				// The following part defines upper limit of the F-BASIC memory.
+				//   4DB0 8E 7F FF       LDX   #$7FFF
+				//   4DB3 BF 05 9D       STX   $059D
+				//   4DB6 9F 45          STX   <$45
+				//   4DB8 30 89 FE D4    LEAX  -$012C,X
+				//   4DBC 9F 3F          STX   <$3F
+				// Need to be made before the BIOS hook.
+				auto limit=hookInstAddr2-1;
+				dat[i+1]=(limit>>8)&0xFF;
+				dat[i+2]=(limit&0xFF);
+			}
 		}
 	}
 }
@@ -331,6 +385,8 @@ public:
 	bool instAddr2Specified;
 	unsigned int instAddr2;
 
+	bool dosMode;
+
 	D77ServerCommandParameterInfo();
 	bool Recognize(int ac,char *av[]);
 	void CleanUp(void);
@@ -353,6 +409,8 @@ void D77ServerCommandParameterInfo::CleanUp(void)
 
 	instAddr2Specified=false;
 	instAddr2=GetDefaultInstallAddress();
+
+	dosMode=false;
 }
 
 bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
@@ -403,6 +461,10 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 				return false;
 			}
 		}
+		else if("-DOSMODE"==arg)
+		{
+			dosMode=true;
+		}
 		else if('-'==arg[0])
 		{
 			printf("Unknown option: %s\n",arg.c_str());
@@ -447,7 +509,7 @@ void D77ServerCommandParameterInfo::FinalizeInstallAddress(D77File::D77Disk *boo
 		if(true==jmpFBFE && true==ldx4D00)
 		{
 			// Cannot use $FC00-FC7F
-			instAddr=0x7F80;
+			instAddr=0x7FA0;
 		}
 	}
 	printf("Bios Hook Install Address=%04x\n",instAddr);
@@ -777,8 +839,10 @@ void SubCPU(void)
 	clientCode.DecodeSREC(clientBinary);
 	if(nullptr!=fc80.drive[0].diskPtr)
 	{
-		SetUpSecondInstallation(clientCode.dat,*fc80.drive[0].diskPtr);
+		SetUpClientSecondInstallation(clientCode.dat,*fc80.drive[0].diskPtr);
 	}
+	SetUpClientInstallAddress(clientCode.dat,fc80.cpi.instAddr,fc80.cpi.instAddr2);
+	SetUpClientDosMode(clientCode.dat,fc80.cpi.dosMode);
 
 
 	fc80.Halt();
@@ -795,11 +859,6 @@ void SubCPU(void)
 
 		if(true==fc80.installASCII)
 		{
-			clientCode.dat[2]=((fc80.cpi.instAddr>>8)&255);
-			clientCode.dat[3]=(fc80.cpi.instAddr&255);
-			clientCode.dat[4]=((fc80.cpi.instAddr2>>8)&255);
-			clientCode.dat[5]=(fc80.cpi.instAddr2&255);
-
 			printf("Install Addr=%04x\n",fc80.cpi.instAddr);
 			if(fc80.cpi.instAddr!=fc80.cpi.instAddr2)
 			{

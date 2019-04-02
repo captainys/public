@@ -60,6 +60,9 @@ RS232C_RESET_LOOP
 						LDX		BIOS_VECTOR
 						STX		BIOS_DISK_NOT_DISKCMD+1,PCR
 
+						LDA		IO_URARAM	; May be altered to STA IO_URARAM from the server.
+											; For supporting DOS mode.
+
 						LEAX	BIOS_DISK_OVERRIDE,PCR
 
 HOOK_INSTALL_LOOP		LDA		,X+
@@ -101,6 +104,7 @@ CLONE_INSTALLER_LOOP	LDA		,X+
 						STA		,Y+
 						DECB
 						BNE		CLONE_INSTALLER_LOOP
+
 						JMP		IPL_LOAD_ADDRESS
 
 
