@@ -41,40 +41,38 @@ REAL_INSTALL_ENTRY		PSHS	A,B,X,Y,U,CC,DP
 
 						LDB		#BIOS_DISK_OVERRIDE_END-BIOS_DISK_OVERRIDE_BEGIN
 						LEAX	BIOS_DISK_OVERRIDE,PCR
+
 						LDU		HOOK_ADDRESS,PCR
+						STU		BASIC_BIOS_CALL_ADDR
+
 HOOK_INSTALL_LOOP		LDA		,X+
 						STA		,U+
 						DECB
 						BNE		HOOK_INSTALL_LOOP
 
 
-						LDU		HOOK_ADDRESS,PCR
-						STU		BASIC_BIOS_CALL_ADDR
-
-PREVENT_SECOND_RESET	NOP
-						NOP
+PREVENT_SECOND_RESET	LDA		#$FF	; $86, $FF -> After first installation -> $35, $FF (PULS A,B,X,Y,U,CC,DP,PC)
 
 
 						; The following two lines makes NOP NOP to PULS A,B,X,Y,U,PC
 						; After booting to the Disk BASIC, run EXEC &H6000 again to re-install the hook.
-						LDX		#$35FF ; Binary  PULS	A,B,X,Y,U,CC,DP,PC
-						STX		PREVENT_SECOND_RESET,PCR
+						LDA		#$35 ; Instruction  PULS
+						STA		PREVENT_SECOND_RESET,PCR
 
 						; In case the second installation after boot needs to be in the
 						; different address.
+						LDD		HOOK_ADDRESS,PCR
 						LDX		HOOK_ADDRESS_SECOND,PCR
 						STX		HOOK_ADDRESS,PCR
 
 						LDS		#$FC80
-						LDD		HOOK_ADDRESS,PCR
-						CMPD	#$8000
-						BCS		STACK_POINTER_SET
+						TSTA
+						BPL		STACK_POINTER_SET
 						LDS		#$7FFF
 STACK_POINTER_SET
 
-
 						LEAX	IPL_LOAD_COMMAND,PCR
-						JSR		,U
+						BSR		BIOS_DISK_OVERRIDE
 
 						LEAX	PROGRAM_ENTRY,PCR
 						LDU		#$2000
