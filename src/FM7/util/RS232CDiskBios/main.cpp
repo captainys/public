@@ -1076,8 +1076,6 @@ void SubCPU(void)
 		auto recv=comPort.Receive();
 		for(auto c : recv)
 		{
-			printf("[%x]",c);
-
 			// If something incoming, don't sleep next 10ms.
 			activity=true;
 			activityTimer=std::chrono::system_clock::now()+std::chrono::milliseconds(100);
@@ -1085,6 +1083,8 @@ void SubCPU(void)
 			switch(state)
 			{
 			case STATE_NORMAL:
+				printf("[%x]",c);
+
 				biosCmdBuf[biosCmdFilled++]=c;
 				if(8==biosCmdFilled)
 				{
@@ -1111,8 +1111,7 @@ void SubCPU(void)
 							{
 								sectorSize=128;
 							}
-							sectorSize>>=7;
-							const unsigned char sendBuf[1]={sectorSize};
+							const unsigned char sendBuf[1]={(sectorSize>>7)};
 							comPort.Send(1,sendBuf);
 
 							sectorDataFilled=0;
@@ -1195,6 +1194,7 @@ void SubCPU(void)
 				}
 				break;
 			case STATE_WAIT_WRITE_DATA:
+				printf("(%x)",c);
 				{
 					int track=biosCmdBuf[4];
 					int sector=biosCmdBuf[5];
@@ -1203,6 +1203,8 @@ void SubCPU(void)
 					sectorDataBuf[sectorDataFilled++]=c;
 					if(sectorDataFilled==sectorDataNeeded)
 					{
+						printf("W Trk:%d Sid:%d Sec:%d\n",track,side,sector);
+
 						auto diskPtr=fc80.GetDiskFromBiosCmd(biosCmdBuf);
 						if(nullptr!=diskPtr)
 						{
@@ -1232,8 +1234,8 @@ void SubCPU(void)
 							const unsigned char errCode[]={BIOS_ERROR_DRIVE_NOT_READY};
 							comPort.Send(1,errCode);
 						}
+						state=STATE_NORMAL;
 					}
-					state=STATE_NORMAL;
 				}
 				break;
 			}

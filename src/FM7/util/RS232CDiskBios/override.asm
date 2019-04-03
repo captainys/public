@@ -93,8 +93,8 @@ FE05_DISK_WRITE_OR_READ
 
 						; Transmitting BIOS command to the server.
 						TFR		X,U
-						LDY		#16
-						BSR		RS232C_WRITE_MULTI	; On Exit B=0
+						LDY		#16					; Y needs to be 2*bytes.
+						BSR		RS232C_WRITE_MULTI	; B=0 on exit.
 
 
 						; Server sends:
@@ -116,9 +116,12 @@ FE05_DISK_WRITE_OR_READ
 						; Actually $FE05 and $FE08 both jumps to the same address and 
 						; re-checks [,X].
 						LDA		,X
-						CMPA	#9
-						BEQ		FE05_DISK_WRITE_LOOP
+						ADDA	#246
+						; IF A=9 (DWRITE), 9+246=255. No Carry.
+						; IF A=10(DREAD), 10+246=256. Overflow. Carry set.
+						BCC		FE05_DISK_WRITE_LOOP
 
+						; Carry=1
 
 FE08_DISK_READ_LOOP		BSR		RS232C_READ
 						STA		,U+
@@ -128,45 +131,44 @@ FE08_DISK_READ_LOOP		BSR		RS232C_READ
 											; This skips BSR RS232C_WRITE_MULTI
 											; Saves one byte compared to BRA FEXX_DISK_END_READ_WRITE
 
-FE05_DISK_WRITE_LOOP	BSR		RS232C_WRITE_MULTI	; B=0, Carry=0 on exit
+FE05_DISK_WRITE_LOOP	BSR		RS232C_WRITE_MULTI	; B=0 and Carry=1 on exit
 
 
 FEXX_DISK_END_READ_WRITE
+						; Carry=1 always.
+
 						BSR		RS232C_READ	; Receive error code
 
 						STA		1,X
-						BEQ		FEXX_JUST_RTS
-						COMB	; Force carry=1
+						BNE		FEXX_JUST_RTS
+
+FE02_DISK_RESTORE		; Share code.  Save bytes.
+						CLRB	; Carry=0
 FEXX_JUST_RTS			RTS	
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 						; U Data Pointer
 						; Y Number of bytes times 2
-RS232C_WRITE_MULTI		LDA		,U+
-
-RS232C_WRITE_BYTE		LDB		<$07 ; IO_RS232C_COMMAND
-						LSRB
-						BCC		RS232C_WRITE_BYTE
-						STA		<$06 ; IO_RS232C_DATA
+RS232C_WRITE_MULTI		INCB
+						BNE		RS232C_WRITE_MULTI
+						; First byte may wait less than 256 times.
+						; Second and the rest bytes will wait for 256 times.
 
 						; Actual FM77AV40 needed post-write wait.
 						; It failed to send third byte and the rest of BIOS command sequence
 						; without the post-write wait.
 
-						CLRB	; Probably I can delete this CLRB.
-								; B7 of B is zero due to LSRB
-								; Gives minimum 129 times loop.
-RS232C_POST_WRITE_WAIT	INCB
-						BNE		RS232C_POST_WRITE_WAIT
+RS232C_WRITE_IOWAIT		LDA		<$07 ; IO_RS232C_COMMAND
+						LSRA
+						BCC		RS232C_WRITE_IOWAIT
+						; Carry=1
+						LDA		,U+
+						STA		<$06 ; IO_RS232C_DATA
 
 						LEAY	-2,Y
 						BNE		RS232C_WRITE_MULTI
 
-
-FE02_DISK_RESTORE		; Share code.  Save bytes.
-						CLRB	; On exit B=0, Carry=0
-						; Calling function uses B=0 on exit.
-						; FE02_DISK_RESTORE uses Carry=0 on exit.
+						; B=0 and Carry=1 on exit.
 						RTS
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
