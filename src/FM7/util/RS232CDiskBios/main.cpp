@@ -307,6 +307,21 @@ void ShowOptionHelp(void)
 	printf("\tSpecify install address of BIOS hook in FM-7.\n");
 	printf("\tDefault location is at the back end of the URA RAM (shadow RAM)\n");
 	printf("\tADDR must be hexadecimal WITHOUT $ or &H or 0x in front of it.\n");
+
+	printf("-encoder XOR valueInHex\n");
+	printf("\tApply XOR filter.\n");
+	printf("-encoder NEG|COM\n");
+	printf("\tApply NEG|COM filter.\n");
+
+	printf("-ldxFExx\n");
+	printf("\tAlter LDX #$FE02, LDX #$FE05, LDX #$FE05\n");
+	printf("\tto the BIOS hook address.\n");
+	printf("-ldyFExx\n");
+	printf("\tAlter LDY #$FE02, LDY #$FE05, LDY #$FE05\n");
+	printf("\tto the BIOS hook address.\n");
+	printf("-lduFExx\n");
+	printf("\tAlter LDU #$FE02, LDU #$FE05, LDU #$FE05\n");
+	printf("\tto the BIOS hook address.\n");
 }
 
 void ShowCommandHelp(void)
@@ -348,6 +363,89 @@ unsigned int GetDefaultInstallAddress(void)
 ////////////////////////////////////////////////////////////
 
 
+class Encoder
+{
+public:
+	enum
+	{
+		ENC_NONE,
+		ENC_XOR, // Byte-by-Byte XOR
+		ENC_NEG, // Byte-by-Byte Negate
+		ENC_COM, // Byte-by-Byte Compliment
+	};
+
+	unsigned int encType;
+	unsigned int encKey;
+
+	inline Encoder()
+	{
+		encType=ENC_NONE;
+		encKey=0;
+	}
+	inline Encoder(unsigned int encType,unsigned int encKey)
+	{
+		this->encType=encType;
+		this->encKey=encKey;
+	}
+	void Encode(std::vector <unsigned char> &dat) const;
+	void Decode(std::vector <unsigned char> &dat) const;
+};
+void Encoder::Encode(std::vector <unsigned char> &dat) const
+{
+	switch(encType)
+	{
+	case ENC_XOR:
+		for(auto &u : dat)
+		{
+			u^=encKey;
+		}
+		break;
+	case ENC_NEG:
+		for(auto &u : dat)
+		{
+			u=((0x100-u)&0xff);
+		}
+		break;
+	case ENC_COM:
+		for(auto &u : dat)
+		{
+			u=~u;
+		}
+		break;
+	}
+}
+void Encoder::Decode(std::vector <unsigned char> &dat) const
+{
+	switch(encType)
+	{
+	case ENC_XOR:
+	case ENC_COM:
+	case ENC_NEG:
+		Encode(dat);
+		return;
+	}
+}
+
+////////////////////////////////////////////////////////////
+
+class SectorFilterOption
+{
+public:
+	// Default  JSR $FExx, JMP $FExx
+	bool ldxFExx,ldyFExx,lduFExx;
+
+	SectorFilterOption();
+};
+
+SectorFilterOption::SectorFilterOption()
+{
+	ldxFExx=false;
+	ldyFExx=false;
+	lduFExx=false;
+}
+
+////////////////////////////////////////////////////////////
+
 class D77ServerCommandParameterInfo
 {
 public:
@@ -356,6 +454,8 @@ public:
 
 	bool instAddrSpecified;
 	unsigned int instAddr;
+
+	std::vector <Encoder> encoder;
 
 	/* In most cases, instAddr and instAddr2 are the same.
 
@@ -387,6 +487,8 @@ public:
 
 	bool dosMode;
 
+	SectorFilterOption filterOpt;
+
 	D77ServerCommandParameterInfo();
 	bool Recognize(int ac,char *av[]);
 	void CleanUp(void);
@@ -411,6 +513,8 @@ void D77ServerCommandParameterInfo::CleanUp(void)
 	instAddr2=GetDefaultInstallAddress();
 
 	dosMode=false;
+
+	encoder.push_back(Encoder());
 }
 
 bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
@@ -464,6 +568,50 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		else if("-DOSMODE"==arg)
 		{
 			dosMode=true;
+		}
+		else if("-ENCODER"==arg)
+		{
+			if(i+1<ac)
+			{
+				std::string encTypeStr(av[i+1]);
+				FM7Lib::Capitalize(encTypeStr);
+				if("XOR"==encTypeStr)
+				{
+					if(i+2<ac)
+					{
+						unsigned int encKey=FM7Lib::Xtoi(av[i+2]);
+						encoder.push_back(Encoder(Encoder::ENC_XOR,encKey));
+						i+=2;
+					}
+					else
+					{
+						fprintf(stderr,"Insufficient parameter for -encoder xor/neg/com.\n");
+						return false;
+					}
+				}
+				else if("NEG"==encTypeStr)
+				{
+					encoder.push_back(Encoder(Encoder::ENC_NEG,0));
+					++i;
+				}
+				else if("COM"==encTypeStr)
+				{
+					encoder.push_back(Encoder(Encoder::ENC_COM,0));
+					++i;
+				}
+			}
+		}
+		else if("-LDXFEXX"==arg)
+		{
+			filterOpt.ldxFExx=true;
+		}
+		else if("-LDYFEXX"==arg)
+		{
+			filterOpt.ldyFExx=true;
+		}
+		else if("-LDUFEXX"==arg)
+		{
+			filterOpt.lduFExx=true;
 		}
 		else if('-'==arg[0])
 		{
@@ -962,15 +1110,26 @@ void SubCPU(void)
 						{
 							auto sectorData=diskPtr->ReadSector(track,side,sector);
 
-							AlterSectorData(
-								fc80.systemType,
-								track,side,sector,
-							    sectorData,
-							    fc80.cpi.instAddr,
-							    fc80.cpi.instAddr2,
-							    clientCode.dat[clientCode.dat.size()-3],
-							    clientCode.dat[clientCode.dat.size()-2],
-							    clientCode.dat[clientCode.dat.size()-1]);
+							if(0==fc80.cpi.encoder.size())
+							{
+								printf("No encoder!\n");
+							}
+							for(auto encoder : fc80.cpi.encoder)
+							{
+								encoder.Decode(sectorData);
+
+								AlterSectorData(
+									fc80.systemType,
+									track,side,sector,
+								    sectorData,
+								    fc80.cpi.instAddr,
+								    fc80.cpi.instAddr2,
+								    clientCode.dat[clientCode.dat.size()-3],
+								    clientCode.dat[clientCode.dat.size()-2],
+								    clientCode.dat[clientCode.dat.size()-1]);
+
+								encoder.Encode(sectorData);
+							}
 
 							unsigned int sectorSize=sectorData.size();
 							sectorSize>>=7;
