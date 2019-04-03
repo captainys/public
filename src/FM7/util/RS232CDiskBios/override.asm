@@ -93,8 +93,10 @@ FE05_DISK_WRITE_OR_READ
 
 						; Transmitting BIOS command to the server.
 						TFR		X,U
-						LDY		#16					; Y needs to be 2*bytes.
-						BSR		RS232C_WRITE_MULTI	; B=0 on exit.
+						LDY		#16							; Y needs to be 2*bytes.
+						BSR		RS232C_WRITE_MULTI_GET_RES	
+						; B=0 on exit.
+						; A=Server reply. Higher byte of the sector size.
 
 
 						; Server sends:
@@ -102,7 +104,6 @@ FE05_DISK_WRITE_OR_READ
 						;   256-byte sector  -> 2
 						;   512-byte sector  -> 4
 						;   1024-byte sector -> 8
-						BSR		RS232C_READ			; RS232C_READ doesn't change B.  Therefore B=0
 						TFR		D,Y
 						; Y is sector size in bytes times 2
 
@@ -127,17 +128,19 @@ FE08_DISK_READ_LOOP		BSR		RS232C_READ
 						STA		,U+
 						LEAY	-2,Y
 						BNE		FE08_DISK_READ_LOOP
+						BSR		RS232C_READ	; Receive error code
+
 						FCB		$CE			; Instruction for LDU #xxxx
-											; This skips BSR RS232C_WRITE_MULTI
+											; This skips BSR RS232C_WRITE_MULTI_GET_RES
 											; Saves one byte compared to BRA FEXX_DISK_END_READ_WRITE
 
-FE05_DISK_WRITE_LOOP	BSR		RS232C_WRITE_MULTI	; B=0 and Carry=1 on exit
+FE05_DISK_WRITE_LOOP	BSR		RS232C_WRITE_MULTI_GET_RES	
+						; B=0 and Carry=1 on exit
+						; A=Server Response (Error code)
 
 
 FEXX_DISK_END_READ_WRITE
 						; Carry=1 always.
-
-						BSR		RS232C_READ	; Receive error code
 
 						STA		1,X
 						BNE		FEXX_JUST_RTS
@@ -149,8 +152,9 @@ FEXX_JUST_RTS			RTS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 						; U Data Pointer
 						; Y Number of bytes times 2
-RS232C_WRITE_MULTI		INCB
-						BNE		RS232C_WRITE_MULTI
+RS232C_WRITE_MULTI_GET_RES
+						INCB
+						BNE		RS232C_WRITE_MULTI_GET_RES
 						; First byte may wait less than 256 times.
 						; Second and the rest bytes will wait for 256 times.
 
@@ -166,10 +170,10 @@ RS232C_WRITE_IOWAIT		LDA		<$07 ; IO_RS232C_COMMAND
 						STA		<$06 ; IO_RS232C_DATA
 
 						LEAY	-2,Y
-						BNE		RS232C_WRITE_MULTI
+						BNE		RS232C_WRITE_MULTI_GET_RES
 
 						; B=0 and Carry=1 on exit.
-						RTS
+						; Always receive one-byte response from the server after sending multi bytes.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
