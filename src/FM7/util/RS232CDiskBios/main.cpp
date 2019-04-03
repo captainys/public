@@ -39,6 +39,24 @@ const unsigned char BIOS_ERROR_TIME_OVER=			0x0F;
 
 ////////////////////////////////////////////////////////////
 
+class SectorFilterOption
+{
+public:
+	// Default  JSR $FExx, JMP $FExx
+	bool ldxFExx,ldyFExx,lduFExx;
+
+	SectorFilterOption();
+};
+
+SectorFilterOption::SectorFilterOption()
+{
+	ldxFExx=false;
+	ldyFExx=false;
+	lduFExx=false;
+}
+
+////////////////////////////////////////////////////////////
+
 void IdentifyIPL(
 	std::vector <unsigned char> &sectorData,
 	bool &jmpFBFE,
@@ -140,8 +158,28 @@ void SetUpClientDosMode(
 	}
 }
 
+void SubstFExx(unsigned char dat[2],unsigned int fe02Subst,unsigned int fe05Subst,unsigned int fe08Subst)
+{
+	if(0xFE==dat[0] && 0x02==dat[1])
+	{
+		dat[0]=(fe02Subst>>8)&0xFF;
+		dat[1]=(fe02Subst&0xFF);
+	}
+	else if(0xFE==dat[0] && 0x05==dat[1])
+	{
+		dat[0]=(fe05Subst>>8)&0xFF;
+		dat[1]=(fe05Subst&0xFF);
+	}
+	else if(0xFE==dat[0] && 0x08==dat[1])
+	{
+		dat[0]=(fe08Subst>>8)&0xFF;
+		dat[1]=(fe08Subst&0xFF);
+	}
+}
+
 void AlterSectorData(
 	int systemType,
+	const SectorFilterOption &opt,
 	int track,
 	int side,
 	int sector,
@@ -222,21 +260,7 @@ void AlterSectorData(
 		// JSR $FE0x / JMP $FE0x
 		if(i+2<dat.size() && (dat[i]==0xbd || dat[i]==0x7e) && dat[i+1]==0xfe)
 		{
-			if(dat[i+2]==0x02)
-			{
-				dat[i+1]=(fe02Subst>>8)&0xff;
-				dat[i+2]= fe02Subst&0xff;
-			}
-			else if(dat[i+2]==0x05)
-			{
-				dat[i+1]=(fe05Subst>>8)&0xff;
-				dat[i+2]= fe05Subst&0xff;
-			}
-			else if(dat[i+2]==0x08)
-			{
-				dat[i+1]=(fe08Subst>>8)&0xff;
-				dat[i+2]= fe08Subst&0xff;
-			}
+			SubstFExx(dat.data()+i+1,fe02Subst,fe05Subst,fe08Subst);
 		}
 		if(i+2<dat.size() && (dat[i]==0xbd || dat[i]==0x7e) && dat[i+1]==0xF1 && dat[i+2]==0x7D)
 		{
@@ -260,6 +284,29 @@ void AlterSectorData(
 				dat[i+3]=0x12; // NOP
 			}
 		}
+
+		if(true==opt.ldxFExx)
+		{
+			if(i+3<dat.size() && dat[i]!=0x10 && dat[i+1]==0x8E && dat[i+2]==0xFE)
+			{
+				SubstFExx(dat.data()+i+2,fe02Subst,fe05Subst,fe08Subst);
+			}
+		}
+		if(true==opt.ldyFExx)
+		{
+			if(i+3<dat.size() && dat[i]==0x10 && dat[i+1]==0x8E && dat[i+2]==0xFE)
+			{
+				SubstFExx(dat.data()+i+2,fe02Subst,fe05Subst,fe08Subst);
+			}
+		}
+		if(true==opt.lduFExx)
+		{
+			if(i+2<dat.size() && dat[i]==0xCE && dat[i+1]==0xFE)
+			{
+				SubstFExx(dat.data()+i+1,fe02Subst,fe05Subst,fe08Subst);
+			}
+		}
+
 
 		if(systemType==SYSTYPE_URADOS)
 		{
@@ -424,24 +471,6 @@ void Encoder::Decode(std::vector <unsigned char> &dat) const
 		Encode(dat);
 		return;
 	}
-}
-
-////////////////////////////////////////////////////////////
-
-class SectorFilterOption
-{
-public:
-	// Default  JSR $FExx, JMP $FExx
-	bool ldxFExx,ldyFExx,lduFExx;
-
-	SectorFilterOption();
-};
-
-SectorFilterOption::SectorFilterOption()
-{
-	ldxFExx=false;
-	ldyFExx=false;
-	lduFExx=false;
 }
 
 ////////////////////////////////////////////////////////////
@@ -1120,6 +1149,7 @@ void SubCPU(void)
 
 								AlterSectorData(
 									fc80.systemType,
+									fc80.cpi.filterOpt,
 									track,side,sector,
 								    sectorData,
 								    fc80.cpi.instAddr,
