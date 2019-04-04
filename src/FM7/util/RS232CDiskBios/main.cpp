@@ -1,3 +1,4 @@
+#include <list>
 #include <chrono>
 #include <thread>
 #include <vector>
@@ -475,11 +476,254 @@ void Encoder::Decode(std::vector <unsigned char> &dat) const
 
 ////////////////////////////////////////////////////////////
 
+class DiskFileInfo
+{
+public:
+	std::string fName;
+	bool writeProtect;
+	bool newFile;
+	bool forceNewFile;
+	int diskIdx;
+
+	DiskFileInfo();
+	void CleanUp(void);
+	bool Recognize(const std::string &fName);
+};
+
+DiskFileInfo::DiskFileInfo()
+{
+	CleanUp();
+}
+void DiskFileInfo::CleanUp(void)
+{
+	fName="";
+	newFile=false;
+	forceNewFile=false;
+	writeProtect=false;
+	diskIdx=0;
+}
+bool DiskFileInfo::Recognize(const std::string &fName)
+{
+	// diskimage.d77#new#1#wp
+	CleanUp();
+
+	int EON=fName.size();
+	for(int i=0; i<fName.size(); ++i)
+	{
+		auto ext=fName.substr(i,4);
+		FM7Lib::Capitalize(ext);
+		if(".D77"==ext || ".D88"==ext)
+		{
+			EON=i+4;
+			break;
+		}
+	}
+
+	this->fName=fName.substr(0,EON);
+
+	auto opt=fName.substr(EON);
+	FM7Lib::Capitalize(opt);
+
+	int ptr=0;
+	for(;;)
+	{
+		if(0==opt[ptr])
+		{
+			break;
+		}
+		else if('#'==opt[ptr])
+		{
+			++ptr;
+
+			std::string oneOpt;
+			while(ptr<opt.size() && opt[ptr]!='#')
+			{
+				oneOpt.push_back(opt[ptr++]);
+			}
+
+			if("NEW"==oneOpt)
+			{
+				newFile=true;
+				forceNewFile=false;
+			}
+			else if("FNEW"==oneOpt)
+			{
+				newFile=true;
+				forceNewFile=true;
+			}
+			else if("WP"==oneOpt)
+			{
+				writeProtect=true;
+			}
+			else if('0'<=oneOpt[0] && oneOpt[0]<='9')
+			{
+				diskIdx=FM7Lib::Atoi(oneOpt.c_str());
+			}
+			else
+			{
+				printf("Unrecognized D77 file-name option (%s).\n",oneOpt.c_str());
+				printf("Given: %s\n",opt.c_str());
+				return false;
+			}
+		}
+		else
+		{
+			printf("D77 file-name option must start with #.\n");
+			printf("Given: %s\n",opt.c_str());
+			return false;
+		}
+	}
+	return true;
+}
+
+////////////////////////////////////////////////////////////
+
+
+class FM7Disk
+{
+public:
+	DiskFileInfo fileInfo;
+	D77File *filePtr;
+	D77File::D77Disk *diskPtr;
+
+	FM7Disk();
+	~FM7Disk();
+	void CleanUp();
+};
+
+FM7Disk::FM7Disk()
+{
+	CleanUp();
+}
+FM7Disk::~FM7Disk()
+{
+	CleanUp();
+}
+void FM7Disk::CleanUp()
+{
+	diskPtr=nullptr;
+}
+
+
+////////////////////////////////////////////////////////////
+
+
+class DiskSet
+{
+public:
+	FM7Disk fm7Disk[2];
+	std::list <D77File> d77File;
+
+	bool LoadDiskSet(const std::string fName0,const std::string fName1);
+	bool LoadDisk(int idx,const std::string fName);
+	void CollectGarbage(void);
+};
+
+bool DiskSet::LoadDiskSet(const std::string fName0,const std::string fName1)
+{
+	if(true!=LoadDisk(0,fName0))
+	{
+		printf("Cannot load %s\n",fName0.c_str());
+		return false;
+	}
+	if(true!=LoadDisk(1,fName1))
+	{
+		printf("Cannot load %s\n",fName1.c_str());
+		return false;
+	}
+	if(0==d77File.size())
+	{
+		printf("No disk images loaded.\n");
+		return false;
+	}
+
+	if(nullptr==fm7Disk[1].diskPtr && nullptr!=fm7Disk[0].filePtr && nullptr!=fm7Disk[0].filePtr->GetDisk(1))
+	{
+		fm7Disk[1].fileInfo=fm7Disk[0].fileInfo;
+		fm7Disk[1].filePtr=fm7Disk[0].filePtr;
+		fm7Disk[1].diskPtr=fm7Disk[0].filePtr->GetDisk(1);
+	}
+
+	return true;
+}
+
+bool DiskSet::LoadDisk(int idx,const std::string fName)
+{
+	if(""==fName)
+	{
+		return true;
+	}
+
+	if(true!=fm7Disk[idx].fileInfo.Recognize(fName))
+	{
+		return false;
+	}
+
+	D77File f;
+	this->d77File.push_back(f);
+
+	D77File::D77Disk *diskPtr=nullptr;
+
+	if(true==fm7Disk[idx].fileInfo.newFile)
+	{
+		if(true!=fm7Disk[idx].fileInfo.forceNewFile)
+		{
+			FILE *tst=fopen(fm7Disk[idx].fileInfo.fName.c_str(),"rb");
+			if(nullptr!=tst)
+			{
+				fclose(tst);
+				printf("Disk file already exists.\n");
+				printf("Use #FNEW if you want to force overwrite.\n");
+				return false;
+			}
+		}
+		this->d77File.back().CreateStandardFormatted();
+		printf("Disk created.\n");
+		printf("Will not be actually saved to a D77 file until something is written.\n");
+
+		diskPtr=d77File.back().GetDisk(0);
+		fm7Disk[idx].filePtr=&d77File.back();
+		fm7Disk[idx].diskPtr=diskPtr;
+	}
+	else
+	{
+		auto bin=FM7Lib::ReadBinaryFile(fm7Disk[idx].fileInfo.fName.c_str());
+		if(0==bin.size())
+		{
+			fprintf(stderr,"Cannot open .D77 file.\n");
+			return false;
+		}
+
+		this->d77File.back().SetData(bin);
+		diskPtr=this->d77File.back().GetDisk(fm7Disk[idx].fileInfo.diskIdx);
+		if(nullptr==diskPtr)
+		{
+			fprintf(stderr,"Disk index out of range.\n");
+			fprintf(stderr,"This disk image has %d disks.\n",(int)d77File.back().GetNumDisk());
+			fprintf(stderr,"Given index=%d\n",(int)fm7Disk[idx].fileInfo.diskIdx);
+			return false;
+		}
+		fm7Disk[idx].diskPtr=diskPtr;
+	}
+
+	if(nullptr!=diskPtr && true==fm7Disk[idx].fileInfo.writeProtect)
+	{
+		diskPtr->SetWriteProtected();
+	}
+}
+
+void DiskSet::CollectGarbage(void)
+{
+}
+
+////////////////////////////////////////////////////////////
+
+
 class D77ServerCommandParameterInfo
 {
 public:
 	std::string portStr;
-	std::string d77FName;
+	std::string d77FName[2];
 
 	bool instAddrSpecified;
 	unsigned int instAddr;
@@ -533,7 +777,8 @@ D77ServerCommandParameterInfo::D77ServerCommandParameterInfo()
 void D77ServerCommandParameterInfo::CleanUp(void)
 {
 	portStr="";
-	d77FName="";
+	d77FName[0]="";
+	d77FName[1]="";
 
 	instAddrSpecified=false;
 	instAddr=GetDefaultInstallAddress();
@@ -642,6 +887,11 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		{
 			filterOpt.lduFExx=true;
 		}
+		else if("-1"==arg && i+1<=ac)
+		{
+			d77FName[1]=av[i+1];
+			++i;
+		}
 		else if('-'==arg[0])
 		{
 			printf("Unknown option: %s\n",arg.c_str());
@@ -652,7 +902,7 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 			switch(fixedOrderIndex)
 			{
 			case 0:
-				d77FName=arg;
+				d77FName[0]=arg;
 				break;
 			case 1:
 				portStr=arg;
@@ -704,34 +954,6 @@ void D77ServerCommandParameterInfo::FinalizeInstallAddress(D77File::D77Disk *boo
 ////////////////////////////////////////////////////////////
 
 
-class FM7Disk
-{
-public:
-	std::string d77FName;
-	D77File::D77Disk *diskPtr;
-
-	FM7Disk();
-	~FM7Disk();
-	void CleanUp();
-};
-
-FM7Disk::FM7Disk()
-{
-	CleanUp();
-}
-FM7Disk::~FM7Disk()
-{
-	CleanUp();
-}
-void FM7Disk::CleanUp()
-{
-	diskPtr=nullptr;
-}
-
-
-////////////////////////////////////////////////////////////
-
-
 static std::mutex fd05;
 
 
@@ -746,9 +968,7 @@ public:
 
 
 	int systemType;
-	std::string d77FName[2];
-	D77File d77File[2];
-	FM7Disk drive[2];
+	DiskSet diskSet;
 
 	std::chrono::time_point<std::chrono::system_clock> lastByteReceivedClock;
 	bool tapeSaved;
@@ -821,7 +1041,7 @@ public:
 		auto d=(biosCmd[7]&3);
 		if(d<2)
 		{
-			return drive[d].diskPtr;
+			return diskSet.fm7Disk[d].diskPtr;
 		}
 		return nullptr;
 	}
@@ -894,29 +1114,16 @@ int main(int ac,char *av[])
 		return 1;
 	}
 
-	if("####EMPTY####"!=fc80.cpi.d77FName)
+	if(true!=fc80.diskSet.LoadDiskSet(fc80.cpi.d77FName[0],fc80.cpi.d77FName[1]))
 	{
-		auto bin=FM7Lib::ReadBinaryFile(fc80.cpi.d77FName.c_str());
-		if(0==bin.size())
-		{
-			fprintf(stderr,"Cannot open .D77 file.\n");
-			return 1;
-		}
-
-		fc80.d77FName[0]=fc80.cpi.d77FName;
-		fc80.d77File[0].SetData(bin);
-		fc80.drive[0].diskPtr=fc80.d77File[0].GetDisk(0);
-
-		if(nullptr!=fc80.d77File[0].GetDisk(1))
-		{
-			fc80.drive[1].diskPtr=fc80.d77File[0].GetDisk(1);
-		}
+		fprintf(stderr,"Disk Image error.\n");
+		return 1;
 	}
 
 	Title();
 
-	fc80.IdentifySystemType(fc80.drive[0].diskPtr);
-	fc80.cpi.FinalizeInstallAddress(fc80.drive[0].diskPtr);
+	fc80.IdentifySystemType(fc80.diskSet.fm7Disk[0].diskPtr);
+	fc80.cpi.FinalizeInstallAddress(fc80.diskSet.fm7Disk[0].diskPtr);
 
 	std::thread t(SubCPU);
 	MainCPU();
@@ -1019,9 +1226,9 @@ void SubCPU(void)
 
 	FM7BinaryFile clientCode;
 	clientCode.DecodeSREC(clientBinary);
-	if(nullptr!=fc80.drive[0].diskPtr)
+	if(nullptr!=fc80.diskSet.fm7Disk[0].diskPtr)
 	{
-		SetUpClientSecondInstallation(clientCode.dat,*fc80.drive[0].diskPtr);
+		SetUpClientSecondInstallation(clientCode.dat,*fc80.diskSet.fm7Disk[0].diskPtr);
 	}
 	SetUpClientInstallAddress(clientCode.dat,fc80.cpi.instAddr,fc80.cpi.instAddr2);
 	SetUpClientDosMode(clientCode.dat,fc80.cpi.dosMode);
@@ -1248,7 +1455,7 @@ void SubCPU(void)
 		}
 		fc80.Unhalt();
 
-		for(auto &d77 : fc80.d77File)
+		for(auto &d77 : fc80.diskSet.d77File)
 		{
 			bool modified=false;
 			for(int i=0; i<d77.GetNumDisk(); ++i)
