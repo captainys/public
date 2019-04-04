@@ -479,11 +479,16 @@ void Encoder::Decode(std::vector <unsigned char> &dat) const
 class DiskFileInfo
 {
 public:
+	// If drive 1 is index!=0 of the same file as drive 0, fName may be !=saveFName.
+	// Otherwise fName=saveFName by default.
+	// For saving, saveFName must be used.
 	std::string fName;
+	std::string saveFName;
 	bool writeProtect;
 	bool newFile;
 	bool forceNewFile;
 	int diskIdx;
+	int reuseDisk;
 
 	DiskFileInfo();
 	void CleanUp(void);
@@ -501,10 +506,16 @@ void DiskFileInfo::CleanUp(void)
 	forceNewFile=false;
 	writeProtect=false;
 	diskIdx=0;
+	reuseDisk=-1;
 }
 bool DiskFileInfo::Recognize(const std::string &fName)
 {
-	// diskimage.d77#new#1#wp
+	// diskimage.d77#NEW    Create new disk.  Error if file already exists.
+	// diskimage.d77#FNEW   Force create new disk.
+	// diskimage.d77#WP     Write protect.
+	// diskimage.d77#1      Use disk index 1 of a multi-disk image.
+	// diskimage.d77#1#WP   Use disk index 1 of a multi-disk image.  Also write protect.
+	// #DSK0#1              Use same disk file as D77[0] index=1
 	CleanUp();
 
 	int EON=fName.size();
@@ -520,6 +531,7 @@ bool DiskFileInfo::Recognize(const std::string &fName)
 	}
 
 	this->fName=fName.substr(0,EON);
+	this->saveFName=fName.substr(0,EON);
 
 	auto opt=fName.substr(EON);
 	FM7Lib::Capitalize(opt);
@@ -559,6 +571,10 @@ bool DiskFileInfo::Recognize(const std::string &fName)
 			{
 				diskIdx=FM7Lib::Atoi(oneOpt.c_str());
 			}
+			else if("DSK0"==oneOpt)
+			{
+				reuseDisk=0;
+			}
 			else
 			{
 				printf("Unrecognized D77 file-name option (%s).\n",oneOpt.c_str());
@@ -573,6 +589,18 @@ bool DiskFileInfo::Recognize(const std::string &fName)
 			return false;
 		}
 	}
+
+	if(true==newFile && 0<=reuseDisk)
+	{
+		fprintf(stderr,"#DSK0 and #NEW cannot be combined.\n");
+		return false;
+	}
+	if(0<this->fName.size() && 0<=reuseDisk)
+	{
+		fprintf(stderr,"D77 file name and #DSK0 cannot be combined.\n");
+		return false;
+	}
+
 	return true;
 }
 
@@ -659,10 +687,30 @@ bool DiskSet::LoadDisk(int idx,const std::string fName)
 		return false;
 	}
 
-	D77File f;
-	this->d77File.push_back(f);
+	if((0==idx && 0<=fm7Disk[idx].fileInfo.reuseDisk) ||
+	   (idx==fm7Disk[idx].fileInfo.reuseDisk))
+	{
+		fprintf(stderr,"Use-same-D77file option is given wrong.\n");
+		fprintf(stderr,"This option can be used for non-zero drive only.\n");
+		return false;
+	}
 
+	D77File *filePtr=nullptr;
 	D77File::D77Disk *diskPtr=nullptr;
+
+	if(0>fm7Disk[idx].fileInfo.reuseDisk)
+	{
+		D77File f;
+		this->d77File.push_back(f);
+		filePtr=&this->d77File.back();
+	}
+	else
+	{
+		auto reuseDisk=fm7Disk[idx].fileInfo.reuseDisk;
+		filePtr=fm7Disk[reuseDisk].filePtr;
+		fm7Disk[idx].fileInfo.saveFName=fm7Disk[reuseDisk].fileInfo.fName;
+	}
+
 
 	if(true==fm7Disk[idx].fileInfo.newFile)
 	{
@@ -682,29 +730,32 @@ bool DiskSet::LoadDisk(int idx,const std::string fName)
 		printf("Will not be actually saved to a D77 file until something is written.\n");
 
 		diskPtr=d77File.back().GetDisk(0);
-		fm7Disk[idx].filePtr=&d77File.back();
-		fm7Disk[idx].diskPtr=diskPtr;
 	}
 	else
 	{
-		auto bin=FM7Lib::ReadBinaryFile(fm7Disk[idx].fileInfo.fName.c_str());
-		if(0==bin.size())
+		if(0>fm7Disk[idx].fileInfo.reuseDisk)
 		{
-			fprintf(stderr,"Cannot open .D77 file.\n");
-			return false;
-		}
+			auto bin=FM7Lib::ReadBinaryFile(fm7Disk[idx].fileInfo.fName.c_str());
+			if(0==bin.size())
+			{
+				fprintf(stderr,"Cannot open .D77 file.\n");
+				return false;
+			}
 
-		this->d77File.back().SetData(bin);
-		diskPtr=this->d77File.back().GetDisk(fm7Disk[idx].fileInfo.diskIdx);
+			filePtr->SetData(bin);
+		}
+		diskPtr=filePtr->GetDisk(fm7Disk[idx].fileInfo.diskIdx);
 		if(nullptr==diskPtr)
 		{
 			fprintf(stderr,"Disk index out of range.\n");
-			fprintf(stderr,"This disk image has %d disks.\n",(int)d77File.back().GetNumDisk());
+			fprintf(stderr,"This disk image has %d disks.\n",(int)filePtr->GetNumDisk());
 			fprintf(stderr,"Given index=%d\n",(int)fm7Disk[idx].fileInfo.diskIdx);
 			return false;
 		}
-		fm7Disk[idx].diskPtr=diskPtr;
 	}
+
+	fm7Disk[idx].filePtr=filePtr;
+	fm7Disk[idx].diskPtr=diskPtr;
 
 	if(nullptr!=diskPtr && true==fm7Disk[idx].fileInfo.writeProtect)
 	{
@@ -1472,7 +1523,8 @@ void SubCPU(void)
 			{
 				printf("Received data.  Auto-Saving\n");
 
-				FILE *fp=fopen(fm7Disk.fileInfo.fName.c_str(),"wb");
+				bool res=true;
+				FILE *fp=fopen(fm7Disk.fileInfo.saveFName.c_str(),"wb");
 				if(nullptr!=fp)
 				{
 					for(int i=0; i<fm7Disk.filePtr->GetNumDisk(); ++i)
@@ -1482,6 +1534,7 @@ void SubCPU(void)
 						if(wrote!=img.size())
 						{
 							fprintf(stderr,"Warning! Failed to save disk image!\n");
+							res=false;
 						}
 					}
 					fclose(fp);
@@ -1489,6 +1542,11 @@ void SubCPU(void)
 				else
 				{
 					fprintf(stderr,"Warning! Auto-Save failed!\n");
+					res=false;
+				}
+				if(true==res)
+				{
+					printf("Auto-Saved %s\n",fm7Disk.fileInfo.saveFName.c_str());
 				}
 
 				for(int i=0; i<fm7Disk.filePtr->GetNumDisk(); ++i)
