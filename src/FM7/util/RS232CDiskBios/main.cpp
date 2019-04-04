@@ -710,6 +710,8 @@ bool DiskSet::LoadDisk(int idx,const std::string fName)
 	{
 		diskPtr->SetWriteProtected();
 	}
+
+	return true;
 }
 
 void DiskSet::CollectGarbage(void)
@@ -1244,6 +1246,7 @@ void SubCPU(void)
 			break;
 		}
 
+		bool verboseMode=fc80.GetVerboseMode();
 		fc80.Halt();
 
 		if(true==fc80.installASCII)
@@ -1295,8 +1298,10 @@ void SubCPU(void)
 			switch(state)
 			{
 			case STATE_NORMAL:
-				printf("[%x]",c);
-
+				if(true==verboseMode)
+				{
+					printf("[%02x]",c);
+				}
 				biosCmdBuf[biosCmdFilled++]=c;
 				if(8==biosCmdFilled)
 				{
@@ -1406,7 +1411,10 @@ void SubCPU(void)
 				}
 				break;
 			case STATE_WAIT_WRITE_DATA:
-				printf("(%x)",c);
+				if(true==verboseMode)
+				{
+					printf("(%02x)",c);
+				}
 				{
 					int track=biosCmdBuf[4];
 					int sector=biosCmdBuf[5];
@@ -1455,26 +1463,37 @@ void SubCPU(void)
 		}
 		fc80.Unhalt();
 
-		for(auto &d77 : fc80.diskSet.d77File)
+		for(auto &fm7Disk : fc80.diskSet.fm7Disk)
 		{
-			bool modified=false;
-			for(int i=0; i<d77.GetNumDisk(); ++i)
-			{
-				if(true==d77.GetDisk(i)->IsModified())
-				{
-					modified=true;
-					break;
-				}
-			}
-
-			if(true==modified && 
+			if(nullptr!=fm7Disk.filePtr &&
+			   nullptr!=fm7Disk.diskPtr &&
+			   true==fm7Disk.diskPtr->IsModified() &&
 			   std::chrono::milliseconds(50)<std::chrono::system_clock::now()-fc80.lastByteReceivedClock)
 			{
-				printf("Received data.\n");
-				printf("Auto-Save not implemented yet.\n"); // Save here.
-				for(int i=0; i<d77.GetNumDisk(); ++i)
+				printf("Received data.  Auto-Saving\n");
+
+				FILE *fp=fopen(fm7Disk.fileInfo.fName.c_str(),"wb");
+				if(nullptr!=fp)
 				{
-					d77.GetDisk(i)->ClearModified();
+					for(int i=0; i<fm7Disk.filePtr->GetNumDisk(); ++i)
+					{
+						auto img=fm7Disk.filePtr->GetDisk(i)->MakeD77Image();
+						auto wrote=fwrite(img.data(),1,img.size(),fp);
+						if(wrote!=img.size())
+						{
+							fprintf(stderr,"Warning! Failed to save disk image!\n");
+						}
+					}
+					fclose(fp);
+				}
+				else
+				{
+					fprintf(stderr,"Warning! Auto-Save failed!\n");
+				}
+
+				for(int i=0; i<fm7Disk.filePtr->GetNumDisk(); ++i)
+				{
+					fm7Disk.filePtr->GetDisk(i)->ClearModified();
 				}
 				ShowPrompt();
 			}
