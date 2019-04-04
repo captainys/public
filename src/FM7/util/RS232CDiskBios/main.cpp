@@ -906,6 +906,11 @@ int main(int ac,char *av[])
 		fc80.d77FName[0]=fc80.cpi.d77FName;
 		fc80.d77File[0].SetData(bin);
 		fc80.drive[0].diskPtr=fc80.d77File[0].GetDisk(0);
+
+		if(nullptr!=fc80.d77File[0].GetDisk(1))
+		{
+			fc80.drive[1].diskPtr=fc80.d77File[0].GetDisk(1);
+		}
 	}
 
 	Title();

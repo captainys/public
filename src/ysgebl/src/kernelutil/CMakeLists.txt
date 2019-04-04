@@ -218,6 +218,7 @@ ysshellext_alignmentutil.cpp
 ./ysshellext_repairutil.cpp
 ./ysshellext_curvatureutil.cpp
 ./ysshellext_snakeutil.cpp
+ysshellext_constedgesmoother.cpp
 )
 
 set(HEADERS
@@ -286,6 +287,7 @@ ysshellext_primitiveshapeutil.h
 ysshellext_repairutil.h
 ysshellext_curvatureutil.h
 ysshellext_snakeutil.h
+ysshellext_constedgesmoother.h
 )
 
 
