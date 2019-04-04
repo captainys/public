@@ -61,7 +61,8 @@ BIOS_DISK_OVERRIDE_BEGIN
 BIOS_ENTRY				EQU		$F17D
 
 
-BIOS_DISK_OVERRIDE		PSHS	A,B,Y,U,CC,DP
+BIOS_DISK_OVERRIDE		ANDCC	#$FE
+						PSHS	A,B,Y,U,DP,CC
 						CLR		1,X
 						LDA		#$FD
 						TFR		A,DP
@@ -71,15 +72,18 @@ BIOS_DISK_OVERRIDE		PSHS	A,B,Y,U,CC,DP
 						CMPA	#2
 						BLS		BIOS_DISK_READ_WRITE
 
+						; Need to PULS before JMP. BIOS will set Carry flag.
 BIOS_DISK_NOT_DISKCMD	JSR		BIOS_ENTRY
-						; This address is updated to [$FBFA] from the installer.
-						; Just in case.
-						FCB		$CE		; Instruction for LDU #xxxx.
-										; This skips BSR FE05_DISK_WRITE_OR_READ.
-										; Saves one byte.
+						FCB		$CE	; Instruction for LDU #x.  Will skip next BSR.
 
 BIOS_DISK_READ_WRITE	BSR		FE05_DISK_WRITE_OR_READ
-BIOS_DISK_OVERRIDE_EXIT	PULS	A,B,Y,U,CC,DP,PC
+
+						BCC		BIOS_DISK_OVERRIDE_EXIT
+						PULS	A	; Previous CC
+						ORA		#1
+						PSHS	A
+
+BIOS_DISK_OVERRIDE_EXIT	PULS	A,B,Y,U,DP,CC,PC
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
