@@ -4,7 +4,7 @@ http://www.ysflight.com
 
 
 
--------- Žž‚É‚ÍÌ‚ÌŽÀ‹@‚ð
+10 REM -------- Žž‚É‚ÍÌ‚ÌŽÀ‹@‚ð
 
 Žž‚É‚ÍÌ‚ÌŽÀ‹@‚ðŽg‚¨‚¤B‚±‚ÌƒvƒƒOƒ‰ƒ€‚Í•xŽm’ÊFM-7ƒVƒŠ[ƒYŽÀ‹@‚ÆRS232CƒJ[ƒh‚ª‚ ‚éó‘Ô(‚ ‚é‚¢‚ÍFM77AV20/40ˆÈ~‚¾‚ÆRS232CƒJ[ƒh‚ÍƒIƒ“ƒ{[ƒh)‚ÅADisk BIOS‚ðRS232C‚ÉƒŠƒ_ƒCƒŒƒNƒg‚µ‚ÄWindowsã‚ÌD77ƒT[ƒo[ƒvƒƒOƒ‰ƒ€‚©‚çƒZƒNƒ^ƒf[ƒ^‚ð‘—‚èž‚Þ‚±‚Æ‚ÅƒfƒBƒXƒN‚ª–³‚­‚Ä‚àŽÀ‹@‚ÅƒfƒBƒXƒN”Åƒ\ƒtƒg‚ðŽÀs‚µ‚Ä‚µ‚Ü‚¤‚Æ‚¢‚¤‘å‹Z‚Å‚·B(‚Ü‚³‚©¬Œ÷‚·‚é‚Æ‚ÍŽv‚Á‚Ä‚È‚©‚Á‚½B)‚±‚ê‚É‚æ‚èA‘f‚ÌFM-7‚Å‚àRS232CƒJ[ƒh‚ÆƒT[ƒo[—pWindows PC‚Æ”E‘Ï—Í‚³‚¦‚ ‚ê‚ÎƒfƒBƒXƒN”Åƒ\ƒtƒg‚ðŽÀs‚Å‚«‚Ü‚·B
 
@@ -18,7 +18,7 @@ Disk I/O‚ðŽg‚í‚È‚¢‚æ‚¤‚ÉƒvƒƒOƒ‰ƒ€‚ð‘‚«Š·‚¦‚é‚Æ‚¢‚¤‚Ì‚ÍŒ‹‰Ê“I‚ÉƒRƒs[ƒvƒƒeƒNƒg
 
 
 
--------- Žg‚¢•û
+20 REM -------- Žg‚¢•û
 ‚±‚ÌƒvƒƒOƒ‰ƒ€‚ÍFM-7ƒVƒŠ[ƒYŽÀ‹@‚ÆWindows‚ÌƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚©‚çŽÀs‚·‚éƒT[ƒo[‚ÌƒyƒA‚ÅŽg‚¢‚Ü‚·BFM-7ŽÀ‹@‚ÆWindows PC‚ÌŠÔ‚ÍRS232CƒNƒƒXƒP[ƒuƒ‹‚ÅÚ‘±‚µ‚ÄAFM-7ŽÀ‹@ã‚ÌRS232CƒJ[ƒh‚ÍÅ‚‘¬‚ÉÝ’è‚µ‚Ä‚¨‚­•K—v‚ª‚ ‚è‚Ü‚·B
 
 FM77AV20/40ˆÈ~‚Ì‹@Ží‚ÅŽg‚¤‚É‚Í(FM77AV1/2ˆÈ‘O‚ÅRS232CƒJ[ƒhŽg—p‚Ìê‡‚Í•s—v)A‚Ü‚¸RS232C‚ðEnable‚·‚é•K—v‚ª‚ ‚è‚Ü‚·BF-BASIC‚Ìƒvƒƒ“ƒvƒg‚©‚çA
@@ -53,7 +53,7 @@ IA
 
 
 
--------- ‚“x‚ÈŽg‚¢•û
+30 REM -------- ‚“x‚ÈŽg‚¢•û
 ƒfƒtƒHƒ‹ƒg‚Å‚ÍƒŠƒ_ƒCƒŒƒNƒ^‚ÍFM-7‚Ì$FC00`$FC63‚Éí’“‚µ‚Ü‚·B‚µ‚©‚µAŽÀs‚µ‚½‚¢ƒvƒƒOƒ‰ƒ€‚ª‚±‚Ì—Ìˆæ‚ðŽg‚Á‚Ä‚¢‚½‚ç“–‘RŽÀs‚Å‚«‚Ü‚¹‚ñB‚»‚Ìó‘Ô‚ð‰ñ”ð‚·‚é‚½‚ß‚ÉAƒIƒvƒVƒ‡ƒ“‚Åí’“ƒAƒhƒŒƒX‚ð•ÏX‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B—á‚¦‚ÎA
 
 RS232CDiskBios.exe diskimage.d77 1 -install $6F80
@@ -68,7 +68,7 @@ RS232CDiskBios.exe diskimage.d77 1 -install2 $7F25
 
 
 
--------- ƒT[ƒo[ƒRƒ}ƒ“ƒhƒIƒvƒVƒ‡ƒ“
+40 REM -------- ƒT[ƒo[ƒRƒ}ƒ“ƒhƒIƒvƒVƒ‡ƒ“
 [Šî–{]
 
     RS232CDiskBios.exe diskimage.d77 portNumber
@@ -127,7 +127,7 @@ F-BASIC‚ÌDisk BASIC‚ðŽg‚¤ê‡‚Ìí’“ƒAƒhƒŒƒX‚ðŽw’è‚·‚éBã‚Ì—á‚Å‚Í$7F25(Disk BASI
 
 
 
--------- ƒCƒ[ƒWƒtƒ@ƒCƒ‹–¼ƒIƒvƒVƒ‡ƒ“
+50 REM -------- ƒCƒ[ƒWƒtƒ@ƒCƒ‹–¼ƒIƒvƒVƒ‡ƒ“
 D77ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ðŽw’è‚·‚é‚Æ‚«A.D77‚É‘±‚¯‚ÄƒXƒy[ƒX‚ð‹ó‚¯‚¸‚É#‚ð‘‚­‚±‚Æ‚ÅƒIƒvƒVƒ‡ƒ“‚ðŽw’è‚·‚é‚±‚Æ‚ª‚Å‚«‚éB‘±‚¯‚Ä•¡”‚ÌƒIƒvƒVƒ‡ƒ“‚ðŽw’è‚·‚é‚±‚Æ‚à‰Â”\B
 
 [V‹Kì¬ (#NEW)]
@@ -164,7 +164,7 @@ D77ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ìƒ‰ƒCƒgƒvƒƒeƒNƒgƒtƒ‰ƒO‚ª–³‚­‚Ä‚àƒ‰ƒCƒgƒvƒƒeƒNƒgó‘Ô‚Åƒ}ƒEƒ
 
 
 
--------- ƒT[ƒo[ƒvƒƒ“ƒvƒg—pƒRƒ}ƒ“ƒh
+60 REM -------- ƒT[ƒo[ƒvƒƒ“ƒvƒg—pƒRƒ}ƒ“ƒh
 [BIOSƒŠƒ_ƒCƒŒƒNƒ^ƒCƒ“ƒXƒg[ƒ‰‘—M (IA)]
 
     IA
@@ -183,9 +183,9 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
 
 
 
--------- ˆÈ‰º“®ìŠm”F‚â‹Zpî•ñ‚È‚Ç‚Ù‚ÚŽ©•ª‚Å–Y‚ê‚È‚¢—p
+70 REM -------- ˆÈ‰º“®ìŠm”F‚â‹Zpî•ñ‚È‚Ç‚Ù‚ÚŽ©•ª‚Å–Y‚ê‚È‚¢—p
 
--------- “®ìŠm”F []‚ÍŠm”F‚µ‚½‹@Ží 
+80 REM -------- “®ìŠm”F []‚ÍŠm”F‚µ‚½‹@Ží 
 ‚È‚¨ƒRƒ}ƒ“ƒh—á‚Ì"2"‚Æ‚¢‚¤‚Ì‚Íƒ|[ƒg”Ô†‚È‚Ì‚ÅŠÂ‹«‚É‰ž‚¶‚Ä‘‚«Š·‚¦‚éB
 (”ñŒöŽ®‘Î‰ž)‚Æ‚¢‚¤‚Ì‚ÍDisk I/O‚ð’¼ÚƒAƒNƒZƒX‚µ‚È‚¢‚æ‚¤‚É‘‚«Š·‚¦‚é‚±‚Æ‚Å‹N“®‰Â”\B
 
@@ -243,13 +243,13 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
     ‹N“®‚Ü‚Å‚Í‚·‚é‚Ì‚¾‚ªA‚»‚ÌŒãRS232C‚¶‚á‚È‚­‚Ä•’Ê‚ÉƒfƒBƒXƒNƒhƒ‰ƒCƒu‚ð“Ç‚Ý‚És‚Á‚Ä‚µ‚Ü‚¤B
     MMR‚ðŽg‚¢‚Ü‚­‚Á‚Ä‚¢‚é‚æ‚¤‚ÅFC00`‚Éí’“‚¾‚Æ–³—B‚Ü‚½F-BASIC‚É§Œä‚ðˆÚ‚·ˆÚ‚µ•û‚àˆá‚Á‚Ä
     ‚¢‚é‚æ‚¤‚ÅACarry=0‚ÅJMP [$FBFE]‚Æ‚µ‚Ä‚¢‚é‚©‚çA‰Šú‰»Œã‚ÉBIOSƒtƒbƒN‚ðÄƒCƒ“ƒXƒg[ƒ‹‚Å
-    ‚«‚È‚³‚»‚¤B‚µ‚©‚à4000‚Æ2000‚Æ6000‚Æ3‚©Š‚ÉƒCƒ“ƒXƒg[ƒ‰‚ðƒRƒs[‚µ‚Ä‚¢‚é‚Ì‚É‚·‚×‚ÄÁ–Å
+	    ‚«‚È‚³‚»‚¤B‚µ‚©‚à4000‚Æ2000‚Æ6000‚Æ3‚©Š‚ÉƒCƒ“ƒXƒg[ƒ‰‚ðƒRƒs[‚µ‚Ä‚¢‚é‚Ì‚É‚·‚×‚ÄÁ–Å
     ‚µ‚Ä‚½B
 
 
 
 
--------- ‹Zpî•ñ
+90 REM -------- ‹Zpî•ñ
 
 FM-7‚ÌBIOS‚Íƒtƒƒbƒs[ƒfƒBƒXƒNƒAƒNƒZƒX‚Ì‚½‚ß‚ÉARESTORE($08),  DWRITE($09), DREAD($0A)‚ÌŽOŽí—Þ‚Ì‹@”\‚ð’ñ‹Ÿ‚·‚éBF-BASIC 3.0‚Í‚·‚×‚Ä‚±‚Ì‹@”\‚ðŽg‚Á‚ÄƒfƒBƒXƒN‚ÉƒAƒNƒZƒX‚·‚éB‚±‚Ì3Ží—Þ‚Ì‹@”\‚ðƒŠƒ_ƒCƒŒƒNƒg‚µ‚Ä‘ã‚í‚è‚ÉRS232CŒo—R‚ÅƒT[ƒo[ŠÔ‚Åƒf[ƒ^‚Ì“Ç‚Ý‘‚«‚·‚é‚æ‚¤‚É‘‚«Š·‚¦‚Ä‚â‚ê‚ÎA•¨—“I‚ÈƒfƒBƒXƒN‚ª‚È‚­‚Ä‚àƒfƒBƒXƒNƒCƒ[ƒW‚©‚çŽÀ‹@‚ÅƒfƒBƒXƒN”ÅƒvƒƒOƒ‰ƒ€‚ð‹N“®EŽÀs‚·‚é‚±‚Æ‚ª‚Å‚«‚éBF-BASIC‚ðŽg‚í‚È‚¢Žs”Ì•i‚ÌƒvƒƒOƒ‰ƒ€‚Å‚ ‚Á‚Ä‚àABIOS‚ðŽg‚Á‚Ä‚¢‚é‚à‚Ì‚Å‚ ‚ê‚Î‚ ‚é’ö“x‘Î‰ž‚Å‚«‚éB
 

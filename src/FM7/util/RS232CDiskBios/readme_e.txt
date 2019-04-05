@@ -1,35 +1,36 @@
-FM-7/77 ディスクBIOSリダイレクタ - ディスクドライブの無いFM-7実機でRS232C経由でディスク版ソフトを実行
-by 山川機長
+FM-7/77 Disk BIOS Redirector
+Run a Disk-Based Titles on Fujitsu FM-7 8-bit Retro PC via RS232C
+by CaptainYS
 http://www.ysflight.com
 
 
+10 REM  -------- Introduction
 
--------- 時には昔の実機を
+This is a program for running a floppy disk-based titles on actual Fujitsu FM-7 8-bit computer without having a disk drive via RS232C connection.  If your unit is earlier model than FM77AV20/40, you need to add an RS232C interface card.  It is very difficult to find a Fujitsu-original RS232C card for FM-7 series in working condition (very often a ribbon cable is gone).  But, you can fabricate a compatible card with the information here.
 
-時には昔の実機を使おう。このプログラムは富士通FM-7シリーズ実機とRS232Cカードがある状態(あるいはFM77AV20/40以降だとRS232Cカードはオンボード)で、Disk BIOSをRS232CにリダイレクトしてWindows上のD77サーバープログラムからセクタデータを送り込むことでディスクが無くても実機でディスク版ソフトを実行してしまうという大技です。(まさか成功するとは思ってなかった。)これにより、素のFM-7でもRS232Cカードとサーバー用Windows PCと忍耐力さえあればディスク版ソフトを実行できます。
+I am planning to some of the compatible cards on Yahoo auction, but if you want one in the United States, I can sell one to you when I have a stock.  Please contact  if you are interested.
 
-ただし、実行できるのはディスクの読み書きにBIOSを使っているものだけです。Disk BASICベースのものであれば多分大半動作すると思います。また、サーバープログラムはセクタデータをFM-7に送信する前にBIOSコールをリダイレクタ呼び出しに書き換えて送信するので、複雑な暗号化がかかっているものは対応できません。
+The original FM-7 does not come with an internal floppy disk.  Getting an external floppy disk drive and floppy-disk interface card for FM-7 is very difficult and pricy.  But, with this program, you can run some disk-based titles if you have a D77 disk-image file.
 
-なお、FM-7のソフトがフロッピーディスクにアクセスするには大雑把に二通りの方法があり、ひとつはBIOSを使う方法、もうひとつはDisk I/Oを直接制御する方法です。このリダイレクタで対応できるのはBIOSを使ってディスクにアクセスしているソフトだけなのでDisk I/Oを直接制御しているものは対応できません。そのような場合は、ソフトのコードを読んでDisk I/Oを使わないように書き換えることができれば実行できると思います。ここではどう書き換えればいいのかは書けませんので、どうしても実行したい昔のFM-7ソフトがある人は自力でがんばってください。
-
-Disk I/Oを使わないようにプログラムを書き換えるというのは結果的にコピープロテクトを解除してしまうことになるかもしれませんが、必ずしもコピープロテクト解除と同一ではありません。例えばF7セクタをチェックするコピープロテクトを、代わりに01セクタの存在をチェックするように書き換えるとコピープロテクトは解除できますが、まだDisk I/Oを使っているかもしれません。それだとこのリダイレクタでは動作しません。逆にコピープロテクトがかかっていないタイトルでもディスクBIOSを使っていないものは、ディスク読み出し部分をBIOSを使用するように書き換えることでこのリダイレクタによる実行を可能にできるかもしれませんが、その場合はコピープロテクトの解除とはぜんぜん関係ありません。
-
+The disk titles you can run are limited to the ones that access disk via BIOS calls only.  Memory-mapped I/O addresses of FM-7 was open, and therefore many programs directly accesses the I/O addresses.  Such titles do not call BIOS functions, and there is no way to redirect such I/O accesses.  Also the server program alters sector data so that the executable binary calls BIOS hook functions instead of BIOS functions.  Therefore the redirector does not work if the program is encrypted.  I suppose majority of the programs using F-BASIC should work with the redirector.
 
 
 
 
--------- 使い方
-このプログラムはFM-7シリーズ実機とWindowsのコマンドラインから実行するサーバーのペアで使います。FM-7実機とWindows PCの間はRS232Cクロスケーブルで接続して、FM-7実機上のRS232Cカードは最高速に設定しておく必要があります。
 
-FM77AV20/40以降の機種で使うには(FM77AV1/2以前でRS232Cカード使用の場合は不要)、まずRS232CをEnableする必要があります。F-BASICのプロンプトから、
+20 REM  -------- Usage
+
+To use this program you need a working Fujitsu FM-7 hardware.  I am not talking about an emulator.  I am talking about an actual hardware.  You also need a Windows PC that works as a server.  The Windows PC and the FM-7 must be connected by an RS232C (aka serial) cross cable.  Modern PCs don't have an onboard RS232C connector.  You probably want to get a USB to RS232C adapter like Sabrent USB to RS232C adapter:
+
+If your FM-7 series hardware is FM77AV20/40 or newer, you first need to enable RS232C.  Start your unit, and type the following.
 
 POKE &HFD0C,5
 POKE &HFD0B,16
 EXEC -512
 
-と打ち込んで、30秒ぐらい待つとRS232Cが使えるようになって再起動します。
+If you are using FM77AV1/2 or earlier model, don't do this.  If RS232C card is already installed, it is enabled as soon as you power on.  Also POKE &HFD0B,16 will hang your FM-7 because $FD0B works the same as $FD0F where writing to this address will switch F-BASIC ROM into RAM mode, and immediately your prompt will be gone.
 
-FM-7上では短いプログラムを打ち込む必要があります。
+You need to type a short program on FM-7.
 
 10 OPEN "I",#1,"COM0:(F8N1)"
 20 FOR I=0 TO 255
@@ -38,231 +39,234 @@ FM-7上では短いプログラムを打ち込む必要があります。
 50 CLOSE
 60 EXEC &H6000
 
-そして、RUNして待ち状態にしてください。次にWindowsのコマンドプロンプトまたはPower Shellに入ってサーバーを起動します。
+Then type RUN to start the program.  Your FM-7 waits for the installer from the server.
 
-RS232CDiskBios.exe diskimage.d77 1
+On Windows PC, start CMD.EXE or PowerShell and type:
 
-のようにタイプしてください。なお、1というのはCOMポート番号なので環境に応じて適当な番号を指定してください。サーバーが起動したら、サーバープロンプト上で、
+    RS232CDiskBios.exe diskimage.d77 1
+
+to start the server.  I am assuming that the PATH is set to the location where you store RS232CDiskBios.exe, but if not type full- or relative-path to the executable.  The number "1" here is the port number.  You can find it in the Device Manager.
+
+Once the server starts, type:
 
 IA
 
-とタイプしてください。サーバーがFM-7にリダイレクタインストーラを送信します。
+on the server prompt.  The redirector installer will be sent to FM-7.
 
-送信が終わったらFM-7にリダイレクタが常駐し、サーバー起動時に指定したディスクイメージから再起動します。どのセクタを読み書きしているかはコマンドプロンプト上に出るので、動作してるのはわかります。
-
-
-
-
--------- 高度な使い方
-デフォルトではリダイレクタはFM-7の$FC00～$FC63に常駐します。しかし、実行したいプログラムがこの領域を使っていたら当然実行できません。その状態を回避するために、オプションで常駐アドレスを変更することができます。例えば、
-
-RS232CDiskBios.exe diskimage.d77 1 -install $6F80
-
-のようにタイプすると常駐先を$6F80に変更します。また、Disk BASICベースのプログラムの場合、エラーさえ起らなければエラーメッセージはいらないので、エラーメッセージが格納してある$7F25～に常駐させることができます。が、そのためにはIPLがDisk BASICを読み込んでいる間は別の場所に常駐している必要があるので、違うオプションを使います。
-
-RS232CDiskBios.exe diskimage.d77 1 -install2 $7F25
-
-こうするとIPLがDisk BASICを読み込んでいる間はリダイレクタは$FC80に隠れて、読み込み後$7F25に常駐します。この手を使うことでDisk BASICから起動するプログラムは多分大半実行できると思います。
+Once the redirector installer is sent, FM-7 will boot from the disk image you specify in the command line.
 
 
 
 
 
--------- サーバーコマンドオプション
-[基本]
+30 REM  -------- Advanced Server Usage
+The BIOS redirector by default resides $FC00-$FC63.  If the program you want to run also uses this area, the redirector will be destroyed, obviously.  To avoid the collision, you can specify different address where the redirector is installed by the server command parameter.
 
+    RS232CDiskBios.exe diskimage.d77 1 -install $6F80
+
+If you type like this the redirector will be installed from $6F80.  Or, if you are running a Disk BASIC based program, most likely you can install the redirector from $7F25.  This is the address where Disk BASIC stores error messages.  As long as your program doesn't run into an error, you don't need error messages.  However, the redirector needs to stay somewhere else while the IPL is reading Disk BASIC, or the IPL will overwrite the redirector and crash.  For this purpose, you can use the following option.
+
+    RS232CDiskBios.exe diskimage.d77 1 -install2 $7F25
+
+If you start the server this way, the redirector will stay $FC00- while the IPL is loading Disk BASIC, and then it is installed again to $7F25- once IPL finishes loading Disk BASIC.
+
+
+
+
+
+40 REM  -------- Server Command Options
+
+[Basic Usage]
     RS232CDiskBios.exe diskimage.d77 portNumber
 
-指定のディスクイメージをFM-7実機にRS232C経由で送信できる状態になる。マルチディスクイメージの場合、最初のディスクがドライブ0、二番目のディスクがドライブ1にあるものとする。BIOSリダイレクタはFC80～に常駐する。
+Start server and make ready to send the specified disk image.  If the disk image is a multi-disk image, the first disk is mounted on virtual drive 0, and the second disk is mounted on virtual drive 1.  BIOS redirector will be installed $FC80-.
 
-イメージファイル名には.D77に続けて#を書くことでオプションを指定できる。オプションについては、下のイメージファイル名オプションを参照。
+You can specify image-file options by writing # after .D77.  Please see below for D77-file options.
 
 
 
-[常駐先指定 (-install)]
-
+[Redirector Install Address (-install)]
     RS232CDiskBios.exe diskimage.d77 portNumber -install 7F90
 
-上の例だとBIOSリダイレクタを$7F90～に常駐する。アドレスには先頭に何もつけない($とか0xとか&Hとかつけない)で16進数で指定。起動したいFM-7用プログラムが$FC80～を使ってしまう場合、このオプションでリダイレクタの常駐アドレスを変更できる。ただし、F-BASICのDisk BASIC上での常駐先を指定するには、次の -install2 を使う。
+This example will install the BIOS redirector to $7F90-.  Don't put anything before the 4 hexa-decimal digits.  No $, 0x, or &H.  If the FM-7 program that you want to run ends up using $FC80-, this option may help.  But, to specify install address in Disk BASIC, use the next -install2 option instead.
 
 
 
-[Disk BASIC用常駐先指定 (-install2)]
-
+[Redirector Install Address for Disk BASIC (-install2)]
     RS232CDiskBios.exe diskimage.d77 portNumber -install 7F25
 
-F-BASICのDisk BASICを使う場合の常駐アドレスを指定する。上の例では$7F25(Disk BASICのエラーメッセージエリア)に常駐するようになる。
+Specify where the redirector must reside in Disk BASIC.  In this example the redirector will be installed from $7F25-.
 
 
 
-[ドライブ1のディスクイメージ指定(-1)]
-
+[Specifying Disk Image for Virtual Drive 1 (-1)]
     RS232CDiskBios.exe diskimage.d77 portNumber -1 drive1.d77
 
-ドライブ1のイメージを指定する。ドライブ0用のディスクイメージファイルがマルチディスクイメージで、イメージ1以外をマウントしたい場合は、ファイル名を書かずに #DSK0#3 のように書くとドライブ0用ディスクイメージのイメージ番号3をマウントする。
+This example specifies a disk image mounted on virtual-drive 1.  If the primary disk image is a multi-disk image, and if you want to mount a disk other than the second in the image, you can write #DSK0#3 instead of the file name.  #DSK0#3 takes the fourth disk in the primary disk image file.
 
-ドライブ0と同じイメージファイルを使いたいとき、あらためて同じファイル名を書いた場合は動作保証無し。
+If you want to use the same disk-image file for drives 0 and 1, do not write file name twice.  If you do so, I don't guarantee what's going to happen when you write to a disk from FM-7.
 
 
 
-[LD? #$FE0?もリダイレクト]
-
+[Redirect LD? #$FE0?]
     RS232CDiskBios.exe diskimage.d77 portNumber -ldxFExx
     RS232CDiskBios.exe diskimage.d77 portNumber -ldyFExx
     RS232CDiskBios.exe diskimage.d77 portNumber -lduFExx
 
-プログラムによっては、BIOS呼び出しを LDY #$FE08  JSR ,Y のように書いているものがあるので、それに対応する。
+Some programs call BIOS as LDY #$FE08  JSR ,Y  These options also redirects such instructions.
 
 
 
-[エンコーダー]
-
+[Encoder]
     RS232CDiskBios.exe diskimage.d77 portNumber -encoder XOR xx
     RS232CDiskBios.exe diskimage.d77 portNumber -encoder NEG
     RS232CDiskBios.exe diskimage.d77 portNumber -encoder COM
 
-プログラムによっては、実行ファイルを読み込んでから一定の値とXORを取ったり、マイナスにしたり、ビット反転するようなものがあるので、それに対応する。xxは2文字で16進数。
+Well, it's more like a encryption.  In some programs the server needs to take byte-by-byte XOR, NEG, or COM to recognize the program and redirect.  This option specifies what kind of encoding the server must test.  xx should be two digit hexa-decimal number.  Nothing in front of the number.
 
 
 
 
 
--------- イメージファイル名オプション
-D77イメージファイルを指定するとき、.D77に続けてスペースを空けずに#を書くことでオプションを指定することができる。続けて複数のオプションを指定することも可能。
+50 REM  -------- Image File Name Options
 
-[新規作成 (#NEW)]
+You can specify file-name options by writing # following .D77 without space.  Also possible to specify multiple options by concatinating.
 
+[New Disk (#NEW)]
     diskimage.d77#NEW
 
-標準F-BASICフォーマットのディスクイメージを作ってマウント。ただし、同名のファイルが既に存在する場合はエラーになる。
+This creates a standard F-BASIC format (256 byte per sector, 16 sectors per track) and mount.  If the same-name D77 file exists, the server will give you an error.
 
 
 
-[強制新規作成 (#FNEW)]
-
+[Force New Disk (#FNEW)]
     diskimage.d77#FNEW
 
-標準F-BASICフォーマットのディスクイメージを作ってマウント。既に同名のファイルが存在する場合は、最初にFM-7からなんらかの書き込みがあったときに上書きする。
+This creates a standard F-BASIC format (256 byte per sector, 16 sectors per track) and mount.  If the same-name D77 file exists, the fill will be overwritten when FM-7 writes something to the disk.
 
 
 
-[ディスク番号指定 (#0)(#1)(#2)(#3)...]
-
+[Disk Number (#0)(#1)(#2)(#3)...]
     diskimage.d77#3
 
-マルチディスクイメージの場合、何番目(0が最初)のイメージをマウントするか指定できる。
+Specifies the disk-number of the multi-disk image.
 
 
 
 [書き込み禁止 (#WP)]
-
     diskimage.d77#WP
 
-D77イメージファイルのライトプロテクトフラグが無くてもライトプロテクト状態でマウントする。
+Mount disk image write-protected.
 
 
 
 
 
--------- サーバープロンプト用コマンド
-[BIOSリダイレクタインストーラ送信 (IA)]
+60 REM  -------- Server Command Prompt
 
+[Transmit BIOS Redirector Installer (IA)]
     IA
 
-FM-7をF-BASICで待ち状態にして、サーバー上でIAコマンドをタイプすると256バイトのリダイレクタインストーラを送信する。デフォルトの例では$6000からに書き込むことにしてるけどインストーラはリロケータブル。
+Type this command while FM-7 is waiting for the redirector installer.  The server will send 256-byte installer to FM-7.  Due to F-BASIC limitation sent all ASCII.  Don't worry.  The redirector itself transmit/receive binary.
 
 
 
-[Verboseモード On/Off (V)]
-
+[Verbose Mode On/Off (V)]
     V
 
-VコマンドでVerboseモードをトグルできる。Verbose Mode=Onでは受信バイトを全部表示する。
+V command toggles verbose mode.
 
 
 
 
 
--------- 以下動作確認や技術情報などほぼ自分で忘れない用
+70 REM -------- 
 
--------- 動作確認 []は確認した機種 
-なおコマンド例の"2"というのはポート番号なので環境に応じて書き換える。
-(非公式対応)というのはDisk I/Oを直接アクセスしないように書き換えることで起動可能。
+80 REM -------- Confirmed Programs
 
-  F-BASIC 3.0 [実機AV40]
-    起動確認。
-    なお、F-BASIC 3.0のディスクでうまく動作しないものは、オプションに、
-        -install2 7F25
-    をつけてやるとDisk BASICのエラーメッセージ領域に常駐するので動作するかもしれない。
-    エラーが出るとクラッシュするかもしれない。
+[ ] tells tested hardware.
 
-    F-BASICから起動確認したのは、
-      FM-7 DEMO1 [実機AV40]
-      FM-7 DEMO2 [実機AV40]
-      Emergency [実機AV40]
+I really want to test on FM-7, which this program is really intended for.  But, I don't have large-enough space on my desk.  I am keeping an FM77AV40 always ready, but FM-7 is in a box, and take some work to set-up and clean up.  I'll test on FM-7 and update the confirmed programs.
 
-  URADOS [実機AV40]
-    起動確認。ただし$7F9Fまでしか使えない。なお、インストールアドレスを指定しなかったらサーバー
-    はURADOSを自動判別してインストールアドレスを7F80に変更する。URADOSはFC00～を使ってしまうの
-    でデフォルトの位置にはリダイレクタをインストールできない。
+"2" in the command examples is the port number.  It should be replaced according to your environment.
 
-  R-DOS
-    DOSモードで起動してくるものなので、サーバーオプション -dosmode が必要。DOSモードというのは、
-    単に$8000～$FBFFがRAMモードで、IPLが$0300からにロードされるというものなので、インストーラ
-    がそのような状態にしてIPLにジャンプすることで対応。
-
-  (非公式対応)Thexder [実機AV40]
-    FC00～FCFFはThexderが使うので、インストール先を変更する必要あり。
-    コマンド例:
-      RS232CDiskBios thexder.d77 2 -install 0040
-
-  (非公式対応)MAGUS [実機AV40]
-    FC00～FCFFはMAGUSがスタックとして使うのでインストール先を変更する必要あり。
-    コマンド例:
-      RS232CDiskBios magus.d77 2 -install 0040
-
-  (非公式対応)A列車で行こう [実機AV40]
-    起動中にメインCPUのRAMをほぼ全域使ってしまうので、Disk BAISCのエラーメッセージ領域をつぶして
-    BIOSフックをインストールしなくてはならないが、IPLがDisk BASICを読み込み中はBIOSフックは別の
-    場所に無いと起動しないので、IPL中とIPL後で別のアドレスにBIOSフックをインストールすることで
-    起動できる。
-    コマンド例:
-      RS232CDiskBios magus.d77 2 -install2 7F25
-
-  (非公式対応)大戦略FM [実機AV40]
-    普通にそのまま起動した。パラメータ不要。
-
-  (非公式対応)信長の野望・全国版
-    戦争モード突入・終了もできたから多分最後まで行けると思う。
-    コマンド例:
-      RS232CDiskBios.exe nobuzen.d77 2 -install DE40 -encoder XOR 1 -ldyFExx -dosmode
-
-
-失敗
-  F-BASIC 3.3
-    起動まではするのだが、その後RS232Cじゃなくて普通にディスクドライブを読みに行ってしまう。
-    MMRを使いまくっているようでFC00～に常駐だと無理。またF-BASICに制御を移す移し方も違って
-    いるようで、Carry=0でJMP [$FBFE]としているから、初期化後にBIOSフックを再インストールで
-    きなさそう。しかも4000と2000と6000と3か所にインストーラをコピーしているのにすべて消滅
-    してた。
+(*) means you need to somehow disassemble and remove direct Disk I/O access.
 
 
 
+F-BASIC 3.0 (Fujitsu) [AV40]
+Starts no problem.
+If the program you want to run crashes, you may salvage it by adding the option:
+    -install2 7F25
+This will install the BIOS redirector in the error-message area.  No problem as long as your program won't run into an error.
+From Disk BASIC I confirmed:
+    FM-7 DEMO1 [AV40]
+    FM-7 DEMO2 [AV40]
+    Emergency [AV40]
 
--------- 技術情報
 
-FM-7のBIOSはフロッピーディスクアクセスのために、RESTORE($08),  DWRITE($09), DREAD($0A)の三種類の機能を提供する。F-BASIC 3.0はすべてこの機能を使ってディスクにアクセスする。この3種類の機能をリダイレクトして代わりにRS232C経由でサーバー間でデータの読み書きするように書き換えてやれば、物理的なディスクがなくてもディスクイメージから実機でディスク版プログラムを起動・実行することができる。F-BASICを使わない市販品のプログラムであっても、BIOSを使っているものであればある程度対応できる。
 
-ただし、リダイレクトプログラムをFM-7のメモリに常駐させたとしても、ディスク上のプログラムが直接BIOSを呼んでしまったのでは意味がないので、セクタデータを送り込むサーバー側はBIOSコールしていると思われる部分を見つけるとリダイレクトプログラムを呼ぶように書き換えてから送信する必要がある。なお、サーバーがバイナリを書き換えて送信するので、LOADMして同じものをSAVEMしてしまうと、このリダイレクタが同じアドレスに常駐しているときしか実行できないプログラムに変化してしまう可能性があるのでそれはしない方がいい。
+URADOS (I/O) [AV40]
+Starts no problem.  However, the conventional RAM area available will be up to $7F7F.  128-byte fewer than the original URADOS, which allows all the way up to $7FFF.  URADOS uses $FC00-$FC7F.  Therefore the BIOS redirector needs to reside $7F80-.
 
-具体的には、以下のインストラクションを探して変更する。
+
+
+R-DOS (I/O) [AV40]
+R-DOS needs the option:
+    -dosmode
+By the way, DOS mode starts FM-7 with $8000-$FBFF RAM mode (otherwise F-BASIC ROM uses this area).  The installer will emulate this setting.
+
+
+
+(*)Thexder (Gamearts) [AV40]
+$FC00-$FCFF is used by Thexder.  The BIOS redirector needs to reside $0040-.
+    Command Example:
+        RS232CDiskBios thexder.d77 2 -install 0040
+
+
+
+(*)MAGUS (Soft Pro) [AV40]
+$FC00-$FCFF is used by MAGUS.  The BIOS redirector needs to reside $0040-
+    Command Example:
+        RS232CDiskBios magus.d77 2 -install 0040
+
+
+
+(*)Take the A-Train (Artdink) [AV40]
+Thie program uses almost entire RAM area while starting up.  But, this is Disk BASIC-based.  So, you can run this program by installing the BIOS redirector from $7F25.
+    Command Example:
+        RS232CDiskBios magus.d77 2 -install2 7F25
+
+
+
+(*)Strategic Confrontation (aka Daisenryaku) (System Soft) FM [AV40]
+Starts with no problem.
+
+
+
+(*)Nobunaga Whole-Country Version (Koei) [AV40]
+I confirmed to enter the hex-battle mode and out.  Probably it runs all the way.
+    Command Example:
+        RS232CDiskBios.exe nobuzen.d77 2 -install DE40 -encoder XOR 1 -ldyFExx -dosmode
+
+
+
+
+
+90 REM -------- Technical Information
+
+Fujitsu FM-7 BIOS provides with the three types of disk access functions, RESTORE ($08), DWRITE ($09), and DREAD ($0A).  F-BASIC 3.0 uses these three service functions for reading/writing floppy disk sectors.  If you redirect these three service functions to RS232C, you can run Disk BASIC-based programs without having a floppy disk drive hardware.  Non-Disk BASIC-based titles can run if it uses the three service functions and does not access floppy-disk I/O directly.
+
+However, if the program calls BIOS directly, having BIOS redirector on the RAM doesn't do anything good.  Therefore, the server program that sends sector data to FM-7 look for the 6809 instructions that calls BIOS and alters the sector data before sending to FM-7.  By the way, because the server alters the program if you LOADM and SAVEM back again, your program may be altered, and therefore not recommended.
+
+Namely, the server looks for the following instructions:
 
 	JSR		[$FBFA]
 	JMP		[$FBFA]
 	JSR		$F17D
 	JMP		$F17D
 
-また、BIOSが内部で使っているRESTORE, DWRITE, DREADのアドレスも公開されているので、以下のインストラクションも変更する必要がある。
+Also the internal routines addresses are published, and many programs used those addresses.  Therefore the server also looks for:
 
 	JSR		$FE02
 	JMP		$FE02
@@ -271,65 +275,33 @@ FM-7のBIOSはフロッピーディスクアクセスのために、RESTORE($08),  DWRITE($09), DREA
 	JSR		$FE08
 	JMP		$FE08
 
-LBSR $FExx、LBxx $FExxとしてコールしている場合、そのセクタがメモリ上のどこに読み込まれるのかわからないと変更することができない。URADOSが LBEQ $FE08 を使っていたが、これはURADOSであることを判定して適当に書き換えることで対応している。また、IPLセクタ(Track 0, Side 0, Sector 1)であれば$0100から読み込まれると仮定するとFExxへの差分が計算できるので、これも対応している。
+If the program is calling BIOS by relative jump, LBSR or LBRA, it is impossible to redirect unless the server knows the location the sector is loaded.  URADOS (I/O) calls DREAD by LBEQ $FE08.  But, the server program positively identifies URADOS boot IPL and modifies accordingly.  Otherwise, if it is an IPL sector (Track 0 Side 0 Sector 1), it is known to be loaded to $0100.  Then I can calculate the relative jump destination.  So, LBSR and LBRA will be redirected only if it is in the IPL sector.
 
-また、プログラムの中には、
+Some programs call DREAD, DWRITE, and RESTORE routines as:
 
 	LDY		#$FE08
 	JSR		,Y
 
-として呼び出しているものがある。ほとんどの場合はLDY #$FE0x, LDX #$FE0x, LDU #$FE0x (x=02,05,08)をすべて書き換えてしまっても良いが、念のためこの書きかえはサーバーの起動時のオプションでオン・オフを可能にしている。
+In most cases it is safe to re-direct LDY #$FE08 to LDY #REDIRECTOR_ADDRESS.  But, to be safe this redirection is enabled only from server command parameters.
 
-また、F-BASICは、次のベクター
+Also F-BASIC calls the BIOS via the following vector:
 
 00DE	7EF17D		JMP		$F17D
 
-を経由してBIOSを呼ぶので、[$00DF,$00E0]の値もリダイレクト先に変更する。これは、リダイレクタのインストーラから実行する。
-
-
-もうひとつ問題は、F-BASICの初期化がせっかくインストールしたリダイレクタをクリアしてしまう点。だからF-BASICを起動するときは、最初のIPLとDisk BASIC読み込みのためにリダイレクタをインストールして、その後もう一度F-BASICの初期化後にリダイレクタをインストールする必要がある。これは、サーバーがIPLセクタを送信するときDisk BASICの初期化のコールバックアドレスを変更することで実現できる。F-BASICのIPLは、Disk BASICを読み込み後
-
-   0170 8E 6E 00       LDX   #$6E00
-   0173 43             COMA
-   0174 6E 9F FB FE    JMP   [$FBFE]
-
-このように、XにDisk BASIC初期化ルーチンのコールバックアドレスをセット、Carry Flagを1にセットしてベクター[$FBFE]にジャンプする。F-BASICはその後基本的な初期化の後、コールバックアドレスにジャンプする。このとき、コールバックアドレス以前のコンベンショナルメモリは初期化されてしまう。インストーラが$00DFにリダイレクタアドレスを書いていたとしてもF-BASICの初期化でリセットされてしまう。
-
-そこで、サーバーはF-BASICのIPLを識別して (LDX #$6E00とJMP [$FBFE]の存在で確認)、LDX #$6E00をリダイレクタインストーラのアドレスに書き換える。当然インストーラは最初のインストール時はTrack 0 Side 0 Sector 1を読み込んでスタックを適当な位置にセットして$0100にジャンプすれば良かったが、2度目のインストールでは$0100にジャンプするとリセット無限ループになってしまう。これを防止するために、リダイレクタのインストーラは最初のインストール時に自身を書き換えて、2度目のインストール後は、Disk BASICの初期化のコールバックにジャンプするように仕掛ける。また、URADOSなども同じ枠組みを使っているが、URADOSの初期化は$4D00、リダイレクタのインストーラは原則$6000で、IPLの最後にLDX #$6000とするとF-BASICの初期化中にURADOSの初期化コードが消えてしまうので、これを防止するために、リダイレクタのインストーラは最初のインストール時に自身を$2000～と$4000～にコピーしておく。コピー先もサーバーから指定してもよかったけど2か所もあれば多分十分。
-
-
-これによりDisk BASIC、URADOSの起動は可能になった。次の問題はリダイレクタの常駐アドレス。デフォルトでは$FC00～$FC63に常駐するが、プログラムによってはこの領域を使ってしまう。実行したいプログラムが使う領域を避けるため、リダイレクタは好きな場所にインストールできるようになっている。Disk BASICのプログラムなどでは、エラーが出ない限りエラーメッセージは必要ないので、$7F25～に常駐させる方法で、事実上普通のDisk BASICと同じだけもメモリを利用することができる。
-
-しかし、$7F25に常駐させると、Disk BASICのIPLがDisk BASIC本体を読み込み途中にリダイレクタが破壊されてしまう。悪いことにリダイレクタ実行中に破壊されてしまうのでこれでは復活の余地がない。そこで、リダイレクタのインストーラは初回インストール先と二度目インストール先を変更できるようにした。サーバーがインストーラを送り込むとき初回インストール先と二度目インストール先を書き換えて送ることで対応している。二度目のインストール先は -install2 7F25 のようにオプションで指定できる。
+The redirector installer also writes the redirector address to [$00DF,$00E0].
 
 
 
+The next challenge was to support Disk BASIC.  The Disk BASIC IPL loads Disk BASIC binary from $6E00 to $7FFF, and then sets #$6E00 to X register, raise the carry flag, and JMP [$FBFE].  X register is then used as a call-back address after the F-BASIC ROM initializes.  The problem is that F-BASIC clears the conventional RAM before the call-back address.  Also resets [$00DF,$00E0].
 
+To work around, the server alters the IPL so that X register is set to the redirector-installer address instead of #$6E00 at the end of IPL.  So, in this case, the redirector installer is called twice.  The first time, the redirector reads the IPL to $0100 and jump there.  The second time, it needs to behave differently.
 
-$6000から(デフォルト)にロード。実行すると、
-(1) BIOSのオーバーライドをインストール
-(2) RS232Cからトラック0サイド0セクタ1をRS232Cから$0100からに読み込み
-(3) ブート後の再インストールに備えて自身の NOP NOP を PULS A,B,X,Y,U,CC,DP,PC に書き換え。
-(4) ブート後の再インストールに備えて自信を 0x2000-0x20FF, 0x4000-0x40FF にコピーする。(URADOSで0x2000のクローンを使用)
-(5) $0100にジャンプ
-
-Disk BASICが起動するとオーバーライドなどすべてクリアしてしまうので、再度インストールする必要がある。
-
-Disk BASICのIPLは
-
-   0170 8E 6E 00       LDX   #$6E00
-   0173 43             COMA
-   0174 6E 9F FB FE    JMP   [$FBFE]
-
-これでF-BASIC ROMの初期化ルーチンに飛ぶ。この中で 0～6DFF をクリアして 6E00 にジャンプする。これをサーバー側で、LDX #$6E00とJMP [$FBFE]の存在をチェックして、両方とも含む場合は、LDX #$6D00に書き換える。これにより、Disk BASIC起動時に再度BIOSオーバーライドをインストールする。
+To let it behave differently for the second time, the installer re-writes itself after the first installation.  When it is called second time, it installs the redirector and jump to #$6E00.  Actually #$6E00 will be configured when the server transmits the installer.  URADOS uses #$4D00, but the server sets up the redirector installer to call $4D00 after installation.
 
 
 
-URADOSの場合 変更点3か所
-  デフォルトインストールアドレスは7F80にする (FC00～はURADOSが使用)
-  インストーラのJMP $6E00をJMP $4D00にする (URADOSの初期化は$4D00～)
-  IPLはLDX #$4D00をLDX #$2000にする
-  セクタ内容の変更で LBEQ $FE08, JMP $FE05 をそれぞれ LBEQ FE08_Hook, JMP FE05_Hook にする(自動)
+This allowed to boot Disk BASIC and URADOS from RS232C.  It was unbelievable.  But soon I encountered the programs that use RAM area $FC00- where the redirector is installed by default.  I had to make the install-address configurable.  That was easy, but some programs really used up pretty much entire RAM space except the Disk-BASIC area $7000-$7FFF.  I found roughly 128 bytes of unused (unused as long as there is no error) space from $7F25.  This area is for storing Disk Error messages.
 
-これによりURADOSも起動可能。ただし使用可能なコンベンショナル領域は0x7F7Fまで。(URADOSネイティブは 0x7FFF)。またURADOSのLOAD "COM0:"もRS232Cはフックが使ってしまうから使えない。
+But, that area is overwritten while IPL is loading the Disk BASIC.  The redirector needed to reside in a different location, and then during the second installation it needed to be installed to $7F25.  To make it possible the redirector installer takes two install addresses.  With -install2 option, the redirector takes a different install address for the second installation.  During the first installation, the installer modifies itself so that the second install address is used in the second installation.
+
 
