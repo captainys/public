@@ -127,6 +127,12 @@ def main():
 		os.path.join("D77ToRS232C","readme_e.txt"),
 		os.path.expanduser(os.path.join("~","Packaging","FM7_RESURRECTION_UTIL","readme_D77ToRS232C_e.txt")))
 	shutil.copyfile(
+		os.path.join("RS232CDiskBios","readme.txt"),
+		os.path.expanduser(os.path.join("~","Packaging","FM7_RESURRECTION_UTIL","readme_RS232CDiskBios.txt")))
+	shutil.copyfile(
+		os.path.join("RS232CDiskBios","readme_e.txt"),
+		os.path.expanduser(os.path.join("~","Packaging","FM7_RESURRECTION_UTIL","readme_RS232CDiskBios_e.txt")))
+	shutil.copyfile(
 		os.path.join("rawReadToRS232C","readme.txt"),
 		os.path.expanduser(os.path.join("~","Packaging","FM7_RESURRECTION_UTIL","readme_rawReadToRS232C.txt")))
 
