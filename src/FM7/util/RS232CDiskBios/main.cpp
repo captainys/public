@@ -1379,7 +1379,8 @@ void SubCPU(void)
 							{
 								sectorSize=128;
 							}
-							const unsigned char sendBuf[1]={(sectorSize>>7)};
+							const unsigned char sendBuf[1];
+							sendBuf[0]=(sectorSize>>7);
 							comPort.Send(1,sendBuf);
 
 							sectorDataFilled=0;
@@ -1430,7 +1431,8 @@ void SubCPU(void)
 
 							unsigned int sectorSize=sectorData.size();
 							sectorSize>>=7;
-							const unsigned char sendBuf[1]={sectorSize};
+							const unsigned char sendBuf[1];
+							sendBuf[0]=sectorSize;
 							comPort.Send(1,sendBuf);
 
 							comPort.Send(sectorData.size(),sectorData.data());

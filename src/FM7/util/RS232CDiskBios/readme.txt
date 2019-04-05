@@ -1,4 +1,4 @@
-FM-7/77 ƒfƒBƒXƒNBIOSƒŠƒ_ƒCƒŒƒNƒ^
+FM-7/77 ƒfƒBƒXƒNBIOSƒŠƒ_ƒCƒŒƒNƒ^ - ƒfƒBƒXƒNƒhƒ‰ƒCƒu‚Ì–³‚¢FM-7ŽÀ‹@‚ÅRS232CŒo—R‚ÅƒfƒBƒXƒN”Åƒ\ƒtƒg‚ðŽÀs
 by ŽRì‹@’·
 http://www.ysflight.com
 
@@ -53,6 +53,21 @@ IA
 
 
 
+-------- ‚“x‚ÈŽg‚¢•û
+ƒfƒtƒHƒ‹ƒg‚Å‚ÍƒŠƒ_ƒCƒŒƒNƒ^‚ÍFM-7‚Ì$FC00`$FC63‚Éí’“‚µ‚Ü‚·B‚µ‚©‚µAŽÀs‚µ‚½‚¢ƒvƒƒOƒ‰ƒ€‚ª‚±‚Ì—Ìˆæ‚ðŽg‚Á‚Ä‚¢‚½‚ç“–‘RŽÀs‚Å‚«‚Ü‚¹‚ñB‚»‚Ìó‘Ô‚ð‰ñ”ð‚·‚é‚½‚ß‚ÉAƒIƒvƒVƒ‡ƒ“‚Åí’“ƒAƒhƒŒƒX‚ð•ÏX‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B—á‚¦‚ÎA
+
+RS232CDiskBios.exe diskimage.d77 1 -install $6F80
+
+‚Ì‚æ‚¤‚Éƒ^ƒCƒv‚·‚é‚Æí’“æ‚ð$6F80‚É•ÏX‚µ‚Ü‚·B‚Ü‚½ADisk BASICƒx[ƒX‚ÌƒvƒƒOƒ‰ƒ€‚Ìê‡AƒGƒ‰[‚³‚¦‹N‚ç‚È‚¯‚ê‚ÎƒGƒ‰[ƒƒbƒZ[ƒW‚Í‚¢‚ç‚È‚¢‚Ì‚ÅAƒGƒ‰[ƒƒbƒZ[ƒW‚ªŠi”[‚µ‚Ä‚ ‚é$7F25`‚Éí’“‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B‚ªA‚»‚Ì‚½‚ß‚É‚ÍIPL‚ªDisk BASIC‚ð“Ç‚Ýž‚ñ‚Å‚¢‚éŠÔ‚Í•Ê‚ÌêŠ‚Éí’“‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚é‚Ì‚ÅAˆá‚¤ƒIƒvƒVƒ‡ƒ“‚ðŽg‚¢‚Ü‚·B
+
+RS232CDiskBios.exe diskimage.d77 1 -install2 $7F25
+
+‚±‚¤‚·‚é‚ÆIPL‚ªDisk BASIC‚ð“Ç‚Ýž‚ñ‚Å‚¢‚éŠÔ‚ÍƒŠƒ_ƒCƒŒƒNƒ^‚Í$FC80‚É‰B‚ê‚ÄA“Ç‚Ýž‚ÝŒã$7F25‚Éí’“‚µ‚Ü‚·B‚±‚ÌŽè‚ðŽg‚¤‚±‚Æ‚ÅDisk BASIC‚©‚ç‹N“®‚·‚éƒvƒƒOƒ‰ƒ€‚Í‘½•ª‘å”¼ŽÀs‚Å‚«‚é‚ÆŽv‚¢‚Ü‚·B
+
+
+
+
+
 -------- ƒT[ƒo[ƒRƒ}ƒ“ƒhƒIƒvƒVƒ‡ƒ“
 [Šî–{]
 
@@ -87,6 +102,26 @@ F-BASIC‚ÌDisk BASIC‚ðŽg‚¤ê‡‚Ìí’“ƒAƒhƒŒƒX‚ðŽw’è‚·‚éBã‚Ì—á‚Å‚Í$7F25(Disk BASI
 ƒhƒ‰ƒCƒu1‚ÌƒCƒ[ƒW‚ðŽw’è‚·‚éBƒhƒ‰ƒCƒu0—p‚ÌƒfƒBƒXƒNƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ªƒ}ƒ‹ƒ`ƒfƒBƒXƒNƒCƒ[ƒW‚ÅAƒCƒ[ƒW1ˆÈŠO‚ðƒ}ƒEƒ“ƒg‚µ‚½‚¢ê‡‚ÍAƒtƒ@ƒCƒ‹–¼‚ð‘‚©‚¸‚É #DSK0#3 ‚Ì‚æ‚¤‚É‘‚­‚Æƒhƒ‰ƒCƒu0—pƒfƒBƒXƒNƒCƒ[ƒW‚ÌƒCƒ[ƒW”Ô†3‚ðƒ}ƒEƒ“ƒg‚·‚éB
 
 ƒhƒ‰ƒCƒu0‚Æ“¯‚¶ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ðŽg‚¢‚½‚¢‚Æ‚«A‚ ‚ç‚½‚ß‚Ä“¯‚¶ƒtƒ@ƒCƒ‹–¼‚ð‘‚¢‚½ê‡‚Í“®ì•ÛØ–³‚µB
+
+
+
+[LD? #$FE0?‚àƒŠƒ_ƒCƒŒƒNƒg]
+
+    RS232CDiskBios.exe diskimage.d77 portNumber -ldxFExx
+    RS232CDiskBios.exe diskimage.d77 portNumber -ldyFExx
+    RS232CDiskBios.exe diskimage.d77 portNumber -lduFExx
+
+ƒvƒƒOƒ‰ƒ€‚É‚æ‚Á‚Ä‚ÍABIOSŒÄ‚Ño‚µ‚ð LDY #$FE08  JSR ,Y ‚Ì‚æ‚¤‚É‘‚¢‚Ä‚¢‚é‚à‚Ì‚ª‚ ‚é‚Ì‚ÅA‚»‚ê‚É‘Î‰ž‚·‚éB
+
+
+
+[ƒGƒ“ƒR[ƒ_[]
+
+    RS232CDiskBios.exe diskimage.d77 portNumber -encoder XOR xx
+    RS232CDiskBios.exe diskimage.d77 portNumber -encoder NEG
+    RS232CDiskBios.exe diskimage.d77 portNumber -encoder COM
+
+ƒvƒƒOƒ‰ƒ€‚É‚æ‚Á‚Ä‚ÍAŽÀsƒtƒ@ƒCƒ‹‚ð“Ç‚Ýž‚ñ‚Å‚©‚çˆê’è‚Ì’l‚ÆXOR‚ðŽæ‚Á‚½‚èAƒ}ƒCƒiƒX‚É‚µ‚½‚èAƒrƒbƒg”½“]‚·‚é‚æ‚¤‚È‚à‚Ì‚ª‚ ‚é‚Ì‚ÅA‚»‚ê‚É‘Î‰ž‚·‚éBxx‚Í2•¶Žš‚Å16i”B
 
 
 
@@ -148,21 +183,6 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
 
 
 
--------- ‚“x‚ÈŽg‚¢•û
-ƒfƒtƒHƒ‹ƒg‚Å‚ÍƒŠƒ_ƒCƒŒƒNƒ^‚ÍFM-7‚Ì$FC00`$FC63‚Éí’“‚µ‚Ü‚·B‚µ‚©‚µAŽÀs‚µ‚½‚¢ƒvƒƒOƒ‰ƒ€‚ª‚±‚Ì—Ìˆæ‚ðŽg‚Á‚Ä‚¢‚½‚ç“–‘RŽÀs‚Å‚«‚Ü‚¹‚ñB‚»‚Ìó‘Ô‚ð‰ñ”ð‚·‚é‚½‚ß‚ÉAƒIƒvƒVƒ‡ƒ“‚Åí’“ƒAƒhƒŒƒX‚ð•ÏX‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B—á‚¦‚ÎA
-
-RS232CDiskBios.exe diskimage.d77 1 -install $6F80
-
-‚Ì‚æ‚¤‚Éƒ^ƒCƒv‚·‚é‚Æí’“æ‚ð$6F80‚É•ÏX‚µ‚Ü‚·B‚Ü‚½ADisk BASICƒx[ƒX‚ÌƒvƒƒOƒ‰ƒ€‚Ìê‡AƒGƒ‰[‚³‚¦‹N‚ç‚È‚¯‚ê‚ÎƒGƒ‰[ƒƒbƒZ[ƒW‚Í‚¢‚ç‚È‚¢‚Ì‚ÅAƒGƒ‰[ƒƒbƒZ[ƒW‚ªŠi”[‚µ‚Ä‚ ‚é$7F25`‚Éí’“‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B‚ªA‚»‚Ì‚½‚ß‚É‚ÍIPL‚ªDisk BASIC‚ð“Ç‚Ýž‚ñ‚Å‚¢‚éŠÔ‚Í•Ê‚ÌêŠ‚Éí’“‚µ‚Ä‚¢‚é•K—v‚ª‚ ‚é‚Ì‚ÅAˆá‚¤ƒIƒvƒVƒ‡ƒ“‚ðŽg‚¢‚Ü‚·B
-
-RS232CDiskBios.exe diskimage.d77 1 -install2 $7F25
-
-‚±‚¤‚·‚é‚ÆIPL‚ªDisk BASIC‚ð“Ç‚Ýž‚ñ‚Å‚¢‚éŠÔ‚ÍƒŠƒ_ƒCƒŒƒNƒ^‚Í$FC80‚É‰B‚ê‚ÄA“Ç‚Ýž‚ÝŒã$7F25‚Éí’“‚µ‚Ü‚·B‚±‚ÌŽè‚ðŽg‚¤‚±‚Æ‚ÅDisk BASIC‚©‚ç‹N“®‚·‚éƒvƒƒOƒ‰ƒ€‚Í‘½•ª‘å”¼ŽÀs‚Å‚«‚é‚ÆŽv‚¢‚Ü‚·B
-
-
-
-
-
 -------- ˆÈ‰º“®ìŠm”F‚â‹Zpî•ñ‚È‚Ç‚Ù‚ÚŽ©•ª‚Å–Y‚ê‚È‚¢—p
 
 -------- “®ìŠm”F []‚ÍŠm”F‚µ‚½‹@Ží 
@@ -184,7 +204,7 @@ RS232CDiskBios.exe diskimage.d77 1 -install2 $7F25
   URADOS [ŽÀ‹@AV40]
     ‹N“®Šm”FB‚½‚¾‚µ$7F9F‚Ü‚Å‚µ‚©Žg‚¦‚È‚¢B‚È‚¨AƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ðŽw’è‚µ‚È‚©‚Á‚½‚çƒT[ƒo[
     ‚ÍURADOS‚ðŽ©“®”»•Ê‚µ‚ÄƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ð7F80‚É•ÏX‚·‚éBURADOS‚ÍFC00`‚ðŽg‚Á‚Ä‚µ‚Ü‚¤‚Ì
-    ‚ÅƒfƒtƒHƒ‹ƒg‚ÌˆÊ’u‚É‚ÍƒCƒ“ƒXƒg[ƒ‹‚Å‚«‚È‚¢B
+    ‚ÅƒfƒtƒHƒ‹ƒg‚ÌˆÊ’u‚É‚ÍƒŠƒ_ƒCƒŒƒNƒ^‚ðƒCƒ“ƒXƒg[ƒ‹‚Å‚«‚È‚¢B
 
   R-DOS
     DOSƒ‚[ƒh‚Å‹N“®‚µ‚Ä‚­‚é‚à‚Ì‚È‚Ì‚ÅAƒT[ƒo[ƒIƒvƒVƒ‡ƒ“ -dosmode ‚ª•K—vBDOSƒ‚[ƒh‚Æ‚¢‚¤‚Ì‚ÍA
@@ -193,12 +213,12 @@ RS232CDiskBios.exe diskimage.d77 1 -install2 $7F25
 
   (”ñŒöŽ®‘Î‰ž)Thexder [ŽÀ‹@AV40]
     FC00`FCFF‚ÍThexder‚ªŽg‚¤‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‹æ‚ð•ÏX‚·‚é•K—v‚ ‚èB
-    —á:
+    ƒRƒ}ƒ“ƒh—á:
       RS232CDiskBios thexder.d77 2 -install 0040
 
   (”ñŒöŽ®‘Î‰ž)MAGUS [ŽÀ‹@AV40]
     FC00`FCFF‚ÍMAGUS‚ªƒXƒ^ƒbƒN‚Æ‚µ‚ÄŽg‚¤‚Ì‚ÅƒCƒ“ƒXƒg[ƒ‹æ‚ð•ÏX‚·‚é•K—v‚ ‚èB
-    —á:
+    ƒRƒ}ƒ“ƒh—á:
       RS232CDiskBios magus.d77 2 -install 0040
 
   (”ñŒöŽ®‘Î‰ž)A—ñŽÔ‚Ås‚±‚¤ [ŽÀ‹@AV40]
@@ -206,12 +226,16 @@ RS232CDiskBios.exe diskimage.d77 1 -install2 $7F25
     BIOSƒtƒbƒN‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚È‚­‚Ä‚Í‚È‚ç‚È‚¢‚ªAIPL‚ªDisk BASIC‚ð“Ç‚Ýž‚Ý’†‚ÍBIOSƒtƒbƒN‚Í•Ê‚Ì
     êŠ‚É–³‚¢‚Æ‹N“®‚µ‚È‚¢‚Ì‚ÅAIPL’†‚ÆIPLŒã‚Å•Ê‚ÌƒAƒhƒŒƒX‚ÉBIOSƒtƒbƒN‚ðƒCƒ“ƒXƒg[ƒ‹‚·‚é‚±‚Æ‚Å
     ‹N“®‚Å‚«‚éB
-    —á:
+    ƒRƒ}ƒ“ƒh—á:
       RS232CDiskBios magus.d77 2 -install2 7F25
 
   (”ñŒöŽ®‘Î‰ž)‘åí—ªFM [ŽÀ‹@AV40]
     •’Ê‚É‚»‚Ì‚Ü‚Ü‹N“®‚µ‚½Bƒpƒ‰ƒ[ƒ^•s—vB
 
+  (”ñŒöŽ®‘Î‰ž)M’·‚Ì–ì–]E‘S‘”Å
+    í‘ˆƒ‚[ƒh“Ë“üEI—¹‚à‚Å‚«‚½‚©‚ç‘½•ªÅŒã‚Ü‚Ås‚¯‚é‚ÆŽv‚¤B
+    ƒRƒ}ƒ“ƒh—á:
+      RS232CDiskBios.exe nobuzen.d77 2 -install DE40 -encoder XOR 1 -ldyFExx -dosmode
 
 
 Ž¸”s
