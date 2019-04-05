@@ -989,7 +989,7 @@ void D77ServerCommandParameterInfo::FinalizeInstallAddress(D77File::D77Disk *boo
 		if(true==jmpFBFE && true==ldx4D00)
 		{
 			// Cannot use $FC00-FC7F
-			instAddr=0x7FA0;
+			instAddr=0x7F90;
 		}
 	}
 	printf("Bios Hook Install Address=%04x\n",instAddr);

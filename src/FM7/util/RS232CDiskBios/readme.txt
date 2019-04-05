@@ -189,7 +189,7 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
 ‚È‚¨ƒRƒ}ƒ“ƒh—á‚Ì"2"‚Æ‚¢‚¤‚Ì‚Íƒ|[ƒg”Ô†‚È‚Ì‚ÅŠÂ‹«‚É‰ž‚¶‚Ä‘‚«Š·‚¦‚éB
 (”ñŒöŽ®‘Î‰ž)‚Æ‚¢‚¤‚Ì‚ÍDisk I/O‚ð’¼ÚƒAƒNƒZƒX‚µ‚È‚¢‚æ‚¤‚É‘‚«Š·‚¦‚é‚±‚Æ‚Å‹N“®‰Â”\B
 
-  F-BASIC 3.0 [ŽÀ‹@AV40]
+  F-BASIC 3.0 [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
     ‹N“®Šm”FB
     ‚È‚¨AF-BASIC 3.0‚ÌƒfƒBƒXƒN‚Å‚¤‚Ü‚­“®ì‚µ‚È‚¢‚à‚Ì‚ÍAƒIƒvƒVƒ‡ƒ“‚ÉA
         -install2 7F25
@@ -197,42 +197,42 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
     ƒGƒ‰[‚ªo‚é‚ÆƒNƒ‰ƒbƒVƒ…‚·‚é‚©‚à‚µ‚ê‚È‚¢B
 
     F-BASIC‚©‚ç‹N“®Šm”F‚µ‚½‚Ì‚ÍA
-      FM-7 DEMO1 [ŽÀ‹@AV40]
-      FM-7 DEMO2 [ŽÀ‹@AV40]
-      Emergency [ŽÀ‹@AV40]
+      FM-7 DEMO1 [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
+      FM-7 DEMO2 [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
+      Emergency [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
 
-  URADOS [ŽÀ‹@AV40]
+  URADOS [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
     ‹N“®Šm”FB‚½‚¾‚µ$7F9F‚Ü‚Å‚µ‚©Žg‚¦‚È‚¢B‚È‚¨AƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ðŽw’è‚µ‚È‚©‚Á‚½‚çƒT[ƒo[
     ‚ÍURADOS‚ðŽ©“®”»•Ê‚µ‚ÄƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ð7F80‚É•ÏX‚·‚éBURADOS‚ÍFC00`‚ðŽg‚Á‚Ä‚µ‚Ü‚¤‚Ì
     ‚ÅƒfƒtƒHƒ‹ƒg‚ÌˆÊ’u‚É‚ÍƒŠƒ_ƒCƒŒƒNƒ^‚ðƒCƒ“ƒXƒg[ƒ‹‚Å‚«‚È‚¢B
 
-  R-DOS
+  R-DOS [ŽÀ‹@FM-7]
     DOSƒ‚[ƒh‚Å‹N“®‚µ‚Ä‚­‚é‚à‚Ì‚È‚Ì‚ÅAƒT[ƒo[ƒIƒvƒVƒ‡ƒ“ -dosmode ‚ª•K—vBDOSƒ‚[ƒh‚Æ‚¢‚¤‚Ì‚ÍA
     ’P‚É$8000`$FBFF‚ªRAMƒ‚[ƒh‚ÅAIPL‚ª$0300‚©‚ç‚Éƒ[ƒh‚³‚ê‚é‚Æ‚¢‚¤‚à‚Ì‚È‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‰
     ‚ª‚»‚Ì‚æ‚¤‚Èó‘Ô‚É‚µ‚ÄIPL‚ÉƒWƒƒƒ“ƒv‚·‚é‚±‚Æ‚Å‘Î‰žB
 
-  (”ñŒöŽ®‘Î‰ž)Thexder [ŽÀ‹@AV40]
+  (”ñŒöŽ®‘Î‰ž)Thexder [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
     FC00`FCFF‚ÍThexder‚ªŽg‚¤‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‹æ‚ð•ÏX‚·‚é•K—v‚ ‚èB
     ƒRƒ}ƒ“ƒh—á:
       RS232CDiskBios thexder.d77 2 -install 0040
 
-  (”ñŒöŽ®‘Î‰ž)MAGUS [ŽÀ‹@AV40]
+  (”ñŒöŽ®‘Î‰ž)MAGUS [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
     FC00`FCFF‚ÍMAGUS‚ªƒXƒ^ƒbƒN‚Æ‚µ‚ÄŽg‚¤‚Ì‚ÅƒCƒ“ƒXƒg[ƒ‹æ‚ð•ÏX‚·‚é•K—v‚ ‚èB
     ƒRƒ}ƒ“ƒh—á:
       RS232CDiskBios magus.d77 2 -install 0040
 
-  (”ñŒöŽ®‘Î‰ž)A—ñŽÔ‚Ås‚±‚¤ [ŽÀ‹@AV40]
+  (”ñŒöŽ®‘Î‰ž)A—ñŽÔ‚Ås‚±‚¤ [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
     ‹N“®’†‚ÉƒƒCƒ“CPU‚ÌRAM‚ð‚Ù‚Ú‘SˆæŽg‚Á‚Ä‚µ‚Ü‚¤‚Ì‚ÅADisk BAISC‚ÌƒGƒ‰[ƒƒbƒZ[ƒW—Ìˆæ‚ð‚Â‚Ô‚µ‚Ä
     BIOSƒtƒbƒN‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚È‚­‚Ä‚Í‚È‚ç‚È‚¢‚ªAIPL‚ªDisk BASIC‚ð“Ç‚Ýž‚Ý’†‚ÍBIOSƒtƒbƒN‚Í•Ê‚Ì
     êŠ‚É–³‚¢‚Æ‹N“®‚µ‚È‚¢‚Ì‚ÅAIPL’†‚ÆIPLŒã‚Å•Ê‚ÌƒAƒhƒŒƒX‚ÉBIOSƒtƒbƒN‚ðƒCƒ“ƒXƒg[ƒ‹‚·‚é‚±‚Æ‚Å
     ‹N“®‚Å‚«‚éB
-    ƒRƒ}ƒ“ƒh—á:
+    ƒRƒ}ƒ“ƒh—á: (-install‚¶‚á‚È‚­‚Ä-install2)
       RS232CDiskBios magus.d77 2 -install2 7F25
 
-  (”ñŒöŽ®‘Î‰ž)‘åí—ªFM [ŽÀ‹@AV40]
+  (”ñŒöŽ®‘Î‰ž)‘åí—ªFM [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
     •’Ê‚É‚»‚Ì‚Ü‚Ü‹N“®‚µ‚½Bƒpƒ‰ƒ[ƒ^•s—vB
 
-  (”ñŒöŽ®‘Î‰ž)M’·‚Ì–ì–]E‘S‘”Å
+  (”ñŒöŽ®‘Î‰ž)M’·‚Ì–ì–]E‘S‘”Å [ŽÀ‹@FM77AV40]
     í‘ˆƒ‚[ƒh“Ë“üEI—¹‚à‚Å‚«‚½‚©‚ç‘½•ªÅŒã‚Ü‚Ås‚¯‚é‚ÆŽv‚¤B
     ƒRƒ}ƒ“ƒh—á:
       RS232CDiskBios.exe nobuzen.d77 2 -install DE40 -encoder XOR 1 -ldyFExx -dosmode

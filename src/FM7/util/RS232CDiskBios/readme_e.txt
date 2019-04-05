@@ -186,65 +186,63 @@ V command toggles verbose mode.
 
 [ ] tells tested hardware.
 
-I really want to test on FM-7, which this program is really intended for.  But, I don't have large-enough space on my desk.  I am keeping an FM77AV40 always ready, but FM-7 is in a box, and take some work to set-up and clean up.  I'll test on FM-7 and update the confirmed programs.
-
 "2" in the command examples is the port number.  It should be replaced according to your environment.
 
 (*) means you need to somehow disassemble and remove direct Disk I/O access.
 
 
 
-F-BASIC 3.0 (Fujitsu) [AV40]
+F-BASIC 3.0 (Fujitsu) [FM-7,FM77AV40]
 Starts no problem.
 If the program you want to run crashes, you may salvage it by adding the option:
     -install2 7F25
 This will install the BIOS redirector in the error-message area.  No problem as long as your program won't run into an error.
 From Disk BASIC I confirmed:
-    FM-7 DEMO1 [AV40]
-    FM-7 DEMO2 [AV40]
-    Emergency [AV40]
+    FM-7 DEMO1 [FM-7,FM77AV40]
+    FM-7 DEMO2 [FM-7,FM77AV40]
+    Emergency [FM-7,FM77AV40]
 
 
 
-URADOS (I/O) [AV40]
+URADOS (I/O) [FM-7,FM77AV40]
 Starts no problem.  However, the conventional RAM area available will be up to $7F7F.  128-byte fewer than the original URADOS, which allows all the way up to $7FFF.  URADOS uses $FC00-$FC7F.  Therefore the BIOS redirector needs to reside $7F80-.
 
 
 
-R-DOS (I/O) [AV40]
+R-DOS (I/O) [FM-7]
 R-DOS needs the option:
     -dosmode
 By the way, DOS mode starts FM-7 with $8000-$FBFF RAM mode (otherwise F-BASIC ROM uses this area).  The installer will emulate this setting.
 
 
 
-(*)Thexder (Gamearts) [AV40]
+(*)Thexder (Gamearts) [FM-7,FM77AV40]
 $FC00-$FCFF is used by Thexder.  The BIOS redirector needs to reside $0040-.
     Command Example:
         RS232CDiskBios thexder.d77 2 -install 0040
 
 
 
-(*)MAGUS (Soft Pro) [AV40]
+(*)MAGUS (Soft Pro) [FM-7,FM77AV40]
 $FC00-$FCFF is used by MAGUS.  The BIOS redirector needs to reside $0040-
     Command Example:
         RS232CDiskBios magus.d77 2 -install 0040
 
 
 
-(*)Take the A-Train (Artdink) [AV40]
+(*)Take the A-Train (Artdink) [FM-7,FM77AV40]
 Thie program uses almost entire RAM area while starting up.  But, this is Disk BASIC-based.  So, you can run this program by installing the BIOS redirector from $7F25.
-    Command Example:
+    Command Example: (Option is -install2 not -install)
         RS232CDiskBios magus.d77 2 -install2 7F25
 
 
 
-(*)Strategic Confrontation (aka Daisenryaku) (System Soft) FM [AV40]
+(*)Strategic Confrontation (aka Daisenryaku) (System Soft) FM [FM-7,FM77AV40]
 Starts with no problem.
 
 
 
-(*)Nobunaga Whole-Country Version (Koei) [AV40]
+(*)Nobunaga Whole-Country Version (Koei) [FM77AV40]
 I confirmed to enter the hex-battle mode and out.  Probably it runs all the way.
     Command Example:
         RS232CDiskBios.exe nobuzen.d77 2 -install DE40 -encoder XOR 1 -ldyFExx -dosmode
