@@ -1357,21 +1357,28 @@ void SubCPU(void)
 			FM7BinaryFile binFile;
 			binFile.DecodeSREC(strLoader);
 
+			auto bin=binFile.dat;
+			unsigned int encodeEndOffset=bin.back();
+			bin.pop_back();
+			unsigned int encodeBeginOffset=bin.back();
+			bin.pop_back();
+
 			std::vector <unsigned char> toSend;
-			int i=0;
-			for(i=0; i<binFile.dat.size(); ++i)
+			for(int i=0; i<encodeBeginOffset; ++i)
 			{
-				if(i+2<binFile.dat.size() && binFile.dat[i]==0xCE && binFile.dat[i+1]==0xFD  && binFile.dat[i+2]==0x00)
-				{
-					break;
-				}
-				toSend.push_back(binFile.dat[i]);
+				toSend.push_back(bin[i]);
 			}
-			for(i=i; i<binFile.dat.size(); ++i)
+			for(int i=encodeBeginOffset; i<encodeEndOffset; ++i)
 			{
-				toSend.push_back(0x30+((binFile.dat[i]>>4)&0x0F));
-				toSend.push_back(0x30+ (binFile.dat[i]&0x0F));
+				toSend.push_back(0x30+((bin[i]>>4)&0x0F));
+				toSend.push_back(0x30+ (bin[i]&0x0F));
 			}
+			for(int i=encodeEndOffset; i<bin.size(); ++i)
+			{
+				toSend.push_back(bin[i]);
+			}
+			printf("String size=0x%02x\n",(int)toSend.size());
+
 			while(toSend.size()<0x7E)
 			{
 				toSend.push_back('0');
@@ -1392,7 +1399,6 @@ void SubCPU(void)
 					printf("%02x %c\n",d,d);
 				}
 			}
-			printf("String size=0x%02x\n",(int)toSend.size());
 		}
 
 

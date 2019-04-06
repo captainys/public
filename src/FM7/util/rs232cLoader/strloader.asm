@@ -1,6 +1,8 @@
 					; To be stored inside F-BASIC string.
-					; The server will encode LOADER_START to END_OF_PROGRAM in ASCII format
+					; The server will encode NEED_ENCODE_START to NEED_ENCODE_END in ASCII format
 					;    b -> 0x30+((b&0xF0)>>4) , 0x30+(b&0x0F)
+
+					; The server will identify where to encode by looking at the last two bytes of this binary.
 
 					; To be used as:
 					; 10 OPEN "I",#1,"COM0:(F8N1)"
@@ -17,8 +19,9 @@
 					; To jump to the instruction stored in the string, the first byte needs to be 0x7E.
 
 INSTALLER_ADDR		EQU		$6000
-BINARY_REQ_CMD		EQU		'Y'
 
+
+PROGRAM_BEGIN
 					ORG		$2000
 
 					; IO_RS232C_CMD		$FD07	(7,U)
@@ -34,8 +37,8 @@ BINARY_REQ_CMD		EQU		'Y'
 					LEAX	LOADER_START+$20,PCR
 					LEAX	-$20,X
 					STX		,--S		; Jump by RTS
-					LDU		,S
-					LDB		#END_OF_PROGRAM-LOADER_START
+					PULS	U
+					LDB		#-(NEED_ENCODE_END-NEED_ENCODE_START)
 
 DECODE_LOOP			LDA		,X+
 					LSLA
@@ -47,33 +50,58 @@ DECODE_LOOP			LDA		,X+
 					SUBA	#$30
 					ORA		,U
 					STA		,U+
-					DECB
+					INCB
 					BNE		DECODE_LOOP
-					RTS
 
-YAMAKAWA			FCB 	"YAMAKAWA"
+					LDB		#-(END_OF_PROGRAM-NEED_ENCODE_END)
+
+TFR_LOOP			LDA		,X+
+					STA		,U+
+					INCB
+					BNE		TFR_LOOP
+
 					; Decoder part <<
 
+					; The code that doesn't need to be encoded >>
+					LDB		#$B7
+					; The code that doesn't need to be encoded <<
 
 
-LOADER_START		LDU		#$FD00		; LDU #$FD00 will be used as a marker for the server to encode the binary.
-										; must be at the beginning of the loader.
+
+					; Need encoding from here. >>
+NEED_ENCODE_START
+
+LOADER_START		LDU		#$FD00
 
 					ORCC	#$50
-					LDB		#$B7
 					STB		7,U
-					MUL
 
-					; Send "Y" to the server, then the server will return installer binary.
+					; X is pointing "YAMAKAWA"
+
+SEND_REQ_CMD		INCA
+					BNE		SEND_REQ_CMD
+
 WAIT_TXRDY			LDA		7,U
 					LSRA
 					BCC		WAIT_TXRDY
-					LDA		#BINARY_REQ_CMD
+					LDA		,X+
+					BMI		CMD_SENT
 					STA		6,U
+					BRA		SEND_REQ_CMD
+CMD_SENT
 
 					LDX		#INSTALLER_ADDR
+					PSHS	X			; Jump by RTS
+NEED_ENCODE_END
+					; Need encoding above here. <<
+
+
+
+					;  Instructions > $20  >>
 					CLRB
-LOAD_LOOP			LDA		#2
+LOAD_LOOP			CLRA					; Avoid instruction < #$20
+					INCA
+					INCA
 					ANDA	7,U
 					BEQ		LOAD_LOOP
 					LDA		6,U				; 1 byte shorter than "LDA IO_RS232C_DATA"
@@ -81,6 +109,12 @@ LOAD_LOOP			LDA		#2
 					DECB
 					BNE		LOAD_LOOP
 
-					JMP 	INSTALLER_ADDR
-
+					RTS						; Jump by RTS to INSTALLER_ADDR
+					;  Instructions > $20  <<
 END_OF_PROGRAM
+
+
+YAMAKAWA			FCB 	"YAMAKAWA",$FF
+
+					FCB		#NEED_ENCODE_START-PROGRAM_BEGIN
+					FCB		#NEED_ENCODE_END-PROGRAM_BEGIN
