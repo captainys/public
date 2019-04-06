@@ -17,6 +17,7 @@
 #include "d77.h"
 #include "cpplib.h"
 #include "fm7lib.h"
+#include "strloader.h"
 
 
 
@@ -1018,6 +1019,7 @@ public:
 	bool fatalError;
 	bool verbose;
 	bool installASCII;
+	bool installBinaryLoader;
 
 
 	int systemType;
@@ -1039,6 +1041,7 @@ public:
 
 		verbose=false;
 		installASCII=false;
+		installBinaryLoader=false;
 
 		lastByteReceivedClock=std::chrono::system_clock::now();
 	}
@@ -1082,6 +1085,11 @@ public:
 	{
 		std::lock_guard <std::mutex> lock(fd05);
 		installASCII=true;
+	}
+	void InstallBinaryLoader(void)
+	{
+		std::lock_guard <std::mutex> lock(fd05);
+		installBinaryLoader=true;
 	}
 	void SaveD77(const char fName[],int diskId) const
 	{
@@ -1221,6 +1229,11 @@ void MainCPU(void)
 				fc80.InstallASCII();
 				processed=true;
 			}
+			else if("IL"==CMD)
+			{
+				fc80.InstallBinaryLoader();
+				processed=true;
+			}
 			break;
 		case 'Q':
 			fc80.SetTerminate(true);
@@ -1337,6 +1350,39 @@ void SubCPU(void)
 			printf("Do EXEC &H6000 on FM-7/77\n");
 			fc80.installASCII=false;
 		}
+		else if(true==fc80.installBinaryLoader)
+		{
+			fc80.installBinaryLoader=false;
+
+			FM7BinaryFile binFile;
+			binFile.DecodeSREC(strLoader);
+
+			std::vector <unsigned char> toSend;
+			int i=0;
+			for(i=0; i<binFile.dat.size(); ++i)
+			{
+				if(binFile.dat[i]==0x86 && binFile.dat[i+1]==0x86)
+				{
+					break;
+				}
+				toSend.push_back(binFile.dat[i]);
+			}
+			for(i=i; i<binFile.dat.size(); ++i)
+			{
+				toSend.push_back(0x30+((binFile.dat[i]>>4)&0x0F));
+				toSend.push_back(0x30+ (binFile.dat[i]&0x0F));
+			}
+
+			toSend.push_back(0x0d);
+			toSend.push_back(0x0a);
+			comPort.Send(toSend.size(),toSend.data());
+
+			for(auto d : toSend)
+			{
+				printf("%02x %c\n",d,d);
+			}
+		}
+
 
 
 		auto recv=comPort.Receive();

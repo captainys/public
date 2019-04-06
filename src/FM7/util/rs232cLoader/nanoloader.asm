@@ -2,13 +2,14 @@
 
 					ORCC	#$50
 					LDX		#$6000			; 3 clocks
-					LDB		#$02			; 2 clocks
+					CLRB
 
-LOAD_LOOP			BITB	$FD07
+LOAD_LOOP			LDA		#$02			; 2 clocks
+					ANDA	$FD07
 					BEQ		LOAD_LOOP
 					LDA		$FD06
 					STA		,X+
-					CMPX	#$6100
+					DECB
 					BNE		LOAD_LOOP
 
 					RTS

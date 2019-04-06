@@ -67,6 +67,8 @@ asmSource=[
 		["RS232CDiskBios/install_and_reset.asm",
 		 "RS232CDiskBios/override.asm",
 		 "RS232CDiskBios/sizes.asm",]],
+	["STRLOADR",
+		["rs232CLoader/strloader.asm",]],
 ]
 
 basSource=[
@@ -280,7 +282,7 @@ def UpdateWinSource():
 	txt2cpp.TextFileToCpp("T77ToRS232C/bioshook_small.cpp","T77ToRS232C/bioshook_small.h","clientBinary_small","buildFM7/CAS0COM0.srec")
 	txt2cpp.TextFileToCpp("T77ToRS232C/bioshook_buffered.cpp","T77ToRS232C/bioshook_buffered.h","clientBinary_buffered","buildFM7/CAS0COMF.srec")
 	txt2cpp.TextFileToCpp("RS232CDiskBios/disk_bios_hook_client.cpp","RS232CDiskBios/disk_bios_hook_client.h","clientBinary","buildFM7/232CDISK.srec")
-
+	txt2cpp.TextFileToCpp("rs232cLoader/strloader.cpp","rs232cLoader/strloader.h","strLoader","buildFM7/STRLOADR.srec")
 
 
 if __name__=="__main__":

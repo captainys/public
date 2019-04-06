@@ -22,13 +22,14 @@ RESET_LOOP			ORCC	#$50			; 3 clocks   Do it in the loop to wait for 8251A
 
 					MUL						; Wait 11 clocks.  Is it necessary?
 					LDX		#$6000			; 3 clocks
-					LDB		#$02			; 2 clocks
+					CLRB					; 2 clocks
 
-LOAD_LOOP			BITB	7,U
+LOAD_LOOP			LDA		#2
+					ANDA	7,U
 					BEQ		LOAD_LOOP
 					LDA		6,U				; 1 byte shorter than "LDA IO_RS232C_DATA"
 					STA		,X+
-					CMPX	#$6100
+					DECB
 					BNE		LOAD_LOOP
 
 					LDA		$0F,U			; New! FM-7's FD0F seems to be leaked to FD0B 
