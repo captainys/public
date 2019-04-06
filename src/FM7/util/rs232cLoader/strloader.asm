@@ -78,24 +78,14 @@ LOADER_START		LDU		#$FD00
 
 					; X is pointing "YAMAKAWA"
 
-SEND_REQ_CMD		INCA
-					BNE		SEND_REQ_CMD
-
-WAIT_TXRDY			LDA		7,U
-					LSRA
-					BCC		WAIT_TXRDY
-					LDA		,X+
-					BMI		CMD_SENT
-					STA		6,U
-					BRA		SEND_REQ_CMD
-CMD_SENT
+					BSR		SEND_REQ_CMD
 
 					LDX		#INSTALLER_ADDR
 					PSHS	X			; Jump by RTS
 NEED_ENCODE_END
 					; Need encoding above here. <<
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 					;  Instructions > $20  >>
 					CLRB
@@ -109,10 +99,27 @@ LOAD_LOOP			CLRA					; Avoid instruction < #$20
 					DECB
 					BNE		LOAD_LOOP
 
-					RTS						; Jump by RTS to INSTALLER_ADDR
+JUST_RTS			RTS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+SEND_REQ_WRITEIO	STA		6,U
+
+SEND_REQ_CMD		INCA
+					BNE		SEND_REQ_CMD
+
+WAIT_TXRDY			LDA		7,U
+					LSRA
+					BCC		WAIT_TXRDY
+					LDA		,X+
+					BPL		SEND_REQ_WRITEIO
+
+					RTS
+
 					;  Instructions > $20  <<
 END_OF_PROGRAM
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 YAMAKAWA			FCB 	"YAMAKAWA",$FF
 

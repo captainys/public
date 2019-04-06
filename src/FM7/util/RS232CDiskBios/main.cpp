@@ -1420,7 +1420,24 @@ void SubCPU(void)
 				biosCmdBuf[biosCmdFilled++]=c;
 				if(8==biosCmdFilled)
 				{
-					if(0x09==biosCmdBuf[0]) // Disk Write
+					if(0==strncmp((const char *)biosCmdBuf,"YAMAKAWA",8))
+					{
+						printf("Install Addr=%04x\n",fc80.cpi.instAddr);
+						if(fc80.cpi.instAddr!=fc80.cpi.instAddr2)
+						{
+							printf("Secondary Install Addr=%04x\n",fc80.cpi.instAddr2);
+						}
+
+						printf("\nTransmitting Installer BINARY\n");
+						auto bin=clientCode.dat;
+						while(bin.size()<256)
+						{
+							bin.push_back(0xff);
+						}
+						comPort.Send(bin.size(),bin.data());
+						printf("\nTransmitted\n");
+					}
+					else if(0x09==biosCmdBuf[0]) // Disk Write
 					{
 						state=STATE_WAIT_WRITE_DATA;
 						sectorDataFilled=0;
