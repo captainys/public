@@ -1361,7 +1361,7 @@ void SubCPU(void)
 			int i=0;
 			for(i=0; i<binFile.dat.size(); ++i)
 			{
-				if(binFile.dat[i]==0x86 && binFile.dat[i+1]==0x86)
+				if(i+2<binFile.dat.size() && binFile.dat[i]==0xCE && binFile.dat[i+1]==0xFD  && binFile.dat[i+2]==0x00)
 				{
 					break;
 				}
@@ -1372,15 +1372,27 @@ void SubCPU(void)
 				toSend.push_back(0x30+((binFile.dat[i]>>4)&0x0F));
 				toSend.push_back(0x30+ (binFile.dat[i]&0x0F));
 			}
-
-			toSend.push_back(0x0d);
-			toSend.push_back(0x0a);
-			comPort.Send(toSend.size(),toSend.data());
-
-			for(auto d : toSend)
+			while(toSend.size()<0x7E)
 			{
-				printf("%02x %c\n",d,d);
+				toSend.push_back('0');
 			}
+
+			if(0x7E<toSend.size())
+			{
+				fprintf(stderr,"Error.  The code needs to be shorter than 0x7E.\n");
+			}
+			else
+			{
+				toSend.push_back(0x0d);
+				toSend.push_back(0x0a);
+				comPort.Send(toSend.size(),toSend.data());
+
+				for(auto d : toSend)
+				{
+					printf("%02x %c\n",d,d);
+				}
+			}
+			printf("String size=0x%02x\n",(int)toSend.size());
 		}
 
 

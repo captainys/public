@@ -16,6 +16,9 @@
 					;   VARPTR(A$)+2  (String Pointer Lower Byte)
 					; To jump to the instruction stored in the string, the first byte needs to be 0x7E.
 
+INSTALLER_ADDR		EQU		$6000
+BINARY_REQ_CMD		EQU		'Y'
+
 					ORG		$2000
 
 					; IO_RS232C_CMD		$FD07	(7,U)
@@ -26,70 +29,50 @@
 					; 2019/01/20 In FM-7 (original) FD0B works as FD0F (RAM mode on/off)
 
 
-						; Decoder part >>
-						; No byte can be below #$20
-						LEAX	LOADER_START+$20,PCR
-						LEAX	-$20,X
-						STX		,--S
-						PULS	U
+					; Decoder part >>
+					; No byte can be below #$20
+					LEAX	LOADER_START+$20,PCR
+					LEAX	-$20,X
+					STX		,--S		; Jump by RTS
+					LDU		,S
+					LDB		#END_OF_PROGRAM-LOADER_START
 
-LOOP					LDA		,X+
-						LSLA
-						LSLA
-						LSLA
-						LSLA
-						STA		,U
-						LDA		,X+
-						SUBA	#$30
-						ORA		,U
-						STA		,U+
-						DECB
-						BNE		LOOP
-						; Decoder part <<
-
-
-
-
-LOADER_START
-					LDA		#$86		; $86$86 will be a marker for the server to encode the binary.
-
-					LEAX	RESET_CMD,PCR
-					LDU		#$FD00
-
-					; The following 3 lines will enable RS232C in FM77AV20/40 and newer,
-					; For some reason it prevents FM-7 from returning to F-BASIC.
-					LDD		#$0510
-					STA		$0C,U
-					STB		$0B,U
-					LDB		$0B,U			; New! FM-7's FD0F seems to be leaked to FD0B 
-											; (motherboard not checking Address Bus 2?)
-											; Tested 2019/01/20.  Thanks Apollo again!
-
-RESET_LOOP			ORCC	#$50			; 3 clocks   Do it in the loop to wait for 8251A
-					LDA		,X+				; 3 clocks
-					STA		7,U				; 3 clocks
-					BPL		RESET_LOOP		; Only last command is negative.	3 clocks
-
-					MUL						; Wait 11 clocks.  Is it necessary?
-
-
-					; Send "YAMAKAWA" to the server, then the server will return installer binary.
-					LEAX	REQ_CMD,PCR
-					LDB		#8
-YAMAKAWA_LOOP		INCA
-					BNE		YAMAKAWA_LOOP
-					LDA		7,U
-					LSRA
-					BCC		YAMAKAWA_LOOP
+DECODE_LOOP			LDA		,X+
+					LSLA
+					LSLA
+					LSLA
+					LSLA
+					STA		,U
 					LDA		,X+
-					STA		6,U
+					SUBA	#$30
+					ORA		,U
+					STA		,U+
 					DECB
-					BNE		YAMAKAWA_LOOP
+					BNE		DECODE_LOOP
+					RTS
+
+YAMAKAWA			FCB 	"YAMAKAWA"
+					; Decoder part <<
 
 
-					LDX		#$6000			; 3 clocks
-					CLRB					; 2 clocks
 
+LOADER_START		LDU		#$FD00		; LDU #$FD00 will be used as a marker for the server to encode the binary.
+										; must be at the beginning of the loader.
+
+					ORCC	#$50
+					LDB		#$B7
+					STB		7,U
+					MUL
+
+					; Send "Y" to the server, then the server will return installer binary.
+WAIT_TXRDY			LDA		7,U
+					LSRA
+					BCC		WAIT_TXRDY
+					LDA		#BINARY_REQ_CMD
+					STA		6,U
+
+					LDX		#INSTALLER_ADDR
+					CLRB
 LOAD_LOOP			LDA		#2
 					ANDA	7,U
 					BEQ		LOAD_LOOP
@@ -98,10 +81,6 @@ LOAD_LOOP			LDA		#2
 					DECB
 					BNE		LOAD_LOOP
 
-					RTS
-
-RESET_CMD			FCB		0,0,0,$40,$4E,$B7
-
-REQ_CMD				FCB		"YAMAKAWA"
+					JMP 	INSTALLER_ADDR
 
 END_OF_PROGRAM
