@@ -490,7 +490,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 			{
 				if(diskPtr->IsWriteProtected())
 				{
-					printf("Write protected\n");
+					fprintf(stderr,"Write protected\n");
 				}
 				else
 				{
@@ -498,14 +498,21 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 					auto side=FM7Lib::Atoi(argv[3].c_str());
 					auto secId=FM7Lib::Atoi(argv[4].c_str());
 
+					auto newSecDat=FM7Lib::ReadBinaryFile(argv[5].c_str());
+					if(0==newSecDat.size())
+					{
+						fprintf(stderr,"Cannot read %s\n",argv[5].c_str());
+					}
+
 					std::string allText;
-					for(auto c : FM7Lib::ReadBinaryFile(argv[5].c_str()))
+					for(auto c : newSecDat)
 					{
 						if(('a'<=c && c<='f') || ('A'<=c && c<='F') || ('0'<=c && c<='9'))
 						{
 							allText.push_back(c);
 						}
 					}
+					printf("%s\n",allText.c_str());
 					auto dat=diskPtr->ReadSector(track,side,secId);
 					if(0<dat.size())
 					{
@@ -515,6 +522,8 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 							dat[i]=FM7Lib::Xtoi(wd);
 						}
 						diskPtr->WriteSector(track,side,secId,dat.size(),dat.data());
+
+						printf("Updated Track=%d Side=%d Sector=%d\n",track,side,secId);
 					}
 					else
 					{

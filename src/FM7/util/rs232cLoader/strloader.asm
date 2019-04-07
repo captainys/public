@@ -38,6 +38,8 @@
 					; 	{
 					; 		toSend.push_back('0');
 					; 	}
+					;	toSend.push_back(0x0d);
+					;	toSend.push_back(0x0a);
 
 INSTALLER_ADDR		EQU		$6000
 
@@ -50,12 +52,9 @@ PROGRAM_BEGIN
 					; IO_RS232C_ENABLE	$FD0C	($0C,U)	FM77AV20/40 and newer only
 					; IO_RS232C_MODE	$FD0B	($0B,U)	FM77AV20/40 and newer only
 
-					; 2019/01/20 In FM-7 (original) FD0B works as FD0F (RAM mode on/off)
-
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-					; Decoder part >>
+					; Decoder part
 					; No byte can be below or equal to #$20 unsigned.
 
 
@@ -72,7 +71,7 @@ PROGRAM_BEGIN
 DECODE_LOOP			LDA		,X+
 					COMA
 
-					CMPA	#$DF		; Tentative.  Decremented to #$20
+					CMPA	#$DF		; COM(A)==#$DF <-> A==#$20
 DECODE_BRANCH		BNE		DECODE_LOOP	; Tentative.  Need to make it #2
 					LDA		,X+
 

@@ -72,7 +72,6 @@ BIOS_DISK_OVERRIDE		ANDCC	#$FE
 						CMPA	#2
 						BLS		BIOS_DISK_READ_WRITE
 
-						; Need to PULS before JMP. BIOS will set Carry flag.
 BIOS_DISK_NOT_DISKCMD	JSR		BIOS_ENTRY
 						FCB		$CE	; Instruction for LDU #x.  Will skip next BSR.
 
