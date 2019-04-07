@@ -7,6 +7,7 @@
 
 #include "d77.h"
 #include "../lib/cpplib.h"
+#include "../lib/fm7lib.h"
 
 
 
@@ -532,6 +533,47 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
+		else if(6<=argv.size() && "WS"==argv[1])
+		{
+			auto diskPtr=d77Ptr->GetDisk(diskId);
+			if(nullptr!=diskPtr)
+			{
+				if(diskPtr->IsWriteProtected())
+				{
+					fprintf(stderr,"Write protected\n");
+				}
+				else
+				{
+					auto track=FM7Lib::Atoi(argv[2].c_str());
+					auto side=FM7Lib::Atoi(argv[3].c_str());
+					auto secId=FM7Lib::Atoi(argv[4].c_str());
+
+					auto srec=FM7Lib::ReadTextFile(argv[5].c_str());
+					FM7BinaryFile binDat;
+					if(0>srec.size() || true!=binDat.DecodeSREC(srec))
+					{
+						fprintf(stderr,"Cannot read %s\n",argv[5].c_str());
+						return;
+					}
+
+					auto dat=diskPtr->ReadSector(track,side,secId);
+					if(0<dat.size())
+					{
+						for(int i=0; i<dat.size() && binDat.dat.size(); ++i)
+						{
+							dat[i]=binDat.dat[i];
+						}
+						diskPtr->WriteSector(track,side,secId,dat.size(),dat.data());
+
+						printf("Updated Track=%d Side=%d Sector=%d\n",track,side,secId);
+					}
+					else
+					{
+						fprintf(stderr,"Cannot find the sector.\n");
+					}
+				}
+			}
+		}
 	}
 	else if('Q'==cmd[0])
 	{
@@ -607,6 +649,8 @@ void D77Analyzer::Help(void) const
 	printf("\tInput file must be a text file of hexadecimal numbers\n");
 	printf("\tSpaces and line breaks will be ignored.\n");
 	printf("\tMore bytes than the sector size will be ignored.\n");
+	printf("M WS trk sid sec srec_input_file\n");
+	printf("\tWrite SREC binary to the sector.\n");
 	printf("M CT trk sid\n");
 	printf("M DDM trk sid sec 1/0\n");
 	printf("\tChange the sector DDM.\n");

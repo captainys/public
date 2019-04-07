@@ -249,6 +249,12 @@ I confirmed to enter the hex-battle mode and out.  Probably it runs all the way.
 
 
 
+(*)Laydock (T&E)
+IPL needs to be modified.  Started with the default settings.
+Confirmed at least the game starts.
+
+
+
 
 
 90 REM -------- Technical Information

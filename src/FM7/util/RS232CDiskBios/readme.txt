@@ -237,6 +237,10 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
     ƒRƒ}ƒ“ƒh—á:
       RS232CDiskBios.exe nobuzen.d77 2 -install DE40 -encoder XOR 1 -ldyFExx -dosmode
 
+  (”ñŒöŽ®‘Î‰ž)Laydock (T&E)
+    IPL‘‚«Š·‚¦‚ª•K—v‚¾‚¯‚Ç‚»‚ÌŒã‚ÍƒfƒtƒHƒ‹ƒgƒpƒ‰ƒ[ƒ^‚Å•’Ê‚É‹N“®BƒQ[ƒ€ŠJŽn‚Ü‚ÅŠm”FB
+    –­‚ÉƒZƒNƒ^“Ç‚Ýž‚Ý‚ª’x‚¢‚ÆŽv‚Á‚½‚çl‚¦‚Ä‚Ý‚½‚ç1024bytes/sec‚¾‚©‚ç1ƒZƒNƒ^“Ç‚Þ‚Ì‚É
+    256bytes/sec‚Ì4”{ŽžŠÔ‚ª‚©‚©‚Á‚Ä‚é‚¾‚¯‚¾‚Á‚½B
 
 Ž¸”s
   F-BASIC 3.3
