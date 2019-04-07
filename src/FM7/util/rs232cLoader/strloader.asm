@@ -61,22 +61,23 @@ PROGRAM_BEGIN
 
 					LEAX	END_OF_DECODER+$2F2F,PCR
 
-					LDA		#-3
+					LDA		#-2
 					NEGA
 					STA		-(END_OF_DECODER+$2F2F-DECODE_BRANCH-1),X
-					DEC		-(END_OF_DECODER+$2F2F-DECODE_BRANCH+1),X
 
 					LEAX	-$2F2F,X
 					LEAU	,X
 					LDB		#END_OF_PROGRAM-END_OF_DECODER
 
 DECODE_LOOP			LDA		,X+
-					CMPA	#$21		; Tentative.  Decremented to #$20
-DECODE_BRANCH		BNE		DECODE_LOOP	; Tentative.  Need to make it #3
-					LDA		,X+
 					COMA
 
-DECODE_NO_ESCAPE	STA		,U+
+					CMPA	#$DF		; Tentative.  Decremented to #$20
+DECODE_BRANCH		BNE		DECODE_LOOP	; Tentative.  Need to make it #2
+					LDA		,X+
+
+DECODE_NO_ESCAPE	COMA
+					STA		,U+
 					DECB
 					BNE		DECODE_LOOP
 
@@ -139,7 +140,5 @@ YAMAKAWA			FCB 	"YAMAKAWA"				 ; Subsequent $FF will be a stopper.
 RS232C_RESET_CMD	FCB		$FF,$FF,$FF,$BF,$B1,$48  ; COM and write to FD07
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-ENCODE_START		FCB		END_OF_DECODER-PROGRAM_BEGIN
 
 END_OF_PROGRAM
