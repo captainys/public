@@ -7,16 +7,37 @@
 					; To be used as:
 					; 10 OPEN "I",#1,"COM0:(F8N1)"
 					; 20 LINE INPUT #1,A$
-					; 30 EXEC VARPTR(A$)
+					; 30 CLOSE
+					; 40 EXEC VARPTR(A$)
 
 					; To make it possible, the length sent from the server needs to be exactly 0x7E bytes.
 					; 0x7E is JMP.
 
 					; F-BASIC string (A$) is stored as:
-					;   VARPTR(A$)    (Number of bytes)
-					;   VARPTR(A$)+1  (String Pointer Higher Byte)
-					;   VARPTR(A$)+2  (String Pointer Lower Byte)
+					;   [VARPTR(A$)]    Number of bytes
+					;   [VARPTR(A$)+1]  String Pointer Higher Byte
+					;   [VARPTR(A$)+2]  String Pointer Lower Byte
 					; To jump to the instruction stored in the string, the first byte needs to be 0x7E.
+
+					; The server will encode the binary as follows and then send to FM-7.
+					;
+					; 	std::vector <unsigned char> toSend;
+					; 	for(auto c : binary)
+					; 	{
+					; 		if(0x20<c)
+					; 		{
+					; 			toSend.push_back(c);
+					; 		}
+					; 		else
+					; 		{
+					; 			toSend.push_back(0x20);
+					; 			toSend.push_back((~c)&0xFF);
+					; 		}
+					; 	}
+					; 	while(toSend.size()<0x7E)
+					; 	{
+					; 		toSend.push_back('0');
+					; 	}
 
 INSTALLER_ADDR		EQU		$6000
 
@@ -35,7 +56,7 @@ PROGRAM_BEGIN
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 					; Decoder part >>
-					; No byte can be below or equal to #$20
+					; No byte can be below or equal to #$20 unsigned.
 
 
 					LEAX	END_OF_DECODER+$2F2F,PCR
