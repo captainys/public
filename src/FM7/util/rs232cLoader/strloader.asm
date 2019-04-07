@@ -1,6 +1,6 @@
 					; To be stored inside F-BASIC string.
-					; The server will encode NEED_ENCODE_START to NEED_ENCODE_END in ASCII format
-					;    b -> 0x30+((b&0xF0)>>4) , 0x30+(b&0x0F)
+					; The server will escape with $20
+					;    If b==$20, take COM of the next byte.
 
 					; The server will identify where to encode by looking at the last two bytes of this binary.
 
@@ -32,66 +32,77 @@ PROGRAM_BEGIN
 					; 2019/01/20 In FM-7 (original) FD0B works as FD0F (RAM mode on/off)
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 					; Decoder part >>
-					; No byte can be below #$20
-					LEAX	LOADER_START+$20,PCR
-					LEAX	-$20,X
-					STX		,--S		; Jump by RTS
+					; No byte can be below or equal to #$20
+
+
+					LEAX	END_OF_DECODER+$2F2F,PCR
+
+					LDA		#-3
+					NEGA
+					STA		-(END_OF_DECODER+$2F2F-DECODE_BRANCH-1),X
+					DEC		-(END_OF_DECODER+$2F2F-DECODE_BRANCH+1),X
+
+					LEAX	-$2F2F,X
+					STX		,--S
 					PULS	U
-					LDB		#-(NEED_ENCODE_END-NEED_ENCODE_START)
+					LDB		#END_OF_PROGRAM-END_OF_DECODER
 
 DECODE_LOOP			LDA		,X+
-					LSLA
-					LSLA
-					LSLA
-					LSLA
-					STA		,U
+					CMPA	#$21		; Tentative.  Decremented to #$20
+DECODE_BRANCH		BNE		DECODE_LOOP	; Tentative.  Need to make it #3
 					LDA		,X+
-					SUBA	#$30
-					ORA		,U
-					STA		,U+
-					INCB
+					COMA
+
+DECODE_NO_ESCAPE	STA		,U+
+					DECB
 					BNE		DECODE_LOOP
 
-					LDB		#-(END_OF_PROGRAM-NEED_ENCODE_END)
-
-TFR_LOOP			LDA		,X+
-					STA		,U+
-					INCB
-					BNE		TFR_LOOP
-
-					; Decoder part <<
-
-					; The code that doesn't need to be encoded >>
-					LDB		#$B7
-					; The code that doesn't need to be encoded <<
-
-
-
-					; Need encoding from here. >>
-NEED_ENCODE_START
-
-LOADER_START		LDU		#$FD00
-
-					ORCC	#$50
-					STB		7,U
-
-					; X is pointing "YAMAKAWA"
-
-					BSR		SEND_REQ_CMD
-
-					LDX		#INSTALLER_ADDR
-					PSHS	X			; Jump by RTS
-NEED_ENCODE_END
-					; Need encoding above here. <<
+END_OF_DECODER
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-					;  Instructions > $20  >>
+
+
+
+LOADER_START
+
+					ORCC	#$50
+					LDU		#$FD00
+
+
+
+					LEAX	RS232C_RESET_CMD,PCR
+RS232C_RESET_LOOP	MUL
+					LDA		,X+
+					COMA
+					STA		7,U
+					BPL		RS232C_RESET_LOOP
+
+
+
+					LEAX	YAMAKAWA,PCR
+
+SEND_REQ_CMD_LOOP	INCA
+					BNE		SEND_REQ_CMD_LOOP
+
+					LDA		,X+
+					BMI		SEND_REQ_CMD_END
+
+WAIT_TXRDY			LDB		7,U
+					LSRB
+					BCC		WAIT_TXRDY
+					STA		6,U
+					BRA		SEND_REQ_CMD_LOOP
+SEND_REQ_CMD_END
+
+
+					LDX		#INSTALLER_ADDR
+
 					CLRB
-LOAD_LOOP			CLRA					; Avoid instruction < #$20
-					INCA
-					INCA
+LOAD_LOOP			LDA		#2
 					ANDA	7,U
 					BEQ		LOAD_LOOP
 					LDA		6,U				; 1 byte shorter than "LDA IO_RS232C_DATA"
@@ -99,29 +110,16 @@ LOAD_LOOP			CLRA					; Avoid instruction < #$20
 					DECB
 					BNE		LOAD_LOOP
 
-JUST_RTS			RTS
+					JMP		INSTALLER_ADDR
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-SEND_REQ_WRITEIO	STA		6,U
+; Keep "YAMAKAWA" immediately before RS232C_RESET_CMD.
+YAMAKAWA			FCB 	"YAMAKAWA"				 ; Subsequent $FF will be a stopper.
+RS232C_RESET_CMD	FCB		$FF,$FF,$FF,$BF,$B1,$48  ; COM and write to FD07
 
-SEND_REQ_CMD		INCA
-					BNE		SEND_REQ_CMD
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-WAIT_TXRDY			LDA		7,U
-					LSRA
-					BCC		WAIT_TXRDY
-					LDA		,X+
-					BPL		SEND_REQ_WRITEIO
+ENCODE_START		FCB		END_OF_DECODER-PROGRAM_BEGIN
 
-					RTS
-
-					;  Instructions > $20  <<
 END_OF_PROGRAM
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-YAMAKAWA			FCB 	"YAMAKAWA",$FF
-
-					FCB		#NEED_ENCODE_START-PROGRAM_BEGIN
-					FCB		#NEED_ENCODE_END-PROGRAM_BEGIN

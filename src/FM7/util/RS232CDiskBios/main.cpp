@@ -1020,6 +1020,7 @@ public:
 	bool verbose;
 	bool installASCII;
 	bool installBinaryLoader;
+	bool installBinary;
 
 
 	int systemType;
@@ -1042,6 +1043,7 @@ public:
 		verbose=false;
 		installASCII=false;
 		installBinaryLoader=false;
+		installBinary=false;
 
 		lastByteReceivedClock=std::chrono::system_clock::now();
 	}
@@ -1313,7 +1315,7 @@ void SubCPU(void)
 		bool verboseMode=fc80.GetVerboseMode();
 		fc80.Halt();
 
-		if(true==fc80.installASCII)
+		if(true==fc80.installASCII || true==fc80.installBinary)
 		{
 			printf("Install Addr=%04x\n",fc80.cpi.instAddr);
 			if(fc80.cpi.instAddr!=fc80.cpi.instAddr2)
@@ -1321,34 +1323,49 @@ void SubCPU(void)
 				printf("Secondary Install Addr=%04x\n",fc80.cpi.instAddr2);
 			}
 
-			printf("\nTransmitting Installer ASCII\n");
-			int ctr=0;
-			for(auto c : clientCode.dat)
+			if(true==fc80.installASCII)
 			{
-				char str[256];
-				sprintf(str,"%d%c%c",(unsigned int)c,0x0d,0x0a);
-				comPort.Send(strlen(str),(unsigned char *)str);
-				std::this_thread::sleep_for(std::chrono::milliseconds(15));
-				ctr++;
-				if(ctr%16==0)
+				printf("\nTransmitting Installer ASCII\n");
+				int ctr=0;
+				for(auto c : clientCode.dat)
 				{
-					printf("%d/256\n",ctr);
+					char str[256];
+					sprintf(str,"%d%c%c",(unsigned int)c,0x0d,0x0a);
+					comPort.Send(strlen(str),(unsigned char *)str);
+					std::this_thread::sleep_for(std::chrono::milliseconds(15));
+					ctr++;
+					if(ctr%16==0)
+					{
+						printf("%d/256\n",ctr);
+					}
 				}
+				for(auto i=clientCode.dat.size(); i<256; ++i)
+				{
+					unsigned char zero[]={'0',0x0d,0x0a};
+					comPort.Send(3,zero);
+					std::this_thread::sleep_for(std::chrono::milliseconds(15));
+					ctr++;
+					if(ctr%16==0)
+					{
+						printf("%d/256\n",ctr);
+					}
+				}
+				printf("Transmition finished.\n");
+				printf("Do EXEC &H6000 on FM-7/77\n");
+				fc80.installASCII=false;
 			}
-			for(auto i=clientCode.dat.size(); i<256; ++i)
+			else if(true==fc80.installBinary)
 			{
-				unsigned char zero[]={'0',0x0d,0x0a};
-				comPort.Send(3,zero);
-				std::this_thread::sleep_for(std::chrono::milliseconds(15));
-				ctr++;
-				if(ctr%16==0)
+				printf("\nTransmitting Installer BINARY\n");
+				auto bin=clientCode.dat;
+				while(bin.size()<256)
 				{
-					printf("%d/256\n",ctr);
+					bin.push_back(0xff);
 				}
+				comPort.Send(bin.size(),bin.data());
+				printf("\nTransmitted\n");
+				fc80.installBinary=false;
 			}
-			printf("Transmition finished.\n");
-			printf("Do EXEC &H6000 on FM-7/77\n");
-			fc80.installASCII=false;
 		}
 		else if(true==fc80.installBinaryLoader)
 		{
@@ -1357,25 +1374,18 @@ void SubCPU(void)
 			FM7BinaryFile binFile;
 			binFile.DecodeSREC(strLoader);
 
-			auto bin=binFile.dat;
-			unsigned int encodeEndOffset=bin.back();
-			bin.pop_back();
-			unsigned int encodeBeginOffset=bin.back();
-			bin.pop_back();
-
 			std::vector <unsigned char> toSend;
-			for(int i=0; i<encodeBeginOffset; ++i)
+			for(auto c : binFile.dat)
 			{
-				toSend.push_back(bin[i]);
-			}
-			for(int i=encodeBeginOffset; i<encodeEndOffset; ++i)
-			{
-				toSend.push_back(0x30+((bin[i]>>4)&0x0F));
-				toSend.push_back(0x30+ (bin[i]&0x0F));
-			}
-			for(int i=encodeEndOffset; i<bin.size(); ++i)
-			{
-				toSend.push_back(bin[i]);
+				if(0x20<c)
+				{
+					toSend.push_back(c);
+				}
+				else
+				{
+					toSend.push_back(0x20);
+					toSend.push_back((~c)&0xFF);
+				}
 			}
 			printf("String size=0x%02x\n",(int)toSend.size());
 
@@ -1422,20 +1432,7 @@ void SubCPU(void)
 				{
 					if(0==strncmp((const char *)biosCmdBuf,"YAMAKAWA",8))
 					{
-						printf("Install Addr=%04x\n",fc80.cpi.instAddr);
-						if(fc80.cpi.instAddr!=fc80.cpi.instAddr2)
-						{
-							printf("Secondary Install Addr=%04x\n",fc80.cpi.instAddr2);
-						}
-
-						printf("\nTransmitting Installer BINARY\n");
-						auto bin=clientCode.dat;
-						while(bin.size()<256)
-						{
-							bin.push_back(0xff);
-						}
-						comPort.Send(bin.size(),bin.data());
-						printf("\nTransmitted\n");
+						fc80.installBinary=true;
 					}
 					else if(0x09==biosCmdBuf[0]) // Disk Write
 					{

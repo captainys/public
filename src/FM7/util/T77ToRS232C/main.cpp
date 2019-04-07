@@ -15,6 +15,7 @@
 
 #include "bioshook_small.h"
 #include "bioshook_buffered.h"
+#include "strloader.h"
 
 
 // This value must match the value in bioshook_buffered.asm 
@@ -70,6 +71,7 @@ void ShowCommandHelp(void)
 {
 	printf("Command Help:\n");
 	printf("IA..Transmit BIOS redirector installer to FM-7/77\n");
+	printf("IL..Transmit BIOS redirector installer loader binary to FM7/77\n");
 	printf("Q...Quit.\n");
 	printf("H...Show this help.\n");
 	printf("V...Verbose mode on/off\n");
@@ -568,6 +570,8 @@ public:
 	bool fatalError;
 	bool verbose;
 	bool installASCII;
+	bool installBinaryLoader;
+	bool installBinary;
 
 	FM7CassetteTape loadTape;
 	FM7CassetteTape *loadTapePtr;
@@ -586,6 +590,8 @@ public:
 
 		verbose=false;
 		installASCII=false;
+		installBinaryLoader=false;
+		installBinary=false;
 
 		tapeSaved=true;
 		lastByteReceivedClock=std::chrono::system_clock::now();
@@ -648,6 +654,11 @@ public:
 	{
 		std::lock_guard <std::mutex> lock(fd05);
 		installASCII=true;
+	}
+	void InstallBinaryLoader(void)
+	{
+		std::lock_guard <std::mutex> lock(fd05);
+		installBinaryLoader=true;
 	}
 	void SaveT77(const char fName[]) const
 	{
@@ -836,6 +847,11 @@ void MainCPU(void)
 				fc80.InstallASCII();
 				processed=true;
 			}
+			if("IL"==CMD)
+			{
+				fc80.InstallBinaryLoader();
+				processed=true;
+			}
 			break;
 		case 'Q':
 			fc80.SetTerminate(true);
@@ -990,6 +1006,8 @@ void SubCPU(void)
 	const unsigned int READ_REQUESTM=0xB8;
 
 
+	int yamakawaCount=0;
+
 	fc80.Halt();
 	fc80.subCPUready=true;
 	fc80.Unhalt();
@@ -1002,7 +1020,7 @@ void SubCPU(void)
 
 		fc80.Halt();
 
-		if(true==fc80.installASCII)
+		if(true==fc80.installASCII || true==fc80.installBinary)
 		{
 			FM7BinaryFile binFile;
 			switch(fc80.cpi.cliType)
@@ -1023,34 +1041,94 @@ void SubCPU(void)
 			printf("Install Addr=%04x\n",fc80.cpi.instAddr);
 			printf("Bridge Addr =%04x\n",fc80.cpi.bridgeAddr);
 
-			printf("\nTransmitting Installer ASCII\n");
-			int ctr=0;
+			if(true==fc80.installASCII)
+			{
+				printf("\nTransmitting Installer ASCII\n");
+				int ctr=0;
+				for(auto c : binFile.dat)
+				{
+					char str[256];
+					sprintf(str,"%d%c%c",(unsigned int)c,0x0d,0x0a);
+					comPort.Send(strlen(str),(unsigned char *)str);
+					std::this_thread::sleep_for(std::chrono::milliseconds(15));
+					ctr++;
+					if(ctr%16==0)
+					{
+						printf("%d/256\n",ctr);
+					}
+				}
+				for(auto i=binFile.dat.size(); i<256; ++i)
+				{
+					unsigned char zero[]={'0',0x0d,0x0a};
+					comPort.Send(3,zero);
+					std::this_thread::sleep_for(std::chrono::milliseconds(15));
+					ctr++;
+					if(ctr%16==0)
+					{
+						printf("%d/256\n",ctr);
+					}
+				}
+				printf("Transmition finished.\n");
+				printf("Do EXEC &H6000 on FM-7/77\n");
+				fc80.installASCII=false;
+			}
+			else if(true==fc80.installBinary)
+			{
+				printf("\nTransmitting Installer Binary\n");
+
+				auto bin=binFile.dat;
+				while(bin.size()<256)
+				{
+					bin.push_back(0xff);
+				}
+				comPort.Send(bin.size(),bin.data());
+
+				printf("Transmition finished.\n");
+				fc80.installBinary=false;
+			}
+		}
+		else if(true==fc80.installBinaryLoader)
+		{
+			fc80.installBinaryLoader=false;
+
+			FM7BinaryFile binFile;
+			binFile.DecodeSREC(strLoader);
+
+			std::vector <unsigned char> toSend;
 			for(auto c : binFile.dat)
 			{
-				char str[256];
-				sprintf(str,"%d%c%c",(unsigned int)c,0x0d,0x0a);
-				comPort.Send(strlen(str),(unsigned char *)str);
-				std::this_thread::sleep_for(std::chrono::milliseconds(15));
-				ctr++;
-				if(ctr%16==0)
+				if(0x20<c)
 				{
-					printf("%d/256\n",ctr);
+					toSend.push_back(c);
+				}
+				else
+				{
+					toSend.push_back(0x20);
+					toSend.push_back((~c)&0xFF);
 				}
 			}
-			for(auto i=binFile.dat.size(); i<256; ++i)
+			printf("String size=0x%02x\n",(int)toSend.size());
+
+			while(toSend.size()<0x7E)
 			{
-				unsigned char zero[]={'0',0x0d,0x0a};
-				comPort.Send(3,zero);
-				std::this_thread::sleep_for(std::chrono::milliseconds(15));
-				ctr++;
-				if(ctr%16==0)
+				toSend.push_back('0');
+			}
+
+			if(0x7E<toSend.size())
+			{
+				fprintf(stderr,"Error.  The code needs to be shorter than 0x7E.\n");
+			}
+			else
+			{
+				toSend.push_back(0x0d);
+				toSend.push_back(0x0a);
+				comPort.Send(toSend.size(),toSend.data());
+
+				for(auto d : toSend)
 				{
-					printf("%d/256\n",ctr);
+					printf("%02x %c\n",d,d);
 				}
 			}
-			printf("Transmition finished.\n");
-			printf("Do EXEC &H6000 on FM-7/77\n");
-			fc80.installASCII=false;
 		}
 
 
@@ -1067,6 +1145,7 @@ void SubCPU(void)
 				if(READ_REQUEST==c)
 				{
 					SendOneByte(comPort);
+					yamakawaCount=0;
 				}
 				else if(READ_REQUESTM==c)
 				{
@@ -1074,10 +1153,26 @@ void SubCPU(void)
 					{
 						SendOneByte(comPort);
 					}
+					yamakawaCount=0;
 				}
 				else if(WRITE_REQUEST==c)
 				{
 					state=STATE_WAIT_WRITE_BYTE;
+					yamakawaCount=0;
+				}
+				else if("YAMAKAWA"[yamakawaCount]==c)
+				{
+					printf("[%02x](%c)\n",c,c);
+					++yamakawaCount;
+					if(8==yamakawaCount)
+					{
+						fc80.installBinary=true;
+						yamakawaCount=0;
+					}
+				}
+				else
+				{
+					yamakawaCount=0;
 				}
 				break;
 			case STATE_WAIT_WRITE_BYTE:
