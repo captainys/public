@@ -22,14 +22,6 @@ The disk titles you can run are limited to the ones that access disk via BIOS ca
 
 To use this program you need a working Fujitsu FM-7 hardware.  I am not talking about an emulator.  I am talking about an actual hardware.  You also need a Windows PC that works as a server.  The Windows PC and the FM-7 must be connected by an RS232C (aka serial) cross cable.  Modern PCs don't have an onboard RS232C connector.  You probably want to get a USB to RS232C adapter like Sabrent USB to RS232C adapter:
 
-If your FM-7 series hardware is FM77AV20/40 or newer, you first need to enable RS232C.  Start your unit, and type the following.
-
-POKE &HFD0C,5
-POKE &HFD0B,16
-EXEC -512
-
-If you are using FM77AV1/2 or earlier model, don't do this.  If RS232C card is already installed, it is enabled as soon as you power on.  Also POKE &HFD0B,16 will hang your FM-7 because $FD0B works the same as $FD0F where writing to this address will switch F-BASIC ROM into RAM mode, and immediately your prompt will be gone.
-
 You need to type a short program on FM-7.
 
 10 OPEN "I",#1,"COM0:(F8N1)"
@@ -49,9 +41,15 @@ Once the server starts, type:
 
 IL
 
-on the server prompt.  The FM-7 will restart and boot from the disk image you specify in the server command line.
+on the server prompt.  FM-7 will restart and boot from the disk image you specify in the server command line.
 
-(By the way, the server sends exactly 0x7E bytes of the string.  0x7E is JMP instruction of 6809.  This way EXEC VARPTR(A$) will jump to the program stored in A$.)
+If your FM-7 series hardware is FM77AV20/40 or newer, you first need to enable RS232C before the above steps.  Start your unit, and type the following.
+
+POKE &HFD0C,5
+POKE &HFD0B,16
+EXEC -512
+
+If you are using FM77AV1/2 or earlier model, don't do this.  If RS232C card is already installed, it is enabled as soon as you power on.  Also POKE &HFD0B,16 will hang your FM-7 because $FD0B works the same as $FD0F where writing to this address will switch F-BASIC ROM into RAM mode, and immediately your prompt will be gone.
 
 
 
