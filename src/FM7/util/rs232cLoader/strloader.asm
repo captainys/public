@@ -63,21 +63,17 @@ PROGRAM_BEGIN
 					LEAU	,X
 					LDB		#END_OF_PROGRAM-END_OF_DECODER
 
-DECODE_LOOP			PSHS	Y,B			; Dummy-push Y to make the second byte $20+.
-
-					LDB		#-$20
-					LDA		,X
-					COMA
+DECODE_LOOP			LDA		#$DF		; #$DF=COM($20)
+					COM		,X
 
 					FCB		$8C			; =CMPX
-DECODE_ESCAPE		LDA		,X			; Comes here only if B=0. Next byte is always $20+. Next SUBB ,X+ wont be zero.
-					ADDB	,X+
+DECODE_ESCAPE		CMPA	,X+			; Comes here only if A=0. Next byte is always $20+. Next SUBA ,X wont be zero.
+					SUBA	,X
 					BEQ		DECODE_ESCAPE
 
+					LDA		,X+
 					COMA
 					STA		,U+
-
-					PULS	Y,B
 
 					DECB
 					BNE		DECODE_LOOP
