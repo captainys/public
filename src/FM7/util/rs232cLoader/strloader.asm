@@ -58,25 +58,27 @@ PROGRAM_BEGIN
 					; No byte can be below or equal to #$20 unsigned.
 
 
-					LEAX	END_OF_DECODER+$2F2F,PCR
-
-					LDA		#-2
-					NEGA
-					STA		-(END_OF_DECODER+$2F2F-DECODE_BRANCH-1),X
-
-					LEAX	-$2F2F,X
+					LEAX	END_OF_DECODER+$2F,PCR
+					LEAX	-$2F,X
 					LEAU	,X
 					LDB		#END_OF_PROGRAM-END_OF_DECODER
 
-DECODE_LOOP			LDA		,X+
+DECODE_LOOP			PSHS	Y,B			; Dummy-push Y to make the second byte $20+.
+
+					LDB		#-$20
+					LDA		,X
 					COMA
 
-					CMPA	#$DF		; COM(A)==#$DF <-> A==#$20
-DECODE_BRANCH		BNE		DECODE_LOOP	; Tentative.  Need to make it #2
-					LDA		,X+
+					FCB		$8C			; =CMPX
+DECODE_ESCAPE		LDA		,X			; Comes here only if B=0. Next byte is always $20+. Next SUBB ,X+ wont be zero.
+					ADDB	,X+
+					BEQ		DECODE_ESCAPE
 
-DECODE_NO_ESCAPE	COMA
+					COMA
 					STA		,U+
+
+					PULS	Y,B
+
 					DECB
 					BNE		DECODE_LOOP
 
