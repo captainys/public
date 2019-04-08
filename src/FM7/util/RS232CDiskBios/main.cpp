@@ -5,6 +5,7 @@
 #include <thread>
 #include <mutex>
 #include <string>
+#include <unordered_map>
 
 
 #include <string.h>
@@ -608,12 +609,36 @@ bool DiskFileInfo::Recognize(const std::string &fName)
 ////////////////////////////////////////////////////////////
 
 
+class SectorSubstPrep
+{
+public:
+	int drv,trk,sid,sec;
+	std::string fName;
+};
+
+
+////////////////////////////////////////////////////////////
+
+
+class SectorSubst
+{
+public:
+	int trk,sid,sec;
+	std::string fName;
+	std::vector <unsigned char> dat;
+};
+
+
+////////////////////////////////////////////////////////////
+
+
 class FM7Disk
 {
 public:
 	DiskFileInfo fileInfo;
 	D77File *filePtr;
 	D77File::D77Disk *diskPtr;
+	std::unordered_map <unsigned int,SectorSubst> subst;
 
 	FM7Disk();
 	~FM7Disk();
@@ -635,6 +660,8 @@ void FM7Disk::CleanUp()
 
 
 ////////////////////////////////////////////////////////////
+
+
 
 
 class DiskSet
@@ -773,6 +800,56 @@ void DiskSet::CollectGarbage(void)
 ////////////////////////////////////////////////////////////
 
 
+bool FinalizeSectorSubst(DiskSet &set,const std::vector <SectorSubstPrep> &prep)
+{
+	for(auto &p : prep)
+	{
+		if(2<=p.drv)
+		{
+			fprintf(stderr,"More than 2 drives are not supported.\n");
+			return false;
+		}
+
+		unsigned int trkSidSec=p.trk*0x10000+p.sid*0x100+p.sec;
+		auto &newSubst=set.fm7Disk[p.drv].subst[trkSidSec];
+		newSubst.trk=p.trk;
+		newSubst.sid=p.sid;
+		newSubst.sec=p.sec;
+		newSubst.fName=p.fName;
+
+		printf("Subst: Drv %d Trk %d Sid %d Sec %d File %s\n",
+			p.drv,
+		    p.trk,
+		    p.sid,
+		    p.sec,
+		    p.fName.c_str());
+
+		auto ext=FM7Lib::GetExtension(p.fName.c_str());
+		auto txt=FM7Lib::ReadTextFile(p.fName.c_str());
+		if(0==txt.size())
+		{
+			fprintf(stderr,"Text read error, or an empty text while reading a subst data.\n");
+			return false;
+		}
+		FM7Lib::Capitalize(ext);
+		if(".SREC"==ext || ".MOT"==ext)
+		{
+			FM7BinaryFile srec;
+			srec.DecodeSREC(txt);
+			std::swap(newSubst.dat,srec.dat);
+		}
+		else
+		{
+			newSubst.dat=FM7Lib::RawHexToByteData(txt);
+		}
+	}
+	return true;
+}
+
+
+////////////////////////////////////////////////////////////
+
+
 class D77ServerCommandParameterInfo
 {
 public:
@@ -783,6 +860,9 @@ public:
 	unsigned int instAddr;
 
 	std::vector <Encoder> encoder;
+	std::vector <SectorSubstPrep> secSubst;
+
+	std::unordered_map <unsigned int,SectorSubst> sectorSubst;
 
 	/* In most cases, instAddr and instAddr2 are the same.
 
@@ -946,6 +1026,17 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 			d77FName[1]=av[i+1];
 			++i;
 		}
+		else if("-SUBST"==arg && i+5<ac)
+		{
+			SectorSubstPrep subst;
+			subst.drv=atoi(av[i+1]);
+			subst.trk=atoi(av[i+2]);
+			subst.sid=atoi(av[i+3]);
+			subst.sec=atoi(av[i+4]);
+			subst.fName=av[i+5];
+			secSubst.push_back(subst);
+			i+=5;
+		}
 		else if('-'==arg[0])
 		{
 			printf("Unknown option: %s\n",arg.c_str());
@@ -1100,11 +1191,20 @@ public:
 
 	D77File::D77Disk *GetDiskFromBiosCmd(const unsigned char biosCmd[])
 	{
+		auto d=GetAbstDiskFromBiosCmd(biosCmd);
+		if(nullptr!=d)
+		{
+			return d->diskPtr;
+		}
+		return nullptr;
+	}
+	FM7Disk *GetAbstDiskFromBiosCmd(const unsigned char biosCmd[])
+	{
 		// FM-7 BIOS takes &3.
 		auto d=(biosCmd[7]&3);
 		if(d<2)
 		{
-			return diskSet.fm7Disk[d].diskPtr;
+			return &diskSet.fm7Disk[d];
 		}
 		return nullptr;
 	}
@@ -1187,6 +1287,11 @@ int main(int ac,char *av[])
 
 	fc80.IdentifySystemType(fc80.diskSet.fm7Disk[0].diskPtr);
 	fc80.cpi.FinalizeInstallAddress(fc80.diskSet.fm7Disk[0].diskPtr);
+	if(true!=FinalizeSectorSubst(fc80.diskSet,fc80.cpi.secSubst))
+	{
+		fprintf(stderr,"Sector Substitution Error.\n");
+		return 1;
+	}
 
 	std::thread t(SubCPU);
 	MainCPU();
@@ -1485,6 +1590,19 @@ void SubCPU(void)
 						{
 							auto sectorData=diskPtr->ReadSector(track,side,sector);
 
+							auto abstDiskPtr=fc80.GetAbstDiskFromBiosCmd(biosCmdBuf);
+							if(nullptr!=abstDiskPtr)
+							{
+								auto substPtr=abstDiskPtr->subst.find(track*0x10000+side*0x100+sector);
+								if(abstDiskPtr->subst.end()!=substPtr)
+								{
+									for(long long int ptr=0; ptr<substPtr->second.dat.size() && ptr<sectorData.size(); ++ptr)
+									{
+										sectorData[ptr]=substPtr->second.dat[ptr];
+									}
+								}
+							}
+
 							if(0==fc80.cpi.encoder.size())
 							{
 								printf("No encoder!\n");
@@ -1577,6 +1695,17 @@ void SubCPU(void)
 								{
 									const unsigned char errCode[]={BIOS_ERROR_HARD_ERROR};
 									comPort.Send(1,errCode);
+								}
+
+								// If sector subst exists, erase it.
+								auto abstDiskPtr=fc80.GetAbstDiskFromBiosCmd(biosCmdBuf);
+								if(nullptr!=abstDiskPtr)
+								{
+									auto substPtr=abstDiskPtr->subst.find(track*0x10000+side*0x100+sector);
+									if(abstDiskPtr->subst.end()!=substPtr)
+									{
+										abstDiskPtr->subst.erase(substPtr);
+									}
 								}
 							}
 						}

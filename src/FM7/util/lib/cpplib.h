@@ -153,6 +153,12 @@ std::string GetFileNameFromFMFile(const std::vector <unsigned char> &dat);
 
 
 
+/*! Interpret raw text of hexadecimal numbers into array of unsigned chars.
+    This function ignores spaces, tabs, and non-hexadecimal characters.
+*/
+std::vector <unsigned char> RawHexToByteData(const std::vector <std::string> &rawHexTxt);
+
+
 const char *BoolToStr(bool b);
 
 

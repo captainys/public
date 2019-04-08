@@ -616,6 +616,30 @@ std::string FM7Lib::GetFileNameFromFMFile(const std::vector <unsigned char> &dat
 	return fn;
 }
 
+std::vector <unsigned char> FM7Lib::RawHexToByteData(const std::vector <std::string> &rawHexTxt)
+{
+	std::string allText;
+	for(auto &s : rawHexTxt)
+	{
+		for(auto c : s)
+		{
+			if(('a'<=c && c<='f') || ('A'<=c && c<='F') || ('0'<=c && c<='9'))
+			{
+				allText.push_back(c);
+			}
+		}
+	}
+
+	std::vector <unsigned char> dat;
+	for(int ptr=0; ptr+2<=allText.size(); ptr+=2)
+	{
+		char wd[3]={allText[ptr],allText[ptr+1],0};
+		dat.push_back(FM7Lib::Xtoi(wd));
+	}
+
+	return dat;
+}
+
 const char *FM7Lib::BoolToStr(bool b)
 {
 	if(b==true)
