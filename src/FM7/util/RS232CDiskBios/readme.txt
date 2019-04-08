@@ -27,16 +27,14 @@ POKE &HFD0C,5
 POKE &HFD0B,16
 EXEC -512
 
-‚Æ‘Å‚¿ž‚ñ‚ÅA30•b‚®‚ç‚¢‘Ò‚Â‚ÆRS232C‚ªŽg‚¦‚é‚æ‚¤‚É‚È‚Á‚ÄÄ‹N“®‚µ‚Ü‚·B
+‚Æ‘Å‚¿ž‚ñ‚ÅA30•b‚®‚ç‚¢‘Ò‚Â‚ÆRS232C‚ªŽg‚¦‚é‚æ‚¤‚É‚È‚Á‚ÄÄ‹N“®‚µ‚Ü‚·B‚±‚ÌŽè‡‚ðFM-7‚ÅŽÀs‚·‚é‚ÆPOKE &HFD0B,16‚ÅƒNƒ‰ƒbƒVƒ…‚·‚é‚Ì‚Å•K‚¸FM77AV20/40ˆÈ~‚Ìê‡‚Ì‚Ý‚±‚ÌŽè‡‚ðŽÀs‚µ‚Ä‚­‚¾‚³‚¢B
 
 FM-7ã‚Å‚Í’Z‚¢ƒvƒƒOƒ‰ƒ€‚ð‘Å‚¿ž‚Þ•K—v‚ª‚ ‚è‚Ü‚·B
 
 10 OPEN "I",#1,"COM0:(F8N1)"
-20 FOR I=0 TO 255
-30 INPUT #1,A%:POKE &H6000+I,A%
-40 NEXT
-50 CLOSE
-60 EXEC &H6000
+20 LINE INPUT #1,A$
+30 CLOSE
+40 EXEC VARPTR(A$)
 
 ‚»‚µ‚ÄARUN‚µ‚Ä‘Ò‚¿ó‘Ô‚É‚µ‚Ä‚­‚¾‚³‚¢BŽŸ‚ÉWindows‚ÌƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒg‚Ü‚½‚ÍPower Shell‚É“ü‚Á‚ÄƒT[ƒo[‚ð‹N“®‚µ‚Ü‚·B
 
@@ -44,11 +42,11 @@ RS232CDiskBios.exe diskimage.d77 1
 
 ‚Ì‚æ‚¤‚Éƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢B‚È‚¨A1‚Æ‚¢‚¤‚Ì‚ÍCOMƒ|[ƒg”Ô†‚È‚Ì‚ÅŠÂ‹«‚É‰ž‚¶‚Ä“K“–‚È”Ô†‚ðŽw’è‚µ‚Ä‚­‚¾‚³‚¢BƒT[ƒo[‚ª‹N“®‚µ‚½‚çAƒT[ƒo[ƒvƒƒ“ƒvƒgã‚ÅA
 
-IA
+IL
 
-‚Æƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢BƒT[ƒo[‚ªFM-7‚ÉƒŠƒ_ƒCƒŒƒNƒ^ƒCƒ“ƒXƒg[ƒ‰‚ð‘—M‚µ‚Ü‚·B
+‚Æƒ^ƒCƒv‚µ‚Ä‚­‚¾‚³‚¢BFM-7‚ªÄ‹N“®‚µ‚ÄƒT[ƒo[‹N“®Žž‚ÉŽw’è‚µ‚½ƒCƒ[ƒW‚©‚ç‹N“®‚µ‚Ü‚·B(‚È‚¨ALINE INPUT‚ÅŽó‚¯Žæ‚é•¶Žš—ñ‚ð0x7EƒoƒCƒg‚É‚µ‚Ä‚¢‚é‚½‚ßA‚±‚Ì•û–@‚Å•¶Žš—ñ‚É‘‚«ž‚Ü‚ê‚½ƒ}ƒVƒ“ŒêƒvƒƒOƒ‰ƒ€‚ÉƒWƒƒƒ“ƒv‚·‚éB)
 
-‘—M‚ªI‚í‚Á‚½‚çFM-7‚ÉƒŠƒ_ƒCƒŒƒNƒ^‚ªí’“‚µAƒT[ƒo[‹N“®Žž‚ÉŽw’è‚µ‚½ƒfƒBƒXƒNƒCƒ[ƒW‚©‚çÄ‹N“®‚µ‚Ü‚·B‚Ç‚ÌƒZƒNƒ^‚ð“Ç‚Ý‘‚«‚µ‚Ä‚¢‚é‚©‚ÍƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒgã‚Éo‚é‚Ì‚ÅA“®ì‚µ‚Ä‚é‚Ì‚Í‚í‚©‚è‚Ü‚·B
+‚Ç‚ÌƒZƒNƒ^‚ð“Ç‚Ý‘‚«‚µ‚Ä‚¢‚é‚©‚ÍƒRƒ}ƒ“ƒhƒvƒƒ“ƒvƒgã‚Éo‚é‚Ì‚ÅA“®ì‚µ‚Ä‚é‚Ì‚Í‚í‚©‚è‚Ü‚·B
 
 
 
@@ -125,6 +123,16 @@ F-BASIC‚ÌDisk BASIC‚ðŽg‚¤ê‡‚Ìí’“ƒAƒhƒŒƒX‚ðŽw’è‚·‚éBã‚Ì—á‚Å‚Í$7F25(Disk BASI
 
 
 
+[ƒZƒNƒ^ˆêŽž‘‚«Š·‚¦ (-subst)]
+
+    RS232CDiskBios.exe diskimage.d77 portNumber -subst drv trk sid sec file.srec/.txt
+
+ƒT[ƒo[‚ªFM-7‚ÉƒZƒNƒ^î•ñ‚ð‘—M‚·‚é‚Æ‚«A“Á’èƒZƒNƒ^‚Ì“à—e‚ð‘‚«Š·‚¦‚Ä‘—M‚·‚éB‚±‚ÌƒIƒvƒVƒ‡ƒ“‚ÍŒ³‚ÌD77ƒtƒ@ƒCƒ‹‚Í‘‚«Š·‚¦‚È‚¢B‘‚«Š·‚¦“à—e‚ÍSRECŒ`Ž®ƒtƒ@ƒCƒ‹‚©A‚ ‚é‚¢‚ÍA16i”‚ð‹l‚ß‚Ä‹Lq‚µ‚½ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚ÅŽw’èBƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚Ìê‡A16i”‚Æ”FŽ¯‚Å‚«‚È‚¢•¶Žš‚Í‚·‚×‚Ä–³Ž‹‚·‚éB‚½‚Æ‚¦‚ÎRS232C‹N“®‚Ì‚½‚ß‚ÉIPL‚ð·‚µ‘Ö‚¦‚é•K—v‚ª‚ ‚éê‡‚ÍAIPL‚ðSREC‚Ü‚½‚ÍƒeƒLƒXƒgŒ`Ž®ƒtƒ@ƒCƒ‹‚É‹Lq‚µ‚Ä‚¨‚¢‚ÄA
+
+    RS232CDiskBios.exe diskimage.d77 portNumber -subst 0 0 0 1 ipl_for_rs232c.txt
+
+‚Ì‚æ‚¤‚É‹N“®‚·‚éB
+
 
 
 50 REM -------- ƒCƒ[ƒWƒtƒ@ƒCƒ‹–¼ƒIƒvƒVƒ‡ƒ“
@@ -165,11 +173,36 @@ D77ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚Ìƒ‰ƒCƒgƒvƒƒeƒNƒgƒtƒ‰ƒO‚ª–³‚­‚Ä‚àƒ‰ƒCƒgƒvƒƒeƒNƒgó‘Ô‚Åƒ}ƒEƒ
 
 
 60 REM -------- ƒT[ƒo[ƒvƒƒ“ƒvƒg—pƒRƒ}ƒ“ƒh
+[BIOSƒŠƒ_ƒCƒŒƒNƒ^ƒ[ƒ_[‘—M (IL)]
+
+    IL
+
+FM-7‚ðF-BASIC‚Å‘Ò‚¿ó‘Ô‚É‚µ‚ÄAƒT[ƒo[ã‚ÅILƒRƒ}ƒ“ƒh‚ðƒ^ƒCƒv‚·‚é‚Æ0x7EƒoƒCƒg‚ÌƒŠƒ_ƒCƒŒƒNƒ^ƒ[ƒ_[‚ð‘—M‚·‚éBƒ[ƒ_[‚Í‚»‚ÌŒãƒT[ƒo[‚ÆŒðM‚µ‚ÄƒŠƒ_ƒCƒŒƒNƒ^ƒCƒ“ƒXƒg[ƒ‰‚ð0x6000‚©‚ç‚É“WŠJ‚µ‚ÄƒWƒƒƒ“ƒv‚·‚éB
+
+ILƒRƒ}ƒ“ƒh—p‘Ò‚¿ƒvƒƒOƒ‰ƒ€‚ÍŽŸ‚Ì’Ê‚èBIAƒRƒ}ƒ“ƒh‚æ‚è‚©‚Í‚è‘¬‚¢B
+
+10 OPEN "I",#1,"COM0:(F8N1)"
+20 LINE INPUT #1,A$
+30 CLOSE
+40 EXEC VARPTR(A$)
+
+
+
 [BIOSƒŠƒ_ƒCƒŒƒNƒ^ƒCƒ“ƒXƒg[ƒ‰‘—M (IA)]
 
     IA
 
 FM-7‚ðF-BASIC‚Å‘Ò‚¿ó‘Ô‚É‚µ‚ÄAƒT[ƒo[ã‚ÅIAƒRƒ}ƒ“ƒh‚ðƒ^ƒCƒv‚·‚é‚Æ256ƒoƒCƒg‚ÌƒŠƒ_ƒCƒŒƒNƒ^ƒCƒ“ƒXƒg[ƒ‰‚ð‘—M‚·‚éBƒfƒtƒHƒ‹ƒg‚Ì—á‚Å‚Í$6000‚©‚ç‚É‘‚«ž‚Þ‚±‚Æ‚É‚µ‚Ä‚é‚¯‚ÇƒCƒ“ƒXƒg[ƒ‰‚ÍƒŠƒƒP[ƒ^ƒuƒ‹B
+
+IAƒRƒ}ƒ“ƒh‚ðŽg‚¤‚É‚ÍŽŸ‚ÌƒvƒƒOƒ‰ƒ€‚ðFM-7ã‚Åƒ^ƒCƒvB
+
+10 OPEN "I",#1,"COM0:(F8N1)"
+20 FOR I=0 TO 255
+30 INPUT #1,A%:POKE &H6000+I,A%
+40 NEXT
+50 CLOSE
+60 EXEC &H6000
+
 
 
 
@@ -306,6 +339,17 @@ LBSR $FExxALBxx $FExx‚Æ‚µ‚ÄƒR[ƒ‹‚µ‚Ä‚¢‚éê‡A‚»‚ÌƒZƒNƒ^‚ªƒƒ‚ƒŠã‚Ì‚Ç‚±‚É“Ç‚Ý
 
 ‚µ‚©‚µA$7F25‚Éí’“‚³‚¹‚é‚ÆADisk BASIC‚ÌIPL‚ªDisk BASIC–{‘Ì‚ð“Ç‚Ýž‚Ý“r’†‚ÉƒŠƒ_ƒCƒŒƒNƒ^‚ª”j‰ó‚³‚ê‚Ä‚µ‚Ü‚¤Bˆ«‚¢‚±‚Æ‚ÉƒŠƒ_ƒCƒŒƒNƒ^ŽÀs’†‚É”j‰ó‚³‚ê‚Ä‚µ‚Ü‚¤‚Ì‚Å‚±‚ê‚Å‚Í•œŠˆ‚Ì—]’n‚ª‚È‚¢B‚»‚±‚ÅAƒŠƒ_ƒCƒŒƒNƒ^‚ÌƒCƒ“ƒXƒg[ƒ‰‚Í‰‰ñƒCƒ“ƒXƒg[ƒ‹æ‚Æ“ñ“x–ÚƒCƒ“ƒXƒg[ƒ‹æ‚ð•ÏX‚Å‚«‚é‚æ‚¤‚É‚µ‚½BƒT[ƒo[‚ªƒCƒ“ƒXƒg[ƒ‰‚ð‘—‚èž‚Þ‚Æ‚«‰‰ñƒCƒ“ƒXƒg[ƒ‹æ‚Æ“ñ“x–ÚƒCƒ“ƒXƒg[ƒ‹æ‚ð‘‚«Š·‚¦‚Ä‘—‚é‚±‚Æ‚Å‘Î‰ž‚µ‚Ä‚¢‚éB“ñ“x–Ú‚ÌƒCƒ“ƒXƒg[ƒ‹æ‚Í -install2 7F25 ‚Ì‚æ‚¤‚ÉƒIƒvƒVƒ‡ƒ“‚ÅŽw’è‚Å‚«‚éB
 
+
+ILƒIƒvƒVƒ‡ƒ“‚É‚æ‚éƒvƒƒOƒ‰ƒ€“]‘—‚É‚Â‚¢‚ÄBF-BASIC‚Ì•¶Žš—ñ‚ÍA—á‚¦‚ÎA$‚Æ‚¢‚¤•Ï”‚ÍA
+
+    [VARPTR(A$)]    1ƒoƒCƒg  •¶Žš”
+    [VARPTR(A$)+1]  2ƒoƒCƒg  •¶Žš—ñ‚ÌÅ‰‚Ì•¶Žš‚ÌŠi”[ƒAƒhƒŒƒX
+
+‚Æ‚µ‚Ä‹L˜^‚³‚ê‚Ä‚¢‚éB‰¼‚ÉƒoƒCƒiƒŠƒvƒƒOƒ‰ƒ€‚ð•¶Žš—ñ‚Æ‚µ‚ÄFM-7‚É‘—‚èž‚ñ‚¾ê‡A‚¿‚å‚¤‚Ç0x7EƒoƒCƒg (126ƒoƒCƒg)‚Ì•¶Žš—ñ‚É‚µ‚Ä‚¨‚­‚ÆA0x7E‚Í6809‚ÌJMP–½—ß‚È‚Ì‚ÅAEXEC VARPTR(A$) ‚ÅƒvƒƒOƒ‰ƒ€‚ÉƒWƒƒƒ“ƒv‚³‚¹‚é‚±‚Æ‚ª‚Å‚«‚éB
+
+–â‘è‚ÍAF-BASIC‚ÌINPUT #, LINE INPUT #–½—ß‚Í‚Ç‚¿‚ç‚à0x0D‚ª•¶Žš—ñ‚ÌI’[‚Æ‰ðŽß‚·‚é‚µA‚»‚êˆÈŠO‚Ì0x20–¢–ž‚ÌƒoƒCƒg‚Í‚·‚×‚Ä–³Ž‹‚µ‚Ä‚µ‚Ü‚¤B‚»‚±‚ÅAƒT[ƒo[‚Í0x20‚ðƒGƒXƒP[ƒv‚Æ‚µ‚ÄA0x20ˆÈ‰º‚ÌƒoƒCƒgx‚ÍA0x20, COM(x)‚Æ‚µ‚Ä2ƒoƒCƒg‚É‚µ‚Ä‘—‚èo‚·B0x7EƒoƒCƒg‚É‘«‚è‚È‚¢•ª‚Í'0'‚Å–„‚ß‚éB‘—‚èž‚ÞƒvƒƒOƒ‰ƒ€‚Ìæ“ª•”•ª‚ÉƒfƒR[ƒ_‚ð‘‚¢‚ÄAƒfƒR[ƒ_•”•ª‚Í‚·‚×‚Ä•„†‚È‚µ‚Å0x20‚æ‚è‘å‚«‚È’l‚ÌƒCƒ“ƒXƒgƒ‰ƒNƒVƒ‡ƒ“‚¾‚¯‚Å‘‚­B‚±‚ê‚Í‚¿‚å‚Á‚ÆƒgƒŠƒbƒN‚ª•K—v‚¾‚Á‚½B—á‚¦‚ÎALDA #2‚Æ‘‚­‚Æ0x86 0x02‚Æ‚¢‚¤ƒR[ƒh‚ª”­¶‚·‚é‚Ì‚ÅA2ƒoƒCƒg–Ú‚ð•¶Žš‚Æ‚µ‚Ä‘—M‚Å‚«‚È‚¢B‚»‚±‚ÅACLRA INCA INCA‚Æ‚·‚éB‚Ü‚½ALEAX LOADER_START,PCR‚Æ‚·‚é‚ÆAƒIƒtƒZƒbƒg•”•ª‚Å0x20ˆÈ‰º‚ª”­¶‚·‚é‚Ì‚ÅALEAX LOADER_START+$2F2F,PCR‚Æ‚µ‚ÄAŒã‚©‚ç LEAX -$2F2F,X‚Æ‚µ‚Ä‚Â‚¶‚Â‚Ü‚ð‡‚í‚¹‚éBBNE NO_ESCAPE‚ÅƒIƒtƒZƒbƒg2ƒoƒCƒg‚ÌƒWƒƒƒ“ƒv‚ª”­¶‚µ‚½‚Ì‚Å‚»‚Ì•”•ª‚Í‰¼‚É•Ê‚Ì‰ÓŠ‚ÉBNE‚Æ‚µ‚Ä‚¨‚¢‚Ä‚ ‚Æ‚©‚çƒIƒtƒZƒbƒg‚É2‚ð‘‚«ž‚Þ‚È‚ÇB
+
+‚±‚Ì•û–@‚ÅAƒT[ƒo[‚©‚çILƒRƒ}ƒ“ƒh‚ðƒ^ƒCƒv‚·‚é‚ÆLINE INPUT #‚Å‘Ò‚Á‚Ä‚¢‚éFM-7‚É•¶Žš—ñ‚Æ‚µ‚ÄƒvƒƒOƒ‰ƒ€‚ð‘—MBFM-7‘¤‚Å‚ÍEXEC VARPTR(A$)‚ÅƒvƒƒOƒ‰ƒ€‚ÉƒWƒƒƒ“ƒvA‚»‚Ìæ“ª•”•ª‚ÅŒã”¼•”•ª‚ðƒfƒR[ƒhAƒfƒR[ƒh‚³‚ê‚½Œã”¼•”•ª‚ÍƒT[ƒo[‚ÉƒoƒCƒiƒŠƒCƒ“ƒXƒg[ƒ‰‘—M—v‹ƒRƒ}ƒ“ƒh"YAMAKAWA"‚ð‘—M‚·‚éB‚»‚ê‚ðŽó‚¯‚½ƒT[ƒo[‚ÍƒoƒCƒiƒŠ‚Å256ƒoƒCƒg‚ÌƒŠƒ_ƒCƒŒƒNƒ^ƒCƒ“ƒXƒg[ƒ‰‚ðFM-7‚É‘—MBFM-7‚Í‚»‚ê‚ð0x6000‚©‚ç‚É“WŠJ‚µ‚ÄAƒCƒ“ƒXƒg[ƒ‰‚ÉƒWƒƒƒ“ƒvBƒCƒ“ƒXƒg[ƒ‰‚©‚çÄ‹N“®‚·‚éB
 
 
 

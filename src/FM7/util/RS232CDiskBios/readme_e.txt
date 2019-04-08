@@ -33,11 +33,9 @@ If you are using FM77AV1/2 or earlier model, don't do this.  If RS232C card is a
 You need to type a short program on FM-7.
 
 10 OPEN "I",#1,"COM0:(F8N1)"
-20 FOR I=0 TO 255
-30 INPUT #1,A%:POKE &H6000+I,A%
-40 NEXT
-50 CLOSE
-60 EXEC &H6000
+20 LINE INPUT #1,A$
+30 CLOSE
+40 EXEC VARPTR(A$)
 
 Then type RUN to start the program.  Your FM-7 waits for the installer from the server.
 
@@ -49,11 +47,11 @@ to start the server.  I am assuming that the PATH is set to the location where y
 
 Once the server starts, type:
 
-IA
+IL
 
-on the server prompt.  The redirector installer will be sent to FM-7.
+on the server prompt.  The FM-7 will restart and boot from the disk image you specify in the server command line.
 
-Once the redirector installer is sent, FM-7 will boot from the disk image you specify in the command line.
+(By the way, the server sends exactly 0x7E bytes of the string.  0x7E is JMP instruction of 6809.  This way EXEC VARPTR(A$) will jump to the program stored in A$.)
 
 
 
@@ -126,6 +124,15 @@ Well, it's more like a encryption.  In some programs the server needs to take by
 
 
 
+[Sector Substitute]
+    RS232CDiskBios.exe diskimage.d77 portNumber -subst drv trk sid sec data.srec/.txt
+
+The server will substitute a sector contents with the specified data.  The data can be either .SREC format file or a tightly-packed hexadecimal numbers written in a text file.  This option does not modify the input .D77 file.  When you need a special IPL for booting a program from RS232C, you can use this option like:
+
+    RS232CDiskBios.exe diskimage.d77 portNumber -subst 0 0 0 1 ipl_for_rs232c.txt
+
+Track 0 Side 0 Sector 1 is where FM-7 reads when powered on.
+
 
 
 50 REM  -------- Image File Name Options
@@ -164,11 +171,33 @@ Mount disk image write-protected.
 
 60 REM  -------- Server Command Prompt
 
+[Transmit BIOS Redirector Loader Binary (IL)]
+    IL
+
+Type this command while FM-7 is waiting for the redirector loader.  The server will send 0x7E-byte loader to FM-7.  From there the loader will communicate with the server, download the redirector installer, and then jumps to the installer, from which FM-7 boot into the D77 disk image specified on the server command line.  It works much faster than IA command.
+
+FM-7 wait program for IL command looks like:
+
+10 OPEN "I",#1,"COM0:(F8N1)"
+20 LINE INPUT #1,A$
+30 CLOSE
+40 EXEC VARPTR(A$)
+
+
+
 [Transmit BIOS Redirector Installer (IA)]
     IA
 
 Type this command while FM-7 is waiting for the redirector installer.  The server will send 256-byte installer to FM-7.  Due to F-BASIC limitation sent all ASCII.  Don't worry.  The redirector itself transmit/receive binary.
 
+FM-7 wait program for IA command looks like:
+
+10 OPEN "I",#1,"COM0:(F8N1)"
+20 FOR I=0 TO 255
+30 INPUT #1,A%:POKE &H6000+I,A%
+40 NEXT
+50 CLOSE
+60 EXEC &H6000
 
 
 [Verbose Mode On/Off (V)]
@@ -309,3 +338,19 @@ This allowed to boot Disk BASIC and URADOS from RS232C.  It was unbelievable.  B
 But, that area is overwritten while IPL is loading the Disk BASIC.  The redirector needed to reside in a different location, and then during the second installation it needed to be installed to $7F25.  To make it possible the redirector installer takes two install addresses.  With -install2 option, the redirector takes a different install address for the second installation.  During the first installation, the installer modifies itself so that the second install address is used in the second installation.
 
 
+
+Regarding the redirector installation with the IL option.  F-BASIC stores an ASCII string, say A$, in the RAM as:
+
+    [VARPTR(A$)]    1 byte    Number of characters
+    [VARPTR(A$)+1]  2 bytes   Address points to the first letter of the string
+
+If the server sends a string that consists of exactly 0x7E (126) bytes, because 0x7E is JMP instruction of 6809, I can EXEC VARPTR(A$) to jump to the program stored as a string.
+
+Challenge is how to transmit a program with INPUT # or LINE INPUT # command.  F-BASIC interprets 0x0D as the end of string, and ignores all other byte less than 0x20 unsigned.  To get around, the server uses 0x20 as an escape.  When sending a byte X, the server actually sends:
+
+    X               if 0x20<X
+    0x20 and COM(X) if X<=0x20
+
+The beginning of the program is the decoder.  The decoder part is written with instructions all above 0x20.  It was tricky.  Like if I write LDA #2, the assembler will output 0x86 0x02.  But, I need to avoid 0x02.  What I can do was CLRA INCA INCA or LDA #-2 NEGA.  LEAX LOADER_PART,PCR gave me too-small offset.  So, I did LEAX LOADER_PART+$2F2F,PCR and then later LEAX -$2F2F,X.  I had one BNE NO_ESCAPE that required an offset of 2.  I had to tentatively do BNE DIFFERENT_LOCATION and then overwrote the offset.
+
+When you set FM-7 on wait and type IL on the server, the server sends a loader program with this method.  When EXEC VARPTR(A$), FM-7 jumps to the program stored in the string, decode it, and then sends a binary redirector request command "YAMAKAWA" to the server.  The server then sends 256-byte redirector installer to the client.  The loader expands the installer from 0x6000 to 0x60FF and JMP to 0x6000.  The installer installs the redirector and the boot from the D77 image you specify on the server command line.
