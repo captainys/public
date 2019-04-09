@@ -25,6 +25,8 @@ void CommandHelp(void)
 	printf("\tWrite SREC file to T77.\n");
 	printf("\tASM6809 v2.9 writes wrong check sum (not taking a complement?).\n");
 	printf("\tThis program ignores the check sum to accept SREC from ASM6809 v2.9.\n");
+	printf("-append filename.t77\n");
+	printf("\tAppends a T77 image to the current T77 image.\n"); 
 	printf("-save text-file-name filename-in-T77\n");
 	printf("\tSave a text file as an ASCII-format BASIC file to T77.\n");
 	printf("-savem binary-file-name filename-in-T77 startAddr execAddr\n");
@@ -297,6 +299,24 @@ int T77Save::ProcessOption(int ac,char *av[],int ptr)
 	{
 		encoder.debug_mixNonFFinDataGap=true;
 		return 1;
+	}
+	else if("-APPEND"==opt)
+	{
+		if(ptr+1<ac)
+		{
+			auto bin=FM7Lib::ReadBinaryFile(av[ptr+1]);
+			if(0<bin.size())
+			{
+				encoder.DumpT77(bin);
+			}
+			else
+			{
+				fprintf(stderr,"Cannot load %s\n",(const char *)av[ptr+1]);
+				return -1;
+			}
+			return 2;
+		}
+		goto TOO_FEW_ARG;
 	}
 
 	fprintf(stderr,"Unrecognized option %s\n",av[ptr]);
