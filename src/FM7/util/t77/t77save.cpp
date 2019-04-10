@@ -307,7 +307,7 @@ int T77Save::ProcessOption(int ac,char *av[],int ptr)
 			auto bin=FM7Lib::ReadBinaryFile(av[ptr+1]);
 			if(0<bin.size())
 			{
-				encoder.DumpT77(bin);
+				encoder.AppendT77(bin);
 			}
 			else
 			{

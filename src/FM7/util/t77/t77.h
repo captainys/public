@@ -15,12 +15,16 @@ public:
 
 	void CleanUp(void);
 
-	/*! This function is for appending a file to an existing .T77 file.
-	    Read binary data of the existing .T77 file and give to this function.
+	/*! Read binary data of the existing .T77 file and give to this function.
 	    This function cleans the data, and then copies (or moves) dat to its own array.
 	*/
 	void DumpT77(const std::vector <unsigned char> &dat);
 	void DumpT77(std::vector <unsigned char> &&dat);
+
+	/*! Appends a T77 file.  This function ignoures first 20 ($14) bytes of the 
+	    incoming data and appends the rest to what's currently stored.
+	*/
+	void AppendT77(const std::vector <unsigned char> &dat);
 
 	class WAVOutOption
 	{

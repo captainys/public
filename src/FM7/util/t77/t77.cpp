@@ -18,6 +18,21 @@ void T77File::DumpT77(std::vector <unsigned char> &&dat)
 	std::swap(t77,dat);
 }
 
+void T77File::AppendT77(const std::vector <unsigned char> &dat)
+{
+	if(this->t77.size()==0)
+	{
+		this->t77=dat;
+	}
+	else
+	{
+		for(long long int ptr=20; ptr<dat.size(); ++ptr)
+		{
+			t77.push_back(dat[ptr]);
+		}
+	}
+}
+
 T77File::WAVOutOption::WAVOutOption()
 {
 	Hz=44100;
