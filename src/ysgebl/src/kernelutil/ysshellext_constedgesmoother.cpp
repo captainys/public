@@ -31,6 +31,18 @@ const YsShellPolygonStore &YsShellExt_ConstEdgeSmoother_BandMethod::GetConstBand
 	return constBand;
 }
 
+YSBOOL YsShellExt_ConstEdgeSmoother_BandMethod::IsEdgeUsedByBand(const YsShellExt &shl,YsShell::Edge edge) const
+{
+	for(auto plHd : shl.FindPolygonFromEdgePiece(edge))
+	{
+		if(YSTRUE==constBand.IsIncluded(plHd))
+		{
+			return YSTRUE;
+		}
+	}
+	return YSFALSE;
+}
+
 void YsShellExt_ConstEdgeSmoother_BandMethod::SmoothOneStep(const YsShellExt &shl)
 {
 	for(auto idx : slider.AllIndex())

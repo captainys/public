@@ -265,6 +265,15 @@ YSRESULT YsShell_CalculateRawRadiusRatio(double &rr,const YsShell &shl,YsShell::
 YSRESULT YsShell_CalculateRawRadiusRatio(double &rr,const YsShell &shl,const YsShell::VertexHandle triVtHd[3]);
 
 
+/*! Returns YSTRUE if the mid-point between the centers of the polygons sharing the edge is on the negative side of the
+    polygons with respect to the pre-calculated normal vectors.  Or, YSFALSE otherwise.
+    If the edge is used by less than or more than 2 polygons, this function returns YSFALSE.
+*/
+YSBOOL YsShellExt_IsConvexEdge(const YsShellExt &shl,YsShell::Edge edge);
+YSBOOL YsShellExt_IsConvexEdge(const YsShellExt &shl,YsShell::VertexHandle edVtHd0,YsShell::VertexHandle edVtHd1);
+
+
+
 /*! Takes two sets of line strips or line loops, and returns non-shared parts of the two sets.
 
 	If two sets share at least one edge, the returned line strips share the first and the last points.

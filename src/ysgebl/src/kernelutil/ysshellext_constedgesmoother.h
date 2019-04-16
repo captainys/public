@@ -16,7 +16,7 @@ public:
 
 class YsShellExt_ConstEdgeSmoother_BandMethod : public YsShellExt_ConstEdgeSmoother
 {
-private:
+protected:
 	class Slider
 	{
 	public:
@@ -30,6 +30,8 @@ private:
 public:
 	void Make(const YsShellExt &shl,YsShellExt::ConstEdgeHandle ceHd);
 	const YsShellPolygonStore &GetConstBand(void) const;
+
+	YSBOOL IsEdgeUsedByBand(const YsShellExt &shl,YsShell::Edge edge) const;
 
 	void SmoothOneStep(const YsShellExt &shl);
 

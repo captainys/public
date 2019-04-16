@@ -811,3 +811,26 @@ YSRESULT YsShell_CalculateRawRadiusRatio(double &rr,const YsShell &shl,const YsS
 	return YsShell_CalculateRawRadiusRatio(rr,triVtPos);
 }
 
+YSBOOL YsShellExt_IsConvexEdge(const YsShellExt &shl,YsShell::Edge edge)
+{
+	return YsShellExt_IsConvexEdge(shl,edge[0],edge[1]);
+}
+
+YSBOOL YsShellExt_IsConvexEdge(const YsShellExt &shl,YsShell::VertexHandle edVtHd0,YsShell::VertexHandle edVtHd1)
+{
+	auto edPlHd=shl.FindPolygonFromEdgePiece(edVtHd0,edVtHd1);
+	if(2==edPlHd.size())
+	{
+		const YsVec3 cen[2]={shl.GetCenter(edPlHd[0]),shl.GetCenter(edPlHd[1])};
+		const auto mid=(cen[0]+cen[1])/2.0;
+
+		const YsVec3 nom[2]={shl.GetNormal(edPlHd[0]),shl.GetNormal(edPlHd[1])};
+
+		if((mid-cen[0])*nom[0]<=0.0 && (mid-cen[1])*nom[1]<=0.0)
+		{
+			return YSTRUE;
+		}
+	}
+	return YSFALSE;
+}
+
