@@ -65,6 +65,8 @@ public:
 
 	YSSIZE_T GetLinearIndex(const YsVec2i idx) const;
 
+	YSBOOL IsInRange(const YsVec2i idx) const;
+
 	T *GetEditableBlock(YSSIZE_T x,YSSIZE_T y);  // Left for backward compatibility
 
 	T *GetBlock(YSSIZE_T x,YSSIZE_T y);
@@ -316,6 +318,17 @@ template <class T>
 YSSIZE_T YsLattice2d<T>::GetLinearIndex(const YsVec2i idx) const
 {
 	return idx.y()*(nBlkX+1)+idx.x();
+}
+
+template <class T>
+YSBOOL YsLattice2d<T>::IsInRange(const YsVec2i idx) const
+{
+	if(0<=idx.x() && idx.x()<=nBlkX &&
+	   0<=idx.y() && idx.y()<=nBlkY)
+	{
+		return YSTRUE;
+	}
+	return YSFALSE;
 }
 
 template <class T>
