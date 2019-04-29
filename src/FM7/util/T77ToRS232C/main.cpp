@@ -65,6 +65,8 @@ void ShowOptionHelp(void)
 	printf("\tBuffered mode.  Uses 8-byte read-buffer for faster transfer.\n");
 	printf("-small\n");
 	printf("\tSmall mode.  Smallest footprint.\n");
+	printf("-save\n");
+	printf("\tSpecify .T77 file to which the data from FM-7 are saved.\n");
 }
 
 void ShowCommandHelp(void)
