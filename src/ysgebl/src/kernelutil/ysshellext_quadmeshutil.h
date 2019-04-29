@@ -28,11 +28,16 @@ public:
 		/*! The candidate will be dropped if the score is greater than this threshold.
 		*/
 		virtual double Threshold(const YsShellExt &shl) const=0;
+
+		/*! If this function returns YSTRUE, the candidate will be excluded regardless of the score.
+		*/
+		virtual YSBOOL DontMerge(const YsShellExt &shl,YsShellEdgeEnumHandle edHd) const=0;
 	};
 	class ScoreFunc_Orthogonality : public ScoreFunc
 	{
 		virtual double Calculate(const YsShellExt &shl,const Candidate &can) const;
 		virtual double Threshold(const YsShellExt &shl) const;
+		virtual YSBOOL DontMerge(const YsShellExt &shl,YsShellEdgeEnumHandle edHd) const;
 	};
 
 
@@ -49,6 +54,9 @@ public:
 		void Run(void);
 	};
 
+	YsArray <Candidate> candidate;
+	YsArray <double> score;
+
 public:
 	YsShellExt_QuadMeshUtil();
 	~YsShellExt_QuadMeshUtil();
@@ -57,7 +65,7 @@ public:
 	void MakeCandidate(const YsShellExt &shl,const ScoreFunc &scoreFunc,int nThread=8);
 
 	template <class SHLCLASS>
-	void Convert(SHLCLASS &shl) const
+	void Convert(SHLCLASS &shl)
 	{
 		for(auto &c : candidate)
 		{
@@ -69,17 +77,25 @@ public:
 			if(nullptr!=plHd[0] && nullptr!=plHd[1])
 			{
 				YsVec3 nom0=YsVec3::UnitVector(shl.GetNormal(plHd[0])+shl.GetNormal(plHd[1]));
+				auto col=shl.GetColor(plHd[0]);
+				auto fgHd=shl.FindFaceGroupFromPolygon(plHd[0]);
 
-				shl.DeletePolygon(plHd[0]);
-				shl.DeletePolygon(plHd[1]);
-				c.plHd=shl.AddPolygon(4,c.quadVtHd);
+				shl.ForceDeletePolygon(plHd[0]);
+				shl.ForceDeletePolygon(plHd[1]);
+				c.quadPlHd=shl.AddPolygon(4,c.quadVtHd);
 
-				auto n=YsShell_CalculateNormal(shl.Conv(),c.plHd);
+				auto n=YsShell_CalculateNormal(shl.Conv(),c.quadPlHd);
 				if(n*nom0<0.0)
 				{
 					n=-n;
 				}
-				shl.SetPolygonNormal(c.plHd,n);
+				shl.SetPolygonNormal(c.quadPlHd,n);
+				shl.SetPolygonColor(c.quadPlHd,col);
+				if(nullptr!=fgHd)
+				{
+					YsShell::PolygonHandle fgPlHd[1]={c.quadPlHd};
+					shl.AddFaceGroupPolygon(fgHd,1,fgPlHd);
+				}
 			}
 		}
 	}

@@ -468,13 +468,13 @@ public:
 				{
 					prev=edHd;
 					edHd=next;
-					search->FindNextEdge(*shl,edHd);
+					search->FindNextEdge(*shl,next);
 				}
 				else
 				{
 					next=edHd;
 					edHd=prev;
-					search->FindPrevEdge(*shl,edHd);
+					search->FindPrevEdge(*shl,next);
 				}
 			}
 			inline void Backward(void)
@@ -483,13 +483,13 @@ public:
 				{
 					next=edHd;
 					edHd=prev;
-					search->FindPrevEdge(*shl,edHd);
+					search->FindPrevEdge(*shl,next);
 				}
 				else
 				{
 					prev=edHd;
 					edHd=next;
-					search->FindNextEdge(*shl,edHd);
+					search->FindNextEdge(*shl,next);
 				}
 			}
 		public:
@@ -534,6 +534,7 @@ public:
 		{
 			iterator iter;
 			iter.shl=shl;
+			iter.search=search;
 			iter.prev=NULL;
 			iter.edHd=nullptr;
 			search->FindNextEdge(*shl,iter.edHd);
@@ -548,6 +549,7 @@ public:
 		{
 			iterator iter;
 			iter.shl=shl;
+			iter.search=search;
 			iter.prev=NULL;
 			iter.edHd=NULL;
 			iter.next=NULL;
@@ -560,11 +562,12 @@ public:
 		{
 			iterator iter;
 			iter.shl=shl;
+			iter.search=search;
 			iter.next=NULL;
 			iter.edHd=nullptr;
 			search->FindPrevEdge(*shl,iter.edHd);
 			iter.prev=iter.edHd;
-			search->FindPrevEdge(*shl,iter.edHd);
+			search->FindPrevEdge(*shl,iter.prev);
 			iter.dir=-1;
 			return iter;
 		}
@@ -574,6 +577,7 @@ public:
 		{
 			iterator iter;
 			iter.shl=shl;
+			iter.search=search;
 			iter.prev=NULL;
 			iter.edHd=NULL;
 			iter.next=NULL;

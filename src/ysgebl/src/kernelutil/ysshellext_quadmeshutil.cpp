@@ -40,6 +40,17 @@
 	return YsCos45deg;
 }
 
+/* virtual */ YSBOOL YsShellExt_QuadMeshUtil::ScoreFunc_Orthogonality::DontMerge(const YsShellExt &shl,YsShellEdgeEnumHandle edHd) const
+{
+	auto edPlHd=shl.FindPolygonFromEdgePiece(edHd);
+	if(edPlHd.size()!=2 ||
+	   shl.FindFaceGroupFromPolygon(edPlHd[0])!=shl.FindFaceGroupFromPolygon(edPlHd[1]))
+	{
+		return YSTRUE;
+	}
+	return YSFALSE;
+}
+
 ////////////////////////////////////////////////////////////
 
 YsShellExt_QuadMeshUtil::YsShellExt_QuadMeshUtil()
@@ -51,35 +62,40 @@ YsShellExt_QuadMeshUtil::~YsShellExt_QuadMeshUtil()
 }
 void YsShellExt_QuadMeshUtil::CleanUp(void)
 {
+	candidate.clear();
+	score.clear();
 }
 
 void YsShellExt_QuadMeshUtil::ThreadParam::Run(void)
 {
 	for(auto edHd : toTest)
 	{
-		YsShell_MergeInfo info;
-		auto edPlHd=shlPtr->FindPolygonFromEdgePiece(edHd);
-		if(2==edPlHd.size() &&
-		   3==shlPtr->GetPolygonNumVertex(edPlHd[0]) &&
-		   3==shlPtr->GetPolygonNumVertex(edPlHd[1]) &&
-		   YSOK==info.MakeInfo(shlPtr->Conv(),edPlHd.data()))
+		if(YSTRUE!=scoreFuncPtr->DontMerge(*shlPtr,edHd))
 		{
-			auto quadVtHd=info.GetNewPolygon();
-			if(4==quadVtHd.size())
+			YsShell_MergeInfo info;
+			auto edPlHd=shlPtr->FindPolygonFromEdgePiece(edHd);
+			if(2==edPlHd.size() &&
+			   3==shlPtr->GetPolygonNumVertex(edPlHd[0]) &&
+			   3==shlPtr->GetPolygonNumVertex(edPlHd[1]) &&
+			   YSOK==info.MakeInfo(shlPtr->Conv(),edPlHd.data()))
 			{
-				Candidate can;
-				can.quadVtHd[0]=quadVtHd[0];
-				can.quadVtHd[1]=quadVtHd[1];
-				can.quadVtHd[2]=quadVtHd[2];
-				can.quadVtHd[3]=quadVtHd[3];
-				can.srcPlKey[0]=shlPtr->GetSearchKey(edPlHd[0]);
-				can.srcPlKey[1]=shlPtr->GetSearchKey(edPlHd[1]);
-
-				auto score=scoreFuncPtr->Calculate(*shlPtr,can);
-				if(score<scoreFuncPtr->Threshold(*shlPtr))
+				auto quadVtHd=info.GetNewPolygon();
+				if(4==quadVtHd.size())
 				{
-					this->candidate.push_back(can);
-					this->score.push_back(score);
+					Candidate can;
+					can.quadVtHd[0]=quadVtHd[0];
+					can.quadVtHd[1]=quadVtHd[1];
+					can.quadVtHd[2]=quadVtHd[2];
+					can.quadVtHd[3]=quadVtHd[3];
+					can.srcPlKey[0]=shlPtr->GetSearchKey(edPlHd[0]);
+					can.srcPlKey[1]=shlPtr->GetSearchKey(edPlHd[1]);
+
+					auto score=scoreFuncPtr->Calculate(*shlPtr,can);
+					if(score<scoreFuncPtr->Threshold(*shlPtr))
+					{
+						this->candidate.push_back(can);
+						this->score.push_back(score);
+					}
 				}
 			}
 		}
@@ -104,8 +120,8 @@ void YsShellExt_QuadMeshUtil::MakeCandidate(const YsShellExt &shl,const ScoreFun
 		int i=0;
 		for(auto edHd : shl.AllEdge())
 		{
-			thrParam[i].toTest.push_back(edHd);
-			i=(i+1)%nThread;
+			thrParam[i%nThread].toTest.push_back(edHd);
+			++i;
 		}
 	}
 
@@ -123,12 +139,10 @@ void YsShellExt_QuadMeshUtil::MakeCandidate(const YsShellExt &shl,const ScoreFun
 	}
 
 
-	YsArray <Candidate> allCandidate;
-	YsArray <double> allScore;
 	for(auto &t : thrParam)
 	{
-		allCandidate.Append(t.candidate);
-		allScore.Append(t.score);
+		this->candidate.Append(t.candidate);
+		this->score.Append(t.score);
 	}
-	YsSimpleMergeSort <double,Candidate> (allScore.size(),allScore.data(),allCandidate.data());
+	YsSimpleMergeSort <double,Candidate> (this->score.size(),this->score.data(),this->candidate.data());
 }
