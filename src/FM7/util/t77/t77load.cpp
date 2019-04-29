@@ -10,6 +10,8 @@
 void CommandHelp(void)
 {
 	printf("Usage: t77load t77file.t77\n");
+	printf("Options:\n");
+	printf("  -raw       Write raw (except F-BASIC binary).\n");
 }
 
 bool ReadT77(T77File &t77,const char fName[])
@@ -29,6 +31,17 @@ int main(int ac,char *av[])
 	{
 		CommandHelp();
 		return 1;
+	}
+
+	bool rawRead=false;
+	for(int i=2; i<ac; ++i)
+	{
+		std::string opt=av[i];
+		FM7Lib::Capitalize(opt);
+		if("-RAW"==opt)
+		{
+			rawRead=true;
+		}
 	}
 
 	T77Decoder t77Dec;
@@ -83,15 +96,60 @@ int main(int ac,char *av[])
 
 			std::string outFName=c_outFName;
 			outFName.append(fName);
-			outFName.append(FM7File::GetDefaultFMFileExtensionForType(fType));
 
-			if(true==FM7Lib::WriteBinaryFile(outFName.c_str(),fmDat))
+			if(FM7File::FTYPE_BINARY==fType && true==rawRead)
 			{
-				printf("Saved: %s\n",outFName.c_str());
+				outFName.append(".bin");
+
+				FM7BinaryFile binFile;
+				binFile.Decode2B0(fmDat);
+				if(true==FM7Lib::WriteBinaryFile(outFName.c_str(),binFile.dat))
+				{
+					printf("Saved: %s\n",outFName.c_str());
+				}
+				else
+				{
+					printf("Error while saving: %s\n",outFName.c_str());
+				}
+			}
+			else if((FM7File::FTYPE_BASIC_ASCII==fType || FM7File::FTYPE_DATA_ASCII==fType) && true==rawRead)
+			{
+				if(FM7File::FTYPE_BASIC_ASCII==fType)
+				{
+					outFName.append(".bas");
+				}
+				else
+				{
+					outFName.append(".bas");
+				}
+
+				FILE *fp=fopen(outFName.c_str(),"wb");
+				size_t wroteSize=0;
+				if(nullptr!=fp)
+				{
+					wroteSize=fwrite(fmDat.data()+15,1,fmDat.size()-15,fp);
+					fclose(fp);
+				}
+				if(wroteSize==fmDat.size()-15)
+				{
+					printf("Saved: %s\n",outFName.c_str());
+				}
+				else
+				{
+					printf("Error while saving: %s\n",outFName.c_str());
+				}
 			}
 			else
 			{
-				printf("Error while saving: %s\n",outFName.c_str());
+				outFName.append(FM7File::GetDefaultFMFileExtensionForType(fType));
+				if(true==FM7Lib::WriteBinaryFile(outFName.c_str(),fmDat))
+				{
+					printf("Saved: %s\n",outFName.c_str());
+				}
+				else
+				{
+					printf("Error while saving: %s\n",outFName.c_str());
+				}
 			}
 			++num;
 		}
