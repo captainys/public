@@ -952,6 +952,27 @@ YSRESULT YsShellEdgToPlgTable::FindNextEdge(YsShellEdgeEnumHandle &handle) const
 	}
 }
 
+YSRESULT YsShellEdgToPlgTable::FindPrevEdge(YsShellEdgeEnumHandle &handle) const
+{
+	if(handle!=NULL)
+	{
+		handle=handle->prev;
+	}
+	else
+	{
+		handle=tail;
+	}
+
+	if(handle!=NULL)
+	{
+		return YSOK;
+	}
+	else
+	{
+		return YSERR;
+	}
+}
+
 YSRESULT YsShellEdgToPlgTable::GetEdge(YsShellVertexHandle &edVtHd1,YsShellVertexHandle &edVtHd2,YsShellEdgeEnumHandle handle) const
 {
 	if(handle!=NULL)
@@ -2212,6 +2233,11 @@ YSRESULT YsShellSearchTable::RewindEdgeEnumHandle(const YsShell &,YsShellEdgeEnu
 YSRESULT YsShellSearchTable::FindNextEdge(const YsShell &,YsShellEdgeEnumHandle &handle) const
 {
 	return edgToPlg.FindNextEdge(handle);
+}
+
+YSRESULT YsShellSearchTable::FindPrevEdge(const YsShell &shl,YsShellEdgeEnumHandle &handle) const
+{
+	return edgToPlg.FindPrevEdge(handle);
 }
 
 YSRESULT YsShellSearchTable::GetEdge(const YsShell &shl,unsigned &vtKey1,unsigned &vtKey2,YsShellEdgeEnumHandle handle) const

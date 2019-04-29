@@ -552,6 +552,15 @@ protected:
 	YsShellSearchTable *shlSearch;
 	SearchTable *extSearch;
 
+
+
+public:
+	/*! Returns edge-enumerator.  Search must be turned on to use this function.
+	*/
+	YsShellSearchTable::EdgeEnumerator AllEdge(void) const;
+
+
+
 public:
 	/*! Support for STL-like iterator */
 	class ConstEdgeEnumerator

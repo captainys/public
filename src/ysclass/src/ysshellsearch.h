@@ -204,6 +204,7 @@ public:
 
 	YSRESULT RewindEdgeEnumHandle(YsShellEdgeEnumHandle &handle) const;
 	YSRESULT FindNextEdge(YsShellEdgeEnumHandle &handle) const;
+	YSRESULT FindPrevEdge(YsShellEdgeEnumHandle &handle) const;
 	YSRESULT GetEdge(YsShellVertexHandle &edVtHd1,YsShellVertexHandle &edVtHd2,YsShellEdgeEnumHandle handle) const;
 protected:
 	YSRESULT CleanUp(void);
@@ -420,6 +421,7 @@ public:
 
 	YSRESULT RewindEdgeEnumHandle(const YsShell &shl,YsShellEdgeEnumHandle &handle) const;
 	YSRESULT FindNextEdge(const YsShell &shl,YsShellEdgeEnumHandle &handle) const;
+	YSRESULT FindPrevEdge(const YsShell &shl,YsShellEdgeEnumHandle &handle) const;
 	YSRESULT GetEdge(const YsShell &shl,unsigned &edVtKey1,unsigned &edVtKey2,YsShellEdgeEnumHandle handle) const;
 	YSRESULT GetEdge(const YsShell &shl,YsShellVertexHandle &edVtKey1,YsShellVertexHandle &edVtKey2,YsShellEdgeEnumHandle handle) const;
 	YsShell::Edge GetEdge(const YsShell &shl,YsShellEdgeEnumHandle handle) const;
@@ -441,7 +443,182 @@ protected:
 	YsShellVtxToPlgTable vtxToPlg;
 	YsShellEdgToPlgTable edgToPlg;
 // 	YsShellVtxLstToPlgTable vtxLstToPlg;
+
+
+public:
+	/*! Support for STL-like iterator */
+	class EdgeEnumerator
+	{
+	public:
+		const YsShell *shl;
+		const YsShellSearchTable *search;
+
+		class iterator
+		{
+		public:
+			const YsShell *shl;
+			const YsShellSearchTable *search;
+
+			YsShellEdgeEnumHandle prev,edHd,next;
+			int dir;
+		private:
+			inline void Forward(void)
+			{
+				if(0<=dir)
+				{
+					prev=edHd;
+					edHd=next;
+					search->FindNextEdge(*shl,edHd);
+				}
+				else
+				{
+					next=edHd;
+					edHd=prev;
+					search->FindPrevEdge(*shl,edHd);
+				}
+			}
+			inline void Backward(void)
+			{
+				if(0<=dir)
+				{
+					next=edHd;
+					edHd=prev;
+					search->FindPrevEdge(*shl,edHd);
+				}
+				else
+				{
+					prev=edHd;
+					edHd=next;
+					search->FindNextEdge(*shl,edHd);
+				}
+			}
+		public:
+			inline iterator &operator++()
+			{
+				Forward();
+				return *this;
+			}
+			inline iterator operator++(int)
+			{
+				iterator copy=*this;
+				Forward();
+				return copy;
+			}
+			inline iterator &operator--()
+			{
+				Backward();
+				return *this;
+			}
+			inline iterator operator--(int)
+			{
+				iterator copy=*this;
+				Backward();
+				return copy;
+			}
+			inline bool operator==(const iterator &from)
+			{
+				return (shl==from.shl && edHd==from.edHd);
+			}
+			inline bool operator!=(const iterator &from)
+			{
+				return (shl!=from.shl || edHd!=from.edHd);
+			}
+			inline YsShellEdgeEnumHandle &operator*()
+			{
+				return edHd;
+			}
+		};
+
+		/*! Support for STL-like iterator */
+		inline iterator begin() const
+		{
+			iterator iter;
+			iter.shl=shl;
+			iter.prev=NULL;
+			iter.edHd=nullptr;
+			search->FindNextEdge(*shl,iter.edHd);
+			iter.next=iter.edHd;
+			search->FindNextEdge(*shl,iter.next);
+			iter.dir=1;
+			return iter;
+		}
+
+		/*! Support for STL-like iterator */
+		inline iterator end() const
+		{
+			iterator iter;
+			iter.shl=shl;
+			iter.prev=NULL;
+			iter.edHd=NULL;
+			iter.next=NULL;
+			iter.dir=1;
+			return iter;
+		}
+
+		/*! Support for STL-like iterator */
+		inline iterator rbegin() const
+		{
+			iterator iter;
+			iter.shl=shl;
+			iter.next=NULL;
+			iter.edHd=nullptr;
+			search->FindPrevEdge(*shl,iter.edHd);
+			iter.prev=iter.edHd;
+			search->FindPrevEdge(*shl,iter.edHd);
+			iter.dir=-1;
+			return iter;
+		}
+
+		/*! Support for STL-like iterator */
+		inline iterator rend() const
+		{
+			iterator iter;
+			iter.shl=shl;
+			iter.prev=NULL;
+			iter.edHd=NULL;
+			iter.next=NULL;
+			iter.dir=-1;
+			return iter;
+		}
+
+		YsArray <YsShellEdgeEnumHandle> Array(void) const
+		{
+			YsArray <YsShellEdgeEnumHandle> hdArray(search->GetNumEdge(*shl),NULL);
+			YSSIZE_T idx=0;
+			for(auto hd=begin(); hd!=end(); ++hd)
+			{
+				hdArray[idx]=*hd;
+				++idx;
+			}
+			return hdArray;
+		}
+	};
+	EdgeEnumerator AllEdge(void) const
+	{
+		EdgeEnumerator eden;
+		eden.shl=attachedShell;
+		eden.search=this;
+		return eden;
+	};
 };
+
+inline YsShellSearchTable::EdgeEnumerator::iterator begin(const YsShellSearchTable::EdgeEnumerator &eden)
+{
+	return eden.begin();
+}
+inline YsShellSearchTable::EdgeEnumerator::iterator end(const YsShellSearchTable::EdgeEnumerator &eden)
+{
+	return eden.end();
+}
+inline YsShellSearchTable::EdgeEnumerator::iterator rbegin(const YsShellSearchTable::EdgeEnumerator &eden)
+{
+	return eden.rbegin();
+}
+inline YsShellSearchTable::EdgeEnumerator::iterator rend(const YsShellSearchTable::EdgeEnumerator &eden)
+{
+	return eden.rend();
+}
+
 
 template <int minSize>
 YSRESULT YsShellSearchTable::GetConnectedVertexList

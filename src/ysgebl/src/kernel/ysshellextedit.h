@@ -157,6 +157,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	- using YsShellExt::GetNeighborPolygon;
 	- using YsShellExt::IsVertexUsed;
 	- using YsShellExt::IsVertexUsedByConstEdge;
+	- using YsShellExt::AllEdge;
 	- using YsShellExt::AllConstEdge;
 	- using YsShellExt::AllFaceGroup;
 	- using YsShellExt::AllVolume;

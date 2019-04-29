@@ -3438,3 +3438,7 @@ YsShellExt::VolumeHandle YsShellExt::FindVolume(YSHASHKEY fgKey) const
 	return volumeArray.FindObject(fgKey);
 }
 
+YsShellSearchTable::EdgeEnumerator YsShellExt::AllEdge(void) const
+{
+	return shlSearch->AllEdge();
+}
