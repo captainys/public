@@ -372,6 +372,14 @@ void ShowOptionHelp(void)
 	printf("-lduFExx\n");
 	printf("\tAlter LDU #$FE02, LDU #$FE05, LDU #$FE05\n");
 	printf("\tto the BIOS hook address.\n");
+
+	printf("-38400bps\n");
+	printf("\tUse 38400bps instead of 19200bps.\n");
+	printf("\tFujitsu original RS232C card does not guarantee 38400bps, and\n");
+	printf("\tneeds hardware modification to run at this speed.\n");
+	printf("\tFM77AV20/40 and later models cannot configure to faster than 19200bps.\n");
+	printf("\tUse this option only if you have an RS232C card that is capable of\n");
+	printf("\t38400bps.\n");
 }
 
 void ShowCommandHelp(void)
@@ -382,7 +390,7 @@ void ShowCommandHelp(void)
 	printf("H...Show this help.\n");
 }
 
-void Title(void)
+void Title(int bps)
 {
 	printf("********************************\n");
 	printf("*                              *\n");
@@ -391,7 +399,7 @@ void Title(void)
 	printf("*  http://www.ysflight.com     *\n");
 	printf("*                              *\n");
 	printf("********************************\n");
-	printf("Make sure to configure FM-7/77 side computer at 19200bps.\n");
+	printf("Make sure to configure FM-7/77 side computer at %dbps.\n");
 }
 
 void ShowPrompt(void)
@@ -856,6 +864,8 @@ public:
 	std::string portStr;
 	std::string d77FName[2];
 
+	int bps;
+
 	bool instAddrSpecified;
 	unsigned int instAddr;
 
@@ -921,6 +931,8 @@ void D77ServerCommandParameterInfo::CleanUp(void)
 	instAddr2=GetDefaultInstallAddress();
 
 	dosMode=false;
+
+	bps=19200;
 
 	encoder.push_back(Encoder());
 }
@@ -1036,6 +1048,10 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 			subst.fName=av[i+5];
 			secSubst.push_back(subst);
 			i+=5;
+		}
+		else if("-38400BPS"==arg)
+		{
+			bps=38400;
 		}
 		else if('-'==arg[0])
 		{
@@ -1283,7 +1299,7 @@ int main(int ac,char *av[])
 		return 1;
 	}
 
-	Title();
+	Title(fc80.cpi.bps);
 
 	fc80.IdentifySystemType(fc80.diskSet.fm7Disk[0].diskPtr);
 	fc80.cpi.FinalizeInstallAddress(fc80.diskSet.fm7Disk[0].diskPtr);
@@ -1371,7 +1387,7 @@ void SubCPU(void)
 	auto activityTimer=std::chrono::system_clock::now();
 	auto lastSentTimer=std::chrono::system_clock::now();
 
-	comPort.SetDesiredBaudRate(19200);
+	comPort.SetDesiredBaudRate(fc80.cpi.bps);
 	comPort.SetDesiredBitLength(YsCOMPort::BITLENGTH_8);
 	comPort.SetDesiredStopBit(YsCOMPort::STOPBIT_1);
 	comPort.SetDesiredParity(YsCOMPort::PARITY_NOPARITY);

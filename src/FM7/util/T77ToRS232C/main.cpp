@@ -67,6 +67,13 @@ void ShowOptionHelp(void)
 	printf("\tSmall mode.  Smallest footprint.\n");
 	printf("-save\n");
 	printf("\tSpecify .T77 file to which the data from FM-7 are saved.\n");
+	printf("-38400bps\n");
+	printf("\tUse 38400bps instead of 19200bps.\n");
+	printf("\tFujitsu original RS232C card does not guarantee 38400bps, and\n");
+	printf("\tneeds hardware modification to run at this speed.\n");
+	printf("\tFM77AV20/40 and later models cannot configure to faster than 19200bps.\n");
+	printf("\tUse this option only if you have an RS232C card that is capable of\n");
+	printf("\t38400bps.\n");
 }
 
 void ShowCommandHelp(void)
@@ -86,7 +93,7 @@ void ShowCommandHelp(void)
 	printf("    No space between SVfilename\n");
 }
 
-void Title(void)
+void Title(int bps)
 {
 	printf("********************************\n");
 	printf("*                              *\n");
@@ -95,7 +102,7 @@ void Title(void)
 	printf("*  http://www.ysflight.com     *\n");
 	printf("*                              *\n");
 	printf("********************************\n");
-	printf("Make sure to configure FM-7/77 side computer at 19200bps.\n");
+	printf("Make sure to configure FM-7/77 side computer at %dbps.\n");
 }
 
 void SaveCommandInstruction(void)
@@ -163,6 +170,8 @@ public:
 	std::string saveT77FName;
 	T77CLIENT_TYPE cliType;
 
+	int bps;
+
 	unsigned int instAddr,bridgeAddr;
 	bool redirectBiosCallMachingo;
 	bool redirectBiosCallBinaryString;
@@ -186,6 +195,8 @@ void T77ServerCommandParameterInfo::CleanUp(void)
 	cliType=T77CLI_SMALL;
 	instAddr=GetDefaultInstallAddress(cliType);
 	bridgeAddr=GetDefaultBridgeAddress(cliType);
+
+	bps=19200;
 
 	redirectBiosCallMachingo=true;
 	redirectBiosCallBinaryString=false;
@@ -262,6 +273,10 @@ bool T77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		else if("-SMALL"==arg)
 		{
 			cliType=T77CLI_SMALL;
+		}
+		else if("-38400BPS"==arg)
+		{
+			bps=38400;
 		}
 		else if('-'==arg[0])
 		{
@@ -765,7 +780,7 @@ int main(int ac,char *av[])
 	}
 
 
-	Title();
+	Title(fc80.cpi.bps);
 	fc80.loadTapePtr->Files();
 
 	std::thread t(SubCPU);
@@ -968,7 +983,7 @@ void SubCPU(void)
 	auto activityTimer=std::chrono::system_clock::now();
 	auto lastSentTimer=std::chrono::system_clock::now();
 
-	comPort.SetDesiredBaudRate(19200);
+	comPort.SetDesiredBaudRate(fc80.cpi.bps);
 	comPort.SetDesiredBitLength(YsCOMPort::BITLENGTH_8);
 	comPort.SetDesiredStopBit(YsCOMPort::STOPBIT_1);
 	comPort.SetDesiredParity(YsCOMPort::PARITY_NOPARITY);
