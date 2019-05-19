@@ -144,6 +144,8 @@ void ShowHelp(void)
 	printf("Specify ####UTILDISK#### as d77 file name to transmit a RS232C utility disk.\n");
 	printf("Case sensitive.\n");
 	printf("\n");
+	printf("-38400bps\n");
+	printf("\tUse 38400bps instead of 19200bps.\n");
 	printf("-fbasic\n");
 	printf("\tConsider disk as F-BASIC formatted.\n");
 	printf("\tIf the disk is not used fully based on the File Allocation Table,\n");
@@ -166,7 +168,7 @@ void ShowHelp(void)
 	printf("\tShow this help.\n");
 }
 
-void Title(void)
+void Title(int bps)
 {
 	printf("********************************\n");
 	printf("*                              *\n");
@@ -175,7 +177,7 @@ void Title(void)
 	printf("*  http://www.ysflight.com     *\n");
 	printf("*                              *\n");
 	printf("********************************\n");
-	printf("Make sure to configure FM-7/77 side computer at 19200bps.\n");
+	printf("Make sure to configure FM-7/77 side computer at %dbps.\n",bps);
 }
 
 ////////////////////////////////////////////////////////////
@@ -186,6 +188,8 @@ public:
 	std::string portStr;
 	int diskNumber;
 	std::string d77FName;
+
+	int bps;
 
 	bool fBasic;
 	bool renumFx;
@@ -209,6 +213,8 @@ void D77ServerCommandParameterInfo::CleanUp(void)
 	diskNumber=0;
 	d77FName="";
 
+	bps=19200;
+
 	fBasic=false;
 	renumFx=false;
 	delDuplicateSec=false;
@@ -222,27 +228,28 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 	for(int i=1; i<ac; ++i)
 	{
 		std::string arg(av[i]);
-		if("-h"==arg || "-help"==arg || "-?"==arg)
+		FM7Lib::Capitalize(arg);
+		if("-H"==arg || "-HELP"==arg || "-?"==arg)
 		{
 			ShowHelp();
 		}
-		else if("-fbasic"==arg)
+		else if("-FBASIC"==arg)
 		{
 			fBasic=true;
 		}
-		else if("-deldupsecn"==arg)
+		else if("-DELDUPSECN"==arg)
 		{
 			delDuplicateSec=true;
 		}
-		else if("-renumfx"==arg)
+		else if("-RENUMFX"==arg)
 		{
 			renumFx=true;
 		}
-		else if("-noquit"==arg)
+		else if("-NOQUIT"==arg)
 		{
 			autoQuit=false;
 		}
-		else if("-waitscale"==arg && i+1<ac)
+		else if("-WAITSCALE"==arg && i+1<ac)
 		{
 			waitScale=FM7Lib::Atoi(av[i+1]);
 			if(waitScale<1)
@@ -250,6 +257,10 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 				waitScale=1;
 			}
 			++i;
+		}
+		else if("-38400BPS"==arg)
+		{
+			bps=38400;
 		}
 		else if('-'==arg[0])
 		{
@@ -419,10 +430,10 @@ bool D77Server::Run(int ac,char *av[])
 	printf("Format data ready.\n");
 
 
-	Title();
+	Title(cpi.bps);
 
 
-	comPort.SetDesiredBaudRate(19200);
+	comPort.SetDesiredBaudRate(cpi.bps);
 	comPort.SetDesiredBitLength(YsCOMPort::BITLENGTH_8);
 	comPort.SetDesiredStopBit(YsCOMPort::STOPBIT_1);
 	comPort.SetDesiredParity(YsCOMPort::PARITY_NOPARITY);
