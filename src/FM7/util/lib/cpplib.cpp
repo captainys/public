@@ -281,6 +281,7 @@ std::vector <std::string> FM7Lib::QuickParser(const char str[])
 					curStr.push_back(str[i]);
 				}
 				argv.push_back((std::string &&)curStr);
+				curStr="";
 				state=0;
 			}
 			else
@@ -288,6 +289,11 @@ std::vector <std::string> FM7Lib::QuickParser(const char str[])
 				curStr.push_back(str[i]);
 			}
 		}
+	}
+
+	if(0<curStr.size())
+	{
+		argv.push_back((std::string &&)curStr);
 	}
 
 	return argv;

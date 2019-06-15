@@ -2209,6 +2209,9 @@ void RetroMap_World::CleanUp(void)
 	defArrowSize=MarkUp::ArrowHeadInfo::DefaultSize();
 	fileName=L"";
 
+	useGlobalTransparency=YSFALSE;
+	globalTransparentColor.SetIntRGBA(0,0,0,0);
+
 	diffThr=32;
 }
 
@@ -2347,6 +2350,23 @@ int RetroMap_World::GetDiffThreshold(void) const
 void RetroMap_World::SetDiffThreshold(int diffThr)
 {
 	this->diffThr=diffThr;
+}
+
+void RetroMap_World::SetGlobalTransparentColor(const YsColor &col)
+{
+	this->globalTransparentColor=col;
+}
+void RetroMap_World::SetUseGlobalTransparency(YSBOOL useFlag)
+{
+	this->useGlobalTransparency=useFlag;
+}
+YsColor RetroMap_World::GetGlobalTransparentColor(void) const
+{
+	return globalTransparentColor;
+}
+YSBOOL RetroMap_World::GetUseGlobalTransparency(void) const
+{
+	return useGlobalTransparency;
 }
 
 int RetroMap_World::GetDefaultFontSize(void) const
@@ -2611,6 +2631,9 @@ RetroMap_World::MapPieceHandle RetroMap_World::LoadImage(FieldHandle fdHd,const 
 	{
 		YsString label=texMan.MakeUniqueLabel();
 		auto texHd=texMan.AddTexture(label,fom,0,0,dat.GetN(),dat);
+
+		texMan.SetUseTransparency(texHd,useGlobalTransparency);
+		texMan.SetTransparentColor(texHd,globalTransparentColor);
 
 		auto texUnitPtr=texMan.GetTexture(texHd);
 		if(nullptr!=texUnitPtr)

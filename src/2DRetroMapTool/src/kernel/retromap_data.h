@@ -726,6 +726,9 @@ private:
 	mutable YSBOOL modified;
 	int diffThr;
 
+	YSBOOL useGlobalTransparency;
+	YsColor globalTransparentColor;
+
 	YsWString fileName;
 	YsWString lastImageFileName;
 
@@ -786,6 +789,22 @@ public:
 	    This information is saved, but not an undo/redo target.
 	*/
 	void SetDiffThreshold(int diffThr);
+
+	/*! Set global transparent color
+	*/
+	void SetGlobalTransparentColor(const YsColor &col);
+
+	/*! Set use-flag of the global transparent color
+	*/
+	void SetUseGlobalTransparency(YSBOOL useFlag);
+
+	/*! Returns the global transparent color.
+	*/
+	YsColor GetGlobalTransparentColor(void) const;
+
+	/*! Returns the use-flag of the global transparent color.
+	*/
+	YSBOOL GetUseGlobalTransparency(void) const;
 
 	/*! Returns default mark-up font size. */
 	int GetDefaultFontSize(void) const;

@@ -40,7 +40,7 @@ $BGCOL 0
 +dlg/about/donatevector                            #ベクター・シェアレジで寄付
 
 +dlg/comment/fontsize                              #フォントサイズ
-+dlg/comment/transparent_background                #背景を透明にする
++dlg/comment/transparent_background                #マークアップの背景を透明にする
 +dlg/common/ask_overwrite                          #ファイルを上書きしますか?
 +dlg/common/file_already_exist                     #その名前のファイルは既に存在します。
 +dlg/common/need_select_one_mappiece               #ひとつのマップパーツを選んでください。

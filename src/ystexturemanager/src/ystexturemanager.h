@@ -90,7 +90,8 @@ public:
 		enum
 		{
 			FLAG_RENDERTARGET=1,
-			FLAG_DONTSAVE=2
+			FLAG_DONTSAVE=2,
+			FLAG_USE_TRANSPARENT_COLOR=4
 		};
 
 		/*!
@@ -112,6 +113,7 @@ public:
 		unsigned int flags;
 		mutable ActualTexture *texPtr;
 		YsString label;
+		YsColor transparentColor;
 		FILTERTYPE filterType;
 		EFFECTTYPE effectType;
 		DATA_FORMAT fType;
@@ -378,6 +380,26 @@ public:
 	*/
 	const Unit *GetTextureReady(TexHandle texHd) const;
 
+	/*! Make texture un-ready state.
+	*/
+	void UnreadyTexture(TexHandle texHd);
+
+	/*! Sets the transparent color.
+	*/
+	void SetTransparentColor(TexHandle texHd,YsColor col);
+
+	/*! Sets the use-flag of the transparent color.
+	*/
+	void SetUseTransparency(TexHandle texHd,YSBOOL useTrsp);
+
+	/*! Returns the transparent color.
+	*/
+	YsColor GetTransparentColor(TexHandle texHd) const;
+
+	/*! Returns the use-flag of the transparent color.
+	*/
+	YSBOOL GetUseTransparency(TexHandle texHd) const;
+
 
 	/*! Returns YSTRUE if texture texHd is ready to use.
 	    A texture may be invalidated outside the application's control.
@@ -417,6 +439,8 @@ private:
 	YsBase64Decoder base64decoder;
 	Unit::FILTERTYPE loadingFilterType;
 	Unit::EFFECTTYPE loadingEffectType;
+	YSBOOL loadingUseTrspCol;
+	YsColor loadingTrspCol;
 
 	void ClearLoadingInfo(void);
 };

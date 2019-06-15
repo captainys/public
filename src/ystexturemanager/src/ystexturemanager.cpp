@@ -99,6 +99,7 @@ void YsTextureManager::Unit::CleanUp(void)
 	flags=0;
 	randomNoiseLevel=0.05;
 	bitmapLoaded=YSFALSE;
+	transparentColor.SetIntRGBA(0,0,0,0);
 }
 
 void YsTextureManager::Unit::CleanTextureCache(void) const
@@ -282,6 +283,23 @@ YSRESULT YsTextureManager::Unit::MakeActualTexture(TextureGenerationOption opt) 
 				{
 					this->wid=png.wid;
 					this->hei=png.hei;
+
+					if(0!=(FLAG_USE_TRANSPARENT_COLOR&flags))
+					{
+						int tr=transparentColor.Ri();
+						int tg=transparentColor.Gi();
+						int tb=transparentColor.Bi();
+						for(long long int i=0; i<png.wid*png.hei*4; i+=4)
+						{
+							if(png.rgba[i  ]==tr &&
+							   png.rgba[i+1]==tg &&
+							   png.rgba[i+2]==tb)
+							{
+								png.rgba[i+3]=0;
+							}
+						}
+					}
+
 					switch(effectType)
 					{
 					case EFFECT_RANDOMNOISE:
@@ -299,7 +317,33 @@ YSRESULT YsTextureManager::Unit::MakeActualTexture(TextureGenerationOption opt) 
 			}
 			break;
 		case FOM_RAW_RGBA:
-			return SetUpRGBABitmap(texPtr,wid,hei,dat,opt);
+			if(0!=(FLAG_USE_TRANSPARENT_COLOR&flags))
+			{
+				YsArray <unsigned char> trspRgba;
+				trspRgba.resize(wid*hei*4);
+
+				int tr=transparentColor.Ri();
+				int tg=transparentColor.Gi();
+				int tb=transparentColor.Bi();
+				for(long long int i=0; i<wid*hei*4; i+=4)
+				{
+					trspRgba[i  ]=dat[i  ];
+					trspRgba[i+1]=dat[i+1];
+					trspRgba[i+2]=dat[i+2];
+					trspRgba[i+3]=dat[i+3];
+					if(dat[i  ]==tr &&
+					   dat[i+1]==tg &&
+					   dat[i+2]==tb)
+					{
+						trspRgba[i+3]=0;
+					}
+				}
+				return SetUpRGBABitmap(texPtr,wid,hei,trspRgba,opt);
+			}
+			else
+			{
+				return SetUpRGBABitmap(texPtr,wid,hei,dat,opt);
+			}
 		default:
 			break;
 		}
@@ -901,6 +945,71 @@ const YsTextureManager::Unit *YsTextureManager::GetTextureReady(TexHandle texHd)
 	return nullptr;
 }
 
+void YsTextureManager::UnreadyTexture(TexHandle texHd)
+{
+	if(nullptr!=texHd)
+	{
+		auto unitPtr=bmpArray[texHd];
+		if(nullptr!=unitPtr)
+		{
+			unitPtr->bitmapLoaded=YSFALSE;
+		}
+	}
+}
+
+void YsTextureManager::SetTransparentColor(TexHandle texHd,YsColor col)
+{
+	if(nullptr!=texHd)
+	{
+		auto unitPtr=bmpArray[texHd];
+		if(nullptr!=unitPtr)
+		{
+			unitPtr->transparentColor=col;
+		}
+	}
+}
+void YsTextureManager::SetUseTransparency(TexHandle texHd,YSBOOL useTrsp)
+{
+	if(nullptr!=texHd)
+	{
+		auto unitPtr=bmpArray[texHd];
+		if(nullptr!=unitPtr)
+		{
+			if(YSTRUE==useTrsp)
+			{
+				unitPtr->flags|=Unit::FLAG_USE_TRANSPARENT_COLOR;
+			}
+			else
+			{
+				unitPtr->flags&=~Unit::FLAG_USE_TRANSPARENT_COLOR;
+			}
+		}
+	}
+}
+YsColor YsTextureManager::GetTransparentColor(TexHandle texHd) const
+{
+	if(nullptr!=texHd)
+	{
+		auto unitPtr=bmpArray[texHd];
+		if(nullptr!=unitPtr)
+		{
+			return unitPtr->transparentColor;
+		}
+	}
+}
+YSBOOL YsTextureManager::GetUseTransparency(TexHandle texHd) const
+{
+	if(nullptr!=texHd)
+	{
+		auto unitPtr=bmpArray[texHd];
+		if(nullptr!=unitPtr)
+		{
+			return (0!=(unitPtr->flags&Unit::FLAG_USE_TRANSPARENT_COLOR) ? YSTRUE : YSFALSE);
+		}
+	}
+	return YSFALSE;
+}
+
 YSRESULT YsTextureManager::Save(YsTextOutputStream &outStream) const
 {
 	for(auto texHd : AllTexture())
@@ -971,6 +1080,14 @@ YSRESULT YsTextureManager::Save(YsTextOutputStream &outStream) const
 
 		outStream.Printf("TEXMAN RANDOMNOISE %.2lf\n",GetRandomNoiseLevel(texHd));
 
+		if(0!=(unitPtr->flags&Unit::FLAG_USE_TRANSPARENT_COLOR))
+		{
+			outStream.Printf("TEXMAN TRSPCOL %d %d %d\n",
+			   unitPtr->transparentColor.Ri(),
+			   unitPtr->transparentColor.Gi(),
+			   unitPtr->transparentColor.Bi());
+		}
+
 		outStream.Printf("TEXMAN ENDTEXTURE\n");
 	}
 	return YSOK;
@@ -998,6 +1115,8 @@ void YsTextureManager::ClearLoadingInfo(void)
 	base64decoder.CleanUp();
 	loadingFilterType=Unit::FILTERTYPE_NEAREST;
 	loadingEffectType=Unit::EFFECT_NONE;
+	loadingUseTrspCol=YSFALSE;
+	loadingTrspCol.SetIntRGBA(0,0,0,0);
 }
 
 static const char *const texManCmd[]=
@@ -1011,6 +1130,7 @@ static const char *const texManCmd[]=
 	"RANDOMNOISE",  // 6 Add random noise true/false
 	"TEXTURERESOLUTION",  // 7 Texture resolution.  Used if the format is FOM_RAW_RGBA
 	"TEXTUREEFFECT",// 8 Effect
+	"TRSPCOL",      // 9 Transparent Color
 	NULL
 };
 
@@ -1039,6 +1159,8 @@ YSRESULT YsTextureManager::LoadTexManOneLine(const YsString &str,YSSIZE_T argc,c
 				loadingFilterType=Unit::FILTERTYPE_NEAREST;
 				loadingEffectType=Unit::EFFECT_NONE;
 				loadingTexSize.Set(0,0);
+				loadingUseTrspCol=YSFALSE;
+				loadingTrspCol.SetIntRGBA(0,0,0,0);
 
 				loadingTexLabel=args[2];
 
@@ -1141,6 +1263,14 @@ YSRESULT YsTextureManager::LoadTexManOneLine(const YsString &str,YSSIZE_T argc,c
 				else
 				{
 				}
+			}
+			break;
+		case 9: // "TRSPCOL",      // 9 Transparent Color
+			if(5<=argc)
+			{
+				loadingUseTrspCol=YSTRUE;
+				loadingTrspCol.SetIntRGB(args[2].Atoi(),args[3].Atoi(),args[4].Atoi());
+				return YSOK;
 			}
 			break;
 		}

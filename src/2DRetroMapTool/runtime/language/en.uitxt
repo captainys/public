@@ -41,7 +41,7 @@ $BGCOL 0
 
 
 +dlg/comment/fontsize                              #Font Size
-+dlg/comment/transparent_background                #Transparent Background
++dlg/comment/transparent_background                #Transparent Mark-Up Background
 +dlg/common/ask_overwrite                          #Overwrite the existing file?
 +dlg/common/file_already_exist                     #File Already Exists.
 +dlg/common/need_select_one_mappiece               #One map piece must be selected.
