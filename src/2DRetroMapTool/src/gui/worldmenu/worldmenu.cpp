@@ -21,6 +21,9 @@ public:
 	FsGuiColorPalette *defForegroundPlt,*defBackgroundPlt;
 	FsGuiButton *defTransparentBackGroundBtn;
 
+	FsGuiButton *useGlobalTransparencyBtn;
+	FsGuiColorPalette *globalTransparentColor;
+
 	FsGuiButton *okBtn,*cancelBtn;
 
 	void Make(FsGui3DMainCanvas *canvasPtr);
@@ -54,6 +57,19 @@ void FsGui3DMainCanvas::WorldPropertyDialog::Make(FsGui3DMainCanvas *canvasPtr)
 	}
 
 
+	useGlobalTransparencyBtn=AddTextButton(
+	    0,FSKEY_NULL,
+	    FSGUI_CHECKBOX,
+	    FSGUI_DLG_WORLDPROP_GLOBAL_TRANSPARENCY,
+	    YSTRUE);
+	globalTransparentColor=AddCompactColorPalette(0,FSKEY_NULL,"",255,255,255,YSFALSE);
+	useGlobalTransparencyBtn->SetCheck(canvasPtr->world.GetUseGlobalTransparency());
+	globalTransparentColor->SetColor(canvasPtr->world.GetGlobalTransparentColor());
+
+
+	FsGuiColorPalette *globalTransparentColor;
+
+
 	okBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_COMMON_OK,YSTRUE);
 	cancelBtn=AddTextButton(0,FSKEY_ESC,FSGUI_PUSHBUTTON,FSGUI_COMMON_CANCEL,YSFALSE);
 	SetArrangeType(FSDIALOG_ARRANGE_TOP_LEFT);
@@ -80,6 +96,9 @@ void FsGui3DMainCanvas::WorldPropertyDialog::SetFromWorld(const RetroMap_World &
 		}
 		canvasPtr->world.SetDefaultMarkUpForegroundColor(defFgCol);
 		canvasPtr->world.SetDefaultMarkUpBackgroundColor(defBgCol);
+
+		canvasPtr->world.SetUseGlobalTransparency(useGlobalTransparencyBtn->GetCheck());
+		canvasPtr->world.SetGlobalTransparentColor(globalTransparentColor->GetColor());
 
 		CloseModalDialog(YSOK);
 	}

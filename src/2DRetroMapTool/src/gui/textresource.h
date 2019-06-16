@@ -129,6 +129,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_DLG_TRIM_THIS_MAPPIECE_ONLY                 FsGetTextResource("dlg/trim/this_mappiece_only",L"This Map Piece Only")
 #define FSGUI_DLG_TRIM_TRIM_THIS_AND_NEW                  FsGetTextResource("dlg/trim/trim_this_and_new",L"This Map Piece and New Map Pieces")
 #define FSGUI_DLG_TRIM_USE_UNIT                           FsGetTextResource("dlg/trim/use_unit",L"Use Unit")
+#define FSGUI_DLG_WORLDPROP_GLOBAL_TRANSPARENCY           FsGetTextResource("dlg/worldprop/global_transparency",L"Global Transparent Color")
 #define FSGUI_DLG_WORLDPROP_NAME                          FsGetTextResource("dlg/worldprop/name",L"Name")
 #define FSGUI_ERROR_CANNOT_WRITE_FILE                     FsGetTextResource("error/cannot_write_file",L"Cannot write to file.")
 #define FSGUI_ERROR_CRASH_WHILE_CACHE                     FsGetTextResource("error/crash_while_cache",L"The program crashed or forcibly terminated while making a screenshot file cache.\nPlease check if you have specified a correct directory in the config dialog.\nSpecifying root directory of the root drive may cause the program to crash or stop responding.")

@@ -87,6 +87,7 @@ $BGCOL 0
 +dlg/trim/this_mappiece_only                       #This Map Piece Only
 +dlg/trim/trim_this_and_new                        #This Map Piece and New Map Pieces
 +dlg/trim/use_unit                                 #Use Unit
++dlg/worldprop/global_transparency                 #Global Transparent Color
 +dlg/worldprop/name                                #Name
 +error/cannot_write_file                           #Cannot write to file.
 +error/crash_while_cache                           #The program crashed or forcibly terminated while making a screenshot file cache.\nPlease check if you have specified a correct directory in the config dialog.\nSpecifying root directory of the root drive may cause the program to crash or stop responding.

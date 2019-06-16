@@ -1201,10 +1201,14 @@ YSRESULT YsTextureManager::LoadTexManOneLine(const YsString &str,YSSIZE_T argc,c
 				SetTextureFilterType(texHd,loadingFilterType);
 				SetTextureEffectType(texHd,loadingEffectType);
 				SetRandomNoiseLevel(texHd,loadingTexRandomNoiseLevel);
+				SetUseTransparency(texHd,loadingUseTrspCol);
+				SetTransparentColor(texHd,loadingTrspCol);
 			}
 			loadingTexFileName.Set("");
 			loadingTexLabel.Set("");
 			loadingTexData.CleanUp();
+			loadingUseTrspCol=YSFALSE;
+			loadingTrspCol.SetIntRGBA(0,0,0,0);
 			nLoadingTexDataLine=0;
 			base64decoder.CleanUp();
 			return YSOK;

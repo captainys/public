@@ -81,6 +81,12 @@ YSRESULT RetroMap_World::Save(FILE *fp) const
 	outStream.Printf("DEFMARKUPFGCOL %d %d %d %d\n",defMarkUpFgCol.Ri(),defMarkUpFgCol.Gi(),defMarkUpFgCol.Bi(),defMarkUpFgCol.Ai());
 	outStream.Printf("DEFMARKUPBGCOL %d %d %d %d\n",defMarkUpBgCol.Ri(),defMarkUpBgCol.Gi(),defMarkUpBgCol.Bi(),defMarkUpBgCol.Ai());
 
+	outStream.Printf("USEGLOBALTRANSPARENCY %s\n",YsBoolToStr(useGlobalTransparency));
+	outStream.Printf("GLOBALTRANSPARENTCOLOR %d %d %d\n",
+	    globalTransparentColor.Ri(),
+	    globalTransparentColor.Gi(),
+	    globalTransparentColor.Bi());
+
 	for(auto &field : allField)
 	{
 		field.mapPiece.Encache();
@@ -280,6 +286,17 @@ YSRESULT RetroMap_World::Open(FILE *fp)
 					int b=atoi(argv[3]);
 					int a=atoi(argv[4]);
 					defMarkUpBgCol.SetIntRGBA(r,g,b,a);
+				}
+				else if(0==argv[0].STRCMP("USEGLOBALTRANSPARENCY") && 2<=argv.size())
+				{
+					useGlobalTransparency=YsStrToBool(argv[1]);
+				}
+				else if(0==argv[0].STRCMP("GLOBALTRANSPARENTCOLOR") && 4<=argv.size())
+				{
+					int r=atoi(argv[1]);
+					int g=atoi(argv[2]);
+					int b=atoi(argv[3]);
+					globalTransparentColor.SetIntRGB(r,g,b);
 				}
 				else if(0==argv[0].STRCMP("BEGINRETRORPGMAP"))
 				{

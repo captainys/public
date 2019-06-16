@@ -86,6 +86,7 @@ $BGCOL 0
 +dlg/trim/this_mappiece_only                       #このマップパーツ
 +dlg/trim/trim_this_and_new                        #このマップパーツと以後の新しいマップパーツ
 +dlg/trim/use_unit                                 #単位を適用する
++dlg/worldprop/global_transparency                 #Global Transparent Color
 +dlg/worldprop/name                                #名前
 +error/cannot_write_file                           #ファイルに書き込むことができませんでした。
 +error/crash_while_cache                           #前回スクリーンショットのキャッシュ読み込み中にクラッシュまたは強制終了しました。\n設定ダイアログで、スクリーンショットディレクトリが正しいか確認してください。\nシステムのルートディレクトリ等を指定すると、クラッシュの原因になったりプログラムが反応しなくなったりします。
