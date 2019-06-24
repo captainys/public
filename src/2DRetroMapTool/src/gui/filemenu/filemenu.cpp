@@ -211,6 +211,7 @@ class FsGui3DMainCanvas::SaveAsOneBitmapOptionDialog : public FsGuiDialog
 public:
 	FsGuiButton *includeMarkUpBtn;
 	FsGuiButton *okBtn,*cancelBtn;
+	FsGuiTextBox *mulTxt,*divTxt;
 	void Make(void);
 	virtual void OnButtonClick(FsGuiButton *btn);
 };
@@ -219,6 +220,14 @@ void FsGui3DMainCanvas::SaveAsOneBitmapOptionDialog::Make(void)
 	includeMarkUpBtn=AddTextButton(0,FSKEY_NULL,FSGUI_CHECKBOX,FSGUI_DLG_EXPORTPNG_INCLUDE_MARKUP,YSTRUE);
 	includeMarkUpBtn->SetCheck(YSTRUE);
 
+	mulTxt=AddTextBox(0,FSKEY_NULL,FsGuiTextBox::HORIZONTAL,"Mul",4,YSTRUE);
+	mulTxt->SetTextType(FSGUI_INTEGER);
+	mulTxt->SetInteger(1);
+
+	divTxt=AddTextBox(0,FSKEY_NULL,FsGuiTextBox::HORIZONTAL,"Div",4,YSFALSE);
+	divTxt->SetTextType(FSGUI_INTEGER);
+	divTxt->SetInteger(1);
+
 	okBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_COMMON_OK,YSTRUE);
 	cancelBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_COMMON_CANCEL,YSFALSE);
 }
@@ -226,7 +235,25 @@ void FsGui3DMainCanvas::SaveAsOneBitmapOptionDialog::Make(void)
 {
 	if(btn==okBtn)
 	{
-		CloseModalDialog(YSOK);
+		auto mul=mulTxt->GetInteger();
+		auto div=divTxt->GetInteger();
+
+		if(mul<1)
+		{
+			auto mbox=FsGuiDialog::CreateSelfDestructiveDialog<FsGuiMessageBoxDialog>();
+			mbox->Make(L"",L"Multiplication factor must be greater than or equal to 1",FSGUI_COMMON_OK,nullptr);
+			AttachModalDialog(mbox);
+		}
+		else if(div<1)
+		{
+			auto mbox=FsGuiDialog::CreateSelfDestructiveDialog<FsGuiMessageBoxDialog>();
+			mbox->Make(L"",L"Divixion factor must be greater than or equal to 1",FSGUI_COMMON_OK,nullptr);
+			AttachModalDialog(mbox);
+		}
+		else
+		{
+			CloseModalDialog(YSOK);
+		}
 	}
 	else if(btn==cancelBtn)
 	{
