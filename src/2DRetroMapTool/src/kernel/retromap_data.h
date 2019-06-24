@@ -640,6 +640,32 @@ public:
 		};
 		void MakeMapPieceBitmap(MakeBitmapThreadInfo *info) const;
 	public:
+		class MakeBitmapInfo
+		{
+		public:
+			YsVec2i origin,bmpSize;
+			int mulX,divX,mulY,divY;
+			YsColor bgCol;
+			YSBOOL mapPiece,markUp;
+			const MapPieceStore *excludedMapPiecePtr;
+
+			inline MakeBitmapInfo()
+			{
+				origin=YsVec2i::Origin();
+				bmpSize=YsVec2i::Origin();
+				mulX=1;
+				divX=1;
+				mulY=1;
+				divY=1;
+				bgCol=YsWhite();
+				mapPiece=YSTRUE;
+				markUp=YSTRUE;
+				excludedMapPiecePtr=nullptr;
+			};
+		};
+		/*! Make a bitmap of the field of the given area. */
+		YsBitmap MakeBitmap(const MakeBitmapInfo &info) const;
+
 		/*! Make a bitmap of the field of the given area. */
 		YsBitmap MakeBitmap(YsVec2i origin,YsVec2i bmpSize,YsColor bgCol,YSBOOL mapPiece,YSBOOL markUp,const MapPieceStore &excludeMapPiece) const;
 

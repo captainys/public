@@ -1175,8 +1175,16 @@ void RetroMap_World::Field::MakeMapPieceBitmap(MakeBitmapThreadInfo *info) const
 	info->bmpPtr->MoveFrom(scaledBmp);
 }
 
-YsBitmap RetroMap_World::Field::MakeBitmap(YsVec2i origin,YsVec2i bmpSize,YsColor bgCol,YSBOOL drawMapPiece,YSBOOL drawMarkUp,const MapPieceStore &excludeMapPiece) const
+YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 {
+	YsVec2i origin=info.origin;
+	YsVec2i bmpSize=info.bmpSize;
+	YsColor bgCol=info.bgCol;
+	YSBOOL drawMapPiece=info.mapPiece;
+	YSBOOL drawMarkUp=info.markUp;
+	const MapPieceStore emptyMapPieceStore;
+	const MapPieceStore &excludeMapPiece=(nullptr!=info.excludedMapPiecePtr ? *info.excludedMapPiecePtr : emptyMapPieceStore);
+
 	YsBitmap bmp;
 	YsBitmapDrawing drawing(bmp);
 	bmp.PrepareBitmap(bmpSize.x(),bmpSize.y());
@@ -1273,6 +1281,18 @@ YsBitmap RetroMap_World::Field::MakeBitmap(YsVec2i origin,YsVec2i bmpSize,YsColo
 		}
 	}
 	return bmp;
+}
+
+YsBitmap RetroMap_World::Field::MakeBitmap(YsVec2i origin,YsVec2i bmpSize,YsColor bgCol,YSBOOL drawMapPiece,YSBOOL drawMarkUp,const MapPieceStore &excludeMapPiece) const
+{
+	MakeBitmapInfo info;
+	info.origin=origin;
+	info.bmpSize=bmpSize;
+	info.bgCol=bgCol;
+	info.mapPiece=drawMapPiece;
+	info.markUp=drawMarkUp;
+	info.excludedMapPiecePtr=&excludeMapPiece;
+	return MakeBitmap(info);
 }
 
 YsBitmap RetroMap_World::Field::MakeBitmap(YSBOOL mapPiece,YSBOOL markUp) const
