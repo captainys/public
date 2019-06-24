@@ -637,6 +637,7 @@ public:
 			MapPieceHandle mpHd;
 			YsBitmap *bmpPtr;
 			YsBitmap *trimmedBmpPtr;
+			int mulX,divX,mulY,divY;
 		};
 		void MakeMapPieceBitmap(MakeBitmapThreadInfo *info) const;
 	public:

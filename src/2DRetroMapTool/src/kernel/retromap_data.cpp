@@ -1154,7 +1154,11 @@ void RetroMap_World::Field::MakeMapPieceBitmap(MakeBitmapThreadInfo *info) const
 	auto texBmp=texUnit->GetBitmap();
 
 	auto shape=mpPtr->shape;
-	auto bbx=shape.GetBoundingBox2i();
+	auto renderSize=shape.GetBoundingBox2i().GetSize();
+	renderSize.MulX(info->mulX);
+	renderSize.DivX(info->divX);
+	renderSize.MulY(info->mulY);
+	renderSize.DivY(info->divY);
 
 	YsBitmap trimmedBmp;
 	auto bmpUsingSize=shape.visibleArea.GetSize();
@@ -1162,14 +1166,13 @@ void RetroMap_World::Field::MakeMapPieceBitmap(MakeBitmapThreadInfo *info) const
 	trimmedBmp.Copy(texBmp,shape.visibleArea[0].x(),shape.visibleArea[0].y(),0,0,bmpUsingSize.x(),bmpUsingSize.y());
 
 	YsBitmap scaledBmp;
-	auto d=bbx.GetSize();
-	if(bmpUsingSize==d)
+	if(bmpUsingSize==renderSize)
 	{
 		scaledBmp.MoveFrom(trimmedBmp);
 	}
 	else
 	{
-		scaledBmp.ScaleCopy(d.x(),d.y(),trimmedBmp);
+		scaledBmp.ScaleCopy(renderSize.x(),renderSize.y(),trimmedBmp);
 	}
 
 	info->bmpPtr->MoveFrom(scaledBmp);
@@ -1226,6 +1229,10 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 			{
 				thrInfo[mpIdx].mpHd=toRender[baseIdx+mpIdx];
 				thrInfo[mpIdx].bmpPtr=&mpBmp[mpIdx];
+				thrInfo[mpIdx].mulX=info.mulX;
+				thrInfo[mpIdx].divX=info.divX;
+				thrInfo[mpIdx].mulY=info.mulY;
+				thrInfo[mpIdx].divY=info.divY;
 				std::thread t(&RetroMap_World::Field::MakeMapPieceBitmap,this,&thrInfo[mpIdx]);
 				thr[mpIdx].swap(t);
 			}
@@ -1244,6 +1251,10 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 				auto &scaledBmp=mpBmp[mpIdx];
 
 				auto posInBigBitmap=bbx[0]-origin;
+				posInBigBitmap.MulX(info.mulX);
+				posInBigBitmap.DivX(info.divX);
+				posInBigBitmap.MulY(info.mulY);
+				posInBigBitmap.DivY(info.divY);
 				bmp.Copy(scaledBmp,posInBigBitmap.x(),posInBigBitmap.y());
 			}
 		}
@@ -1258,6 +1269,10 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 				auto texUnit=texMan.GetTexture(muPtr->texHd);
 				auto texBmp=texUnit->GetBitmap();
 				auto posInBigBitmap=muPtr->pos-origin;
+				posInBigBitmap.MulX(info.mulX);
+				posInBigBitmap.DivX(info.divX);
+				posInBigBitmap.MulY(info.mulY);
+				posInBigBitmap.DivY(info.divY);
 				bmp.Copy(texBmp,posInBigBitmap.x(),posInBigBitmap.y());
 			}
 			else if(muPtr->GetMarkUpType()==muPtr->MARKUP_POINT_ARRAY)
@@ -1270,6 +1285,14 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 					{
 						auto p1=muPtr->plg[idx]-origin;
 						auto p2=muPtr->plg.GetCyclic(idx+1)-origin;
+						p1.MulX(info.mulX);
+						p1.DivX(info.divX);
+						p1.MulY(info.mulY);
+						p1.DivY(info.divY);
+						p2.MulX(info.mulX);
+						p2.DivX(info.divX);
+						p2.MulY(info.mulY);
+						p2.DivY(info.divY);
 						drawing.DrawLine(p1.x(),p1.y(),p2.x(),p2.y(),opt);
 						if(YSTRUE!=muPtr->closed && idx==muPtr->plg.GetN()-1)
 						{
