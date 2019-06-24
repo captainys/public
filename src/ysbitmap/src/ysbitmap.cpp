@@ -579,7 +579,7 @@ YSRESULT YsBitmap::ScaleCopyRaw(int wid,int hei,const YsBitmap &from)
 	return YSOK;
 }
 
-YSRESULT YsBitmap::Copy(const YsBitmap &from,int x0,int y0)
+YSRESULT YsBitmap::Copy(const YsBitmap &from,int x0,int y0,CopyOption opt)
 {
 	for(int x=0; x<from.GetWidth(); x++)
 	{
@@ -587,15 +587,33 @@ YSRESULT YsBitmap::Copy(const YsBitmap &from,int x0,int y0)
 		{
 			if(0<=x0+x && x0+x<GetWidth() && 0<=y0+y && y0+y<GetHeight())
 			{
-				const unsigned char *rgba=from.GetRGBAPixelPointer(x,y);
-				LineTop(y0+y)[(x0+x)*4  ]=rgba[0];
-				LineTop(y0+y)[(x0+x)*4+1]=rgba[1];
-				LineTop(y0+y)[(x0+x)*4+2]=rgba[2];
-				LineTop(y0+y)[(x0+x)*4+3]=rgba[3];
+				const unsigned char *srcRgba=from.GetRGBAPixelPointer(x,y);
+				unsigned char *dstRgba=LineTop(y0+y)+(x0+x)*4;
+				switch(opt.alpha.alphaOp)
+				{
+				case ALPHAOP_NONE:
+					dstRgba[0]=srcRgba[0];
+					dstRgba[1]=srcRgba[1];
+					dstRgba[2]=srcRgba[2];
+					dstRgba[3]=srcRgba[3];
+					break;
+				case ALPHAOP_LINEAR:
+					dstRgba[0]=((int)srcRgba[0]*srcRgba[3]+(int)dstRgba[0]*(255-srcRgba[3]))/255;
+					dstRgba[1]=((int)srcRgba[1]*srcRgba[3]+(int)dstRgba[1]*(255-srcRgba[3]))/255;
+					dstRgba[2]=((int)srcRgba[2]*srcRgba[3]+(int)dstRgba[2]*(255-srcRgba[3]))/255;
+					dstRgba[3]=((int)srcRgba[3]*srcRgba[3]+(int)dstRgba[3]*(255-srcRgba[3]))/255;
+					break;
+				}
 			}
 		}
 	}
 	return YSOK;
+}
+
+YSRESULT YsBitmap::Copy(const YsBitmap &from,int x0,int y0)
+{
+	CopyOption opt;
+	return Copy(from,x0,y0,opt);
 }
 
 YSRESULT YsBitmap::Copy(const YsBitmap &from,int fromX0,int fromY0,int toX0,int toY0,int wid,int hei)

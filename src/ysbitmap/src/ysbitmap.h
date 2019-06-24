@@ -37,6 +37,26 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class YsBitmap : public YsBitmapTemplate <unsigned char,4>
 {
 public:
+	enum
+	{
+		ALPHAOP_NONE,
+		ALPHAOP_LINEAR
+	};
+	class AlphaOption
+	{
+	public:
+		int alphaOp;
+		inline AlphaOption()
+		{
+			alphaOp=ALPHAOP_NONE;
+		}
+	};
+	class CopyOption
+	{
+	public:
+		AlphaOption alpha;
+	};
+
 	using YsBitmapTemplate <unsigned char,4>::CopyFrom;
 	using YsBitmapTemplate <unsigned char,4>::MoveFrom;
 
@@ -92,6 +112,7 @@ public:
 	YSRESULT ScaleCopy(int wid,int hei,const YsBitmap &from);
 	YSRESULT ScaleCopyRaw(int wid,int hei,const YsBitmap &from);
 	YSRESULT Copy(const YsBitmap &from,int x0,int y0);
+	YSRESULT Copy(const YsBitmap &from,int x0,int y0,CopyOption opt);
 
 	/*! Copy from the bitmap incomingBmp starting from (inX0,inY0) to this bitmap from (toX0,toY0) 
 	    for the wid pixels horizontally and hei pixels vertically. 

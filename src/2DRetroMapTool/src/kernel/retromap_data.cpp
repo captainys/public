@@ -1180,6 +1180,9 @@ void RetroMap_World::Field::MakeMapPieceBitmap(MakeBitmapThreadInfo *info) const
 
 YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 {
+	YsBitmap::CopyOption bmpCopyOpt;
+	bmpCopyOpt.alpha.alphaOp=YsBitmap::ALPHAOP_LINEAR;
+
 	YsVec2i origin=info.origin;
 	YsVec2i bmpSize=info.bmpSize;
 	YsColor bgCol=info.bgCol;
@@ -1260,7 +1263,7 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 				posInBigBitmap.DivX(info.divX);
 				posInBigBitmap.MulY(info.mulY);
 				posInBigBitmap.DivY(info.divY);
-				bmp.Copy(scaledBmp,posInBigBitmap.x(),posInBigBitmap.y());
+				bmp.Copy(scaledBmp,posInBigBitmap.x(),posInBigBitmap.y(),bmpCopyOpt);
 			}
 		}
 	}
@@ -1286,7 +1289,7 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 					auto dy=preScale.GetHeight()*info.mulY/info.divY;
 					texBmp.ScaleCopy(dx,dy,preScale);
 				}
-				bmp.Copy(texBmp,posInBigBitmap.x(),posInBigBitmap.y());
+				bmp.Copy(texBmp,posInBigBitmap.x(),posInBigBitmap.y(),bmpCopyOpt);
 			}
 			else if(muPtr->GetMarkUpType()==muPtr->MARKUP_POINT_ARRAY)
 			{

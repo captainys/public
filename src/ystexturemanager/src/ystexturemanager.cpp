@@ -451,6 +451,23 @@ YsBitmap YsTextureManager::Unit::GetBitmap(void) const
 		default:
 			break;
 		}
+
+		if(0!=(FLAG_USE_TRANSPARENT_COLOR&flags))
+		{
+			int tr=transparentColor.Ri();
+			int tg=transparentColor.Gi();
+			int tb=transparentColor.Bi();
+			auto rgbaPtr=bmp.GetEditableRGBABitmapPointer();
+			for(long long int i=0; i<bmp.GetWidth()*bmp.GetHeight()*4; i+=4)
+			{
+				if(rgbaPtr[i  ]==tr &&
+				   rgbaPtr[i+1]==tg &&
+				   rgbaPtr[i+2]==tb)
+				{
+					rgbaPtr[i+3]=0;
+				}
+			}
+		}
 	}
 	return bmp;
 }
