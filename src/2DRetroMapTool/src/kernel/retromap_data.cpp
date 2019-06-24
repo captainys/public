@@ -1193,7 +1193,12 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 	bmp.PrepareBitmap(bmpSize.x(),bmpSize.y());
 	bmp.Clear(bgCol.Ri(),bgCol.Gi(),bgCol.Bi(),bgCol.Ai());
 
-	YsRect2i clipRect(origin,origin+bmpSize);
+	auto clipSize=info.clipSize;
+	if(0==clipSize.x() || 0==clipSize.y())
+	{
+		clipSize=bmpSize;
+	}
+	YsRect2i clipRect(origin,origin+clipSize);
 
 	auto &texMan=GetTexMan();
 
@@ -1273,6 +1278,14 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 				posInBigBitmap.DivX(info.divX);
 				posInBigBitmap.MulY(info.mulY);
 				posInBigBitmap.DivY(info.divY);
+				if(info.mulX!=info.divX || info.mulY!=info.divY)
+				{
+					YsBitmap preScale;
+					preScale.MoveFrom(texBmp);
+					auto dx=preScale.GetWidth()*info.mulX/info.divX;
+					auto dy=preScale.GetHeight()*info.mulY/info.divY;
+					texBmp.ScaleCopy(dx,dy,preScale);
+				}
 				bmp.Copy(texBmp,posInBigBitmap.x(),posInBigBitmap.y());
 			}
 			else if(muPtr->GetMarkUpType()==muPtr->MARKUP_POINT_ARRAY)
@@ -1283,6 +1296,10 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 				{
 					for(auto idx : muPtr->plg.AllIndex())
 					{
+						if(YSTRUE!=muPtr->closed && idx==muPtr->plg.GetN()-1)
+						{
+							break;
+						}
 						auto p1=muPtr->plg[idx]-origin;
 						auto p2=muPtr->plg.GetCyclic(idx+1)-origin;
 						p1.MulX(info.mulX);
@@ -1294,10 +1311,6 @@ YsBitmap RetroMap_World::Field::MakeBitmap(const MakeBitmapInfo &info) const
 						p2.MulY(info.mulY);
 						p2.DivY(info.divY);
 						drawing.DrawLine(p1.x(),p1.y(),p2.x(),p2.y(),opt);
-						if(YSTRUE!=muPtr->closed && idx==muPtr->plg.GetN()-1)
-						{
-							break;
-						}
 					}
 				}
 			}
@@ -1311,6 +1324,7 @@ YsBitmap RetroMap_World::Field::MakeBitmap(YsVec2i origin,YsVec2i bmpSize,YsColo
 	MakeBitmapInfo info;
 	info.origin=origin;
 	info.bmpSize=bmpSize;
+	info.clipSize=bmpSize;
 	info.bgCol=bgCol;
 	info.mapPiece=drawMapPiece;
 	info.markUp=drawMarkUp;

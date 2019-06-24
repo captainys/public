@@ -280,6 +280,17 @@ void FsGui3DMainCanvas::File_SaveAsOneBitmap_OptionSelected(FsGuiDialog *dlg,int
 	if(nullptr!=dlgPtr && YSOK==(YSRESULT)returnCode)
 	{
 		File_SaveAsOneBitmapForEachField_IncludeMarkUp=dlgPtr->includeMarkUpBtn->GetCheck();
+		File_SaveAsOneBitmapForEachField_Mul=dlgPtr->mulTxt->GetInteger();
+		File_SaveAsOneBitmapForEachField_Div=dlgPtr->divTxt->GetInteger();
+
+		if(File_SaveAsOneBitmapForEachField_Mul<1)
+		{
+			File_SaveAsOneBitmapForEachField_Mul=1;
+		}
+		if(File_SaveAsOneBitmapForEachField_Div<1)
+		{
+			File_SaveAsOneBitmapForEachField_Div=1;
+		}
 
 		auto fdHd=GetCurrentField();
 		if(nullptr!=fdHd)
@@ -351,7 +362,24 @@ void FsGui3DMainCanvas::File_SaveAsOneBitmapSave(const YsWString fn)
 		auto fieldPtr=world.GetField(GetCurrentField());
 		if(nullptr!=fieldPtr)
 		{
-			auto bmp=fieldPtr->MakeBitmap(YSTRUE,File_SaveAsOneBitmapForEachField_IncludeMarkUp);
+			RetroMap_World::Field::MakeBitmapInfo info;
+			RetroMap_World::MapPieceStore excludeMapPiece;
+			auto bbx=fieldPtr->GetBoundingBox2i();
+			auto bmpSize=bbx.GetSize();
+			bmpSize*=File_SaveAsOneBitmapForEachField_Mul;
+			bmpSize/=File_SaveAsOneBitmapForEachField_Div;
+
+			info.origin=bbx[0];
+			info.bmpSize=bmpSize;
+			info.clipSize=bbx.GetSize();
+			info.mulX=File_SaveAsOneBitmapForEachField_Mul;
+			info.divX=File_SaveAsOneBitmapForEachField_Div;
+			info.mulY=File_SaveAsOneBitmapForEachField_Mul;
+			info.divY=File_SaveAsOneBitmapForEachField_Div;
+			info.markUp=File_SaveAsOneBitmapForEachField_IncludeMarkUp;
+			info.excludedMapPiecePtr=&excludeMapPiece;
+
+			auto bmp=fieldPtr->MakeBitmap(info);
 			bmp.Invert();
 
 			YsRawPngEncoder encoder;
@@ -388,6 +416,8 @@ void FsGui3DMainCanvas::File_SaveAsOneBitmapForEachField_OptionSelected(FsGuiDia
 	if(nullptr!=dlgPtr && YSOK==(YSRESULT)returnCode)
 	{
 		File_SaveAsOneBitmapForEachField_IncludeMarkUp=dlgPtr->includeMarkUpBtn->GetCheck();
+		File_SaveAsOneBitmapForEachField_Mul=dlgPtr->mulTxt->GetInteger();
+		File_SaveAsOneBitmapForEachField_Div=dlgPtr->divTxt->GetInteger();
 
 		auto defFn=world.GetFileName();
 		if(0==defFn.Strlen())
@@ -456,7 +486,24 @@ void FsGui3DMainCanvas::File_SaveAsOneBitmapForEachField_Save(const YsWString fn
 			auto fieldPtr=world.GetField(fdHdFn.fdHd);
 			if(nullptr!=fieldPtr)
 			{
-				auto bmp=fieldPtr->MakeBitmap(YSTRUE,File_SaveAsOneBitmapForEachField_IncludeMarkUp);
+				RetroMap_World::Field::MakeBitmapInfo info;
+				RetroMap_World::MapPieceStore excludeMapPiece;
+				auto bbx=fieldPtr->GetBoundingBox2i();
+				auto bmpSize=bbx.GetSize();
+				bmpSize*=File_SaveAsOneBitmapForEachField_Mul;
+				bmpSize/=File_SaveAsOneBitmapForEachField_Div;
+
+				info.origin=bbx[0];
+				info.bmpSize=bmpSize;
+				info.clipSize=bbx.GetSize();
+				info.mulX=File_SaveAsOneBitmapForEachField_Mul;
+				info.divX=File_SaveAsOneBitmapForEachField_Div;
+				info.mulY=File_SaveAsOneBitmapForEachField_Mul;
+				info.divY=File_SaveAsOneBitmapForEachField_Div;
+				info.markUp=File_SaveAsOneBitmapForEachField_IncludeMarkUp;
+				info.excludedMapPiecePtr=&excludeMapPiece;
+
+				auto bmp=fieldPtr->MakeBitmap(info);
 				bmp.Invert();
 
 				YsRawPngEncoder encoder;

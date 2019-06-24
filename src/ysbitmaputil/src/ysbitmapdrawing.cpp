@@ -105,7 +105,7 @@ void YsBitmapDrawing::DrawLineNoClip(int x0,int y0,int x1,int y1,const unsigned 
 
 	if(x0==x1)
 	{
-		if(y1>y0)
+		if(y1<y0)
 		{
 			YsSwapSomething(y0,y1);
 		}
@@ -116,7 +116,7 @@ void YsBitmapDrawing::DrawLineNoClip(int x0,int y0,int x1,int y1,const unsigned 
 	}
 	else if(y0==y1)
 	{
-		if(x1>x0)
+		if(x1<x0)
 		{
 			YsSwapSomething(x0,x1);
 		}

@@ -644,7 +644,7 @@ public:
 		class MakeBitmapInfo
 		{
 		public:
-			YsVec2i origin,bmpSize;
+			YsVec2i origin,bmpSize,clipSize;
 			int mulX,divX,mulY,divY;
 			YsColor bgCol;
 			YSBOOL mapPiece,markUp;

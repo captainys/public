@@ -273,6 +273,8 @@ private:
 	class SaveAsOneBitmapOptionDialog;
 	RetroMap_PngExportInfo pngExportInfo;
 	YSBOOL File_SaveAsOneBitmapForEachField_IncludeMarkUp;
+	int File_SaveAsOneBitmapForEachField_Mul;
+	int File_SaveAsOneBitmapForEachField_Div;
 	void File_SaveAsOneBitmapForEachField(FsGuiPopUpMenuItem *);
 	void File_SaveAsOneBitmapForEachField_OptionSelected(FsGuiDialog *dlg,int returnCode);
 	void File_SaveAsOneBitmapForEachField_FileSelected(FsGuiDialog *dlg,int returnCode);

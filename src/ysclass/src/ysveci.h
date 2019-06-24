@@ -210,6 +210,19 @@ public:
 	};
 
 	double GetLength(void) const;
+
+	inline YsVec2i operator*=(int f)
+	{
+		dat[0]*=f;
+		dat[1]*=f;
+		return *this;
+	}
+	inline YsVec2i operator/=(int f)
+	{
+		dat[0]/=f;
+		dat[1]/=f;
+		return *this;
+	}
 };
 
 inline const YsVec2i operator-(const YsVec2i &a)
@@ -552,6 +565,21 @@ public:
 	};
 
 	double GetLength(void) const;
+
+	inline YsVec3i operator*=(int f)
+	{
+		dat[0]*=f;
+		dat[1]*=f;
+		dat[2]*=f;
+		return *this;
+	}
+	inline YsVec3i operator/=(int f)
+	{
+		dat[0]/=f;
+		dat[1]/=f;
+		dat[2]/=f;
+		return *this;
+	}
 };
 
 inline const YsVec3i operator-(const YsVec3i &a)
