@@ -742,6 +742,85 @@ void IRToy_Controller::Make100usPulse(const char ptn[],bool verbose)
 	}
 }
 
+void IRToy_Controller::Make100_125_175usPulse(const char ptn[],bool verbose)
+{
+	// Mr. Kobayashi from Classic PC & Retro Gaming JAPAN suggests that
+	// the keyboard is using pulse of 100us 125us 175us 100us 125us 175us ....
+	// I am going with 100us fixed pulse here with every 3rd and 4th bit the same.
+	// Both looks to work fine.
+	std::vector <double> microSecAccum;
+	double t=0.0;
+	char prev='1';
+	unsigned usPtn[3]={100,125,175};
+	for(int i=0; 0!=ptn[i]; ++i)
+	{
+		if(prev!=ptn[i])
+		{
+			microSecAccum.push_back(t);
+		}
+
+		t+=usPtn[i%3];
+		prev=ptn[i];
+	}
+	microSecAccum.push_back(t);
+
+	if(true==verbose)
+	{
+		for(auto t : microSecAccum)
+		{
+			printf("%lf ",t);
+		}
+		printf("\n");
+	}
+
+
+	std::vector <unsigned int> timing;
+
+	int discreteT=0;
+	for(int i=0; i<microSecAccum.size(); ++i)
+	{
+		int accumDiscreteT=(int)(microSecAccum[i]/0.17);
+		auto stepT=accumDiscreteT-discreteT;
+		if((stepT&255)=='$')
+		{
+			printf("Adjust for '$'!\n");
+			stepT--;
+		}
+		timing.push_back(stepT);
+		if(true==verbose)
+		{
+			printf("%d ",stepT);
+		}
+		discreteT+=stepT;
+	}
+	if(true==verbose)
+	{
+		printf("\n");
+	}
+
+	if(0==timing.size()%2)
+	{
+		timing.back()=65535;
+	}
+	else
+	{
+		timing.push_back(65535);
+	}
+
+	recording.clear();
+	for(auto t : timing)
+	{
+		recording.push_back(t/256);
+		recording.push_back(t&255);
+	}
+
+	if(true==verbose)
+	{
+		PrintRecording(recording);
+	}
+}
+
+
 void IRToy_Controller::RunOneStep(void)
 {
 	comPort.Update();

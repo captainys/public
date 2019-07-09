@@ -161,10 +161,18 @@ void FM77AVKeyboardScheduler::Flush(IRToy_Controller &irToy)
 		auto code30=FM77AVMake30BitPattern(toSend);
 		if(0<code30.size())
 		{
-			char code40[41];
-			FM77AV30bitTo40bit(code40,code30.c_str());
-			irToy.Make100usPulse(code40);
-			irToy.StartTransmit();
+			if("V277"!=irToy.GetIRToyVersion() || "S77"!=irToy.GetProtocolVersion())
+			{
+				char code40[41];
+				FM77AV30bitTo40bit(code40,code30.c_str());
+				irToy.Make100usPulse(code40);
+				irToy.StartTransmit();
+			}
+			else
+			{
+				irToy.Make100_125_175usPulse(code30.c_str(),true);
+				irToy.StartTransmit();
+			}
 		}
 		repeatTimer=std::chrono::system_clock::now();
 	}

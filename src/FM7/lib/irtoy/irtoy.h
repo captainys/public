@@ -165,6 +165,7 @@ public:
 	void LoadRecording(const char fName[]);
 
 	void Make100usPulse(const char ptn[],bool verbose=false);
+	void Make100_125_175usPulse(const char ptn[],bool verbose=false);
 
 	void RunOneStep(void);
 
