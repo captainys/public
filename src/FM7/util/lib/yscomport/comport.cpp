@@ -8,10 +8,10 @@ YsCOMPort::YsCOMPort()
 	portNumber=-1;
 
 	desiredBaudRate=0;
-	desiredBitLength=BITLENGTH_DONTCARE;
+	desiredBitLength=BITLENGTH_8;
 	desiredStopBit=STOPBIT_DONTCARE;
 	desiredParity=PARITY_DONTCARE;
-	desiredFlowControl=FLOWCONTROL_DONTCARE;
+	desiredFlowControl=FLOWCONTROL_NONE;
 }
 YsCOMPort::~YsCOMPort()
 {
