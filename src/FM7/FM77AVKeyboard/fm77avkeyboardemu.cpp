@@ -170,7 +170,7 @@ void FM77AVKeyboardScheduler::Flush(IRToy_Controller &irToy)
 			}
 			else
 			{
-				irToy.Make100_125_175usPulse(code30.c_str(),true);
+				irToy.Make100_125_175usPulse(code30.c_str());
 				irToy.StartTransmit();
 			}
 		}
