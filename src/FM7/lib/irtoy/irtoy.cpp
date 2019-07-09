@@ -173,7 +173,8 @@ bool IRToy_Controller::Connect(int portNumber)
 	Reset();
 	// For Arduino IRToy emulation, max speed seems to be 440K bps.
 	// To be safe, keep it to 380K bps.
-	comPort.SetDesiredBaudRate(380000);
+	// comPort.SetDesiredBaudRate(380000);  // Dell desktop couldn't take it.  Depends on USB driver.
+	comPort.SetDesiredBaudRate(115200);
 	if(true==comPort.Open(portNumber))
 	{
 		AddLog('P',portNumber);
