@@ -170,8 +170,12 @@ void FM77AVKeyboardScheduler::Flush(IRToy_Controller &irToy)
 			}
 			else
 			{
-				irToy.Make100_125_175usPulse(code30.c_str());
-				irToy.StartTransmit();
+				// Why not sending just 5 bytes instead of 30 bytes?
+				//irToy.Make100_125_175usPulse(code30.c_str());
+				//irToy.StartTransmit();
+				unsigned char bit30Ptn[5];
+				irToy.Make30Bit(bit30Ptn,code30.c_str());
+				irToy.Transmit30Bit(bit30Ptn);
 			}
 		}
 		repeatTimer=std::chrono::system_clock::now();

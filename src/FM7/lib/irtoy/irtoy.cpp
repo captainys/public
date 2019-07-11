@@ -172,7 +172,7 @@ bool IRToy_Controller::Connect(int portNumber)
 	Disconnect();
 	Reset();
 	// For Arduino IRToy emulation, max speed seems to be 440K bps.
-	// To be safe, keep it to 380K bps.
+	// To be safe, keep it lower bps.
 	comPort.SetDesiredBaudRate(380000);
 	// comPort.SetDesiredBaudRate(115200);
 	if(true==comPort.Open(portNumber))
@@ -528,9 +528,11 @@ void IRToy_Controller::State_Transmitting(void)
 	{
 		CleanRecording(recording);
 	}
-	const unsigned char cmd[]={CMD_TRANSMIT};
-	Send(1,cmd);
-	Send(recording.size(),recording.data());
+
+	std::vector <unsigned char> packet;
+	packet.push_back(CMD_TRANSMIT);
+	packet.insert(packet.end(),recording.begin(),recording.end());
+	Send(packet.size(),packet.data());
 	comPort.FlushWriteBuffer();  // If the transmission is terminated in the middle, it's the end of the IRToy.  Need to unplug and plug back in.
 	ChangeState(STATE_GOWILD);
 
@@ -821,6 +823,37 @@ void IRToy_Controller::Make100_125_175usPulse(const char ptn[],bool verbose)
 	}
 }
 
+/* For Arduino IR emitter only. */
+void IRToy_Controller::Make30Bit(unsigned char bit30Ptn[4],const char ptn[])
+{
+	bit30Ptn[0]=0;
+	bit30Ptn[1]=0;
+	bit30Ptn[2]=0;
+	bit30Ptn[3]=0;
+	for(int i=0; i<30; ++i)
+	{
+		if('1'==ptn[i])
+		{
+			bit30Ptn[i>>3]|=(1<<(i&7));
+		}
+	}
+}
+
+/* For Arduino IR emitter only. */
+void IRToy_Controller::Transmit30Bit(const unsigned char bit30Ptn[4])
+{
+	if(STATE_GOWILD==state)
+	{
+		unsigned char packet[5];
+		packet[0]=CMD_TRANSMIT_30BIT_100US;
+		packet[1]=bit30Ptn[0];
+		packet[2]=bit30Ptn[1];
+		packet[3]=bit30Ptn[2];
+		packet[4]=bit30Ptn[3];
+		Send(5,packet);
+		comPort.FlushWriteBuffer();
+	}
+}
 
 void IRToy_Controller::RunOneStep(void)
 {

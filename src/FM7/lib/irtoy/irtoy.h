@@ -23,6 +23,7 @@ public:
 		CMD_ENABLE_TRANSMISSION_NOTIFY=0x25,
 		CMD_ENABLE_HANDSHAKE=0x26,
 		CMD_TRANSMIT=0x03,
+		CMD_TRANSMIT_30BIT_100US=0x81
 	};
 	enum
 	{
@@ -166,6 +167,13 @@ public:
 
 	void Make100usPulse(const char ptn[],bool verbose=false);
 	void Make100_125_175usPulse(const char ptn[],bool verbose=false);
+
+	/*! For Arduino-based IR emitter.
+	*/
+	void Make30Bit(unsigned char bit30Ptn[4],const char ptn[]);
+	/*! For Arduino-based IR emitter.
+	*/
+	void Transmit30Bit(const unsigned char bit30Ptn[4]);
 
 	void RunOneStep(void);
 

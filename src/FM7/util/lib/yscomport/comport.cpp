@@ -11,7 +11,7 @@ YsCOMPort::YsCOMPort()
 	desiredBitLength=BITLENGTH_8;
 	desiredStopBit=STOPBIT_DONTCARE;
 	desiredParity=PARITY_DONTCARE;
-	desiredFlowControl=FLOWCONTROL_NONE;
+	desiredFlowControl=FLOWCONTROL_DONTCARE;
 }
 YsCOMPort::~YsCOMPort()
 {
