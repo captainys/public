@@ -27,6 +27,12 @@ public:
 	};
 	enum
 	{
+		ARDUINO_NOTIFY_READY='C',
+		ARDUINO_NOTIFY_FAIL='F',
+		ARDUINO_NOTIFY_RESEND_REQUEST='R'
+	};
+	enum
+	{
 		STATE_DISCONNECT,
 
 		STATE_INITIALIZING,
@@ -37,6 +43,8 @@ public:
 		STATE_GOWILD,
 		STATE_RECORDING,
 		STATE_TRANSMITTING,
+
+		STATE_ARDUINO_WAITING_READY,
 
 		STATE_CLOSING,
 		STATE_CLOSED,
@@ -160,6 +168,7 @@ public:
 	bool StartTransmit(void);
 private:
 	void State_Transmitting(void);
+	void State_Arduino_WaitingReady(void);
 
 public:
 	void SaveRecording(const char fName[]) const;

@@ -534,7 +534,14 @@ void IRToy_Controller::State_Transmitting(void)
 	packet.insert(packet.end(),recording.begin(),recording.end());
 	Send(packet.size(),packet.data());
 	comPort.FlushWriteBuffer();  // If the transmission is terminated in the middle, it's the end of the IRToy.  Need to unplug and plug back in.
-	ChangeState(STATE_GOWILD);
+	if(true!=IsArduino())
+	{
+		ChangeState(STATE_GOWILD);
+	}
+	else
+	{
+		ChangeState(STATE_ARDUINO_WAITING_READY);
+	}
 
 /*  The following is supposed to work if IRToy sends hand-shake signal as advertised, which does not happen.
     Anyway, it needs to be fast.
@@ -592,6 +599,17 @@ void IRToy_Controller::State_Transmitting(void)
 			}
 		}
 	}*/
+}
+
+void IRToy_Controller::State_Arduino_WaitingReady(void)
+{
+	for(auto d : comPort.Receive())
+	{
+		if(ARDUINO_NOTIFY_READY==d)
+		{
+			ChangeState(STATE_GOWILD);
+		}
+	}
 }
 
 void IRToy_Controller::State_Closing(void)
@@ -852,6 +870,18 @@ void IRToy_Controller::Transmit30Bit(const unsigned char bit30Ptn[4])
 		packet[4]=bit30Ptn[3];
 		Send(5,packet);
 		comPort.FlushWriteBuffer();
+
+		// Just in case, save it.
+		recording.resize(4);
+		recording[0]=bit30Ptn[0];
+		recording[1]=bit30Ptn[1];
+		recording[2]=bit30Ptn[2];
+		recording[3]=bit30Ptn[3];
+	}
+
+	if(true==IsArduino())
+	{
+		ChangeState(STATE_ARDUINO_WAITING_READY);
 	}
 }
 
@@ -887,6 +917,9 @@ void IRToy_Controller::RunOneStep(void)
 		break;
 	case STATE_TRANSMITTING:
 		State_Transmitting();
+		break;
+	case STATE_ARDUINO_WAITING_READY:
+		State_Arduino_WaitingReady();
 		break;
 
 	case STATE_CLOSING:

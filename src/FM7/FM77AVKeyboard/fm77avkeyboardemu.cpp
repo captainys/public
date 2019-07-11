@@ -143,6 +143,11 @@ void FM77AVKeyboardScheduler::AddStroke(int keyCode,bool shift,bool ctrl,bool gr
 
 void FM77AVKeyboardScheduler::Flush(IRToy_Controller &irToy)
 {
+	if(IRToy_Controller::STATE_GOWILD!=irToy.GetState())
+	{
+		return;
+	}
+
 	FM77AVKeyEvent toSend;
 	toSend.keyCode=AVKEY_NULL;
 	if(true!=keyEventQueue.empty())
