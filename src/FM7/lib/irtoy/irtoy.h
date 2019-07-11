@@ -182,6 +182,8 @@ public:
 
 	std::string GetIRToyVersion(void) const;
 	std::string GetProtocolVersion(void) const;
+
+	bool IsArduino(void) const;
 };
 
 /* } */

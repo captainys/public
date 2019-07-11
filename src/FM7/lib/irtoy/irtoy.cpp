@@ -29,7 +29,7 @@ void IRToy_Controller::Send(long long int nByte,const unsigned char dat[])
 {
 	for(int i=0; i<nByte; ++i)
 	{
-		if(dat[i]=='$')
+		if(true!=IsArduino() && dat[i]=='$')
 		{
 			printf("Danger! '$' detected!  Not going to send it!\n");
 			return;
@@ -314,7 +314,7 @@ void IRToy_Controller::State_SelfTest(void)
 		{
 			for(int i=0; i+3<feedBackBuf.size(); ++i)
 			{
-				if('V'==feedBackBuf[i] &&
+				if(('V'==feedBackBuf[i] || 'A'==feedBackBuf[i]) &&
 				   '0'<=feedBackBuf[i+1] && feedBackBuf[i+1]<='9' &&
 				   '0'<=feedBackBuf[i+2] && feedBackBuf[i+2]<='9' &&
 				   '0'<=feedBackBuf[i+3] && feedBackBuf[i+3]<='9')
@@ -921,4 +921,9 @@ std::string IRToy_Controller::GetIRToyVersion(void) const
 std::string IRToy_Controller::GetProtocolVersion(void) const
 {
 	return protocolVersion;
+}
+
+bool IRToy_Controller::IsArduino(void) const
+{
+	return "A277"==GetIRToyVersion() && "S77"==GetProtocolVersion();
 }
