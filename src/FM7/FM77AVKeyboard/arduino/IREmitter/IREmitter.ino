@@ -87,6 +87,19 @@ unsigned char processingCmd=0;
 #define SetPin9and10Low PORTB&=~(_BV(1)|_BV(2));
 
 
+#define START_TIMER1 {TCNT1=PWM_TIMER_THRESHOLD-1;TCCR1A=bit(COM1A0)|bit(COM1B0);TCCR1B=bit(CS10)|bit(WGM12);}
+#define STOP_TIMER1 {TCCR1A=0;TCCR1B=0;TCNT1=0;}
+// ATmega 328 datasheet pp.134
+// TCCR1A  COM1A0=1, COM1B0=1 means toggle OC1A and OC1B on compare match
+// TCCR1B  WGM10=0,WGM11=0,WGM12=1 means CTC mode
+//         CS10=1,CS11=0,CS12=0 means 1x pre-scale (no scaling).
+//         CS10=0,CS11=0,CS12=0 means timer stop.
+
+#define SET_OC1A_OC1B_LOW {TCNT1=0;TCCR1A=(bit(COM1A1)|bit(COM1B1));TCCR1C=(bit(FOC1A)|bit(FOC1B));TCCR1C=0;TCCR1A=0;}
+// TCCR1A=(bit(COM1A1)|bit(COM1B1));  // Set OC1A low on compare match
+// TCCR1C=(bit(FOC1A)|bit(FOC1B));    // Force match
+// TCCR1C=0;                          // Do I need to clear?
+
 
 void setup() {
   Serial.begin(SERIAL_BPS);
@@ -112,6 +125,8 @@ void setup() {
   OCR1A=PWM_TIMER_THRESHOLD;
   OCR1B=0;
 
+  SET_OC1A_OC1B_LOW;
+
   // Timer 2 for measuring 1us tick.
   TCCR2A=0;
   TCCR2B=bit(CS21);
@@ -123,14 +138,6 @@ void setup() {
   digitalWrite(PIN_STATUS,LOW);
 }
 
-#define START_TIMER1 {TCNT1=PWM_TIMER_THRESHOLD-1;TCCR1A=bit(COM1A0)|bit(COM1B0);TCCR1B=bit(CS10)|bit(WGM12);}
-#define STOP_TIMER1 {TCCR1A=0;TCCR1B=0;TCNT1=0;}
-// ATmega 328 datasheet pp.134
-// TCCR1A  COM1A0=1, COM1B0=1 means toggle OC1A and OC1B on compare match
-// TCCR1B  WGM10=0,WGM11=0,WGM12=1 means CTC mode
-//         CS10=1,CS11=0,CS12=0 means 1x pre-scale (no scaling).
-//         CS10=0,CS11=0,CS12=0 means timer stop.
-
 void SendCycleHWPWM(unsigned long cycle[])
 {
   noInterrupts();
@@ -139,13 +146,13 @@ void SendCycleHWPWM(unsigned long cycle[])
   {
     TCNT2=0;
     START_TIMER1;
-    auto w=cycle[i];
-    while(TCNT2<(w<<1))
+    auto w=cycle[i]<<1;
+    while(TCNT2<w)
     {
       if(240<=TCNT2)
       {
         TCNT2=0;
-        w-=120;
+        w-=240;
       }
     }
 
@@ -153,16 +160,18 @@ void SendCycleHWPWM(unsigned long cycle[])
     SetPin9and10Low;
 
     TCNT2=0;
-    w=cycle[i+1];
-    while(TCNT2<(w<<1))
+    w=cycle[i+1]<<1;
+    while(TCNT2<w)
     {
       if(240<=TCNT2)
       {
         TCNT2=0;
-        w-=120;
+        w-=240;
       }
     }
   }
+
+  SET_OC1A_OC1B_LOW;
   SetPin9and10Low;
 
   interrupts();
@@ -233,22 +242,28 @@ void PulseWidthAdjustment(unsigned long cycle[])
 {
   for(int i=0; cycle[i]!=0xffff && cycle[i+1]!=0xffff; i+=2)
   {
-    // High cycle must be 26us times integer.
-    // Acceptable if 26us times (integer+0.5) but if it is between
-    // (26us times integer) and (26us times (integer+0.5))
-    // A wave is cut off in the middle.
-    // The wave needs to be either extended or shortened.
-    auto n=cycle[i]/26;
-    auto d=26*n,m=cycle[i]-d;
-    if(6<=d && d<13)
+    // High cycle must be 26us times (integer+0.5) ideally.  
+    // Last high then low then the end of high cycle.
+    // If high cycle is 26us times integer, it might emit last extremely short flash of IR.
+    // So, how about forcing the high cycle to be 26*N+13?
+    // Well, to be safe, say 26*N+15.  Last 2us is just no-IR emission.
+
+    auto m=cycle[i]%26;
+
+    if(m<15)
     {
-      cycle[i]+=13;
-      cycle[i+1]-=13;
+      auto d=15-m;
+      cycle[i  ]+=d;
+      if(d<=cycle[i+1])
+      {
+        cycle[i+1]-=d;
+      }
     }
-    else if(d<6)
+    else
     {
-      cycle[i]-=13;
-      cycle[i+1]+=13;
+      auto d=m-15;
+      cycle[i  ]-=d;
+      cycle[i+1]+=d;
     }
   }
 }
