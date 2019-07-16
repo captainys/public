@@ -34,7 +34,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define RECVBUF_SIZE 384
 int nRecvBuf=0;
 unsigned char recvBuf[RECVBUF_SIZE];
-unsigned long cycle[RECVBUF_SIZE/2];
+unsigned int cycle[RECVBUF_SIZE/2];
 bool transmitMode=false;
 unsigned long lastDataReceivedTime=0;
 unsigned char processingCmd=0;
@@ -47,7 +47,6 @@ unsigned char processingCmd=0;
 #define CMD_ENABLE_BYTECOUNT 0x24
 #define CMD_ENABLE_TRANSMISSION_NOTIFY 0x25
 #define CMD_ENABLE_HANDSHAKE 0x26
-#define CMD_TRANSMIT_0_17US 0x03
 #define CMD_TRANSMIT_MICROSEC 0x80
 #define CMD_TRANSMIT_30BIT_100US 0x81
 
@@ -138,7 +137,7 @@ void setup() {
   digitalWrite(PIN_STATUS,LOW);
 }
 
-void SendCycleHWPWM(unsigned long cycle[])
+void SendCycleHWPWM(unsigned int cycle[])
 {
   noInterrupts();
 
@@ -177,28 +176,19 @@ void SendCycleHWPWM(unsigned long cycle[])
   interrupts();
 }
 
-unsigned long MakeCycle(unsigned long cycle[],int nSample,unsigned char sample[])
+unsigned long MakeCycle(unsigned int cycle[],int nSample,unsigned char sample[])
 {
   int k=0;
   unsigned long total=0;
   switch(processingCmd)
   {
-  case CMD_TRANSMIT_0_17US:
   case CMD_TRANSMIT_MICROSEC:
     {
       for(int i=0; i+1<nSample && (sample[i]!=0xff || sample[i+1]!=0xff); i+=2)
       {
         cycle[k]=(sample[i]<<8);
         cycle[k]+=sample[i+1];
-    
-        if(CMD_TRANSMIT_0_17US==processingCmd)
-        {
-          cycle[k]*=17;   // 1 tick is supposed to be 0.17us
-          cycle[k]/=100;
-        }
-    
         total+=cycle[k];
-    
         ++k;
       }
     }
@@ -238,7 +228,7 @@ unsigned long MakeCycle(unsigned long cycle[],int nSample,unsigned char sample[]
 }
 
 // Prevent short wave (38K PWM wave cut off in the middle)
-void PulseWidthAdjustment(unsigned long cycle[])
+void PulseWidthAdjustment(unsigned int cycle[])
 {
   for(int i=0; cycle[i]!=0xffff && cycle[i+1]!=0xffff; i+=2)
   {
@@ -311,8 +301,7 @@ void loop() {
         Serial.println("S77");
         delayMicroseconds(10);
       }
-      else if(CMD_TRANSMIT_0_17US==recvByte ||
-              CMD_TRANSMIT_MICROSEC==recvByte ||
+      else if(CMD_TRANSMIT_MICROSEC==recvByte ||
               CMD_TRANSMIT_30BIT_100US==recvByte)
       {
         transmitMode=true;
