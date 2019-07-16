@@ -99,10 +99,12 @@ unsigned char processingCmd=0;
 // TCCR1C=(bit(FOC1A)|bit(FOC1B));    // Force match
 // TCCR1C=0;                          // Do I need to clear?
 
-#define SET_OC1A_OC1B_HIGH {TCNT1=0;TCCR1A=(bit(COM1A0)|bit(COM1B0)|bit(COM1A1)|bit(COM1B1));TCCR1C=(bit(FOC1A)|bit(FOC1B));TCCR1C=0;TCCR1A=0;}
-// TCCR1A=(bit(COM1A1)|bit(COM1B1)|bit(COM1A0)|bit(COM1B0)|bit(COM1A1)|bit(COM1B1));  // Set OC1A low on compare match
-// TCCR1C=(bit(FOC1A)|bit(FOC1B));    // Force match
-// TCCR1C=0;                          // Do I need to clear?
+
+// Failed Attmept:
+// For each HIGH pulse, force OC1A to be HIGH, and then start timer.  This approach didn't work.
+// Probable reason is that it makes the first duty cycle slightly shorter.
+// This method FM77AV40 misses one in every 80 to 100 key strokes.
+
 
 
 void setup() {
