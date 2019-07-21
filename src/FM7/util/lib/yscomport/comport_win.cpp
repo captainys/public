@@ -19,10 +19,17 @@ public:
 /* static */ std::vector <int> YsCOMPort::FindAvailablePort(void)
 {
 	std::vector <int> available;
-	for(int port=1; port<10; ++port)
+	for(int port=1; port<32; ++port)
 	{
 		char fn[256];
-		sprintf(fn,"COM%d",port);
+		if(port<10)
+		{
+			sprintf(fn,"COM%d",port);
+		}
+		else
+		{
+			sprintf(fn,"\\\\.\\COM%d",port);
+		}
 		printf("Testing %s\n",fn);
 
 		HANDLE hComm=CreateFile(
@@ -57,7 +64,14 @@ bool YsCOMPort::Open(int portNumber)
 	Close();
 
 	char fn[256];
-	sprintf(fn,"COM%d",portNumber);
+	if(portNumber<10)
+	{
+		sprintf(fn,"COM%d",portNumber);
+	}
+	else
+	{
+		sprintf(fn,"\\\\.\\COM%d",portNumber);
+	}
 
 	HANDLE hComm=CreateFile(
 		fn,
