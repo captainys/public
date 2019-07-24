@@ -82,6 +82,12 @@ unsigned char processingCmd=0;
 #define SetPin3High  PORTD|=_BV(3);
 #define SetPin3Low   PORTD&=~_BV(3);
 
+// PIN13=PB5 PortB bit 5
+#define SetPin13High PORTB|=_BV(5);
+#define SetPin13Low PORTB&=~_BV(5);
+// PIN8=PB0 Port B bit 0
+#define SetPin8High PORTB|=_BV(0);
+#define SetPin8Low PORTB&=~_BV(0);
 
 #define SetPin9and10Low PORTB&=~(_BV(1)|_BV(2));
 
@@ -140,8 +146,8 @@ void setup() {
   OCR2A=0;
   OCR2B=0;
 
-  digitalWrite(PIN_POWER,LOW);
-  digitalWrite(PIN_STATUS,LOW);
+  SetPin13Low;
+  SetPin8Low;
 }
 
 void SendCycleHWPWM(unsigned int cycle[])
@@ -183,10 +189,9 @@ void SendCycleHWPWM(unsigned int cycle[])
   interrupts();
 }
 
-unsigned long MakeCycle(unsigned int cycle[],int nSample,unsigned char sample[])
+void MakeCycle(unsigned int cycle[],int nSample,unsigned char sample[])
 {
   int k=0;
-  unsigned long total=0;
   switch(processingCmd)
   {
   case CMD_TRANSMIT_MICROSEC:
@@ -195,7 +200,6 @@ unsigned long MakeCycle(unsigned int cycle[],int nSample,unsigned char sample[])
       {
         cycle[k]=(sample[i]<<8);
         cycle[k]+=sample[i+1];
-        total+=cycle[k];
         ++k;
       }
     }
@@ -216,22 +220,13 @@ unsigned long MakeCycle(unsigned int cycle[],int nSample,unsigned char sample[])
         cycle[k]+=pulseWidth[i%3];
       }
       ++k;
-      for(int i=0; i<k; ++i)
-      {
-        total+=cycle[i];
-      }
     }
     break;
   }
-  if(0!=(k&1))
-  {
-    cycle[k]=0;
-    ++k;
-  }
+  cycle[k]=0;
+  k+=(k&1); // Force it to be even.
   cycle[k  ]=0xffff;
   cycle[k+1]=0xffff;
-
-  return total; // Returns total number of microseconds.
 }
 
 // Prevent short wave (38K PWM wave cut off in the middle)
@@ -246,13 +241,12 @@ void PulseWidthAdjustment(unsigned int cycle[])
     // Well, to be safe, say 26*N+15.  Last 2us is just no-IR emission.
 
     auto m=cycle[i]%26;
-
     if(m<15)
     {
       auto d=15-m;
-      cycle[i  ]+=d;
       if(d<=cycle[i+1])
       {
+        cycle[i  ]+=d;
         cycle[i+1]-=d;
       }
     }
@@ -267,14 +261,10 @@ void PulseWidthAdjustment(unsigned int cycle[])
 
 void Transmit()
 {
-  digitalWrite(PIN_STATUS,HIGH);
-  if(MakeCycle(cycle,nRecvBuf,recvBuf)<5000)
-  {
-    // If the duration goes beyond 4000us, most likely some bytes have been lost.
-    // Skip one and try to recover.
-    PulseWidthAdjustment(cycle);
-    SendCycleHWPWM(cycle);
-  }
+  SetPin8High;
+  MakeCycle(cycle,nRecvBuf,recvBuf);
+  PulseWidthAdjustment(cycle);
+  SendCycleHWPWM(cycle);
 
   transmitMode=false;
   nRecvBuf=0;
@@ -282,7 +272,7 @@ void Transmit()
   while(0==Serial.availableForWrite());
   Serial.write(NOTIFY_READY);
 
-  digitalWrite(PIN_STATUS,LOW);
+  SetPin8Low;
 }
 
 void loop() {
@@ -293,26 +283,23 @@ void loop() {
     if(true!=transmitMode)
     {
       processingCmd=recvByte;
-      if(CMD_IRMAN_COMPATIBLE_MODE==recvByte)
+      if(CMD_TRANSMIT_MICROSEC==recvByte ||
+         CMD_TRANSMIT_30BIT_100US==recvByte)
+      {
+        transmitMode=true;
+        nRecvBuf=0;
+      }
+      else if(CMD_IRMAN_COMPATIBLE_MODE==recvByte)
       {
         Serial.println("OK");
-        delayMicroseconds(10);
-     }
+      }
       else if(CMD_VERSION==recvByte)
       {
         Serial.println("A277");
-        delayMicroseconds(10);
       }
       else if(CMD_SAMPLERMODE==recvByte)
       {
         Serial.println("S77");
-        delayMicroseconds(10);
-      }
-      else if(CMD_TRANSMIT_MICROSEC==recvByte ||
-              CMD_TRANSMIT_30BIT_100US==recvByte)
-      {
-        transmitMode=true;
-        nRecvBuf=0;
       }
     }
     else
@@ -338,7 +325,7 @@ void loop() {
   if(true==received)
   {
     lastDataReceivedTime=t;
-    digitalWrite(PIN_POWER,LOW);
+    SetPin13Low;
   }
   else
   {
@@ -350,17 +337,21 @@ void loop() {
     // If no byte is received for 100ms, the program goes back to command mode.
     if(true==transmitMode)
     {
-      if(t<lastDataReceivedTime ||               // Timer overflow
+      if(t<lastDataReceivedTime ||   // Timer overflow
          100<t-lastDataReceivedTime) // 100ms no transmittion from host
       {
         transmitMode=false;
-        nRecvBuf=0;
         Serial.write(NOTIFY_FAIL);
         Serial.write(NOTIFY_READY);
       }
     }
-    int c=(((t-lastDataReceivedTime)/500)&1);
-    auto highLow=(0==c ? HIGH : LOW);
-    digitalWrite(PIN_POWER,highLow);
+    if(0==(((t-lastDataReceivedTime)/500)&1))
+    {
+      SetPin13Low;
+    }
+    else
+    {
+      SetPin13High;
+    }
   }
 }
