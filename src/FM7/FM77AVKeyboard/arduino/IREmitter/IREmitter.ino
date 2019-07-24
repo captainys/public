@@ -39,6 +39,11 @@ bool transmitMode=false;
 unsigned long lastDataReceivedTime=0;
 unsigned char processingCmd=0;
 
+
+unsigned char pulseWidthTable[30];
+const unsigned char pulseWidthSource[3]={100,125,175};
+
+
 #define CMD_RESET 0
 #define CMD_IRMAN_COMPATIBLE_MODE 'R'
 #define CMD_VERSION 'V'
@@ -115,6 +120,11 @@ unsigned char processingCmd=0;
 
 
 void setup() {
+  for(int i=0; i<30; ++i)
+  {
+    pulseWidthTable[i]=pulseWidthSource[i%3];
+  }
+  
   Serial.begin(SERIAL_BPS);
 
   pinMode(PIN_POWER,OUTPUT);
@@ -203,7 +213,7 @@ void SendCycleHWPWM(unsigned int cycle[])
 
 void MakeCycle(unsigned int cycle[],int nSample,unsigned char sample[])
 {
-  int k=0;
+  unsigned char k=0;
   switch(processingCmd)
   {
   case CMD_TRANSMIT_MICROSEC:
@@ -218,18 +228,28 @@ void MakeCycle(unsigned int cycle[],int nSample,unsigned char sample[])
     break;
   case CMD_TRANSMIT_30BIT_100US:
     {
-      unsigned int pulseWidth[3]={100,125,175}; 
+      unsigned char samplePtr=0,sampleBit=1;
       cycle[k]=0;
-      for(int i=0; i<30; ++i)
+      for(unsigned char i=0; i<30; ++i)
       {
-        bool currentBit=(0==(k&1));
-        bool nextBit=(sample[i>>3]&(1<<(i&7)));
+        bool currentBit=((~k)&1);
+        bool nextBit=(sample[samplePtr]&sampleBit);
         if(currentBit!=nextBit)
         {
           ++k;
           cycle[k]=0;
         }
-        cycle[k]+=pulseWidth[i%3];
+        cycle[k]+=pulseWidthTable[i];
+
+        if(128==sampleBit)
+        {
+          ++samplePtr;
+          sampleBit=1;
+        }
+        else
+        {
+          sampleBit<<=1;
+        }
       }
       ++k;
     }
@@ -251,7 +271,6 @@ void Transmit()
   Serial.write(NOTIFY_READY);
 
   transmitMode=false;
-  nRecvBuf=0;
 
   SetPin8Low;
 }
