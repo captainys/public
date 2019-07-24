@@ -92,16 +92,17 @@ unsigned char processingCmd=0;
 #define SetPin9and10Low PORTB&=~(_BV(1)|_BV(2));
 
 
-#define START_TIMER1 {TCNT1=PWM_TIMER_THRESHOLD-1;TCCR1A=bit(COM1A0)|bit(COM1B0);TCCR1B=bit(CS10)|bit(WGM12);}
-#define STOP_TIMER1 {TCCR1A=0;TCCR1B=0;TCNT1=0;}
-// ATmega 328 datasheet pp.134
-// TCCR1A  COM1A0=1, COM1B0=1 means toggle OC1A and OC1B on compare match
+#define SET_CTC_MODE {TCCR1B=bit(CS10)|bit(WGM12);}
 // TCCR1B  WGM10=0,WGM11=0,WGM12=1 means CTC mode
 //         CS10=1,CS11=0,CS12=0 means 1x pre-scale (no scaling).
 //         CS10=0,CS11=0,CS12=0 means timer stop.
 
-#define SET_OC1A_OC1B_LOW {TCNT1=0;TCCR1A=(bit(COM1A1)|bit(COM1B1));TCCR1C=(bit(FOC1A)|bit(FOC1B));TCCR1C=0;TCCR1A=0;}
-// TCCR1A=(bit(COM1A1)|bit(COM1B1));  // Set OC1A low on compare match
+#define SET_OC1A_OC1B_TOGGLE {TCCR1A=bit(COM1A0)|bit(COM1B0);}
+// ATmega 328 datasheet pp.134
+// TCCR1A  COM1A0=1, COM1B0=1 means toggle OC1A and OC1B on compare match
+
+#define SET_OC1A_OC1B_LOW {TCCR1A=(bit(COM1A1)|bit(COM1B1));TCCR1C=(bit(FOC1A)|bit(FOC1B));TCCR1C=0;}
+// TCCR1A=(bit(COM1A1)|bit(COM1B1));  // Clear OC1A low on compare match
 // TCCR1C=(bit(FOC1A)|bit(FOC1B));    // Force match
 // TCCR1C=0;                          // Do I need to clear?
 
@@ -148,16 +149,29 @@ void setup() {
 
   SetPin13Low;
   SetPin8Low;
+  SetPin9and10Low;
 }
 
 void SendCycleHWPWM(unsigned int cycle[])
 {
   noInterrupts();
 
+  TCNT1=0;
+  SET_CTC_MODE;
+  SET_OC1A_OC1B_LOW;
+  // Now pins 9 and 10 are under control of Timer 1, OC1A, OC1B both low.
+  // Pin9=OC1A
+  // Pin10=OC1B
+
   for(int i=0; cycle[i]!=0xffff; i+=2)
   {
     TCNT2=0;
-    START_TIMER1;
+
+    TCNT1=PWM_TIMER_THRESHOLD-8;
+    // Timer 1 pre-scalar is 1x.
+    // Need to start toggling within 8 cycles.  0.5us error.
+    SET_OC1A_OC1B_TOGGLE;
+
     auto w=cycle[i]<<1;
     while(TCNT2<w)
     {
@@ -168,10 +182,8 @@ void SendCycleHWPWM(unsigned int cycle[])
       }
     }
 
-    STOP_TIMER1;
-    SetPin9and10Low;
-
     TCNT2=0;
+    SET_OC1A_OC1B_LOW;
     w=cycle[i+1]<<1;
     while(TCNT2<w)
     {
@@ -229,48 +241,17 @@ void MakeCycle(unsigned int cycle[],int nSample,unsigned char sample[])
   cycle[k+1]=0xffff;
 }
 
-// Prevent short wave (38K PWM wave cut off in the middle)
-void PulseWidthAdjustment(unsigned int cycle[])
-{
-  for(int i=0; cycle[i]!=0xffff && cycle[i+1]!=0xffff; i+=2)
-  {
-    // High cycle must be 26us times (integer+0.5) ideally.  
-    // Last high then low then the end of high cycle.
-    // If high cycle is 26us times integer, it might emit last extremely short flash of IR.
-    // So, how about forcing the high cycle to be 26*N+13?
-    // Well, to be safe, say 26*N+15.  Last 2us is just no-IR emission.
-
-    auto m=cycle[i]%26;
-    if(m<15)
-    {
-      auto d=15-m;
-      if(d<=cycle[i+1])
-      {
-        cycle[i  ]+=d;
-        cycle[i+1]-=d;
-      }
-    }
-    else
-    {
-      auto d=m-15;
-      cycle[i  ]-=d;
-      cycle[i+1]+=d;
-    }
-  }
-}
-
 void Transmit()
 {
   SetPin8High;
   MakeCycle(cycle,nRecvBuf,recvBuf);
-  PulseWidthAdjustment(cycle);
   SendCycleHWPWM(cycle);
-
-  transmitMode=false;
-  nRecvBuf=0;
 
   while(0==Serial.availableForWrite());
   Serial.write(NOTIFY_READY);
+
+  transmitMode=false;
+  nRecvBuf=0;
 
   SetPin8Low;
 }
@@ -325,7 +306,6 @@ void loop() {
   if(true==received)
   {
     lastDataReceivedTime=t;
-    SetPin13Low;
   }
   else
   {
@@ -344,14 +324,6 @@ void loop() {
         Serial.write(NOTIFY_FAIL);
         Serial.write(NOTIFY_READY);
       }
-    }
-    if(0==(((t-lastDataReceivedTime)/500)&1))
-    {
-      SetPin13Low;
-    }
-    else
-    {
-      SetPin13High;
     }
   }
 }
