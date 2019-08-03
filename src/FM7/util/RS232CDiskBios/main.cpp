@@ -47,6 +47,7 @@ class SectorFilterOption
 public:
 	// Default  JSR $FExx, JMP $FExx
 	bool ldxFExx,ldyFExx,lduFExx;
+	bool jsrFF63,jsrFEF0;
 
 	SectorFilterOption();
 };
@@ -56,6 +57,8 @@ SectorFilterOption::SectorFilterOption()
 	ldxFExx=false;
 	ldyFExx=false;
 	lduFExx=false;
+	jsrFF63=false;
+	jsrFEF0=false;
 }
 
 ////////////////////////////////////////////////////////////
@@ -309,7 +312,24 @@ void AlterSectorData(
 				SubstFExx(dat.data()+i+1,fe02Subst,fe05Subst,fe08Subst);
 			}
 		}
-
+		if(true==opt.jsrFF63)
+		{
+			if(i+2<dat.size() && (dat[i]==0xBD || dat[i]==0x7E) && dat[i+1]==0xFF && dat[i+2]==0x63)
+			{
+				// Substitute DREAD
+				dat[i+1]=(fe08Subst>>8)&0xFF;
+				dat[i+2]=(fe08Subst&0xFF);
+			}
+		}
+		if(true==opt.jsrFEF0)
+		{
+			if(i+2<dat.size() && (dat[i]==0xBD || dat[i]==0x7E) && dat[i+1]==0xFE && dat[i+2]==0xF0)
+			{
+				// Substitute RESTORE
+				dat[i+1]=(fe02Subst>>8)&0xFF;
+				dat[i+2]=(fe02Subst&0xFF);
+			}
+		}
 
 		if(systemType==SYSTYPE_URADOS)
 		{
@@ -372,6 +392,13 @@ void ShowOptionHelp(void)
 	printf("-lduFExx\n");
 	printf("\tAlter LDU #$FE02, LDU #$FE05, LDU #$FE05\n");
 	printf("\tto the BIOS hook address.\n");
+
+	printf("-jsrff63\n");
+	printf("\tReplace JSR/JMP $FF63 to JSR READ_WRITE\n");
+	printf("\tThis replacement is not correct, but may make a program run.\n");
+	printf("-jsrfef0\n");
+	printf("\tReplace JSR/JMP $FFE0 to JSR RESTORE\n");
+	printf("\tThis replacement is not correct, but may make a program run.\n");
 
 	printf("-38400bps\n");
 	printf("\tUse 38400bps instead of 19200bps.\n");
@@ -1032,6 +1059,14 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		else if("-LDUFEXX"==arg)
 		{
 			filterOpt.lduFExx=true;
+		}
+		else if("-JSRFF63"==arg)
+		{
+			filterOpt.jsrFF63=true;
+		}
+		else if("-JSRFEF0"==arg)
+		{
+			filterOpt.jsrFEF0=true;
 		}
 		else if("-1"==arg && i+1<=ac)
 		{

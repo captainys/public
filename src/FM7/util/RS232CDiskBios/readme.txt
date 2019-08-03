@@ -243,6 +243,11 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
     ’P‚É$8000`$FBFF‚ªRAMƒ‚[ƒh‚ÅAIPL‚ª$0300‚©‚ç‚Éƒ[ƒh‚³‚ê‚é‚Æ‚¢‚¤‚à‚Ì‚È‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‰
     ‚ª‚»‚Ì‚æ‚¤‚Èó‘Ô‚É‚µ‚ÄIPL‚ÉƒWƒƒƒ“ƒv‚·‚é‚±‚Æ‚Å‘Î‰žB
 
+  Comrade7,8,9,10 (Music disk)
+    ŠG‚ªo‚È‚¢‚ÆŽv‚Á‚½‚çBIOSŒÄ‚Ño‚µ‚ÉJSR $FEF0‚Æ‚©JSR $FF63‚Æ‚©‚ ‚è‚¦‚È‚¢Žg‚¢•û‚ð‚µ‚Ä‚¢‚½‚Ì‚ÅA
+    ƒIƒvƒVƒ‡ƒ“‚ð’Ç‰Á‚µ‚Ä‘Î‰žB
+      RS232CDiskBios.exe comrade9.d77 2 -install2 7F25 -jsrff63 -jsrfef0
+
   (”ñŒöŽ®‘Î‰ž)Thexder [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
     FC00`FCFF‚ÍThexder‚ªŽg‚¤‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‹æ‚ð•ÏX‚·‚é•K—v‚ ‚èB
     ƒRƒ}ƒ“ƒh—á:
