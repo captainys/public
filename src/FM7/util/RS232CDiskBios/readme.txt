@@ -234,16 +234,32 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
       Emergency [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
 
   URADOS [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
-    ‹N“®Šm”FB‚½‚¾‚µ$7F9F‚Ü‚Å‚µ‚©Žg‚¦‚È‚¢B‚È‚¨AƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ðŽw’è‚µ‚È‚©‚Á‚½‚çƒT[ƒo[
-    ‚ÍURADOS‚ðŽ©“®”»•Ê‚µ‚ÄƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ð7F80‚É•ÏX‚·‚éBURADOS‚ÍFC00`‚ðŽg‚Á‚Ä‚µ‚Ü‚¤‚Ì
+    ‹N“®Šm”FB‚½‚¾‚µ$7F8F‚Ü‚Å‚µ‚©Žg‚¦‚È‚¢B‚È‚¨AƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ðŽw’è‚µ‚È‚©‚Á‚½‚çƒT[ƒo[
+    ‚ÍURADOS‚ðŽ©“®”»•Ê‚µ‚ÄƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ð7F90‚É•ÏX‚·‚éBURADOS‚ÍFC00`‚ðŽg‚Á‚Ä‚µ‚Ü‚¤‚Ì
     ‚ÅƒfƒtƒHƒ‹ƒg‚ÌˆÊ’u‚É‚ÍƒŠƒ_ƒCƒŒƒNƒ^‚ðƒCƒ“ƒXƒg[ƒ‹‚Å‚«‚È‚¢B
+
+  M-DOS7
+    ‹N“®Šm”FB‚½‚¾‚µ$7F8F‚Ü‚Å‚µ‚©Žg‚¦‚È‚¢BƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ðƒRƒ}ƒ“ƒhƒpƒ‰ƒ[ƒ^‚ÅŽw’è‚µ‚È‚¢
+    ê‡‚ÍŽ©“®“I‚ÉƒCƒ“ƒXƒg[ƒ‹æ‚ð7F90‚ÉÝ’è‚·‚éB‚ªA‘½•ª‚±‚ÌêŠˆÈŠO‚ÉƒCƒ“ƒXƒg[ƒ‹‚·‚é—]’n‚Í
+    Žc‚Á‚Ä‚È‚¢–Í—lB
 
   R-DOS [ŽÀ‹@FM-7]
     DOSƒ‚[ƒh‚Å‹N“®‚µ‚Ä‚­‚é‚à‚Ì‚È‚Ì‚ÅAƒT[ƒo[ƒIƒvƒVƒ‡ƒ“ -dosmode ‚ª•K—vBDOSƒ‚[ƒh‚Æ‚¢‚¤‚Ì‚ÍA
     ’P‚É$8000`$FBFF‚ªRAMƒ‚[ƒh‚ÅAIPL‚ª$0300‚©‚ç‚Éƒ[ƒh‚³‚ê‚é‚Æ‚¢‚¤‚à‚Ì‚È‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‰
     ‚ª‚»‚Ì‚æ‚¤‚Èó‘Ô‚É‚µ‚ÄIPL‚ÉƒWƒƒƒ“ƒv‚·‚é‚±‚Æ‚Å‘Î‰žB
 
-  Comrade5,6,7,8,9,10,11,12,13A,13B,14 (Music disk)
+  Comrade 1,2,3,4 (Music Disk)
+    M-DOS7Žg—pB
+      RS232CDiskBios.exe comrade1.d77 2
+
+  Comrade 5 (Music Disk)
+    Comrade 5‚Í2ƒo[ƒWƒ‡ƒ“‚ ‚é‚Ì‚©‚ÈHM-DOS7Žg—pƒo[ƒWƒ‡ƒ“‚ÍA
+      RS232CDiskBios.exe comrade5b.d77 2 -jsrff63 -jsrfef0
+    •s–¾‚ÌDisk BASICŽg—pƒo[ƒWƒ‡ƒ“‚ÍA
+      RS232CDiskBios.exe comrade5a.d77 2 -install2 7F25 -jsrff63 -jsrfef0
+    ‚ÌƒRƒ}ƒ“ƒh‚Å‹N“®‚Å‚«‚½B
+
+  Comrade 6,7,8,9,10,11,12,13A,13B,14 (Music disk)
     •s–¾Disk BASIC, •’Ê‚ÌDisk BASIC‚ðŽg‚Á‚Ä‚¢‚é–Í—lB‚½‚¾A$FC00`‚ÍŽg‚í‚ê‚Ä‚µ‚Ü‚Á‚ÄA
     $7000’¼‘O‚Ü‚Å‘½•ªHGPLAY(?)‚ªŽg—p‚·‚é‚Ì‚ÅA$7F25‚©‚ç‚ÌƒfƒBƒXƒNƒGƒ‰[ƒƒbƒZ[ƒW—Ìˆæ‚ÉƒŠƒ_ƒCƒŒƒNƒ^
     ‚ðƒCƒ“ƒXƒg[ƒ‹‚·‚é•K—v‚ ‚èB

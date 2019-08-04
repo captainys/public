@@ -32,6 +32,7 @@ enum
 	SYSTYPE_F_BASIC_3_0,
 	SYSTYPE_URADOS,
 	SYSTYPE_UNKNOWN_F_BASIC,
+	SYSTYPE_MDOS7,
 };
 
 const unsigned char BIOS_ERROR_DRIVE_NOT_READY=		0x0A;
@@ -212,7 +213,8 @@ void AlterSectorData(
 	auto fe05Subst=hookInstAddr+fe05Offset;
 	auto fe08Subst=hookInstAddr+fe08Offset;
 
-	if(0==track && 0==side && 1==sector)
+	if((0==track && 0==side && 1==sector) ||
+	   (0==track && SYSTYPE_MDOS7==systemType))
 	{
 		bool jmpFBFE=false;
 		std::vector <int> jmpFBFEPtr;;
@@ -243,6 +245,20 @@ void AlterSectorData(
 			printf("Tweaking IPL for URADOS\n");
 			// Need to use a clone at 0x4000.
 			unsigned int fBasicInstHook=0x4000+fBasicInitHookOffset;
+			for(auto ptr : jmpFBFEPtr)
+			{
+				dat[ptr  ]=0x7E;  // JMP
+				dat[ptr+1]=((fBasicInstHook>>8)&255);
+				dat[ptr+2]=(fBasicInstHook&255);
+			}
+		}
+		else if(SYSTYPE_MDOS7==systemType &&
+		        true==jmpFBFE &&
+		        0<jmpFBFEPtr.size())
+		{
+			printf("Tweaking IPL for M-DOS7\n");
+			// Need to use a clone at 0x2000.
+			unsigned int fBasicInstHook=0x2000+fBasicInitHookOffset;
 			for(auto ptr : jmpFBFEPtr)
 			{
 				dat[ptr  ]=0x7E;  // JMP
@@ -282,6 +298,33 @@ void AlterSectorData(
 		}
 	}
 
+	if(0==track && SYSTYPE_MDOS7==systemType)
+	{
+		for(int i=0; i<dat.size()-6; ++i)
+		{
+			if(dat[i  ]==0x7D &&
+			   dat[i+1]==0xFD &&
+			   dat[i+2]==0x0F &&
+			   dat[i+3]==0x8E &&
+			   dat[i+4]==0x7F &&
+			   dat[i+5]==0xFE)
+			{
+				printf("Preventing MDOS7 from destroying $7F90-$7FFF\n");
+				dat[i+5]=0x8E;
+			}
+			else if(dat[i  ]==0x4F &&
+			        dat[i+1]==0xA7 &&
+			        dat[i+2]==0x80 &&
+			        dat[i+3]==0x8C &&
+			        dat[i+4]==0x80 &&
+			        dat[i+5]==0x00)
+			{
+				printf("Preventing MDOS7 from destroying $7F90-$7FFF\n");
+				dat[i+4]=0x7F;
+				dat[i+5]=0x90;
+			}
+		}
+	}
 
 	for(int i=0; i<dat.size(); ++i)
 	{
@@ -959,7 +1002,7 @@ public:
 	bool Recognize(int ac,char *av[]);
 	void CleanUp(void);
 
-	void FinalizeInstallAddress(D77File::D77Disk *bootDiskPtr);
+	void FinalizeInstallAddress(int systemType,D77File::D77Disk *bootDiskPtr);
 };
 
 D77ServerCommandParameterInfo::D77ServerCommandParameterInfo()
@@ -1138,21 +1181,14 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 	return true;
 }
 
-void D77ServerCommandParameterInfo::FinalizeInstallAddress(D77File::D77Disk *bootDiskPtr)
+void D77ServerCommandParameterInfo::FinalizeInstallAddress(int systemType,D77File::D77Disk *bootDiskPtr)
 {
 	if(nullptr!=bootDiskPtr && true!=instAddrSpecified)
 	{
-		auto sectorData=bootDiskPtr->ReadSector(0,0,1);
-
-		bool jmpFBFE=false;
-		std::vector <int> jmpFBFEPtr;;
-		bool ldx6E00=false;
-		bool ldx4D00=false;
-		int ldxPtr=0;
-		IdentifyIPL(sectorData,jmpFBFE,jmpFBFEPtr,ldx6E00,ldx4D00,ldxPtr);
-
-		// URADOS
-		if(true==jmpFBFE && true==ldx4D00)
+		// URADOS or M-DOS7
+		if(SYSTYPE_URADOS==systemType ||
+		   SYSTYPE_MDOS7==systemType
+		   )
 		{
 			// Cannot use $FC00-FC7F
 			instAddr=0x7F90;
@@ -1299,14 +1335,31 @@ void FC80::IdentifySystemType(D77File::D77Disk *bootDiskPtr)
 {
 	if(nullptr!=bootDiskPtr)
 	{
-		auto sectorData=bootDiskPtr->ReadSector(0,0,1);
+		auto iplSector=bootDiskPtr->ReadSector(0,0,1);
 
 		bool jmpFBFE=false;
 		std::vector <int> jmpFBFEPtr;;
 		bool ldx6E00=false;
 		bool ldx4D00=false;
 		int ldxPtr=0;
-		IdentifyIPL(sectorData,jmpFBFE,jmpFBFEPtr,ldx6E00,ldx4D00,ldxPtr);
+		IdentifyIPL(iplSector,jmpFBFE,jmpFBFEPtr,ldx6E00,ldx4D00,ldxPtr);
+
+		// Identify M-DOS7 first.
+		auto mdosId=bootDiskPtr->ReadSector(0,1,2);
+		for(int i=0; i<mdosId.size()-6; ++i)
+		{
+			if(mdosId[i  ]=='M' &&
+			   mdosId[i+1]=='-' &&
+			   mdosId[i+2]=='D' &&
+			   mdosId[i+3]=='O' &&
+			   mdosId[i+4]=='S' &&
+			   mdosId[i+5]=='7')
+			{
+				printf("Identified M-DOS7\n");
+				systemType=SYSTYPE_MDOS7;
+				return;
+			}
+		}
 
 		// URADOS
 		if(true==jmpFBFE && true==ldx4D00)
@@ -1366,7 +1419,7 @@ int main(int ac,char *av[])
 	Title(fc80.cpi.bps);
 
 	fc80.IdentifySystemType(fc80.diskSet.fm7Disk[0].diskPtr);
-	fc80.cpi.FinalizeInstallAddress(fc80.diskSet.fm7Disk[0].diskPtr);
+	fc80.cpi.FinalizeInstallAddress(fc80.systemType,fc80.diskSet.fm7Disk[0].diskPtr);
 	if(true!=FinalizeSectorSubst(fc80.diskSet,fc80.cpi.secSubst))
 	{
 		fprintf(stderr,"Sector Substitution Error.\n");
@@ -1662,8 +1715,9 @@ void SubCPU(void)
 						int track=biosCmdBuf[4];
 						int sector=biosCmdBuf[5];
 						int side=(biosCmdBuf[6]&1);
+						int addr=((biosCmdBuf[2]<<8)+biosCmdBuf[3]);
 
-						printf("R Trk:%d Sid:%d Sec:%d\n",track,side,sector);
+						printf("R Trk:%d Sid:%d Sec:%d Addr:$%04x\n",track,side,sector,addr);
 
 						auto diskPtr=fc80.GetDiskFromBiosCmd(biosCmdBuf);
 						if(nullptr!=diskPtr)
@@ -1750,11 +1804,12 @@ void SubCPU(void)
 					int track=biosCmdBuf[4];
 					int sector=biosCmdBuf[5];
 					int side=(biosCmdBuf[6]&1);
+					int addr=((biosCmdBuf[2]<<8)+biosCmdBuf[3]);
 
 					sectorDataBuf[sectorDataFilled++]=c;
 					if(sectorDataFilled==sectorDataNeeded)
 					{
-						printf("W Trk:%d Sid:%d Sec:%d\n",track,side,sector);
+						printf("W Trk:%d Sid:%d Sec:%d  Addr:$%04x\n",track,side,sector,addr);
 
 						auto diskPtr=fc80.GetDiskFromBiosCmd(biosCmdBuf);
 						if(nullptr!=diskPtr)
