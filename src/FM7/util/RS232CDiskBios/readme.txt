@@ -3,6 +3,11 @@ by ŽRì‹@’·
 http://www.ysflight.com
 
 
+2019/08/03
+  Comrade Music Disk‚É‘Î‰žB(-jsrfef0, -jsrff63ƒIƒvƒVƒ‡ƒ“)
+  ‚»‚ÌˆêŠÂ‚ÅM-DOS7‚É‘Î‰žB
+
+
 
 10 REM -------- Žž‚É‚ÍÌ‚ÌŽÀ‹@‚ð
 
@@ -237,11 +242,6 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
     ‹N“®Šm”FB‚½‚¾‚µ$7F8F‚Ü‚Å‚µ‚©Žg‚¦‚È‚¢B‚È‚¨AƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ðŽw’è‚µ‚È‚©‚Á‚½‚çƒT[ƒo[
     ‚ÍURADOS‚ðŽ©“®”»•Ê‚µ‚ÄƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ð7F90‚É•ÏX‚·‚éBURADOS‚ÍFC00`‚ðŽg‚Á‚Ä‚µ‚Ü‚¤‚Ì
     ‚ÅƒfƒtƒHƒ‹ƒg‚ÌˆÊ’u‚É‚ÍƒŠƒ_ƒCƒŒƒNƒ^‚ðƒCƒ“ƒXƒg[ƒ‹‚Å‚«‚È‚¢B
-
-  M-DOS7
-    ‹N“®Šm”FB‚½‚¾‚µ$7F8F‚Ü‚Å‚µ‚©Žg‚¦‚È‚¢BƒCƒ“ƒXƒg[ƒ‹ƒAƒhƒŒƒX‚ðƒRƒ}ƒ“ƒhƒpƒ‰ƒ[ƒ^‚ÅŽw’è‚µ‚È‚¢
-    ê‡‚ÍŽ©“®“I‚ÉƒCƒ“ƒXƒg[ƒ‹æ‚ð7F90‚ÉÝ’è‚·‚éB‚ªA‘½•ª‚±‚ÌêŠˆÈŠO‚ÉƒCƒ“ƒXƒg[ƒ‹‚·‚é—]’n‚Í
-    Žc‚Á‚Ä‚È‚¢–Í—lB
 
   R-DOS [ŽÀ‹@FM-7]
     DOSƒ‚[ƒh‚Å‹N“®‚µ‚Ä‚­‚é‚à‚Ì‚È‚Ì‚ÅAƒT[ƒo[ƒIƒvƒVƒ‡ƒ“ -dosmode ‚ª•K—vBDOSƒ‚[ƒh‚Æ‚¢‚¤‚Ì‚ÍA
