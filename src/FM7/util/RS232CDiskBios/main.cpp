@@ -30,7 +30,8 @@ enum
 {
 	SYSTYPE_UNKNOWN,
 	SYSTYPE_F_BASIC_3_0,
-	SYSTYPE_URADOS
+	SYSTYPE_URADOS,
+	SYSTYPE_UNKNOWN_F_BASIC,
 };
 
 const unsigned char BIOS_ERROR_DRIVE_NOT_READY=		0x0A;
@@ -66,11 +67,13 @@ SectorFilterOption::SectorFilterOption()
 void IdentifyIPL(
 	std::vector <unsigned char> &sectorData,
 	bool &jmpFBFE,
+	std::vector <int> &jmpFBFEPtr,
 	bool &ldx6E00, // Signature for F-BASIC 3.0
 	bool &ldx4D00, // Signature for URADOS
 	int &ldxPtr)
 {
 	jmpFBFE=false;
+	jmpFBFEPtr.clear();
 	ldx6E00=false;
 	ldx4D00=false;
 	ldxPtr=0;
@@ -90,6 +93,7 @@ void IdentifyIPL(
 		if(i+3<sectorData.size() && sectorData[i]==0x6e && sectorData[i+1]==0x9f && sectorData[i+2]==0xfb && sectorData[i+3]==0xfe)
 		{
 			jmpFBFE=true;
+			jmpFBFEPtr.push_back(i);
 		}
 	}
 }
@@ -111,10 +115,11 @@ void SetUpClientSecondInstallation(std::vector <unsigned char> &clientCode,D77Fi
 		auto bootSector=bootDisk.ReadSector(0,0,1);
 
 		bool jmpFBFE=false;
+		std::vector <int> jmpFBFEPtr;;
 		bool ldx6E00=false;
 		bool ldx4D00=false;
 		int ldxPtr=0;
-		IdentifyIPL(bootSector,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
+		IdentifyIPL(bootSector,jmpFBFE,jmpFBFEPtr,ldx6E00,ldx4D00,ldxPtr);
 
 		// URADOS
 		if(true==jmpFBFE && true==ldx4D00)
@@ -194,7 +199,8 @@ void AlterSectorData(
 	unsigned int hookInstAddr2, // For Others
 	unsigned int fe02Offset,
 	unsigned int fe05Offset,
-	unsigned int fe08Offset)
+	unsigned int fe08Offset,
+	unsigned int fBasicInitHookOffset)
 {
 	auto hookInstAddr=hookInstAddr2;
 	if(0==track && 0==side && 1==sector)
@@ -209,24 +215,40 @@ void AlterSectorData(
 	if(0==track && 0==side && 1==sector)
 	{
 		bool jmpFBFE=false;
+		std::vector <int> jmpFBFEPtr;;
 		bool ldx6E00=false;
 		bool ldx4D00=false;
 		int ldxPtr=0;
-		IdentifyIPL(dat,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
+		IdentifyIPL(dat,jmpFBFE,jmpFBFEPtr,ldx6E00,ldx4D00,ldxPtr);
 
 		// F-BASIC 3.0 IPL
-		if(true==jmpFBFE && true==ldx6E00)
+		if((SYSTYPE_UNKNOWN_F_BASIC==systemType || SYSTYPE_F_BASIC_3_0==systemType) &&
+		   true==jmpFBFE &&
+		   0<jmpFBFEPtr.size())
 		{
 			printf("Tweaking IPL for Disk F-BASIC 3.0\n");
-			dat[ldxPtr+1]=0x60;
-			dat[ldxPtr+2]=0x00;
+			unsigned int fBasicInstHook=0x6000+fBasicInitHookOffset;
+			for(auto ptr : jmpFBFEPtr)
+			{
+				dat[ptr  ]=0x7E;  // JMP
+				dat[ptr+1]=((fBasicInstHook>>8)&255);
+				dat[ptr+2]=(fBasicInstHook&255);
+			}
 		}
 		// URADOS IPL
-		if(true==jmpFBFE && true==ldx4D00)
+		else if(SYSTYPE_URADOS==systemType && 
+		        true==jmpFBFE && 
+		        0<jmpFBFEPtr.size())
 		{
 			printf("Tweaking IPL for URADOS\n");
-			dat[ldxPtr+1]=0x40;	// Use one of the clones of the installer.
-			dat[ldxPtr+2]=0x00;
+			// Need to use a clone at 0x4000.
+			unsigned int fBasicInstHook=0x4000+fBasicInitHookOffset;
+			for(auto ptr : jmpFBFEPtr)
+			{
+				dat[ptr  ]=0x7E;  // JMP
+				dat[ptr+1]=((fBasicInstHook>>8)&255);
+				dat[ptr+2]=(fBasicInstHook&255);
+			}
 		}
 
 
@@ -394,7 +416,7 @@ void ShowOptionHelp(void)
 	printf("\tto the BIOS hook address.\n");
 
 	printf("-jsrff63\n");
-	printf("\tReplace JSR/JMP $FF63 to JSR READ_WRITE\n");
+	printf("\tReplace JSR/JMP $FF63 to DREAD\n");
 	printf("\tThis replacement is not correct, but may make a program run.\n");
 	printf("-jsrfef0\n");
 	printf("\tReplace JSR/JMP $FFE0 to JSR RESTORE\n");
@@ -1123,10 +1145,11 @@ void D77ServerCommandParameterInfo::FinalizeInstallAddress(D77File::D77Disk *boo
 		auto sectorData=bootDiskPtr->ReadSector(0,0,1);
 
 		bool jmpFBFE=false;
+		std::vector <int> jmpFBFEPtr;;
 		bool ldx6E00=false;
 		bool ldx4D00=false;
 		int ldxPtr=0;
-		IdentifyIPL(sectorData,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
+		IdentifyIPL(sectorData,jmpFBFE,jmpFBFEPtr,ldx6E00,ldx4D00,ldxPtr);
 
 		// URADOS
 		if(true==jmpFBFE && true==ldx4D00)
@@ -1279,10 +1302,11 @@ void FC80::IdentifySystemType(D77File::D77Disk *bootDiskPtr)
 		auto sectorData=bootDiskPtr->ReadSector(0,0,1);
 
 		bool jmpFBFE=false;
+		std::vector <int> jmpFBFEPtr;;
 		bool ldx6E00=false;
 		bool ldx4D00=false;
 		int ldxPtr=0;
-		IdentifyIPL(sectorData,jmpFBFE,ldx6E00,ldx4D00,ldxPtr);
+		IdentifyIPL(sectorData,jmpFBFE,jmpFBFEPtr,ldx6E00,ldx4D00,ldxPtr);
 
 		// URADOS
 		if(true==jmpFBFE && true==ldx4D00)
@@ -1294,6 +1318,11 @@ void FC80::IdentifySystemType(D77File::D77Disk *bootDiskPtr)
 		{
 			printf("Identified F-BASIC 3.0 IPL\n");
 			systemType=SYSTYPE_F_BASIC_3_0;
+		}
+		else if(true==jmpFBFE)
+		{
+			printf("Identified Unknown F-BASIC\n");
+			systemType=SYSTYPE_UNKNOWN_F_BASIC;
 		}
 	}
 }
@@ -1671,7 +1700,9 @@ void SubCPU(void)
 								    fc80.cpi.instAddr2,
 								    clientCode.dat[clientCode.dat.size()-3],
 								    clientCode.dat[clientCode.dat.size()-2],
-								    clientCode.dat[clientCode.dat.size()-1]);
+								    clientCode.dat[clientCode.dat.size()-1],
+								    clientCode.dat[clientCode.dat.size()-4]
+								    );
 
 								encoder.Encode(sectorData);
 							}

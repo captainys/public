@@ -243,7 +243,11 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
     ’P‚É$8000`$FBFF‚ªRAMƒ‚[ƒh‚ÅAIPL‚ª$0300‚©‚ç‚Éƒ[ƒh‚³‚ê‚é‚Æ‚¢‚¤‚à‚Ì‚È‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‰
     ‚ª‚»‚Ì‚æ‚¤‚Èó‘Ô‚É‚µ‚ÄIPL‚ÉƒWƒƒƒ“ƒv‚·‚é‚±‚Æ‚Å‘Î‰žB
 
-  Comrade7,8,9,10 (Music disk)
+  Comrade5,6,7,8,9,10,11,12,13A,13B,14 (Music disk)
+    •s–¾Disk BASIC, •’Ê‚ÌDisk BASIC‚ðŽg‚Á‚Ä‚¢‚é–Í—lB‚½‚¾A$FC00`‚ÍŽg‚í‚ê‚Ä‚µ‚Ü‚Á‚ÄA
+    $7000’¼‘O‚Ü‚Å‘½•ªHGPLAY(?)‚ªŽg—p‚·‚é‚Ì‚ÅA$7F25‚©‚ç‚ÌƒfƒBƒXƒNƒGƒ‰[ƒƒbƒZ[ƒW—Ìˆæ‚ÉƒŠƒ_ƒCƒŒƒNƒ^
+    ‚ðƒCƒ“ƒXƒg[ƒ‹‚·‚é•K—v‚ ‚èB
+
     ŠG‚ªo‚È‚¢‚ÆŽv‚Á‚½‚çBIOSŒÄ‚Ño‚µ‚ÉJSR $FEF0‚Æ‚©JSR $FF63‚Æ‚©‚ ‚è‚¦‚È‚¢Žg‚¢•û‚ð‚µ‚Ä‚¢‚½‚Ì‚ÅA
     ƒIƒvƒVƒ‡ƒ“‚ð’Ç‰Á‚µ‚Ä‘Î‰žB
       RS232CDiskBios.exe comrade9.d77 2 -install2 7F25 -jsrff63 -jsrfef0
