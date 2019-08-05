@@ -143,7 +143,9 @@ void FM77AVKeyboardScheduler::AddStroke(int keyCode,bool shift,bool ctrl,bool gr
 
 void FM77AVKeyboardScheduler::Flush(IRToy_Controller &irToy)
 {
-	if(IRToy_Controller::STATE_GOWILD!=irToy.GetState())
+	// STATE_WAITINGREADY is only for the Arduino-based 
+	if(IRToy_Controller::STATE_GOWILD!=irToy.GetState() &&
+	   (true!=irToy.IsArduino() || IRToy_Controller::STATE_ARDUINO_WAITING_READY!=irToy.GetState() || 0<irToy.GetRecordingSize()))
 	{
 		return;
 	}
@@ -178,9 +180,8 @@ void FM77AVKeyboardScheduler::Flush(IRToy_Controller &irToy)
 				// Why not sending just 5 bytes instead of 30 bytes?
 				//irToy.Make100_125_175usPulse(code30.c_str());
 				//irToy.StartTransmit();
-				unsigned char bit30Ptn[5];
-				irToy.Make30Bit(bit30Ptn,code30.c_str());
-				irToy.Transmit30Bit(bit30Ptn);
+				irToy.Make30Bit(code30.c_str());
+				irToy.Transmit30Bit();
 			}
 		}
 		repeatTimer=std::chrono::system_clock::now();

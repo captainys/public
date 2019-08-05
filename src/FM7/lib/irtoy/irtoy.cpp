@@ -608,6 +608,11 @@ void IRToy_Controller::State_Arduino_WaitingReady(void)
 		if(ARDUINO_NOTIFY_READY==d)
 		{
 			ChangeState(STATE_GOWILD);
+			if(4==recording.size())
+			{
+				Transmit30Bit();
+			}
+			recording.clear();
 		}
 	}
 }
@@ -684,6 +689,11 @@ void IRToy_Controller::LoadRecording(const char fName[])
 
 		fclose(fp);
 	}
+}
+
+long long int IRToy_Controller::GetRecordingSize(void) const
+{
+	return recording.size();
 }
 
 void IRToy_Controller::Make100usPulse(const char ptn[],bool verbose)
@@ -842,46 +852,40 @@ void IRToy_Controller::Make100_125_175usPulse(const char ptn[],bool verbose)
 }
 
 /* For Arduino IR emitter only. */
-void IRToy_Controller::Make30Bit(unsigned char bit30Ptn[4],const char ptn[])
+void IRToy_Controller::Make30Bit(const char ptn[])
 {
-	bit30Ptn[0]=0;
-	bit30Ptn[1]=0;
-	bit30Ptn[2]=0;
-	bit30Ptn[3]=0;
+	recording.resize(4);
+	recording[0]=0;
+	recording[1]=0;
+	recording[2]=0;
+	recording[3]=0;
 	for(int i=0; i<30; ++i)
 	{
 		if('1'==ptn[i])
 		{
-			bit30Ptn[i>>3]|=(1<<(i&7));
+			recording[i>>3]|=(1<<(i&7));
 		}
 	}
 }
 
 /* For Arduino IR emitter only. */
-void IRToy_Controller::Transmit30Bit(const unsigned char bit30Ptn[4])
+void IRToy_Controller::Transmit30Bit(void)
 {
-	if(STATE_GOWILD==state)
+	if(STATE_GOWILD==state && 4<=recording.size())
 	{
 		unsigned char packet[5];
 		packet[0]=CMD_TRANSMIT_30BIT_100US;
-		packet[1]=bit30Ptn[0];
-		packet[2]=bit30Ptn[1];
-		packet[3]=bit30Ptn[2];
-		packet[4]=bit30Ptn[3];
+		packet[1]=recording[0];
+		packet[2]=recording[1];
+		packet[3]=recording[2];
+		packet[4]=recording[3];
 		Send(5,packet);
 		comPort.FlushWriteBuffer();
-
-		// Just in case, save it.
-		recording.resize(4);
-		recording[0]=bit30Ptn[0];
-		recording[1]=bit30Ptn[1];
-		recording[2]=bit30Ptn[2];
-		recording[3]=bit30Ptn[3];
-	}
-
-	if(true==IsArduino())
-	{
-		ChangeState(STATE_ARDUINO_WAITING_READY);
+		recording.clear();
+		if(true==IsArduino())
+		{
+			ChangeState(STATE_ARDUINO_WAITING_READY);
+		}
 	}
 }
 

@@ -248,18 +248,18 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ğƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍóMƒoƒCƒg‚ğ‘S•”•\¦‚
     ’P‚É$8000`$FBFF‚ªRAMƒ‚[ƒh‚ÅAIPL‚ª$0300‚©‚ç‚Éƒ[ƒh‚³‚ê‚é‚Æ‚¢‚¤‚à‚Ì‚È‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‰
     ‚ª‚»‚Ì‚æ‚¤‚Èó‘Ô‚É‚µ‚ÄIPL‚ÉƒWƒƒƒ“ƒv‚·‚é‚±‚Æ‚Å‘Î‰B
 
-  Comrade 1,2,3,4 (Music Disk)
+  Comrade 1,2,3,4 (Music Disk) [À‹@FM77AV40]
     M-DOS7g—pB
       RS232CDiskBios.exe comrade1.d77 2
 
-  Comrade 5 (Music Disk)
+  Comrade 5 (Music Disk) [À‹@FM77AV40]
     Comrade 5‚Í2ƒo[ƒWƒ‡ƒ“‚ ‚é‚Ì‚©‚ÈHM-DOS7g—pƒo[ƒWƒ‡ƒ“‚ÍA
       RS232CDiskBios.exe comrade5b.d77 2 -jsrff63 -jsrfef0
     •s–¾‚ÌDisk BASICg—pƒo[ƒWƒ‡ƒ“‚ÍA
       RS232CDiskBios.exe comrade5a.d77 2 -install2 7F25 -jsrff63 -jsrfef0
     ‚ÌƒRƒ}ƒ“ƒh‚Å‹N“®‚Å‚«‚½B
 
-  Comrade 6,7,8,9,10,11,12,13A,13B,14 (Music disk)
+  Comrade 6,7,8,9,10,11,12,13A,13B,14 (Music disk) [À‹@FM77AV40]
     •s–¾Disk BASIC, •’Ê‚ÌDisk BASIC‚ğg‚Á‚Ä‚¢‚é–Í—lB‚½‚¾A$FC00`‚Íg‚í‚ê‚Ä‚µ‚Ü‚Á‚ÄA
     $7000’¼‘O‚Ü‚Å‘½•ªHGPLAY(?)‚ªg—p‚·‚é‚Ì‚ÅA$7F25‚©‚ç‚ÌƒfƒBƒXƒNƒGƒ‰[ƒƒbƒZ[ƒW—Ìˆæ‚ÉƒŠƒ_ƒCƒŒƒNƒ^
     ‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚é•K—v‚ ‚èB
@@ -267,6 +267,9 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ğƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍóMƒoƒCƒg‚ğ‘S•”•\¦‚
     ŠG‚ªo‚È‚¢‚Æv‚Á‚½‚çBIOSŒÄ‚Ño‚µ‚ÉJSR $FEF0‚Æ‚©JSR $FF63‚Æ‚©‚ ‚è‚¦‚È‚¢g‚¢•û‚ğ‚µ‚Ä‚¢‚½‚Ì‚ÅA
     ƒIƒvƒVƒ‡ƒ“‚ğ’Ç‰Á‚µ‚Ä‘Î‰B
       RS232CDiskBios.exe comrade9.d77 2 -install2 7F25 -jsrff63 -jsrfef0
+
+    À‹@‚¾‚Æ‹N“®‚µ‚Ä‰¹Šy‰‰‘t‚Å‚«‚é‚¯‚Çƒ^ƒCƒgƒ‹ŠG‚ªo‚È‚¢‚æ‚¤‚¾B(JSR $FEF0, JSR $FF63‘OŒã‚Ì“®ì‚ª
+    ƒGƒ~ƒ…ƒŒ[ƒ^‚Æˆá‚¤–Í—lB)
 
   (”ñŒö®‘Î‰)Thexder [À‹@FM-7,À‹@FM77AV40]
     FC00`FCFF‚ÍThexder‚ªg‚¤‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‹æ‚ğ•ÏX‚·‚é•K—v‚ ‚èB

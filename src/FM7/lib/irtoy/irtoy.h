@@ -174,15 +174,17 @@ public:
 	void SaveRecording(const char fName[]) const;
 	void LoadRecording(const char fName[]);
 
+	long long int GetRecordingSize(void) const;
+
 	void Make100usPulse(const char ptn[],bool verbose=false);
 	void Make100_125_175usPulse(const char ptn[],bool verbose=false);
 
 	/*! For Arduino-based IR emitter.
 	*/
-	void Make30Bit(unsigned char bit30Ptn[4],const char ptn[]);
+	void Make30Bit(const char ptn[]);
 	/*! For Arduino-based IR emitter.
 	*/
-	void Transmit30Bit(const unsigned char bit30Ptn[4]);
+	void Transmit30Bit(void);
 
 	void RunOneStep(void);
 

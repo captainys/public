@@ -491,7 +491,7 @@ void Title(int bps)
 	printf("*  http://www.ysflight.com     *\n");
 	printf("*                              *\n");
 	printf("********************************\n");
-	printf("Make sure to configure FM-7/77 side computer at %dbps.\n");
+	printf("Make sure to configure FM-7/77 side computer at %dbps.\n",bps);
 }
 
 void ShowPrompt(void)
