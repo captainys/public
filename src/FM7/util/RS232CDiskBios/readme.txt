@@ -264,12 +264,12 @@ VƒRƒ}ƒ“ƒh‚ÅVerboseƒ‚[ƒh‚ðƒgƒOƒ‹‚Å‚«‚éBVerbose Mode=On‚Å‚ÍŽóMƒoƒCƒg‚ð‘S•”•\Ž¦‚
     $7000’¼‘O‚Ü‚Å‘½•ªHGPLAY(?)‚ªŽg—p‚·‚é‚Ì‚ÅA$7F25‚©‚ç‚ÌƒfƒBƒXƒNƒGƒ‰[ƒƒbƒZ[ƒW—Ìˆæ‚ÉƒŠƒ_ƒCƒŒƒNƒ^
     ‚ðƒCƒ“ƒXƒg[ƒ‹‚·‚é•K—v‚ ‚èB
 
+    ‚Æ‚è‚ ‚¦‚¸Vol. 14‚Ü‚Åƒ`ƒFƒbƒN‚µ‚½‚¯‚ÇA‘½•ª15ˆÈ~‚à“¯‚¶ƒpƒ‰ƒ[ƒ^‚Å‹N“®‚Å‚«‚é‚ÆŽv‚¤B-jsrff63,
+    -jsrfef0ƒIƒvƒVƒ‡ƒ“‚ð‚Í‚¸‚·‚Æƒ^ƒCƒgƒ‹ŠG‚ªo‚È‚¢‚¯‚Ç‹N“®‚µ‚Ä‰¹Šy‰‰‘t‚Í‰Â”\B
+
     ŠG‚ªo‚È‚¢‚ÆŽv‚Á‚½‚çBIOSŒÄ‚Ño‚µ‚ÉJSR $FEF0‚Æ‚©JSR $FF63‚Æ‚©‚ ‚è‚¦‚È‚¢Žg‚¢•û‚ð‚µ‚Ä‚¢‚½‚Ì‚ÅA
     ƒIƒvƒVƒ‡ƒ“‚ð’Ç‰Á‚µ‚Ä‘Î‰žB
       RS232CDiskBios.exe comrade9.d77 2 -install2 7F25 -jsrff63 -jsrfef0
-
-    ŽÀ‹@‚¾‚Æ‹N“®‚µ‚Ä‰¹Šy‰‰‘t‚Å‚«‚é‚¯‚Çƒ^ƒCƒgƒ‹ŠG‚ªo‚È‚¢‚æ‚¤‚¾B(JSR $FEF0, JSR $FF63‘OŒã‚Ì“®ì‚ª
-    ƒGƒ~ƒ…ƒŒ[ƒ^‚Æˆá‚¤–Í—lB)
 
   (”ñŒöŽ®‘Î‰ž)Thexder [ŽÀ‹@FM-7,ŽÀ‹@FM77AV40]
     FC00`FCFF‚ÍThexder‚ªŽg‚¤‚Ì‚ÅAƒCƒ“ƒXƒg[ƒ‹æ‚ð•ÏX‚·‚é•K—v‚ ‚èB
