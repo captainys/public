@@ -1195,6 +1195,34 @@ bool D77File::D77Disk::DeleteSectorWithId(int trk,int sid,int sectorId)
 	return modified;
 }
 
+bool D77File::D77Disk::DeleteSectorByIndex(int trk,int sid,int sectorIdx)
+{
+	if(true==IsWriteProtected())
+	{
+		return false;
+	}
+
+	bool modified=false;
+
+	auto trkPtr=FindEditableTrack(trk,sid);
+	if(nullptr!=trkPtr)
+	{
+		auto &t=*trkPtr;
+		if(0<=sectorIdx && sectorIdx<t.sector.size())
+		{
+			auto &s0=t.sector[sectorIdx];
+			printf("Deleted %dth sector in Track %d Side %d\n",sectorIdx,trk,sid);
+			printf("(Sector Track:%d Side:%d Sector:%d)\n",s0.cylinder,s0.head,s0.sector);
+
+			t.sector.erase(t.sector.begin()+sectorIdx);
+			modified=true;
+			SetModified();
+		}
+	}
+
+	return modified;
+}
+
 bool D77File::D77Disk::ReplaceData(const std::vector <unsigned char> &from,const std::vector <unsigned char> &to)
 {
 	if(true==IsWriteProtected())

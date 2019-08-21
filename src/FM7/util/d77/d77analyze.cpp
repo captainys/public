@@ -34,6 +34,8 @@ public:
 	void FindTrackWithSector(int diskId,int sectorId) const;
 	void DeleteDuplicateSector(int diskId);
 	void DeleteSectorWithId(int diskId,int sectorId);
+	void DeleteSectorByIndex(int diskId,int trk,int sid,int sectorIdx);
+	void DeleteSectorByNumber(int diskId,int trk,int sid,int sectorNum);
 	void FindData(int diskId,const char str[]) const;
 	void ReplaceData(int diskId,const char fromStr[],const char toStr[]);
 	void StoreData(int diskId,int trk,int sid,int sec,int addr,const char toStr[]);
@@ -258,8 +260,33 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 		}
 		else if(3<=argv.size() && 0==strcmp("DL",argv[1].c_str()))
 		{
-			auto sectorId=FM7Lib::Atoi(argv[2].c_str());
-			DeleteSectorWithId(diskId,sectorId);
+			// M DL x  argc==3
+			if(3==argv.size())
+			{
+				auto sectorId=FM7Lib::Atoi(argv[2].c_str());
+				DeleteSectorWithId(diskId,sectorId);
+			}
+			// M DL trk sid sec  argc=5
+			else if(5==argv.size())
+			{
+				auto trk=FM7Lib::Atoi(argv[2].c_str());
+				auto sid=FM7Lib::Atoi(argv[3].c_str());
+				int sec;
+				if('#'==argv[4][0])
+				{
+					sec=FM7Lib::Atoi(argv[4].c_str()+1);
+					DeleteSectorByIndex(diskId,trk,sid,sec-1);
+				}
+				else
+				{
+					sec=FM7Lib::Atoi(argv[4].c_str());
+					DeleteSectorByNumber(diskId,trk,sid,sec-1);
+				}
+			}
+			else
+			{
+				printf("Incorrect number of arguments.\n");
+			}
 		}
 		else if(6<=argv.size() && 0==strcmp("RN",argv[1].c_str()))
 		{
@@ -621,6 +648,10 @@ void D77Analyzer::Help(void) const
 	printf("\tRemove duplicate sectors.\n");
 	printf("M DL sector\n");
 	printf("\tDelete sectors with specific sector ID.\n");
+	printf("M DL track side sector\n");
+	printf("\tDelete selected sector.  Use #N for the sector\n");
+	printf("\tto delete Nth sector, not sector N.\n");
+	printf("\tUse L command to get the sector index.\n");
 	printf("\tExample: M DL 0xf7\n");
 	printf("M RN track side sectorFrom sectorTo\n");
 	printf("\tRenumber sector.\n");
@@ -864,6 +895,24 @@ void D77Analyzer::DeleteSectorWithId(int diskId,int sectorId)
 		{
 			diskPtr->DeleteSectorWithId(trkLoc.track,trkLoc.side,sectorId);
 		}
+	}
+}
+
+void D77Analyzer::DeleteSectorByIndex(int diskId,int trk,int sid,int sectorIdx)
+{
+	auto diskPtr=d77Ptr->GetDisk(diskId);
+	if(nullptr!=diskPtr)
+	{
+		diskPtr->DeleteSectorByIndex(trk,sid,sectorIdx);
+	}
+}
+
+void D77Analyzer::DeleteSectorByNumber(int diskId,int trk,int sid,int sectorNum)
+{
+	auto diskPtr=d77Ptr->GetDisk(diskId);
+	if(nullptr!=diskPtr)
+	{
+		diskPtr->DeleteSectorWithId(trk,sid,sectorNum);
 	}
 }
 

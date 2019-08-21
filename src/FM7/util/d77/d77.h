@@ -338,6 +338,9 @@ public:
 		/*! Deletes a sector that has a given id. */
 		bool DeleteSectorWithId(int trk,int sid,int sectorId);
 
+		/*! Deletes a sector. */
+		bool DeleteSectorByIndex(int trk,int sid,int sectorIdx);
+
 		/*! Replaces a byte string. */
 		bool ReplaceData(const std::vector <unsigned char> &from,const std::vector <unsigned char> &to);
 
