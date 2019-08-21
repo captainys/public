@@ -162,7 +162,7 @@ YSRESULT YsBitmap::LoadBmp(FILE *fp)
 			// printf("Height=%d\n",height);
 
 			if(headSize==40 &&
-			   (bitCount==1 || bitCount==4 || bitCount==8 || bitCount==24) &&
+			   (bitCount==1 || bitCount==4 || bitCount==8 || 16==bitCount || bitCount==24) &&
 			   compression==0)
 			{
 				unsigned nColorMap;
@@ -278,6 +278,19 @@ YSRESULT YsBitmap::LoadBmp(FILE *fp)
 								line[x*4  ]=colorMap[index*4+2];
 								line[x*4+1]=colorMap[index*4+1];
 								line[x*4+2]=colorMap[index*4  ];
+								line[x*4+3]=255;
+							}
+						}
+						else if(16==bitCount)
+						{
+							for(int x=0; x<GetWidth(); x++)
+							{
+								unsigned int pix=lineReadBuf[x*2]+256*lineReadBuf[x*2+1];
+								unsigned int r=
+
+								line[x*4  ]=255*((pix>>10)&31)/31;
+								line[x*4+1]=255*((pix>> 5)&31)/31;
+								line[x*4+2]=255*( pix     &31)/31;
 								line[x*4+3]=255;
 							}
 						}
