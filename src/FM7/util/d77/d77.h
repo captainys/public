@@ -237,6 +237,7 @@ public:
 
 	private:
 		D77Track *FindEditableTrack(int trk,int side);
+		D77Track *GetEditableTrack(int trk,int side);
 
 	public:
 		/*! Returns a pointer to a track whose first sector identifies the track
@@ -347,6 +348,10 @@ public:
 		/*! Reads from a sector.
 		*/
 		std::vector <unsigned char> ReadSector(int trk,int sid,int sec) const;
+
+		/*! Copies a track.
+		*/
+		bool CopyTrack(int dstTrk,int dstSide,int srcTrk,int srcSide);
 
 		/*! Returns if the disk is write-protected.
 		*/

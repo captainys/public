@@ -456,6 +456,16 @@ D77File::D77Disk::D77Track *D77File::D77Disk::FindEditableTrack(int cyl,int side
 	return nullptr;
 }
 
+D77File::D77Disk::D77Track *D77File::D77Disk::GetEditableTrack(int trk,int side)
+{
+	int t=trk*2+side;
+	if(0<=t && t<track.size())
+	{
+		return &track[t];
+	}
+	return nullptr;
+}
+
 const D77File::D77Disk::D77Track *D77File::D77Disk::FindTrack(int cyl,int side) const
 {
 	for(auto &t : track)
@@ -1268,6 +1278,23 @@ std::vector <unsigned char> D77File::D77Disk::ReadSector(int trk,int sid,int sec
 
 	std::vector <unsigned char> empty;
 	return empty;
+}
+
+bool D77File::D77Disk::CopyTrack(int dstTrk,int dstSide,int srcTrk,int srcSide)
+{
+	auto fromTrk=GetTrack(srcTrk,srcSide);
+	auto toTrk=GetEditableTrack(dstTrk,dstSide);
+	if(nullptr!=fromTrk && nullptr!=toTrk && fromTrk!=toTrk)
+	{
+		toTrk->sector=fromTrk->sector;
+		for(auto &s : toTrk->sector)
+		{
+			s.cylinder=dstTrk;
+			s.head=dstSide;
+		}
+		return true;
+	}
+	return false;
 }
 
 bool D77File::D77Disk::IsWriteProtected(void) const

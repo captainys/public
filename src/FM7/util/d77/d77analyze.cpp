@@ -442,6 +442,42 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
+		else if(6<=argv.size() && "CPTR"==argv[1])
+		{
+			auto diskPtr=d77Ptr->GetDisk(diskId);
+			auto track1=FM7Lib::Atoi(argv[2].c_str());
+			auto side1=FM7Lib::Atoi(argv[3].c_str());
+			auto track2=FM7Lib::Atoi(argv[4].c_str());
+			auto side2=FM7Lib::Atoi(argv[5].c_str());
+			if(nullptr!=diskPtr)
+			{
+				if(diskPtr->IsWriteProtected())
+				{
+					printf("Write protected\n");
+				}
+				else
+				{
+					auto fromTrk=diskPtr->GetTrack(track1,side1);
+					auto toTrk=diskPtr->GetTrack(track2,side2);
+					if(fromTrk==toTrk)
+					{
+					}
+					else if(nullptr!=fromTrk && nullptr!=toTrk)
+					{
+						diskPtr->CopyTrack(track2,side2,track1,side1);
+						printf("Copied track %d side %d to track %d side %d\n",track1,side1,track2,side2);
+					}
+					else if(nullptr==fromTrk)
+					{
+						printf("Source track doesn't exist.\n");
+					}
+					else if(nullptr==toTrk)
+					{
+						printf("Destination track doesn't exist.\n");
+					}
+				}
+			}
+		}
 		else if(9<=argv.size() && "CHRN"==argv[1])
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
@@ -667,7 +703,9 @@ void D77Analyzer::Help(void) const
 	printf("M ADSC trk side secId size\n");
 	printf("\tAdd a sector in the specified track.\n");
 	printf("M CPSC trk1 side1 secId1 trk2 side2 secId2\n");
-	printf("\tCopy sector 1 to sector 2.\n");
+	printf("\tCopy sector 1 to 2.\n");
+	printf("M CPTR trk1 side1 trk2 side2\n");
+	printf("\tCopy track 1 to 2.\n");
 	printf("M CHRN trk side secId C H R N\n");
 	printf("\tSet CHRN to a sector in the specified track.\n");
 	printf("M REPLCHRN C0 H0 R0 N0 C H R N\n");
