@@ -212,7 +212,7 @@ void FsOpenWindow(const FsOpenWindowOption &opt)
 			// https://msdn.microsoft.com/en-us/library/windows/desktop/dd371581%28v=vs.85%29.aspx
 			// http://stackoverflow.com/questions/7560334/wm-touch-is-not-immediately-sent-with-touch-down-event
 			//   Unless TWF_WANTPALM is specified, the first touch event won't be sent until the user releases or moves the touch.
-		#ifndef FSSIMPLEWINDOW_FOR_WINDOWS_XP
+		#if !defined(FSSIMPLEWINDOW_FOR_WINDOWS_XP) && !defined(NO_WM_TOUCH)
 			RegisterTouchWindow(fsWin32Internal.hWnd,TWF_WANTPALM);
 		#endif
 
@@ -542,10 +542,10 @@ static LRESULT WINAPI WindowFunc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp)
 {
 	switch(msg)
 	{
+	#if !defined(FSSIMPLEWINDOW_FOR_WINDOWS_XP) && !defined(NO_WM_TOUCH)
 	case WM_TOUCH:
 		// https://msdn.microsoft.com/en-us/library/windows/desktop/dd371581%28v=vs.85%29.aspx
 		// https://msdn.microsoft.com/en-us/gg464991
-		#ifndef FSSIMPLEWINDOW_FOR_WINDOWS_XP
 		{
 			auto touchHd=(HTOUCHINPUT)lp;
 			int nInput=LOWORD(wp);
@@ -574,8 +574,8 @@ static LRESULT WINAPI WindowFunc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp)
 			delete [] touchInput;
 			CloseTouchInputHandle(touchHd);
 		}
-		#endif
 		return 0;
+	#endif
 		// return DefWindowProc(hWnd,msg,wp,lp);
 	case WM_QUERYNEWPALETTE:
 	case WM_PALETTECHANGED:
