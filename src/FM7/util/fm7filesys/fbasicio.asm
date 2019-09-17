@@ -1,0 +1,191 @@
+
+							EXPORT	FSYS_BAS_ERRORRETURN
+
+							EXPORT	FSYS_DIR_BAS_TRACK
+							EXPORT	FSYS_DIR_BAS_SIDE
+							EXPORT	FSYS_DIR_BAS_SECTOR
+							EXPORT	FSYS_DIR_BAS_OFFSET
+
+							EXPORT	FSYS_DIR_BAS_FILENAME
+							EXPORT	FSYS_BAS_DATAPTR
+							EXPORT	FSYS_BAS_EXECPTR
+							EXPORT	FSYS_BAS_SIZE
+							EXPORT	FSYS_BAS_DRIVE
+
+							EXPORT	FSYS_LOADM_OFFSET
+
+							EXPORT	FSYS_FAT_BAS_FIRSTCLUSTER
+
+
+
+FSYS_BAS_ERRORRETURN		FCB		0
+
+FSYS_DIR_BAS_TRACK			FCB		0
+FSYS_DIR_BAS_SECTOR			FCB		0	; Don't change SECTOR,SIDE,OFFSET order.
+FSYS_DIR_BAS_SIDE			FCB		0
+FSYS_DIR_BAS_OFFSET			FCB		0
+
+FSYS_DIR_BAS_FILENAME		RZB		8
+FSYS_BAS_DATAPTR			FDB		0
+FSYS_BAS_EXECPTR			FDB		0
+FSYS_BAS_SIZE				FDB		0
+FSYS_BAS_DRIVE				FCB		0
+
+FSYS_LOADM_OFFSET			FDB		0
+
+FSYS_FAT_BAS_FIRSTCLUSTER	FCB		0
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+							EXPORT	FSYS_FBASICIO_FIND_FILE_ENTRY
+;	Input
+;		FSYS_DIR_BAS_FILENAME
+;		FSYS_BAS_DRIVE
+;	Output
+;		FSYS_BAS_ERRORRETURN
+;		FSYS_DIR_BAS_TRACK
+;		FSYS_DIR_BAS_SECTOR
+;		FSYS_DIR_BAS_SIDE
+;		FSYS_DIR_BAS_OFFSET
+;		FSYS_BAS_DATAPTR
+FSYS_FBASICIO_FIND_FILE_ENTRY
+						;FSYS_DIR_FIND_FILE_ENTRY
+						; Input
+						;	X	File name pointer (File name is always 8 bytes.  " " must fill if the length<8.)
+						;   Y	Data-Return pointer (3 bytes)
+						;	U	Sector Data Buffer Pointer (256-byte buffer)
+						;	A	Drive
+						; Output
+						;	A	BIOS Error Code
+						;	[Y  ]	byte	Sector
+						;	[Y+1]	byte	Side
+						;	[Y+2]	byte	Offset from the sector top
+						;   If nothing found, all zero will be returned.
+
+						LEAY	FSYS_DIR_BAS_SECTOR,PCR
+						LEAX	FSYS_DIR_BAS_FILENAME,PCR
+						LEAU	FSYS_SECTOR_BUFFER,PCR
+						LDA		FSYS_BAS_DRIVE,PCR
+						STU		FSYS_BAS_DATAPTR,PCR
+						LBSR	FSYS_DIR_FIND_FILE_ENTRY
+						STA		FSYS_BAS_ERRORRETURN,PCR
+						LDA		#1
+						STA		FSYS_DIR_BAS_TRACK,PCR
+						RTS
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+						EXPORT	FSYS_FBASICIO_LOAD_FAT
+;   Input
+;		FSYS_BAS_DRIVE
+;	Output
+;		FSYS_BAS_ERRORRETURN
+;		FSYS_BAS_DATAPTR
+
+FSYS_FBASICIO_LOAD_FAT
+						LEAU	FSYS_SECTOR_BUFFER,PCR
+						LEAY	FSYS_FAT_BUFFER,PCR
+						LDB		FSYS_BAS_DRIVE,PCR
+						STY		FSYS_BAS_DATAPTR,PCR
+						LBSR	FSYS_FAT_LOAD
+						STA		FSYS_BAS_ERRORRETURN,PCR
+						RTS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+						EXPORT	FSYS_FBASICIO_LOADM
+;   Input
+;		FSYS_DIR_BAS_FILENAME
+;		FSYS_BAS_DRIVE
+;		FSYS_LOADM_OFFSET
+;	Output
+;		FSYS_BAS_ERRORRETURN
+;		FSYS_BAS_DATAPTR
+;		FSYS_BAS_EXECPTR
+;		FSYS_BAS_SIZE
+
+FSYS_FBASICIO_LOADM
+						LEAS	-12,S
+
+						LEAX	FSYS_DIR_BAS_FILENAME,PCR
+						STX		,S
+						LDX		FSYS_LOADM_OFFSET,PCR
+						STX		2,S
+						CLR		4,S
+						LDA		FSYS_BAS_DRIVE,PCR
+						STA		5,S
+
+						LEAX	,S
+						LEAU	FSYS_SECTOR_BUFFER,PCR
+						LEAY	FSYS_FAT_BUFFER,PCR
+						LBSR	FSYS_FILE_LOADM
+
+						STA		FSYS_BAS_ERRORRETURN,PCR
+
+						LDX		6,S
+						STX		FSYS_BAS_SIZE,PCR
+						LDX		8,S
+						STX		FSYS_BAS_DATAPTR,PCR
+						LDX		10,S
+						STX		FSYS_BAS_EXECPTR,PCR
+
+						LEAS	12,S
+
+						RTS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+						EXPORT	FSYS_FBASICIO_SAVEM
+;   Input
+;		FSYS_DIR_BAS_FILENAME
+;		FSYS_BAS_DRIVE
+;		FSYS_BAS_DATAPTR
+;		FSYS_BAS_EXECPTR
+;		FSYS_BAS_SIZE
+;	Output
+;		FSYS_BAS_ERRORRETURN
+
+FSYS_FBASICIO_SAVEM
+						LEAS	-12,S
+
+						LEAX	FSYS_DIR_BAS_FILENAME,PCR
+						STX		,S
+						LDX		FSYS_BAS_DATAPTR,PCR
+						STX		2,S
+						STX		8,S
+						CLR		4,S
+						LDA		FSYS_BAS_DRIVE,PCR
+						STA		5,S
+
+						LDX		FSYS_BAS_SIZE,PCR
+						STX		6,S
+						LDX		FSYS_BAS_EXECPTR,PCR
+						STX		10,S
+
+
+						LEAX	,S
+						LEAU	FSYS_SECTOR_BUFFER,PCR
+						LEAY	FSYS_FAT_BUFFER,PCR
+						LBSR	FSYS_FILE_SAVEM
+
+						STA		FSYS_BAS_ERRORRETURN,PCR
+
+						LEAS	12,S
+
+						RTS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+						EXPORT	FSYS_FBASICIO_KILL
+;   Input
+;		FSYS_DIR_BAS_FILENAME
+;		FSYS_BAS_DRIVE
+;	Output
+;		FSYS_BAS_ERRORRETURN
+
+FSYS_FBASICIO_KILL
+						LEAX	FSYS_DIR_BAS_FILENAME,PCR
+						LEAU	FSYS_SECTOR_BUFFER,PCR
+						LEAY	FSYS_FAT_BUFFER,PCR
+						LDB		FSYS_BAS_DRIVE,PCR
+						LBSR	FSYS_FILE_KILL
+						STA		FSYS_BAS_ERRORRETURN,PCR
+						RTS
