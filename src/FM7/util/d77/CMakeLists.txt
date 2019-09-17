@@ -1,4 +1,4 @@
-set(TARGET_NAME d77analyze d77fileutil)
+set(TARGET_NAME d77analyze d77fileutil d77write)
 
 add_library(d77lib d77.cpp d77.h d77filesystem.cpp d77filesystem.h)
 target_include_directories(d77lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -8,6 +8,9 @@ target_link_libraries(d77analyze fm7lib d77lib)
 
 add_executable(d77fileutil d77fileutil.cpp)
 target_link_libraries(d77fileutil fm7lib d77lib)
+
+add_executable(d77write d77write.cpp)
+target_link_libraries(d77write fm7lib d77lib)
 
 
 
