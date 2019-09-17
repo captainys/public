@@ -48,10 +48,13 @@ int main(int ac,char *av[])
 		return 1;
 	}
 
+	printf("Binary %lld bytes.\n",binDat.dat.size());
 
 	int trk=FM7Lib::Atoi(av[2]);
 	int sid=FM7Lib::Atoi(av[3]);
 	int sec=FM7Lib::Atoi(av[4]);
+
+	printf("Start Track/Side/Sector %d/%d/%d\n",trk,sid,sec);
 
 	long long int ptr=0;
 	while(ptr<binDat.dat.size())
@@ -60,7 +63,7 @@ int main(int ac,char *av[])
 
 		if(0<secDat.size())
 		{
-			printf("TRK:%d  SID:%d  SEC:%d\n",trk,sid,sec);
+			printf("PTR:%lld  TRK:%d  SID:%d  SEC:%d\n",ptr,trk,sid,sec);
 			for(auto &b : secDat)
 			{
 				b=binDat.dat[ptr++];
@@ -69,6 +72,8 @@ int main(int ac,char *av[])
 					break;
 				}
 			}
+			diskPtr->WriteSector(trk,sid,sec,secDat.size(),secDat.data());
+			++sec;
 		}
 		else
 		{
@@ -86,5 +91,36 @@ int main(int ac,char *av[])
 			}
 		}
 	}
+
+
+	std::vector <unsigned char> outDat;
+	for(auto diskId=0; diskId<d77.GetNumDisk(); ++diskId)
+	{
+		auto diskPtr=d77.GetDisk(diskId);
+		if(nullptr!=diskPtr)
+		{
+			auto img=diskPtr->MakeD77Image();
+			if(0<img.size())
+			{
+				outDat.insert(outDat.end(),img.begin(),img.end());
+			}
+			else
+			{
+				fprintf(stderr,"Failed to make a disk image.\n");
+				return 1;
+			}
+		}
+	}
+
+	if(0<outDat.size() && true==FM7Lib::WriteBinaryFile(av[1],outDat))
+	{
+		printf("Saved %s.\n",av[1]);
+	}
+	else
+	{
+		fprintf(stderr,"Failed to write to a D77 image.\n");
+		return 1;
+	}
+
 	return 0;
 }
