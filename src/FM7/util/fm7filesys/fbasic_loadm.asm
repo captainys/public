@@ -133,13 +133,32 @@ FSYS_FILE_LOADM_BYTE_LEFT_INSIDE_LOOP
 
 
 						; Used up a sector.
+						; while(0x100<=bytes_left && not the last sector of the cluster)
+						LDU		12,S	; Current Data Pointer
+
+FSYS_FILE_LOADM_SECTOR_LOOP
 						LDB		5,S
 						INC		5,S
 						BITB	#7
-						BNE		FSYS_FILE_LOADM_NOT_END_OF_CLUSTER
+						BEQ		FSYS_FILE_LOADM_END_OF_CLUSTER
+
+						LDA		10,S	; Higher-byte of the bytes left
+						BEQ		FSYS_FILE_LOADM_NOT_END_OF_CLUSTER
+
+						LDD		4,S
+						LDX		6,S
+						LBSR	FSYS_BIOS_READSECTOR
+
+						LEAU	$100,U
+						STU		12,S
+						DEC		10,S
+						BRA		FSYS_FILE_LOADM_SECTOR_LOOP
 
 
 
+FSYS_FILE_LOADM_END_OF_CLUSTER
+
+						; while(0x800<bytes_left)
 FSYS_FILE_LOADM_BURST_READ_MID_CLUSTER_LOOP
 						; Next cluster
 						LDX		FSYS_FILE_LOADM_FAT_BUFFER,S
@@ -148,35 +167,31 @@ FSYS_FILE_LOADM_BURST_READ_MID_CLUSTER_LOOP
 						BCS		FSYS_FILE_LOADM_DEVICE_IO_ERROR
 
 						; Mid-cluster?  If so can I burst-read?
-						LDX		FSYS_FILE_LOADM_FAT_BUFFER,S
-						LDB		,Y
-						ABX
-						LDA		,X
-						CMPA	#$C0
-						BCC		FSYS_FILE_LOADM_CLUSTER_BURST_READ_END	; Last cluster
+						LDA		10,S	; Higher-byte of the bytes left
+						SUBA	#8
+						BCS		FSYS_FILE_LOADM_CLUSTER_BURST_READ_END	; Less than $800 bytes left.
+						STA		10,S
 
+						LDB		,Y	; 	Cluster
 						LDA		7,S	; 	Drive
 						LDY		FSYS_FILE_LOADM_FAT_BUFFER,S
-						LDU		12,S	; Current Data Pointer
 						LBSR	FSYS_READ_CLUSTER
 						STU		12,S
-						LDD		10,S
-						SUBD	#$800
-						BCS		FSYS_FILE_LOADM_DEVICE_IO_ERROR
-						STD		10,S
 
 						BRA		FSYS_FILE_LOADM_BURST_READ_MID_CLUSTER_LOOP
 FSYS_FILE_LOADM_CLUSTER_BURST_READ_END
-						LDU		FSYS_FILE_LOADM_SECTOR_BUFFER,S
 
 
 
 FSYS_FILE_LOADM_NOT_END_OF_CLUSTER
+						LDU		FSYS_FILE_LOADM_SECTOR_BUFFER,S
 						LDD		4,S
 						LDX		6,S
 						LBSR	FSYS_BIOS_READSECTOR
 
 						BRA		FSYS_FILE_LOADM_BYTE_LEFT_LOOP
+
+
 
 FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXIT
 						LEAX	15,S
@@ -185,7 +200,7 @@ FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXIT
 						STB		11,S	; Only needs lower byte to be set.
 
 						COM		14,S
-						BNE		FSYS_FILE_LOADM_BYTE_LEFT_LOOP
+						LBNE	FSYS_FILE_LOADM_BYTE_LEFT_LOOP
 
 
 FSYS_FILE_LOADM_FINISHED_LAST_5_BYTE

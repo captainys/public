@@ -128,6 +128,12 @@ FSYS_FAT_CLUSTER_TO_TRACK_SIDE_SECTOR
 ;		[1,Y]			Track
 ;		[2,Y]			Sector
 ;		[3,Y]			Side
+;	Output
+;		Carry Clear		No Error
+;		Carry Set		Error
+;	Preserves Y,U
+;	Destroys A,B
+;
 FSYS_FAT_NEXT_CLUSTER
 						LDB		,Y
 						CMPB	#$C0
@@ -143,7 +149,7 @@ FSYS_FAT_NEXT_CLUSTER
 						TFR		X,D
 						STA		3,Y
 						CLRA
-						FCB		$86		; Make it LDA #xx
+						RTS
 FSYS_FAT_NEXT_CLUSTER_ERROR
 						COMA
 						RTS
