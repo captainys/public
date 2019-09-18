@@ -112,26 +112,28 @@ FSYS_FILE_LOADM_BYTE_LEFT_LOOP
 						CLRA
 						LEAY	D,U		; 
 
-						; In case of 0-byte file.
-						LDD		10,S
-						BEQ		FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXIT
 
 FSYS_FILE_LOADM_BYTE_LEFT_INSIDE_LOOP
-						LDA		,Y+
-						STA		,X+
-
 						LDD		10,S
+						BEQ		FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXIT
 						SUBD	#1
 						STD		10,S
-						BEQ		FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXIT
+
+						LDA		,Y+
+						STA		,X+
 
 						INC		8,S
 						BNE		FSYS_FILE_LOADM_BYTE_LEFT_INSIDE_LOOP
 
 						STX		12,S
 
+						LDD		10,S
+						BEQ		FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXIT
+						; I have a feeling that exception should be handled here.
+						; Rather than at the end (with backward GOTO.)
 
 
+FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXCEPTION_ENTRY
 						; Used up a sector.
 						; while(0x100<=bytes_left && not the last sector of the cluster)
 						LDU		12,S	; Current Data Pointer
@@ -200,7 +202,15 @@ FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXIT
 						STB		11,S	; Only needs lower byte to be set.
 
 						COM		14,S
-						LBNE	FSYS_FILE_LOADM_BYTE_LEFT_LOOP
+						BEQ		FSYS_FILE_LOADM_FINISHED_LAST_5_BYTE
+
+						; End of data and end of sector may come together.
+						; In that case, the loop exits with [8,S] (bytes into sector)=0
+						; [8,S]==0 in the previous loop means there are 256 bytes of data to look at.
+						; But, at this point, [8,S]==0 means the sector buffer is empty.
+						TST		8,S
+						LBEQ	FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXCEPTION_ENTRY
+						LBRA	FSYS_FILE_LOADM_BYTE_LEFT_LOOP
 
 
 FSYS_FILE_LOADM_FINISHED_LAST_5_BYTE
