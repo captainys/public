@@ -85,7 +85,7 @@ FSYS_FILE_LOADM			PSHS	U,Y,X,B
 						; [directory_ptr+14]  	First Cluster
 
 						; Check for Maching-Go Binary
-						LDB		2,S
+						LDB		FSYS_FILE_LOADM_DIR_OFFSET,S
 						CLRA
 						LEAX	D,U
 						LDD		$0B,X
@@ -94,15 +94,15 @@ FSYS_FILE_LOADM			PSHS	U,Y,X,B
 
 						; First cluster
 						LDA		$0E,X
-						STA		3,S
+						STA		FSYS_FILE_LOADM_CLUSTER,S
 
 						LBSR	FSYS_FAT_CLUSTER_TO_TRACK_SIDE_SECTOR
 
-						STD		4,S		; [4,S]=Track, [5,S]=Sector
+						STD		FSYS_FILE_LOADM_TRACK,S		; [4,S]=Track, [5,S]=Sector
 						LDB		FSYS_FILE_LOADM_DRIVE,S
-						ABX				; Low Byte of X=Drive
-						STX		6,S
-						LDB		5,S		; Recover B=Sector
+						ABX									; Low Byte of X=Drive
+						STX		FSYS_FILE_LOADM_SIDE,S
+						LDB		FSYS_FILE_LOADM_SECTOR,S		; Recover B=Sector
 						LBSR	FSYS_BIOS_READSECTOR
 
 						; First 5 bytes:
@@ -120,10 +120,10 @@ FSYS_FILE_LOADM			PSHS	U,Y,X,B
 
 						; Already used 5 bytes into the sector data.
 						LDA		#5
-						STA		8,S
+						STA		FSYS_FILE_LOADM_BYTE_INTO_SEC,S
 						STA		FSYS_FILE_LOADM_SECTOR_LOADED,S	; Non-Zero means sector is loaded.
 
-						CLR		14,S	; Reading the main body
+						CLR		FSYS_FILE_LOADM_STAGE,S	; Reading the main body
 
 
 						;while(0<bytes_left)
@@ -186,14 +186,14 @@ FSYS_FILE_LOADM_BYTE_LEFT_LOOP
 						LDA		FSYS_FILE_LOADM_SECTOR_LOADED,S
 						BNE		FSYS_FILE_LOADM_LOADED_SECTOR
 
-						LDD		4,S
-						LDX		6,S
+						LDD		FSYS_FILE_LOADM_TRACK,S
+						LDX		FSYS_FILE_LOADM_SIDE,S
 						LBSR	FSYS_BIOS_READSECTOR
 						COM		FSYS_FILE_LOADM_SECTOR_LOADED,S	; Non-Zero means sector is loaded.
 FSYS_FILE_LOADM_LOADED_SECTOR
 
 						LDX		FSYS_FILE_LOADM_DATA_POINTER,S
-						LDB		8,S		; Bytes into the sector (#5 only for the first sector)
+						LDB		FSYS_FILE_LOADM_BYTE_INTO_SEC,S		; (#5 only for the first sector)
 						CLRA
 						LEAY	D,U		; 
 
@@ -207,7 +207,7 @@ FSYS_FILE_LOADM_BYTE_LEFT_INSIDE_LOOP
 						STA		,X+
 						STX		FSYS_FILE_LOADM_DATA_POINTER,S
 
-						INC		8,S
+						INC		FSYS_FILE_LOADM_BYTE_INTO_SEC,S
 						BNE		FSYS_FILE_LOADM_BYTE_LEFT_INSIDE_LOOP
 
 						; Used up a sector.
@@ -223,16 +223,16 @@ FSYS_FILE_LOADM_BYTE_LEFT_INSIDE_LOOP
 						LDU		FSYS_FILE_LOADM_DATA_POINTER,S
 
 FSYS_FILE_LOADM_SECTOR_LOOP
-						LDB		5,S
-						INC		5,S
+						LDB		FSYS_FILE_LOADM_SECTOR,S
+						INC		FSYS_FILE_LOADM_SECTOR,S
 						BITB	#7
 						BEQ		FSYS_FILE_LOADM_NEXT_CLUSTER
 
 						LDA		FSYS_FILE_LOADM_BYTE_LEFT,S	; Higher-byte of the bytes left
 						BEQ		FSYS_FILE_LOADM_BYTE_LEFT_LOOP	; Fall back to byte-by-byte reading.
 
-						LDD		4,S
-						LDX		6,S
+						LDD		FSYS_FILE_LOADM_TRACK,S
+						LDX		FSYS_FILE_LOADM_SIDE,S
 						LBSR	FSYS_BIOS_READSECTOR
 
 						LEAU	$100,U
@@ -247,7 +247,7 @@ FSYS_FILE_LOADM_NEXT_CLUSTER
 FSYS_FILE_LOADM_BURST_READ_MID_CLUSTER_LOOP
 						; Next cluster
 						LDX		FSYS_FILE_LOADM_FAT_BUFFER,S
-						LEAY	3,S
+						LEAY	FSYS_FILE_LOADM_CLUSTER,S
 						LBSR	FSYS_FAT_NEXT_CLUSTER
 						BCS		FSYS_FILE_LOADM_DEVICE_IO_ERROR
 
@@ -273,7 +273,7 @@ FSYS_FILE_LOADM_BYTE_LEFT_LOOP_EXIT
 						LDB		#5		; Word Ptr [FSYS_FILE_LOADM_BYTE_LEFT,S] is zero at this point.
 						STB		1+FSYS_FILE_LOADM_BYTE_LEFT,S	; Only needs lower byte to be set.
 
-						COM		14,S
+						COM		FSYS_FILE_LOADM_STAGE,S
 						BEQ		FSYS_FILE_LOADM_FINISHED_LAST_5_BYTE
 
 						LBRA	FSYS_FILE_LOADM_BYTE_LEFT_LOOP
