@@ -40,7 +40,7 @@ int main(int ac,char *av[])
 
 	D77File d77;
 	d77.SetData(dat);
-	d77.PrintInfo();
+	// d77.PrintInfo();
 	auto diskPtr=d77.GetDisk(0);
 	if(nullptr==diskPtr)
 	{
