@@ -116,6 +116,7 @@ public:
 	{
 	public:
 		YSBOOL solidPolygon;
+		YSBOOL polygonEdge;
 		YSBOOL transparentPolygon;
 		YSBOOL light;
 		YSBOOL backFace;
@@ -123,6 +124,7 @@ public:
 		RenderingOption()
 		{
 			solidPolygon=YSTRUE;
+			polygonEdge=YSTRUE;
 			transparentPolygon=YSTRUE;
 			light=YSTRUE;
 			backFace=YSFALSE;
@@ -131,6 +133,7 @@ public:
 		void TurnOffAll(void)
 		{
 			solidPolygon=YSFALSE;
+			polygonEdge=YSFALSE;
 			transparentPolygon=YSFALSE;
 			light=YSFALSE;
 			backFace=YSFALSE;

@@ -88,6 +88,22 @@ void YsHasShellExtVboSet::Render(const YsMatrix4x4 &viewModelTfm,RenderingOption
 			}
 		}
 	}
+	if(YSTRUE==opt.polygonEdge)
+	{
+		if(NULL!=YsGLSLSharedVariColor3DRenderer())
+		{
+			auto unitPtr=bufManager.GetBufferUnit(vboSet.normalEdgePosHd);
+			if(nullptr!=unitPtr && YsGLBufferManager::Unit::EMPTY!=unitPtr->GetState())
+			{
+				YsGLSLRenderer renderer(YsGLSLSharedVariColor3DRenderer());
+				renderer.GetModelView(push);
+				renderer.SetModelView(mat);
+				renderer.SetUniformColor(0.0f,0.0f,0.0f,0.2f);
+				unitPtr->GetActualBuffer()->DrawPrimitiveVtx(renderer,GL_LINES);
+				renderer.SetModelView(push);
+			}
+		}
+	}
 	if(YSTRUE==opt.backFace)
 	{
 		if(NULL!=YsGLSLSharedVariColor3DRenderer())

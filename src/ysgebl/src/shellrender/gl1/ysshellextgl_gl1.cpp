@@ -61,6 +61,17 @@ void YsHasShellExtVboSet::Render(const YsMatrix4x4 &viewModelTfm,RenderingOption
 			unitPtr->GetActualBuffer()->DrawPrimitiveVtxCol(GL_TRIANGLES);
 		}
 	}
+
+	if(YSTRUE==opt.polygonEdge)
+	{
+		auto unitPtr=bufManager.GetBufferUnit(vboSet.normalEdgePosHd);
+		if(nullptr!=unitPtr && YsGLBufferManager::Unit::EMPTY!=unitPtr->GetState())
+		{
+			glDisable(GL_LIGHTING);
+			unitPtr->GetActualBuffer()->DrawPrimitiveVtxCol(GL_LINES);
+		}
+	}
+
 	if(YSTRUE==opt.backFace)
 	{
 		auto unitPtr=bufManager.GetBufferUnit(vboSet.backFacePosColHd);
