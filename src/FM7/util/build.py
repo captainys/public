@@ -21,7 +21,7 @@ makeWAV=False
 
 
 asmSource=[
-	["D7CLIENT",
+	["D7CLIENM",
 		["D77ToRS232C/d77client.asm",
 		 "fm7code/dskwrite.asm",
 		 "fm7code/formatm.asm",
@@ -76,6 +76,7 @@ basSource=[
 	["MEM2COM","memToRS232C/mem2com.fbas"],
 	["RAWREAD","rawReadToRS232C/rawread.fbas"],
 	["COMTEST","rs232cTest/comtest.fbas"],
+	["D7CLIENT","D77ToRS232C/d77client.fbas"],
 ]
 
 wavSource=[
