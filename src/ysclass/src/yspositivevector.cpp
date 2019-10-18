@@ -73,8 +73,16 @@ void YsVolumeSlasher::CalculateVertexOnEdge(
 			}
 			else if(0==sideOfPln[0] && 0<sideOfPln[1])
 			{
+				/* Memo: 2019/10/18
+				   If one of the vertices is on the plane, ane the other is not, the closer one
+				   must be projected on the plane, not moved to the intersection between the edge
+				   and the plane.
+				   When the plane normal is close to 90 degree off from the edge, the vertex may
+				   move very far.
+				*/
+
 				YsVec3 crs;
-				if(YSOK==pln.GetIntersectionHighPrecision(crs,edVtPos[0],edVtPos[1]-edVtPos[0]))
+				if(YSOK==pln.GetNearestPointHighPrecision(crs,edVtPos[0]))
 				{
 					shl.ModifyVertexPosition(edVtHd[0],crs);
 					vtHdOnPlane.push_back(edVtHd[0]);
@@ -83,7 +91,7 @@ void YsVolumeSlasher::CalculateVertexOnEdge(
 			else if(0==sideOfPln[1] && 0<sideOfPln[0])
 			{
 				YsVec3 crs;
-				if(YSOK==pln.GetIntersectionHighPrecision(crs,edVtPos[1],edVtPos[0]-edVtPos[1]))
+				if(YSOK==pln.GetNearestPointHighPrecision(crs,edVtPos[1]))
 				{
 					shl.ModifyVertexPosition(edVtHd[1],crs);
 					vtHdOnPlane.push_back(edVtHd[1]);
