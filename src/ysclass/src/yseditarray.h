@@ -709,6 +709,16 @@ public:
 	{
 		return GetN();
 	}
+
+	/*! To increase interoperability with STL */
+	inline T &front(void)
+	{
+		return Value(First());
+	}
+	inline const T &front(void) const
+	{
+		return Value(First());
+	}
 };
 
 
