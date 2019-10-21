@@ -1785,7 +1785,24 @@ YSRESULT YsShellCrawler::Crawl(const YsShell &shl,const double &dist,YSBOOL watc
 								shl.GetVertexPosition(nextEdVtHd[0]),
 								shl.GetVertexPosition(nextEdVtHd[1])
 							};
-							if(YsTolerance>YsGetPointLineDistance3(edVtPos,goal))
+
+							/* >> Distance should be point-line distance if edVtHd[0]!=edVtHd[1], and
+							      point-point distance if edVtHd[0]==edVtHd[1].  However, I was using
+							      point-line distance for both, ending up with always getting 0 when
+							      the crawler was moving toward a vertex.
+							*/
+							double d=YsInfinity;
+							if(nextEdVtHd[0]!=nextEdVtHd[1])
+							{
+								d=YsGetPointLineDistance3(edVtPos,goal);
+							}
+							else
+							{
+								d=(edVtPos[0]-goal).GetLength();
+							}
+							// <<
+
+							if(d<YsTolerance)
 							{
 								onEdge=true;
 								currentPos=goal;
