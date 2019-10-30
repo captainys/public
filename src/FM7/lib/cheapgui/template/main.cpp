@@ -21,6 +21,7 @@ private:
 	CheapGUI::Text *titleTxt;
 	CheapGUI::Text *statusText;
 	CheapGUI::PushButton *exitBtn;
+	CheapGUI::TextInput *textInput;
 	// GUI <<
 public:
 	ApplicationMain();
@@ -62,6 +63,9 @@ void ApplicationMain::Make(void)
 
 	exitBtn=gui.AddPushButton(8,guiY,300,32,"EXIT(ESC)");
 	guiY+=32;
+
+	textInput=gui.AddTextInput(8,guiY,480,32,"(EnterText)");
+	guiY+=32;
 }
 
 void ApplicationMain::ProcessUserInput(void)
@@ -70,6 +74,12 @@ void ApplicationMain::ProcessUserInput(void)
 	if(FSKEY_ESC==key)
 	{
 		terminateFlag=true;
+	}
+
+	auto c=FsInkeyChar();
+	if(0!=c)
+	{
+		gui.NotifyChar(c);
 	}
 
 	int lb,mb,rb,mx,my;

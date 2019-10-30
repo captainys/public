@@ -1,4 +1,5 @@
 #include <string.h>
+#include <time.h>
 
 #include <ysgl.h>
 #include <ysglsldrawfontbitmap.h>
@@ -38,6 +39,57 @@
 	auto spaceH=(hei-fontH)/2;
 	YsGLSLSetBitmapFontRendererColor4ub(renderer,this->r,this->g,this->b,this->a);
 	YsGLSLRenderBitmapFontString2D(renderer,x0+8,y0+hei-spaceH,label.c_str());
+	YsGLSLEndUseBitmapFontRenderer(renderer);
+}
+
+/* virtual */ void CheapGUI::TextInput::Draw(void)
+{
+	{
+		auto renderer=YsGLSLSharedPlain2DRenderer();
+		YsGLSLUsePlain2DRenderer(renderer);
+
+		YsGLSLUseWindowCoordinateInPlain2DDrawing(renderer,1);
+
+		const float col[4]={0,0,1,1};
+		YsGLSLSetPlain2DRendererUniformColor(renderer,col);
+
+		float vertex[8]=
+		{
+			(float)x0    ,(float)y0,
+			(float)x0+wid,(float)y0,
+			(float)x0+wid,(float)y0+hei,
+			(float)x0    ,(float)y0+hei,
+		};
+		YsGLSLDrawPlain2DPrimitiveVtxfv(renderer,GL_LINE_LOOP,4,vertex);
+
+		YsGLSLEndUsePlain2DRenderer(renderer);
+	}
+
+	const std::string *strPtr;
+	std::string labelCopy;
+	if(true==active)
+	{
+		labelCopy=label;
+		if(time(0)%2)
+		{
+			labelCopy.push_back('|');
+		}
+		else
+		{
+			labelCopy.push_back('_');
+		}
+		strPtr=&labelCopy;
+	}
+	else
+	{
+		strPtr=&label;
+	}
+	auto *renderer=YsGLSLSharedBitmapFontRenderer();
+	YsGLSLUseBitmapFontRenderer(renderer);
+	auto fontH=YsGLSLGetBitmapFontRendererFontHeight(renderer);
+	auto spaceH=(hei-fontH)/2;
+	YsGLSLSetBitmapFontRendererColor4ub(renderer,this->r,this->g,this->b,this->a);
+	YsGLSLRenderBitmapFontString2D(renderer,x0+8,y0+hei-spaceH,strPtr->c_str());
 	YsGLSLEndUseBitmapFontRenderer(renderer);
 }
 

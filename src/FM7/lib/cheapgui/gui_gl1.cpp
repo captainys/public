@@ -1,4 +1,5 @@
 #include <string.h>
+#include <time.h>
 
 #include <ysglheader.h>
 #include <ysglfontdata.h>
@@ -25,6 +26,52 @@
 	glColor4ub(this->r,this->g,this->b,this->a);
 	glRasterPos2d((double)(x0+8),(double)(y0+hei-spaceH));
 	YsGlDrawFontBitmap16x24(label.c_str());
+}
+
+/* virtual */ void CheapGUI::TextInput::Draw(void)
+{
+	{
+		glColor4f(0,0,1,1);
+
+		float vertex[8]=
+		{
+			(float)x0    ,(float)y0,
+			(float)x0+wid,(float)y0,
+			(float)x0+wid,(float)y0+hei,
+			(float)x0    ,(float)y0+hei,
+		};
+		glBegin(GL_LINE_LOOP);
+		glVertex2f(vertex[0],vertex[1]);
+		glVertex2f(vertex[2],vertex[3]);
+		glVertex2f(vertex[4],vertex[5]);
+		glVertex2f(vertex[6],vertex[7]);
+		glEnd();
+	}
+
+	const std::string *strPtr;
+	std::string labelCopy;
+	if(true==active)
+	{
+		labelCopy=label;
+		if(time(0)%2)
+		{
+			labelCopy.push_back('|');
+		}
+		else
+		{
+			labelCopy.push_back('_');
+		}
+		strPtr=&labelCopy;
+	}
+	else
+	{
+		strPtr=&label;
+	}
+	auto fontH=24;
+	auto spaceH=(hei-fontH)/2;
+	glColor4ub(this->r,this->g,this->b,this->a);
+	glRasterPos2d((double)(x0+8),(double)(y0+hei-spaceH));
+	YsGlDrawFontBitmap16x24(strPtr->c_str());
 }
 
 /* virtual */ void CheapGUI::PushButton::Draw()
