@@ -109,6 +109,12 @@ void ApplicationMain::UpdateGUI(void)
 void ApplicationMain::Draw(void) const
 {
 	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+	int wid,hei;
+	FsGetWindowSize(wid,hei);
+	glViewport(0,0,wid,hei);
+	CheapGUI::SetBitmapFontRendererViewportSize(wid,hei);
+
 	gui.Draw();
 	FsSwapBuffers();
 }
