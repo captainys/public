@@ -9,3 +9,6 @@ target_include_directories(cheapgui_gl1 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(cheapgui ysgl ysbitmapfont)
 target_link_libraries(cheapgui_gl1 ysgl ysbitmapfont)
 
+
+
+add_subdirectory(template)
