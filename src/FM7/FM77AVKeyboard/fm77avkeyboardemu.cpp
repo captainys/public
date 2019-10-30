@@ -44,6 +44,10 @@ What's found so far.
 
 ////////////////////////////////////////////////////////////
 
+const int FM77AVKeyboardEmulator::baudRateToTry[]=
+{
+	115200,380000
+};
 
 FM77AVKeyboardScheduler::FM77AVKeyboardScheduler()
 {
@@ -206,11 +210,12 @@ FM77AVKeyboardEmulator::~FM77AVKeyboardEmulator()
 	Disconnect();
 }
 
-void FM77AVKeyboardEmulator::Connect(int port)
+void FM77AVKeyboardEmulator::Connect(const std::string &portName)
 {
 	Disconnect();
 	Initialize();
-	if(true!=irToy.Connect(port))
+	this->portName=portName;
+	if(true!=irToy.Connect(portName,baudRate))
 	{
 		mode=MODE_ERROR;
 	}
@@ -284,6 +289,9 @@ bool FM77AVKeyboardEmulator::GetArrowFor8Dir(void) const
 
 void FM77AVKeyboardEmulator::Initialize(void)
 {
+	const int nBaudRateToTry=sizeof(baudRateToTry)/sizeof(baudRateToTry[0]);
+	baudRate=baudRateToTry[nBaudRateToTry-1];
+
 	mode=MODE_TRANSLATION;
 	autoStop=false;
 	autoFire=false;
@@ -678,7 +686,23 @@ void FM77AVKeyboardEmulator::RunOneStep(void)
 		// May be 20 is good enough.  Re-send must be within 20 milli seconds.
 		keySched.Flush(irToy);
 	}
+
 	irToy.RunOneStep();
+	// Auto baud rate scan.
+	if(IRToy_Controller::STATE_ERROR==GetIRToyState())
+	{
+		for(int i=1; i<sizeof(baudRateToTry)/sizeof(baudRateToTry[0]); ++i)
+		{
+			if(baudRate==baudRateToTry[i])
+			{
+				baudRate=baudRateToTry[i-1];
+				if(true!=irToy.ChangeBaudRate(baudRate))
+				{
+					mode=MODE_ERROR;
+				}
+			}
+		}
+	}
 
 	auto now=std::chrono::system_clock::now();
 	int passed=std::chrono::duration_cast <std::chrono::milliseconds> (now-nextDotTimer).count();
@@ -687,6 +711,15 @@ void FM77AVKeyboardEmulator::RunOneStep(void)
 		nextDotTimer=now;
 		printf(".\n");
 	}
+}
+
+bool FM77AVKeyboardEmulator::ConnectionFailed(void) const
+{
+	if(IRToy_Controller::STATE_ERROR==GetIRToyState() && baudRate<=baudRateToTry[0])
+	{
+		return true;
+	}
+	return false;
 }
 
 int FM77AVKeyboardEmulator::GetIRToyState(void) const

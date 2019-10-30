@@ -167,17 +167,17 @@ IRToy_Controller::IRToy_Controller()
 	Reset();
 }
 
-bool IRToy_Controller::Connect(int portNumber)
+bool IRToy_Controller::Connect(const std::string &port,int bitPerSec)
 {
 	Disconnect();
 	Reset();
 	// For Arduino IRToy emulation, max speed seems to be 440K bps.
 	// To be safe, keep it lower bps.
-	comPort.SetDesiredBaudRate(380000);
+	comPort.SetDesiredBaudRate(bitPerSec);
 	// comPort.SetDesiredBaudRate(115200);
-	if(true==comPort.Open(portNumber))
+	if(true==comPort.Open(port))
 	{
-		AddLog('P',portNumber);
+		AddLog('P',0);
 
 		ChangeState(STATE_INITIALIZING);
 		auto dummyRead=comPort.Receive();
@@ -186,6 +186,28 @@ bool IRToy_Controller::Connect(int portNumber)
 	}
 	return false;
 }
+
+bool IRToy_Controller::ChangeBaudRate(int bitPerSec)
+{
+	if(true==comPort.ChangeBaudRate(bitPerSec))
+	{
+		ChangeState(STATE_INITIALIZING);
+		auto dummyRead=comPort.Receive();
+		printf("Flushed %d bytes readings.\n",(int)dummyRead.size());
+		return true;
+	}
+	return false;
+}
+
+#ifdef _WIN32
+bool IRToy_Controller::Connect(int portNumber)
+{
+	char portStr[256];
+	sprintf(portStr,"%d",portNumber);
+	return Connect(portStr,380000);
+}
+#endif
+
 bool IRToy_Controller::IsConnected(void) const
 {
 	return comPort.IsConnected();
@@ -286,7 +308,7 @@ void IRToy_Controller::State_Handshake(void)
 			}
 		}
 	}
-	if(1000<StateTimer())
+	if(500<StateTimer())
 	{
 		ChangeState(STATE_ERROR);
 		errorCode=ERROR_INITIALIZATION_TIMEOUT;
@@ -329,7 +351,7 @@ void IRToy_Controller::State_SelfTest(void)
 			}
 		}
 	}
-	if(1000<StateTimer())
+	if(500<StateTimer())
 	{
 		ChangeState(STATE_ERROR);
 		errorCode=ERROR_INITIALIZATION_TIMEOUT;

@@ -5,6 +5,7 @@
 
 
 #include <vector>
+#include <string>
 
 class YsCOMPort
 {
@@ -46,7 +47,10 @@ private:
 	PortHandle *portPtr;
 	std::vector <unsigned char> sendBuf;
 	std::vector <unsigned char> receiveBuf;
-	int portNumber;
+
+	std::string portName;
+	int actualBaudRate;
+
 	int desiredBaudRate;
 	BITLENGTH desiredBitLength;
 	STOPBIT desiredStopBit;
@@ -58,7 +62,10 @@ public:
 	~YsCOMPort();
 	void CleanUp(void);
 
+	static std::vector <std::string> FindAvailablePortName(void);
+#ifdef _WIN32
 	static std::vector <int> FindAvailablePort(void);
+#endif
 
 	/*! Set desired baud rate.  Call this before Open if necessary.
 	    By default, it tries to make it the fastest baud rate.
@@ -87,15 +94,36 @@ public:
 
 	/*! 
 	*/
+	bool Open(const std::string &port);
+
+#ifdef _WIN32
 	bool Open(int portNumber);
+#endif
+
+
+	/*! Changes the baud rate after connecting to the port.
+	    It may or may not be possible.  If not possible, it returns false.
+	    It also updates the internally-stored desired baud rate.
+	*/
+	bool ChangeBaudRate(int baudRate);
 
 	/*! Returns true if port is connected.
 	*/
 	bool IsConnected(void) const;
 
+#ifdef _WIN32
 	/*! Returns connected port number.
 	*/
 	int GetPort(void) const;
+#endif
+
+	/*! Returns connected port name.
+	*/
+	std::string GetPortName(void) const;
+
+	/*! Returns the desire baud rate set by either SetDesiredBaudRate or ChangeBaudRate.
+	*/
+	int GetDesiredBaudRate(void) const;
 
 	/*! 
 	*/

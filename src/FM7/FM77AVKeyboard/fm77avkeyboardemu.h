@@ -64,6 +64,9 @@ public:
 
 private:
 	IRToy_Controller irToy;
+	std::string portName;
+	int baudRate;
+	static const int baudRateToTry[];
 
 public:
 	FM77AVKeyMap keyMap;
@@ -88,7 +91,7 @@ public:
 	FM77AVKeyboardEmulator();
 	~FM77AVKeyboardEmulator();
 
-	void Connect(int port);
+	void Connect(const std::string &portName);
 	void Disconnect(void);
 	void SetIRToyNotFoundError(void);
 	void StartCloseIRToySequence(void);
@@ -135,6 +138,7 @@ public:
 
 	void RunOneStep(void);
 
+	bool ConnectionFailed(void) const;
 	int GetIRToyState(void) const;
 	int GetIRToyErrorCode(void) const;
 	std::string GetRKanaBuf(void) const;

@@ -21,16 +21,34 @@ class FM77AVKeyboardEmulatorMain
 private:
 	FM77AVKeyboardEmulator fm77avKeyboardEmu;
 	CheapGUI gui;
-	std::vector <int> availablePort;
-	int port;
+	std::vector <std::string> availablePort;
+	std::string port;
+	int bitPerSec;
 	bool autoPortScan;
 
-	int prevPort;
+	std::string prevPort;
 	int prevMode;
 	int prevIRToyState;
 	int prevIRToyError;
 	bool prevAutoTyping;
 	std::string prevRKana;
+
+	class CommandParameterInfo
+	{
+	public:
+		bool portSpecified;
+		std::string portName;
+		CommandParameterInfo()
+		{
+			Initialize();
+		}
+		void Initialize(void)
+		{
+			portSpecified="";
+			portName="";
+		}
+	};
+	CommandParameterInfo cpi;
 
 	CheapGUI::Text *titleTxt;
 	CheapGUI::Text *statusText;
@@ -71,6 +89,9 @@ public:
 	bool ignoreNextLButtonUp;
 
 public:
+	bool RecognizeCommandParameter(int ac,char *av[]);
+	void Configure(void);
+
 	void Initialize(void);
 	void SetUpCheapGUI(void);
 	void ProcessUserInput(void);
@@ -94,9 +115,9 @@ void FM77AVKeyboardEmulatorMain::Initialize(void)
 	ignoreNextLButtonUp=false;
 	autoPortScan=true;
 
-	availablePort=YsCOMPort::FindAvailablePort();
+	availablePort=YsCOMPort::FindAvailablePortName();
 
-	port=(0<availablePort.size() ? availablePort.back() : -1);
+	port=(0<availablePort.size() ? availablePort.back() : "0");
 	if(0<availablePort.size())
 	{
 		fm77avKeyboardEmu.Connect(port);
@@ -106,12 +127,46 @@ void FM77AVKeyboardEmulatorMain::Initialize(void)
 		fm77avKeyboardEmu.SetIRToyNotFoundError();
 	}
 
-	prevPort=-1;
+	prevPort="";
 	prevMode=FM77AVKeyboardEmulator::MODE_NULL;
 	prevIRToyState=IRToy_Controller::STATE_NULL;
 	prevIRToyError=IRToy_Controller::ERROR_NULL;
 	prevAutoTyping=false;
 	prevRKana.clear();
+}
+
+bool FM77AVKeyboardEmulatorMain::RecognizeCommandParameter(int ac,char *av[])
+{
+	cpi.Initialize();
+	for(int i=1; i<ac; ++i)
+	{
+		std::string s(av[i]);
+		if(s=="-port")
+		{
+			cpi.portSpecified=true;
+			cpi.portName=av[i+1];
+			++i;
+		}
+		else if(s=="-h" || s=="-help")
+		{
+			printf("Options:\n");
+			printf("  -port (portName)\n");
+		}
+		else
+		{
+			fprintf(stderr,"Error in the parameter!\n");
+		}
+	}
+}
+
+void FM77AVKeyboardEmulatorMain::Configure(void)
+{
+	if(true==cpi.portSpecified)
+	{
+		autoPortScan=false;
+		fm77avKeyboardEmu.Connect(cpi.portName);
+		port=cpi.portName;
+	}
 }
 
 void FM77AVKeyboardEmulatorMain::SetUpCheapGUI(void)
@@ -135,11 +190,16 @@ void FM77AVKeyboardEmulatorMain::SetUpCheapGUI(void)
 	{
 		gui.AddText(8,guiY,64,32,"PORT:");
 		int guiX=96;
+		int portIdx=1;
 		for(auto p : availablePort)
 		{
+		#ifndef _WIN32
 			char msg[256];
-			sprintf(msg,"%d",p);
+			sprintf(msg,"%d",portIdx++);
 			portBtn.push_back(gui.AddCheckBox(guiX,guiY,32,32,msg));
+		#else
+			portBtn.push_back(gui.AddCheckBox(guiX,guiY,32,32,p.c_str()));
+		#endif
 			if(p==this->port)
 			{
 				portBtn.back()->SetCheck(true);
@@ -388,10 +448,9 @@ void FM77AVKeyboardEmulatorMain::ProcessUserInput(void)
 void FM77AVKeyboardEmulatorMain::RunOneStep(void)
 {
 	fm77avKeyboardEmu.RunOneStep();
-	if(true==autoPortScan &&
-	   IRToy_Controller::STATE_ERROR==fm77avKeyboardEmu.GetIRToyState())
+	if(true==autoPortScan && true==fm77avKeyboardEmu.ConnectionFailed())
 	{
-		int nextPort=-1;
+		std::string nextPort;
 		for(int i=1; i<availablePort.size(); ++i)
 		{
 			if(availablePort[i]==port)
@@ -400,7 +459,7 @@ void FM77AVKeyboardEmulatorMain::RunOneStep(void)
 				break;
 			}
 		}
-		if(0<=nextPort)
+		if(""!=nextPort)
 		{
 			fm77avKeyboardEmu.Connect(nextPort);
 			port=nextPort;
@@ -624,7 +683,7 @@ bool OnCloseWindow(void *incoming)
 	return false;
 }
 
-int main(void)
+int main(int ac,char *av[])
 {
 	FsOpenWindow(0,0,640,480,1);
 	FsChangeToProgramDir();
@@ -635,7 +694,9 @@ int main(void)
 
 	FM77AVKeyboardEmulatorMain app;
 	app.Initialize();
+	app.RecognizeCommandParameter(ac,av);
 	app.SetUpCheapGUI();
+	app.Configure();
 
 	FsRegisterCloseWindowCallBack(OnCloseWindow,&app);
 	while(true!=app.quit)

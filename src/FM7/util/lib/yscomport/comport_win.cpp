@@ -50,6 +50,19 @@ public:
 	return available;
 }
 
+/* static */ std::vector <std::string> YsCOMPort::FindAvailablePortName(void)
+{
+	std::vector <std::string> availablePortName;
+	for(auto portNum : FindAvailablePort())
+	{
+		char portStr[256];
+		sprintf(portStr,"%d",portNum);
+		availablePortName.push_back(portStr);
+	}
+	return availablePortName;
+}
+
+
 static void TryBaudRate(HANDLE hComm,DCB &dcb,int baud)
 {
 	dcb.BaudRate=baud;
@@ -59,19 +72,22 @@ static void TryBaudRate(HANDLE hComm,DCB &dcb,int baud)
 	}
 }
 
-bool YsCOMPort::Open(int portNumber)
+bool YsCOMPort::Open(const std::string &port)
 {
 	Close();
 
 	char fn[256];
-	if(portNumber<10)
+	if(atoi(port.c_str())<10)
 	{
-		sprintf(fn,"COM%d",portNumber);
+		sprintf(fn,"COM%s",port.c_str());
 	}
 	else
 	{
-		sprintf(fn,"\\\\.\\COM%d",portNumber);
+		sprintf(fn,"\\\\.\\COM%s",port.c_str());
 	}
+
+	printf("Opening:\n");
+	printf("%s\n",fn);
 
 	HANDLE hComm=CreateFile(
 		fn,
@@ -86,7 +102,7 @@ bool YsCOMPort::Open(int portNumber)
 		return false;
 	}
 
-	this->portNumber=portNumber;
+	this->portName=portName;
 	this->portPtr=new PortHandle;
 	this->portPtr->hComm=hComm;
 
@@ -108,7 +124,7 @@ bool YsCOMPort::Open(int portNumber)
 		timeOut.ReadIntervalTimeout=MAXDWORD;
 		timeOut.ReadTotalTimeoutMultiplier=0;
 		timeOut.ReadTotalTimeoutConstant=0;
-		timeOut.WriteTotalTimeoutMultiplier=1000;
+		timeOut.WriteTotalTimeoutMultiplier=100;
 		timeOut.WriteTotalTimeoutConstant=0;
 		SetCommTimeouts(hComm,&timeOut);
 
@@ -234,6 +250,7 @@ bool YsCOMPort::Open(int portNumber)
 	SPEEDSET:
 		GetCommState(hComm,&dcb);
 		printf("Speed set to %d bits-per-second.\n",dcb.BaudRate);
+		actualBaudRate=dcb.BaudRate;
 	}
 	else
 	{
@@ -242,15 +259,45 @@ bool YsCOMPort::Open(int portNumber)
 	}
 
 	EscapeCommFunction(this->portPtr->hComm,CLRDTR);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	EscapeCommFunction(this->portPtr->hComm,SETDTR);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	EscapeCommFunction(this->portPtr->hComm,CLRRTS);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	EscapeCommFunction(this->portPtr->hComm,SETRTS);
-	std::this_thread::sleep_for(std::chrono::milliseconds(200));
+
+	// Arduino version needs 800ms sleep to be safe.
+	std::this_thread::sleep_for(std::chrono::milliseconds(800));
 
 	return true;
+}
+
+#ifdef _WIN32
+bool YsCOMPort::Open(int portNumber)
+{
+	char portStr[256];
+	sprintf(portStr,"%d",portNumber);
+	return Open(portStr);
+}
+#endif
+
+bool YsCOMPort::ChangeBaudRate(int baudRate)
+{
+	if(nullptr!=this->portPtr->hComm)
+	{
+		desiredBaudRate=baudRate;
+		DCB dcb;
+		if(TRUE==GetCommState(this->portPtr->hComm,&dcb))
+		{
+			dcb.BaudRate=baudRate;
+			if(0!=SetCommState(this->portPtr->hComm,&dcb))
+			{
+				// Set and then verify.
+				GetCommState(this->portPtr->hComm,&dcb);
+				actualBaudRate=dcb.BaudRate;
+				printf("Speed set to %d bits-per-second.\n",dcb.BaudRate);
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 void YsCOMPort::Close(void)
@@ -260,7 +307,7 @@ void YsCOMPort::Close(void)
 		CloseHandle(portPtr->hComm);
 		delete portPtr;
 		portPtr=nullptr;
-		portNumber=-1;
+		portName="";
 	}
 }
 

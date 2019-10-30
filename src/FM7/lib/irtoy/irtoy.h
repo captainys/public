@@ -123,10 +123,15 @@ private:
 public:
 	IRToy_Controller();
 
+	bool Connect(const std::string &port,int bitPerSec);
+#ifdef _WIN32
 	bool Connect(int portNumber);
+#endif
 	bool IsConnected(void) const;
 	int GetPort(void) const;
 	void Disconnect();
+
+	bool ChangeBaudRate(int bitPerSec);
 
 public:
 	void Reset(void);

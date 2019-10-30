@@ -5,7 +5,7 @@
 YsCOMPort::YsCOMPort()
 {
 	portPtr=nullptr;
-	portNumber=-1;
+	portName="";
 
 	desiredBaudRate=0;
 	desiredBitLength=BITLENGTH_8;
@@ -45,10 +45,23 @@ bool YsCOMPort::IsConnected(void) const
 {
 	return (nullptr!=portPtr);
 }
+#ifdef _WIN32
 int YsCOMPort::GetPort(void) const
 {
-	return portNumber;
+	return atoi(portName.c_str());
 }
+#endif
+
+std::string YsCOMPort::GetPortName(void) const
+{
+	return portName;
+}
+
+int YsCOMPort::GetDesiredBaudRate(void) const
+{
+	return desiredBaudRate;
+}
+
 void YsCOMPort::CleanUp(void)
 {
 	Close();
