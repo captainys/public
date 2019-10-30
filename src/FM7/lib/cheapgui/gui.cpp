@@ -24,6 +24,38 @@ CheapGUI::Text *CheapGUI::AddText(int x0,int y0,int wid,int hei,const char label
 
 	return btnPtr;
 }
+CheapGUI::TextInput *CheapGUI::AddTextInput(int x0,int y0,int wid,int hei,const char label[])
+{
+	std::shared_ptr <Widget> widgetPtr(new TextInput);
+	widgetList.push_back(widgetPtr);
+	auto btnPtr=dynamic_cast <TextInput *>(widgetPtr.get());
+
+	btnPtr->label=label;
+	btnPtr->x0=x0;
+	btnPtr->y0=y0;
+	btnPtr->wid=wid;
+	btnPtr->hei=hei;
+	btnPtr->guiPtr=this;
+
+	return btnPtr;
+}
+
+void CheapGUI::TextInput::NotifyChar(char c)
+{
+	if(' '<=c && c<128 && label.size()<wid/20)
+	{
+		label.push_back(c);
+	}
+	else if('\n'==c || '\r'==c || 0x1b==c) // CR, LF, or ESC
+	{
+		active=false;
+	}
+	else if(8==c) // BS
+	{
+		label.pop_back();
+	}
+}
+
 CheapGUI::PushButton *CheapGUI::AddPushButton(int x0,int y0,int wid,int hei,const char label[])
 {
 	std::shared_ptr <Widget> widgetPtr(new PushButton);
@@ -73,19 +105,79 @@ void CheapGUI::Draw(void) const
 	needRedraw=false;
 }
 
+CheapGUI::Widget *CheapGUI::GetActive(void)
+{
+	for(auto w : widgetList)
+	{
+		if(true==w->active)
+		{
+			return w.get();
+		}
+	}
+	return nullptr;
+}
+const CheapGUI::Widget *CheapGUI::GetActive(void) const
+{
+	for(auto w : widgetList)
+	{
+		if(true==w->active)
+		{
+			return w.get();
+		}
+	}
+	return nullptr;
+}
+void CheapGUI::MakeAllInactive(void)
+{
+	for(auto w : widgetList)
+	{
+		w->active=false;
+	}
+}
+
 void CheapGUI::NotifyMousePosition(int mx,int my)
 {
 }
 
+void CheapGUI::NotifyChar(char c)
+{
+	auto active=GetActive();
+	auto textInputPtr=dynamic_cast <TextInput *>(active);
+	if(nullptr!=textInputPtr)
+	{
+		textInputPtr->NotifyChar(c);
+	}
+}
+
 void CheapGUI::NotifyLButtonUp(int mx,int my)
 {
-	for(auto w : widgetList)
+	auto active=GetActive();
+	auto activeTextInputPtr=dynamic_cast <TextInput *>(active);
+	if(nullptr!=activeTextInputPtr)
 	{
-		if(true!=w->hide &&
-		   w->x0<=mx && mx<=w->x0+w->wid && w->y0<=my && my<=w->y0+w->hei)
+		if(activeTextInputPtr->x0<=mx && 
+		   mx<=activeTextInputPtr->x0+activeTextInputPtr->wid && 
+		   activeTextInputPtr->y0<=my && 
+		   my<=activeTextInputPtr->y0+activeTextInputPtr->hei)
 		{
-			w->Clicked();
-			lastClick=w.get();
+		}
+		else
+		{
+			MakeAllInactive();
+		}
+	}
+	else
+	{
+		for(auto w : widgetList)
+		{
+			if(true!=w->hide &&
+			   w->x0<=mx && mx<=w->x0+w->wid && w->y0<=my && my<=w->y0+w->hei)
+			{
+				MakeAllInactive();
+				w->Clicked();
+				w->active=true;
+				lastClick=w.get();
+			}
 		}
 	}
 }
@@ -115,6 +207,7 @@ CheapGUI::Widget::Widget()
 	b=255;
 	a=255;
 	hide=false;
+	active=false;
 }
 
 void CheapGUI::Widget::Show(void)
@@ -148,6 +241,16 @@ void CheapGUI::Text::SetText(const char str[])
 {
 	label=str;
 	guiPtr->needRedraw=true;
+}
+////////////////////////////////////////////////////////////
+
+void CheapGUI::TextInput::SetText(const char str[])
+{
+}
+
+std::string CheapGUI::TextInput::GetText(void) const
+{
+	return label;
 }
 ////////////////////////////////////////////////////////////
 

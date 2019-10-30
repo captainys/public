@@ -17,6 +17,7 @@ public:
 		std::string label;
 		const CheapGUI *guiPtr;
 		bool hide;
+		bool active;
 
 		Widget();
 		void Show(void);
@@ -37,6 +38,7 @@ public:
 	public:
 		void SetText(const char str[]);
 		std::string GetText(void) const;
+		void NotifyChar(char c);
 		virtual void Draw(void);
 	};
 	class Button : public Widget
@@ -70,13 +72,19 @@ public:
 
 	CheapGUI();
 	Text *AddText(int x0,int y0,int wid,int hei,const char label[]);
+	TextInput *AddTextInput(int x0,int y0,int wid,int hei,const char label[]);
 	PushButton *AddPushButton(int x0,int y0,int wid,int hei,const char label[]);
 	CheckBox *AddCheckBox(int x0,int y0,int wid,int hei,const char label[]);
 	void SetRadioButtonGroup(const std::vector <CheckBox *> &grp);
 
 	void Draw(void) const;
 
+	Widget *GetActive(void);
+	const Widget *GetActive(void) const;
+	void MakeAllInactive(void);
+
 	void NotifyMousePosition(int mx,int my);
+	void NotifyChar(char c);
 	void NotifyLButtonUp(int mx,int my);
 	const Widget *PeekLastClicked(void) const;
 	Widget *PeekLastClicked(void);
