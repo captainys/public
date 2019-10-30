@@ -32,6 +32,13 @@ public:
 		void SetText(const char str[]);
 		virtual void Draw(void);
 	};
+	class TextInput : public Widget
+	{
+	public:
+		void SetText(const char str[]);
+		std::string GetText(void) const;
+		virtual void Draw(void);
+	};
 	class Button : public Widget
 	{
 	public:
