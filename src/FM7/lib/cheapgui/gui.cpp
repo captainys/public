@@ -45,14 +45,16 @@ void CheapGUI::TextInput::NotifyChar(char c)
 	if(' '<=c && c<128 && label.size()<wid/20)
 	{
 		label.push_back(c);
+		edited=true;
 	}
 	else if('\n'==c || '\r'==c || 0x1b==c) // CR, LF, or ESC
 	{
 		active=false;
 	}
-	else if(8==c) // BS
+	else if(8==c && 0<label.size()) // BS
 	{
 		label.pop_back();
+		edited=true;
 	}
 }
 
@@ -244,13 +246,24 @@ void CheapGUI::Text::SetText(const char str[])
 }
 ////////////////////////////////////////////////////////////
 
+CheapGUI::TextInput::TextInput()
+{
+	edited=false;
+}
 void CheapGUI::TextInput::SetText(const char str[])
 {
+	edited=false;
+	label=str;
 }
-
 std::string CheapGUI::TextInput::GetText(void) const
 {
 	return label;
+}
+bool CheapGUI::TextInput::Edited(void)
+{
+	auto r=edited;
+	edited=false;
+	return r;
 }
 ////////////////////////////////////////////////////////////
 

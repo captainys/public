@@ -35,11 +35,16 @@ public:
 	};
 	class TextInput : public Widget
 	{
+	private:
+		mutable bool edited;
+
 	public:
+		TextInput();
 		void SetText(const char str[]);
 		std::string GetText(void) const;
 		void NotifyChar(char c);
 		virtual void Draw(void);
+		bool Edited(void);
 	};
 	class Button : public Widget
 	{
