@@ -588,8 +588,8 @@ void IRToy_Controller::StartTransmitMicroSecPulse(long long int nSample,const un
 			packet.push_back(CMD_TRANSMIT_MICROSEC);
 			for(int i=0; i<nSample; ++i)
 			{
-				packet.push_back(sample[i]&255);
 				packet.push_back((sample[i]>>8)&255);
+				packet.push_back(sample[i]&255);
 			}
 			if(0!=(nSample&1))
 			{
