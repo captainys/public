@@ -23,6 +23,7 @@ public:
 		CMD_ENABLE_TRANSMISSION_NOTIFY=0x25,
 		CMD_ENABLE_HANDSHAKE=0x26,
 		CMD_TRANSMIT=0x03,
+		CMD_TRANSMIT_MICROSEC=0x80,
 		CMD_TRANSMIT_30BIT_100US=0x81
 	};
 	enum
@@ -189,12 +190,12 @@ public:
 
 	long long int GetRecordingSize(void) const;
 
-	void MakeMicroSecPulse(long long int nSample,const unsigned int sample[]);
+	void MakeMicroSecPulse(long long int nSample,const unsigned int sample[],bool verbose=false);
 	void Make100usPulse(const char ptn[],bool verbose=false);
 	void Make100_125_175usPulse(const char ptn[],bool verbose=false);
 
 private:
-	void AccumTimeToIRToyTime(const std::vector <double> &microSecAccum);
+	void AccumTimeToIRToyTime(const std::vector <double> &microSecAccum,bool verbose);
 
 public:
 	/*! For Arduino-based IR emitter.

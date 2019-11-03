@@ -789,7 +789,7 @@ long long int IRToy_Controller::GetRecordingSize(void) const
 	return recording.size();
 }
 
-void IRToy_Controller::MakeMicroSecPulse(long long int nSample,const unsigned int sample[])
+void IRToy_Controller::MakeMicroSecPulse(long long int nSample,const unsigned int sample[],bool verbose)
 {
 	std::vector <double> microSecAccum;
 	double t=0.0;
@@ -808,7 +808,7 @@ void IRToy_Controller::MakeMicroSecPulse(long long int nSample,const unsigned in
 		printf("\n");
 	}
 
-	AccumTimeToIRToyTime(microSecAccum);
+	AccumTimeToIRToyTime(microSecAccum,verbose);
 }
 
 void IRToy_Controller::Make100usPulse(const char ptn[],bool verbose)
@@ -841,7 +841,7 @@ void IRToy_Controller::Make100usPulse(const char ptn[],bool verbose)
 		printf("\n");
 	}
 
-	AccumTimeToIRToyTime(microSecAccum);
+	AccumTimeToIRToyTime(microSecAccum,verbose);
 }
 
 void IRToy_Controller::Make100_125_175usPulse(const char ptn[],bool verbose)
@@ -875,10 +875,10 @@ void IRToy_Controller::Make100_125_175usPulse(const char ptn[],bool verbose)
 		printf("\n");
 	}
 
-	AccumTimeToIRToyTime(microSecAccum);
+	AccumTimeToIRToyTime(microSecAccum,verbose);
 }
 
-void IRToy_Controller::AccumTimeToIRToyTime(const std::vector <double> &microSecAccum)
+void IRToy_Controller::AccumTimeToIRToyTime(const std::vector <double> &microSecAccum,bool verbose)
 {
 	std::vector <unsigned int> timing;
 
@@ -886,11 +886,26 @@ void IRToy_Controller::AccumTimeToIRToyTime(const std::vector <double> &microSec
 	for(int i=0; i<microSecAccum.size(); ++i)
 	{
 		int accumDiscreteT=(int)(microSecAccum[i]/0.17);
-		auto stepT=accumDiscreteT-discreteT;
+		auto stepT=(accumDiscreteT-discreteT);
 		if((stepT&255)=='$')
 		{
 			printf("Adjust for '$'!\n");
 			stepT--;
+		}
+		else if(((stepT>>8)&255)=='$')
+		{
+			auto hanging=(stepT&255);
+			printf("Adjust for $4900!\n");
+			if(hanging>=128)
+			{
+				printf("Err=%dus\n",256-hanging);
+				stepT=((stepT+128)&0xff00);
+			}
+			else
+			{
+				printf("Err=%dus\n",1+hanging);
+				stepT=(stepT&0xff00)-1;
+			}
 		}
 		timing.push_back(stepT);
 		if(true==verbose)
