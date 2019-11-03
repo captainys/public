@@ -44,7 +44,7 @@ private:
 		}
 		void Initialize(void)
 		{
-			portSpecified="";
+			portSpecified=false;
 			portName="";
 		}
 	};
@@ -120,6 +120,7 @@ void FM77AVKeyboardEmulatorMain::Initialize(void)
 	port=(0<availablePort.size() ? availablePort.back() : "0");
 	if(0<availablePort.size())
 	{
+printf("%s %d\n",__FUNCTION__,__LINE__);
 		fm77avKeyboardEmu.Connect(port);
 	}
 	else
@@ -164,6 +165,7 @@ void FM77AVKeyboardEmulatorMain::Configure(void)
 	if(true==cpi.portSpecified)
 	{
 		autoPortScan=false;
+printf("%s %d\n",__FUNCTION__,__LINE__);
 		fm77avKeyboardEmu.Connect(cpi.portName);
 		port=cpi.portName;
 	}

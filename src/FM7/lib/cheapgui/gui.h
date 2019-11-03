@@ -25,6 +25,7 @@ public:
 		void SetColor(int r,int g,int b,int a);
 		virtual ~Widget(){}
 		virtual void Draw(void){}
+		virtual void DrawInactive(void){}
 		virtual void Clicked(void){};
 	};
 	class Text : public Widget
@@ -32,6 +33,10 @@ public:
 	public:
 		void SetText(const char str[]);
 		virtual void Draw(void);
+		virtual void DrawInactive(void)
+		{
+			Draw();
+		}
 	};
 	class TextInput : public Widget
 	{
@@ -44,6 +49,7 @@ public:
 		std::string GetText(void) const;
 		void NotifyChar(char c);
 		virtual void Draw(void);
+		virtual void DrawInactive(void){}
 		bool Edited(void);
 	};
 	class Button : public Widget
@@ -51,6 +57,7 @@ public:
 	public:
 		bool mouseOn;
 		bool heldDown;
+		virtual void DrawInactive(void){}
 		Button();
 	};
 	class PushButton : public Button

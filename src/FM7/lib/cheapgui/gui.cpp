@@ -97,11 +97,20 @@ void CheapGUI::SetRadioButtonGroup(const std::vector <CheckBox *> &grp)
 }
 void CheapGUI::Draw(void) const
 {
+	auto active=dynamic_cast <const TextInput *>(GetActive());
+
 	for(auto w : widgetList)
 	{
 		if(true!=w->hide)
 		{
-			w->Draw();
+			if(nullptr!=active && active!=w.get())
+			{
+				w->DrawInactive();
+			}
+			else
+			{
+				w->Draw();
+			}
 		}
 	}
 	needRedraw=false;

@@ -7,32 +7,51 @@
 std::vector <std::string> CheapParser(const char str[])
 {
 	int state=0;
-	std::string curStr;
 	std::vector <std::string> argv;
 	for(int i=0; 0!=str[i]; ++i)
 	{
-		if(0==state)
+		if(0==state) // Nowhere
 		{
-			if(' '!=str[i] && '\t'!=str[i])
+			if('\"'==str[i])
 			{
-				curStr.push_back(str[i]);
+				std::string s;
+				argv.push_back(s);
+				state=2;
+			}
+			else if(' '!=str[i] && '\t'!=str[i])
+			{
+				std::string s;
+				s.push_back(str[i]);
+				argv.push_back(s);
 				state=1;
 			}
 		}
-		else if(1==state)
+		else if(1==state) // In a word
 		{
 			if(' '==str[i] || '\t'==str[i] || 0==str[i+1])
 			{
-				if(' '!=str[i] && '\t'!=str[i])
-				{
-					curStr.push_back(str[i]);
-				}
-				argv.push_back((std::string &&)curStr);
+				state=0;
+			}
+			else if('\"'==str[i])
+			{
+				std::string s;
+				argv.push_back(s);
+				state=2;
+			}
+			else
+			{
+				argv.back().push_back(str[i]);
+			}
+		}
+		else if(2==state) // In a string
+		{
+			if('\"'==str[i])
+			{
 				state=0;
 			}
 			else
 			{
-				curStr.push_back(str[i]);
+				argv.back().push_back(str[i]);
 			}
 		}
 	}

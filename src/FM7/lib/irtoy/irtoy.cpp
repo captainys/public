@@ -3,6 +3,15 @@
 
 
 
+/*static*/ const int IRToy_Controller::baudRateCandidate[]
+{
+	380000,
+	115200,
+	-1
+};
+
+
+
 void IRToy_Controller::AddLog(unsigned char d1,unsigned char d2)
 {
 	log.push(d1);
@@ -167,13 +176,14 @@ IRToy_Controller::IRToy_Controller()
 	Reset();
 }
 
-bool IRToy_Controller::Connect(const std::string &port,int bitPerSec)
+bool IRToy_Controller::Connect(const std::string &port)
 {
 	Disconnect();
 	Reset();
 	// For Arduino IRToy emulation, max speed seems to be 440K bps.
 	// To be safe, keep it lower bps.
-	comPort.SetDesiredBaudRate(bitPerSec);
+	baudRate=baudRateCandidate[0];
+	comPort.SetDesiredBaudRate(baudRateCandidate[0]);
 	// comPort.SetDesiredBaudRate(115200);
 	if(true==comPort.Open(port))
 	{
@@ -181,6 +191,7 @@ bool IRToy_Controller::Connect(const std::string &port,int bitPerSec)
 
 		ChangeState(STATE_INITIALIZING);
 		auto dummyRead=comPort.Receive();
+		printf("Trying %dbps\n",baudRate);
 		printf("Flushed %d bytes readings.\n",(int)dummyRead.size());
 		return true;
 	}
@@ -191,8 +202,10 @@ bool IRToy_Controller::ChangeBaudRate(int bitPerSec)
 {
 	if(true==comPort.ChangeBaudRate(bitPerSec))
 	{
+		baudRate=bitPerSec;
 		ChangeState(STATE_INITIALIZING);
 		auto dummyRead=comPort.Receive();
+		printf("Trying %dbps\n",bitPerSec);
 		printf("Flushed %d bytes readings.\n",(int)dummyRead.size());
 		return true;
 	}
@@ -204,7 +217,7 @@ bool IRToy_Controller::Connect(int portNumber)
 {
 	char portStr[256];
 	sprintf(portStr,"%d",portNumber);
-	return Connect(portStr,380000);
+	return Connect(portStr);
 }
 #endif
 
@@ -270,9 +283,9 @@ void IRToy_Controller::State_Initializing(void)
 {
 	if(true!=stateCommandSent)
 	{
+		ResetStateTimer();
 		const unsigned char cmd[5]={CMD_RESET,CMD_RESET,CMD_RESET,CMD_RESET,CMD_RESET};
 		Send(5,cmd);
-		ResetStateTimer();
 		errorCode=ERROR_NOERROR;
 		stateCommandSent=true;
 	}
@@ -308,10 +321,30 @@ void IRToy_Controller::State_Handshake(void)
 			}
 		}
 	}
-	if(500<StateTimer())
+	if(500<StateTimer() || state==STATE_ERROR)
 	{
-		ChangeState(STATE_ERROR);
-		errorCode=ERROR_INITIALIZATION_TIMEOUT;
+		int nextBaudRate=-1;
+		for(int i=0; baudRateCandidate[i]!=-1; ++i)
+		{
+			if(this->baudRate==baudRateCandidate[i])
+			{
+				nextBaudRate=baudRateCandidate[i+1];
+				break;
+			}
+		}
+		if(0<nextBaudRate)
+		{
+			ChangeBaudRate(nextBaudRate);
+			ChangeState(STATE_INITIALIZING);
+			auto dummyRead=comPort.Receive();
+			printf("Trying %dbps\n",nextBaudRate);
+			printf("Flushed %d bytes readings.\n",(int)dummyRead.size());
+		}
+		else
+		{
+			ChangeState(STATE_ERROR);
+			errorCode=ERROR_INITIALIZATION_TIMEOUT;
+		}
 	}
 }
 void IRToy_Controller::State_SelfTest(void)
@@ -544,6 +577,44 @@ bool IRToy_Controller::StartTransmit(void)
 	}
 	return false;
 }
+
+void IRToy_Controller::StartTransmitMicroSecPulse(long long int nSample,const unsigned int sample[])
+{
+	if(STATE_GOWILD==state)
+	{
+		if(true==IsArduino())
+		{
+			std::vector <unsigned char> packet;
+			packet.push_back(CMD_TRANSMIT_MICROSEC);
+			for(int i=0; i<nSample; ++i)
+			{
+				packet.push_back(sample[i]&255);
+				packet.push_back((sample[i]>>8)&255);
+			}
+			if(0!=(nSample&1))
+			{
+				packet.push_back(100);
+				packet.push_back(0);
+			}
+			packet.push_back(0xff);
+			packet.push_back(0xff);
+			packet.push_back(0xff);
+			packet.push_back(0xff);
+
+			Send(packet.size(),packet.data());
+			comPort.FlushWriteBuffer();
+			recording.clear();
+
+			ChangeState(STATE_ARDUINO_WAITING_READY);
+		}
+		else
+		{
+			MakeMicroSecPulse(nSample,sample);
+			StartTransmit();
+		}
+	}
+}
+
 void IRToy_Controller::State_Transmitting(void)
 {
 	if(true!=stateCommandSent)
@@ -718,6 +789,28 @@ long long int IRToy_Controller::GetRecordingSize(void) const
 	return recording.size();
 }
 
+void IRToy_Controller::MakeMicroSecPulse(long long int nSample,const unsigned int sample[])
+{
+	std::vector <double> microSecAccum;
+	double t=0.0;
+	for(int i=0; i<nSample; ++i)
+	{
+		t+=(double)sample[i];
+		microSecAccum.push_back(t);
+	}
+
+	if(true==verbose)
+	{
+		for(auto t : microSecAccum)
+		{
+			printf("%lf ",t);
+		}
+		printf("\n");
+	}
+
+	AccumTimeToIRToyTime(microSecAccum);
+}
+
 void IRToy_Controller::Make100usPulse(const char ptn[],bool verbose)
 {
 	// Mr. Kobayashi from Classic PC & Retro Gaming JAPAN suggests that
@@ -748,51 +841,7 @@ void IRToy_Controller::Make100usPulse(const char ptn[],bool verbose)
 		printf("\n");
 	}
 
-
-	std::vector <unsigned int> timing;
-
-	int discreteT=0;
-	for(int i=0; i<microSecAccum.size(); ++i)
-	{
-		int accumDiscreteT=(int)(microSecAccum[i]/0.17);
-		auto stepT=accumDiscreteT-discreteT;
-		if((stepT&255)=='$')
-		{
-			printf("Adjust for '$'!\n");
-			stepT--;
-		}
-		timing.push_back(stepT);
-		if(true==verbose)
-		{
-			printf("%d ",stepT);
-		}
-		discreteT+=stepT;
-	}
-	if(true==verbose)
-	{
-		printf("\n");
-	}
-
-	if(0==timing.size()%2)
-	{
-		timing.back()=65535;
-	}
-	else
-	{
-		timing.push_back(65535);
-	}
-
-	recording.clear();
-	for(auto t : timing)
-	{
-		recording.push_back(t/256);
-		recording.push_back(t&255);
-	}
-
-	if(true==verbose)
-	{
-		PrintRecording(recording);
-	}
+	AccumTimeToIRToyTime(microSecAccum);
 }
 
 void IRToy_Controller::Make100_125_175usPulse(const char ptn[],bool verbose)
@@ -826,7 +875,11 @@ void IRToy_Controller::Make100_125_175usPulse(const char ptn[],bool verbose)
 		printf("\n");
 	}
 
+	AccumTimeToIRToyTime(microSecAccum);
+}
 
+void IRToy_Controller::AccumTimeToIRToyTime(const std::vector <double> &microSecAccum)
+{
 	std::vector <unsigned int> timing;
 
 	int discreteT=0;

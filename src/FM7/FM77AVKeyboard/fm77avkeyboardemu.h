@@ -65,8 +65,6 @@ public:
 private:
 	IRToy_Controller irToy;
 	std::string portName;
-	int baudRate;
-	static const int baudRateToTry[];
 
 public:
 	FM77AVKeyMap keyMap;

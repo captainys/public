@@ -63,8 +63,11 @@ public:
 	ERROR_NULL=0x7fffffff,
 	};
 
+	static const int baudRateCandidate[];
+
 private:
 	int state;
+	int baudRate;
 	int errorCode;
 	int stateCounter;
 	bool stateCommandSent;
@@ -123,7 +126,7 @@ private:
 public:
 	IRToy_Controller();
 
-	bool Connect(const std::string &port,int bitPerSec);
+	bool Connect(const std::string &port);
 #ifdef _WIN32
 	bool Connect(int portNumber);
 #endif
@@ -176,14 +179,24 @@ private:
 	void State_Arduino_WaitingReady(void);
 
 public:
+	/*! Transmit pulses recorded in micro-seconds.
+	*/
+	void StartTransmitMicroSecPulse(long long int nSample,const unsigned int sample[]);
+
+public:
 	void SaveRecording(const char fName[]) const;
 	void LoadRecording(const char fName[]);
 
 	long long int GetRecordingSize(void) const;
 
+	void MakeMicroSecPulse(long long int nSample,const unsigned int sample[]);
 	void Make100usPulse(const char ptn[],bool verbose=false);
 	void Make100_125_175usPulse(const char ptn[],bool verbose=false);
 
+private:
+	void AccumTimeToIRToyTime(const std::vector <double> &microSecAccum);
+
+public:
 	/*! For Arduino-based IR emitter.
 	*/
 	void Make30Bit(const char ptn[]);
