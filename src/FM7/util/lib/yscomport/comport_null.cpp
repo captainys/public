@@ -20,6 +20,11 @@ bool YsCOMPort::Open(const std::string &port)
 	return false;
 }
 
+bool YsCOMPort::ChangeBaudRate(int baudRate)
+{
+	return false;
+}
+
 void YsCOMPort::Close(void)
 {
 }
