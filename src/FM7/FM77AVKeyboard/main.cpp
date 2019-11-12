@@ -156,8 +156,10 @@ bool FM77AVKeyboardEmulatorMain::RecognizeCommandParameter(int ac,char *av[])
 		else
 		{
 			fprintf(stderr,"Error in the parameter!\n");
+			return false;
 		}
 	}
+	return true;
 }
 
 void FM77AVKeyboardEmulatorMain::Configure(void)
@@ -165,7 +167,6 @@ void FM77AVKeyboardEmulatorMain::Configure(void)
 	if(true==cpi.portSpecified)
 	{
 		autoPortScan=false;
-printf("%s %d\n",__FUNCTION__,__LINE__);
 		fm77avKeyboardEmu.Connect(cpi.portName);
 		port=cpi.portName;
 	}

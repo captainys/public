@@ -1,0 +1,170 @@
+enum
+{
+  STATE_STANDBY,
+  STATE_READY_TX,
+};
+
+#define USE_TIMER_1
+#define PULSE_BUF_LEN 3072
+
+volatile unsigned char state=STATE_STANDBY;
+volatile unsigned int nBufFilled=0;
+volatile unsigned int pulseBuf[PULSE_BUF_LEN];
+
+#define SetPin13High PORTB|=_BV(7);
+#define SetPin13Low PORTB&=~_BV(7);
+
+// Arduino UNO
+// #define Pin3State (PIND&_BV(3))
+
+// Arduino Mega  (Pin3 = PE5)
+#define Pin3State (PINE&_BV(5))
+
+void PinChange(void)
+{
+  volatile unsigned int nUsed;
+  
+  asm volatile (
+  "   cpi   %[state],%[state_standby]\n"  // 1 clock
+  "   brne  ASM_EXIT\n"                   // 1 clock
+
+  "   ldi   %A[timerReg],1\n"             // 1 clock
+  "   clr   %B[timerReg]\n"               // 1 clock
+
+  "   lsr   %B[nAvailable]\n"             // 1 clock
+  "   ror   %A[nAvailable]\n"             // 1 clock
+  
+  "HIGHLOOP:\n"
+  "   nop\n"                      // 1 clock
+  "   adiw  %[timerReg],1\n"      // 2 clocks
+  "   in    %[ioread],%[port]\n"  // 1 clock
+  "   andi  %[ioread],%[pin]\n"   // 1 clock
+  "   breq  HIGHLOOP\n"           // 2 clock  (Active Low)
+
+  "   st    x+,%A[timerReg]\n"    // 2 clocks
+  "   st    x+,%B[timerReg]\n"    // 2 clocks
+
+  "   ldi   %A[timerReg],1\n"     // 1 clock
+  "   clr   %B[timerReg]\n"       // 1 clock
+
+  "LOWLOOP:\n"
+  "   adiw  %[timerReg],1\n"      // 2 clocks
+  "   brcs  END_OF_SIGNAL\n"      // 1 clock / 2 clocks
+  "   in    %[ioread],%[port]\n"  // 1 clock
+  "   andi  %[ioread],%[pin]\n"   // 1 clock
+  "   brne  LOWLOOP\n"            // 2 clock  (Active Low)
+
+  "   st    x+,%A[timerReg]\n"    // 2 clock
+  "   st    x+,%B[timerReg]\n"    // 2 clock
+
+  "   ldi   %A[timerReg],1\n"     // 1 clock
+  "   clr   %B[timerReg]\n"       // 1 clock
+
+  "   sbiw  %[nAvailable],1\n"    // 2 clock
+  "   brne  HIGHLOOP\n"           // 2 clock
+
+  "END_OF_SIGNAL:\n"
+  "   lsl   %A[nAvailable]\n"
+  "   rol   %B[nAvailable]\n"
+  "   ldi   %A[nBufUsed],%[bufLenL]\n"
+  "   ldi   %B[nBufUsed],%[bufLenH]\n"
+  "   sub   %A[nBufUsed],%A[nAvailable]\n"
+  "   sbc   %B[nBufUsed],%B[nAvailable]\n"
+  "ASM_EXIT:\n"
+  :
+  [nBufUsed] "=w" (nUsed)   // Needs to be input/output
+  :
+  [port] "M" (_SFR_IO_ADDR(PINE)),  // Arduino Mega Pin3=PE5
+  [pin] "M" (_BV(5)),            // Arduino Mega Pin3=PE5
+  [pulseBuf] "x" (pulseBuf),
+  [state] "a" (state),           // "a" Use r16 to r23
+  [ioread] "a" (0),              // "a" Use r16 to r23 
+  [timerReg] "w" (0),            //
+  [state_standby] "M"  (STATE_STANDBY),
+  [nAvailable] "w" (PULSE_BUF_LEN),
+  [bufLenL] "M" (PULSE_BUF_LEN&255),
+  [bufLenH] "M" ((PULSE_BUF_LEN>>8)&255),
+  [zero] "M" (0)
+    );
+
+  if(0<nUsed)
+  {
+    nBufFilled=nUsed;
+    state=STATE_READY_TX;
+  }
+}
+
+
+void ClearBuffer(void)
+{
+  nBufFilled=0;
+  for(int i=0; i<PULSE_BUF_LEN; ++i)
+  {
+    pulseBuf[i]=0;  
+  }
+}
+
+void setup()
+{
+  state=STATE_STANDBY;
+  ClearBuffer();
+
+#ifdef USE_TIMER_1
+  // Reset timer 1
+  TCCR1A=0;
+  // TCCR1B=bit(CS10); // No Pre-Scaling
+  TCCR1B=bit(CS11); // 8x Pre-Scaling
+  OCR1A=0;
+  OCR1B=0;
+  TCNT1=0;
+#else
+  TCCR2A=0;
+  // TCCR2B=bit(CS20); // No Pre-Scaling
+  TCCR2B=bit(CS21); // 8x Pre-Scaling
+  OCR2A=0;
+  OCR2B=0;
+  TCNT2=0;
+#endif
+
+  pinMode(3,INPUT);
+  pinMode(13,OUTPUT);
+  attachInterrupt(digitalPinToInterrupt(3),PinChange,FALLING);
+
+  TCCR0A=0;
+  TCCR0B=0;
+}
+
+void loop()
+{
+  if(STATE_READY_TX==state)
+  {
+    Serial.begin(115200);
+    Serial.println("Begin");
+    long int total=0;
+    for(int i=0; i<nBufFilled; ++i)
+    {
+      Serial.print(pulseBuf[i]);
+      Serial.print(" ");
+      if(i<nBufFilled-1)
+      {
+        total+=pulseBuf[i];
+      }
+    }
+
+    Serial.println("");
+    Serial.println("End");
+    Serial.print("Total=");
+    Serial.print(total);
+    Serial.println("");
+    Serial.print("nSample=");
+    Serial.print(nBufFilled);
+    Serial.println("");
+    Serial.end();
+
+    ClearBuffer();
+    state=STATE_STANDBY;
+  }
+
+  TCCR0A=0;
+  TCCR0B=0;
+}

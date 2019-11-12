@@ -1,0 +1,188 @@
+enum
+{
+  STATE_STANDBY,
+  STATE_READY_TX,
+};
+
+#define USE_TIMER_1
+#define PULSE_BUF_LEN 3072
+
+volatile unsigned char state=STATE_STANDBY;
+volatile unsigned int nBufFilled=0;
+volatile unsigned int pulseBuf[PULSE_BUF_LEN];
+
+#define SetPin13High PORTB|=_BV(7);
+#define SetPin13Low PORTB&=~_BV(7);
+
+// Expanded I/O address of TCNT2.  Common for ATMega328 (UNO) and ATMega2560 (Mega)
+#define TCNT2_ADDR  0xB2
+
+// Expanded I/O address of TCNT1.  Common for ATMega328 (UNO) and ATMega2560 (Mega)
+#define TCNT1L_ADDR 0x84
+#define TCNT1H_ADDR 0x85
+
+
+// Arduino UNO
+// #define Pin3State (PIND&_BV(3))
+
+// Arduino Mega  (Pin3 = PE5)
+#define Pin3State (PINE&_BV(5))
+
+void PinChange(void)
+{
+  volatile unsigned int nUsed;
+  if(STATE_STANDBY!=state)
+  {
+    return;
+  }
+
+  SetPin13High;
+
+  // 16-bit registers:  Write High->Low,  Read Low->High.  pp. 115 of ATMega328 datasheet.  Also no interleave readL->writeHigh->readHigh->WriteLow doesn't work.
+  asm volatile (
+  "   movw  x,%[pulseBuf]\n"
+  "   sts   %[tcnt1H],%[zero]\n"   // 2 clocks
+  "   sts   %[tcnt1L],%[zero]\n"   // 2 clocks
+
+  "   lsr   %B[nAvailable]\n"             // 1 clock
+  "   ror   %A[nAvailable]\n"             // 1 clock
+  
+  "HIGHLOOP:\n"
+  "   in    %[ioread],%[port]\n"             // 1 clock
+  "   andi  %[ioread],%[pin]\n"              // 1 clock
+  "   breq  HIGHLOOP\n"                      // 2 clock  (Active Low)
+
+  "   lds   %A[timerReg],%[tcnt1L]\n" // 2 clocks
+  "   lds   %B[timerReg],%[tcnt1H]\n" // 2 clocks
+  "   ldi   %[zero],0\n"
+  "   sts   %[tcnt1H],%[zero]\n"      // 2 clocks
+  "   sts   %[tcnt1L],%[zero]\n"      // 2 clocks
+  "   st    x+,%A[timerReg]\n"
+  "   st    x+,%B[timerReg]\n"
+
+  "LOWLOOP:\n"
+  "   lds   %[ioread],%[tcnt1L]\n"   // Dummy read to make it Low->High read.
+  "   lds   %[ioread],%[tcnt1H]\n"
+  "   cpi   %[ioread],250\n"
+  "   brcc  END_OF_SIGNAL\n"          // 1 clock / 2 clocks
+  "   in    %[ioread],%[port]\n"      // 1 clock
+  "   andi  %[ioread],%[pin]\n"       // 1 clock
+  "   brne  LOWLOOP\n"                // 2 clock  (Active Low)
+
+  "   lds   %A[timerReg],%[tcnt1L]\n" // 2 clocks
+  "   lds   %B[timerReg],%[tcnt1H]\n" // 2 clocks
+  "   ldi   %[zero],0\n"
+  "   sts   %[tcnt1H],%[zero]\n"      // 2 clocks
+  "   sts   %[tcnt1L],%[zero]\n"      // 2 clocks
+  "   st    x+,%A[timerReg]\n"
+  "   st    x+,%B[timerReg]\n"
+
+  "   sbiw  %[nAvailable],1\n"    // 2 clock
+  "   brne  HIGHLOOP\n"           // 2 clock
+
+  "END_OF_SIGNAL:\n"
+  "   lsl   %A[nAvailable]\n"
+  "   rol   %B[nAvailable]\n"
+  "   ldi   %A[nBufUsed],%[bufLenL]\n"
+  "   ldi   %B[nBufUsed],%[bufLenH]\n"
+  "   sub   %A[nBufUsed],%A[nAvailable]\n"
+  "   sbc   %B[nBufUsed],%B[nAvailable]\n"
+  "ASM_EXIT:\n"
+  :
+  [nBufUsed] "=w" (nUsed)   // Needs to be input/output
+  :
+  [port] "M" (_SFR_IO_ADDR(PINE)),  // Arduino Mega Pin3=PE5
+  [pin] "M" (_BV(5)),            // Arduino Mega Pin3=PE5
+  [tcnt1L] "M" (TCNT1L_ADDR),
+  [tcnt1H] "M" (TCNT1H_ADDR),
+  [pulseBuf] "x" (pulseBuf),
+  [ioread] "a" (0),              // "a" Use r16 to r23 
+  [timerReg] "w" (0),            //
+  [nAvailable] "w" (PULSE_BUF_LEN),
+  [bufLenL] "M" (PULSE_BUF_LEN&255),
+  [bufLenH] "M" ((PULSE_BUF_LEN>>8)&255),
+  [zero] "a" (0)
+    );
+
+  if(0<nUsed)
+  {
+    nBufFilled=nUsed;
+    state=STATE_READY_TX;
+  }
+  SetPin13Low;
+}
+
+
+void ClearBuffer(void)
+{
+  nBufFilled=0;
+  for(int i=0; i<PULSE_BUF_LEN; ++i)
+  {
+    pulseBuf[i]=0;  
+  }
+}
+
+void setup()
+{
+  state=STATE_STANDBY;
+  ClearBuffer();
+
+  // Reset timer 1
+  TCCR1A=0;
+  // TCCR1B=bit(CS10); // No Pre-Scaling
+  TCCR1B=bit(CS11); // 8x Pre-Scaling
+  OCR1A=0;
+  OCR1B=0;
+  TCNT1=0;
+
+  // Reset timer 2
+  TCCR2A=0;
+  // TCCR2B=bit(CS20); // No Pre-Scaling
+  TCCR2B=bit(CS21); // 8x Pre-Scaling
+  OCR2A=0;
+  OCR2B=0;
+  TCNT2=0;
+
+  // Stop interrupt for millis etc.
+  TCCR0A=0;
+  TCCR0B=0;
+
+  pinMode(3,INPUT);
+  pinMode(13,OUTPUT);
+  attachInterrupt(digitalPinToInterrupt(3),PinChange,FALLING);
+}
+
+void loop()
+{
+  if(STATE_READY_TX==state)
+  {
+    Serial.begin(115200);
+    Serial.println("Begin");
+    long int total=0;
+    for(int i=0; i<nBufFilled; ++i)
+    {
+      Serial.print(pulseBuf[i]);
+      Serial.print(" ");
+      if(i<nBufFilled-1)
+      {
+        total+=pulseBuf[i];
+      }
+    }
+
+    Serial.println("");
+    Serial.println("End");
+    Serial.print("Total=");
+    Serial.print(total);
+    Serial.println("");
+    Serial.print("nSample=");
+    Serial.print(nBufFilled);
+    Serial.println("");
+    Serial.end();
+
+    ClearBuffer();
+    state=STATE_STANDBY;
+  }
+
+  TCCR0A=0;
+  TCCR0B=0;
+}
