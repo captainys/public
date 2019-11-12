@@ -10,12 +10,12 @@ public:
 
 
 
-/* static */ std::vector <int> YsCOMPort::FindAvailablePort(void)
+/* static */ std::vector <std::string> YsCOMPort::FindAvailablePortName(void)
 {
-	std::vector <int> available;
+	std::vector <std::string> available;
 	return available;
 }
-bool YsCOMPort::Open(int portNumber)
+bool YsCOMPort::Open(const std::string &port)
 {
 	return false;
 }
