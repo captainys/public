@@ -1,3 +1,4 @@
+#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,7 +13,7 @@ int main(int ac,char *av[])
 		return 1;
 	}
 
-	int port=atoi(av[1]);
+	std::string port(av[1]);
 	const char *toSend=(ac<3 ? "Hello from COMSEND" : av[2]);
 
 	YsCOMPort comPort;

@@ -30,7 +30,7 @@ int main(int ac,char *av[])
 		return 1;
 	}
 
-	int port=atoi(av[1]);
+	std::string port(av[1]);
 
 	std::thread t(Thread);
 
