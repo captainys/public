@@ -219,15 +219,21 @@ bool IRToy_Controller::Connect(int portNumber)
 	sprintf(portStr,"%d",portNumber);
 	return Connect(portStr);
 }
+
+int IRToy_Controller::GetPort(void) const
+{
+	return comPort.GetPort();
+}
 #endif
+
+std::string IRToy_Controller::GetPortName(void) const
+{
+	return comPort.GetPortName();
+}
 
 bool IRToy_Controller::IsConnected(void) const
 {
 	return comPort.IsConnected();
-}
-int IRToy_Controller::GetPort(void) const
-{
-	return comPort.GetPort();
 }
 void IRToy_Controller::Disconnect()
 {

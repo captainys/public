@@ -130,9 +130,10 @@ public:
 	bool Connect(const std::string &port);
 #ifdef _WIN32
 	bool Connect(int portNumber);
-#endif
-	bool IsConnected(void) const;
 	int GetPort(void) const;
+#endif
+	std::string GetPortName(void) const;
+	bool IsConnected(void) const;
 	void Disconnect();
 
 	bool ChangeBaudRate(int bitPerSec);
