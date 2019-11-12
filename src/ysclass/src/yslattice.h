@@ -43,6 +43,7 @@ class YsLattice2d
 public:
 	YsLattice2d();
 	YsLattice2d(const YsLattice2d <T> &from);
+	YsLattice2d(YsLattice2d <T> &&from);
 	YsLattice2d(YSSIZE_T nx,YSSIZE_T ny,const YsVec2 &min,const YsVec2 &max);
 	~YsLattice2d();
 	void CleanUp(void);
@@ -50,7 +51,17 @@ public:
 	/*! Returns the dimension of the whole lattice. */
 	YsVec2 GetLatticeDimension(void) const;
 
+	/*! Returns the cut out of the lattice.  
+	    Element value outside of the original lattice will be undefined. */
+	YsLattice2d <T> CutOut(int x0,int y0,int wid,int hei) const;
+
+	/*! Returns the cut out of the lattice. 
+	    Element value outside of the original lattice will be replaced with clearElem. */
+	YsLattice2d <T> CutOut(int x0,int y0,int wid,int hei,const T &clearElem) const;
+
 	const YsLattice2d <T> &operator=(const YsLattice2d <T> &from);
+
+	const YsLattice2d <T> &operator=(YsLattice2d <T> &&from);
 
 	YSRESULT Create(YSSIZE_T nBlk,const YsVec2 minmax[2]);
 	YSRESULT Create(YSSIZE_T nBlk,const YsVec2 &min,const YsVec2 &max);
@@ -120,6 +131,22 @@ YsLattice2d <T>::YsLattice2d(const YsLattice2d <T> &from)
 }
 
 template <class T>
+YsLattice2d<T>::YsLattice2d(YsLattice2d <T> &&from)
+{
+	this->min=from.min;
+	this->max=from.max;
+	this->nBlkX=from.nBlkX;
+	this->nBlkY=from.nBlkY;
+	this->lxBlk=from.lxBlk;
+	this->lyBlk=from.lyBlk;
+	this->blk=from.blk;
+
+	from.nBlkX=0;
+	from.nBlkY=0;
+	from.blk=nullptr;
+}
+
+template <class T>
 YsLattice2d <T>::YsLattice2d(YSSIZE_T nx,YSSIZE_T ny,const YsVec2 &mn,const YsVec2 &mx)
 {
 	nBlkX=0;
@@ -142,6 +169,60 @@ template <class T>
 YsVec2 YsLattice2d<T>::GetLatticeDimension(void) const
 {
 	return max-min;
+}
+
+template <class T>
+YsLattice2d <T> YsLattice2d<T>::CutOut(int x0,int y0,int wid,int hei) const
+{
+	YsVec2 min=GetGridPosition(x0,y0);
+	YsVec2 max=GetGridPosition(x0+wid,y0+wid);
+
+	YsLattice2d <T> cutOut;
+	cutOut.Create(wid,hei,min,max);
+	for(int dy=0; dy<hei; ++dy)
+	{
+		for(int dx=0; dx<wid; ++dx)
+		{
+			YsVec2i dst,src;
+			dst.Set(dx,dy);
+			src.Set(x0+dx,y0+dy);
+			if(YSTRUE==IsInRange(src))
+			{
+				cutOut[dst]=(*this)[src];
+			}
+		}
+	}
+
+	return cutOut;
+}
+
+template <class T>
+YsLattice2d <T> YsLattice2d<T>::CutOut(int x0,int y0,int wid,int hei,const T &clearElem) const
+{
+	YsVec2 min=GetGridPosition(x0,y0);
+	YsVec2 max=GetGridPosition(x0+wid,y0+wid);
+
+	YsLattice2d <T> cutOut;
+	cutOut.Create(wid,hei,min,max);
+	for(int dy=0; dy<hei; ++dy)
+	{
+		for(int dx=0; dx<wid; ++dx)
+		{
+			YsVec2i dst,src;
+			dst.Set(dx,dy);
+			src.Set(x0+dx,y0+dy);
+			if(YSTRUE==IsInRange(src))
+			{
+				cutOut[dst]=(*this)[src];
+			}
+			else
+			{
+				cutOut[dst]=clearElem;
+			}
+		}
+	}
+
+	return cutOut;
 }
 
 template <class T>
@@ -174,6 +255,27 @@ const YsLattice2d <T> &YsLattice2d <T>::operator=(const YsLattice2d <T> &from)
 	}
 
 	return *this;
+}
+
+template <class T>
+const YsLattice2d <T> &YsLattice2d<T>::operator=(YsLattice2d <T> &&from)
+{
+	if(this!=&from)
+	{
+		CleanUp();
+
+		this->min=from.min;
+		this->max=from.max;
+		this->nBlkX=from.nBlkX;
+		this->nBlkY=from.nBlkY;
+		this->lxBlk=from.lxBlk;
+		this->lyBlk=from.lyBlk;
+		this->blk=from.blk;
+
+		from.nBlkX=0;
+		from.nBlkY=0;
+		from.blk=nullptr;
+	}
 }
 
 template <class T>
