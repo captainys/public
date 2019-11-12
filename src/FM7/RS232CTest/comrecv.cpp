@@ -1,3 +1,4 @@
+#include <string>
 #include <stdio.h>
 #include <stdlib.h>
 #include "comport.h"
@@ -11,7 +12,7 @@ int main(int ac,char *av[])
 		return 1;
 	}
 
-	int port=atoi(av[1]);
+	std::string port(av[1]);
 
 	YsCOMPort comPort;
 	comPort.SetDesiredBaudRate(19200);
