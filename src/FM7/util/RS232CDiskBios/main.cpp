@@ -1509,7 +1509,7 @@ void SubCPU(void)
 	comPort.SetDesiredStopBit(YsCOMPort::STOPBIT_1);
 	comPort.SetDesiredParity(YsCOMPort::PARITY_NOPARITY);
 	comPort.SetDesiredFlowControl(YsCOMPort::FLOWCONTROL_NONE);
-	if(true!=comPort.Open(FM7Lib::Atoi(fc80.cpi.portStr.c_str())))
+	if(true!=comPort.Open(fc80.cpi.portStr.c_str()))
 	{
 		fprintf(stderr,"Cannot open port.\n");
 		fc80.SetFatalError();

@@ -438,7 +438,7 @@ bool D77Server::Run(int ac,char *av[])
 	comPort.SetDesiredStopBit(YsCOMPort::STOPBIT_1);
 	comPort.SetDesiredParity(YsCOMPort::PARITY_NOPARITY);
 	comPort.SetDesiredFlowControl(YsCOMPort::FLOWCONTROL_NONE);
-	if(true!=comPort.Open(atoi(cpi.portStr.data())))
+	if(true!=comPort.Open(cpi.portStr.data()))
 	{
 		fprintf(stderr,"Cannot open port %s.\n",cpi.portStr.data());
 		return false;
