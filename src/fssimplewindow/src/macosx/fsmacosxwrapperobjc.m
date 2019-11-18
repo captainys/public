@@ -1468,15 +1468,20 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 	[format initWithAttributes: formatAttrib];
 
 
+	// 2019/11/18
+	// macOSX 10.15 changed the default value of wantsBestResolutionOpenGLSurface from NO to YES.
+	// Value apparently needs to be NO.
 
 	contRect=NSMakeRect(0,0,800,600);
 	masterView=[[NSView alloc] initWithFrame:contRect];
+	[masterView setWantsBestResolutionOpenGLSurface:NO];
 	[ysWnd setContentView:masterView];
 
 
 
 	openGLprepared=false;
 	ysView=[[YsOpenGLView alloc] initWithFrame:contRect pixelFormat:format];
+	[ysView setWantsBestResolutionOpenGLSurface:NO];
 	[masterView addSubview:ysView];
 	[ysWnd makeFirstResponder:ysView];
 
