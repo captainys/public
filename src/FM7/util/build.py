@@ -206,7 +206,11 @@ def RunCMakeAndDeleteExe():
 			if ext==".EXE":
 				os.remove(os.path.join("exe",fn))
 
-	proc=subprocess.Popen(["CMake","..","-T","v140_xp","-DCMAKE_CONFIGURATION_TYPES=Release","-DCMAKE_BUILD_TYPE=Release"])
+	# v140_xp doesn't seem to be available in Visual Studio 2019.
+	# I didn't want to upgrade to VS2019, but my crap ThinkPad X1 Yoga3 crashed and needed full re-installation,
+	# and I lost VS2017.
+	# proc=subprocess.Popen(["CMake","..","-T","v140_xp","-DCMAKE_CONFIGURATION_TYPES=Release","-DCMAKE_BUILD_TYPE=Release"])
+	proc=subprocess.Popen(["CMake","..","-DCMAKE_CONFIGURATION_TYPES=Release","-DCMAKE_BUILD_TYPE=Release","-A","Win32"])
 	proc.communicate()
 	if 0!=proc.returncode:
 		print("CMake returned error.");
