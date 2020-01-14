@@ -252,6 +252,9 @@ public:
 		std::vector <unsigned char> MakeD77Image(void) const;
 
 
+		std::vector <unsigned char> MakeRawImage(void) const;
+
+
 		/*! Return the modified-flag. */
 		bool IsModified(void) const;
 

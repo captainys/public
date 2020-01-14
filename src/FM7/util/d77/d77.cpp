@@ -569,6 +569,35 @@ std::vector <unsigned char> D77File::D77Disk::MakeD77Image(void) const
 	return d77Img;
 }
 
+std::vector <unsigned char> D77File::D77Disk::MakeRawImage(void) const
+{
+	std::vector <unsigned char> rawImg;
+
+	for(auto &t : track)
+	{
+		auto allSector=t.AllSector();
+		// Bubble Sort: I hope number of sectors is not thousands.
+		for(int i=0; i<allSector.size(); i++)
+		{
+			for(int j=i+1; j<allSector.size(); ++j)
+			{
+				if(allSector[i].sector>allSector[j].sector)
+				{
+					std::swap(allSector[i],allSector[j]);
+				}
+			}
+		}
+
+		for(auto s : allSector)
+		{
+			auto sectorDump=ReadSector(s.track,s.side,s.sector);
+			rawImg.insert(rawImg.end(),sectorDump.begin(),sectorDump.end());
+		}
+	}
+
+	return rawImg;
+}
+
 bool D77File::D77Disk::IsModified(void) const
 {
 	return modified;

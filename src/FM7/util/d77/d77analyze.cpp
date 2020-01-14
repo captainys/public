@@ -223,7 +223,16 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				auto diskPtr=d77Ptr->GetDisk(diskId);
 				if(nullptr!=diskPtr)
 				{
-					auto img=diskPtr->MakeD77Image();
+					decltype(diskPtr->MakeD77Image()) img;
+					if("WRAW"==cmd)
+					{
+						img=diskPtr->MakeRawImage();
+					}
+					else
+					{
+						img=diskPtr->MakeD77Image();
+					}
+
 					if(0<img.size())
 					{
 						auto wrote=fwrite(img.data(),1,img.size(),fp);
@@ -675,6 +684,8 @@ void D77Analyzer::Help(void) const
 	printf("W filename\n");
 	printf("\tWrite disk to a .D77 file.\n");
 	printf("\tCurrnent disk only.  It doesn't write multi-disk D77.\n");
+	printf("WRAW filename.bin\n");
+	printf("\tWrite Raw Binary.\n");
 	printf("X D DS\n");
 	printf("\tDiagnose duplicate sectors.\n");
 	printf("X F SC secId\n");
