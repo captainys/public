@@ -647,7 +647,7 @@ void IRSensorGuiMain::Home(void)
 
 void IRSensorGuiMain::Transmit(void)
 {
-	if(transmitter.STATE_GOWILD==transmitter.GetState())
+	if(IRToy_Controller::STATE_GOWILD==transmitter.GetState())
 	{
 		auto dataPtr=GetCurrent();
 		if(0<=dataPtr->selSample && dataPtr->selSample<dataPtr->sample.size())
@@ -1026,57 +1026,57 @@ void IRSensorGuiMain::UpdateGUI(void)
 
 	switch(transmitter.GetState())
 	{
-	case transmitter.STATE_DISCONNECT:
+	case IRToy_Controller::STATE_DISCONNECT:
 		transStatusTxt->SetText("STATUS:DISCONNECTED");
 		transStatusTxt->SetColor(255,0,0,255);
 		break;
 
-	case transmitter.STATE_INITIALIZING:
+	case IRToy_Controller::STATE_INITIALIZING:
 		transStatusTxt->SetText("STATUS:INITIALIZING");
 		transStatusTxt->SetColor(255,255,0,255);
 		break;
-	case transmitter.STATE_HANDSHAKE:
+	case IRToy_Controller::STATE_HANDSHAKE:
 		transStatusTxt->SetText("STATUS:HANDSHAKE");
 		transStatusTxt->SetColor(255,255,0,255);
 		break;
-	case transmitter.STATE_SELFTEST:
+	case IRToy_Controller::STATE_SELFTEST:
 		transStatusTxt->SetText("STATUS:SELFTEST");
 		transStatusTxt->SetColor(255,255,0,255);
 		break;
-	case transmitter.STATE_SETSAMPLERMODE:
-	case transmitter.STATE_CONFIGURE:
+	case IRToy_Controller::STATE_SETSAMPLERMODE:
+	case IRToy_Controller::STATE_CONFIGURE:
 		transStatusTxt->SetText("STATUS:SETTING UP");
 		transStatusTxt->SetColor(255,255,0,255);
 		break;
-	case transmitter.STATE_GOWILD:
+	case IRToy_Controller::STATE_GOWILD:
 		transStatusTxt->SetText("STATUS:READY");
 		transStatusTxt->SetColor(0,255,0,255);
 		break;
-	case transmitter.STATE_TRANSMITTING:
+	case IRToy_Controller::STATE_TRANSMITTING:
 		transStatusTxt->SetText("STATUS:TRANSMITTING");
 		transStatusTxt->SetColor(0,255,0,255);
 		break;
-	case transmitter.STATE_ARDUINO_WAITING_READY:
+	case IRToy_Controller::STATE_ARDUINO_WAITING_READY:
 		transStatusTxt->SetText("STATUS:WAITING READY SIGNAL");
 		transStatusTxt->SetColor(255,255,0,255);
 		break;
 
-	case transmitter.STATE_CLOSING:
+	case IRToy_Controller::STATE_CLOSING:
 		transStatusTxt->SetText("STATUS:CLOSING");
 		transStatusTxt->SetColor(255,255,0,255);
 		break;
-	case transmitter.STATE_CLOSED:
+	case IRToy_Controller::STATE_CLOSED:
 		transStatusTxt->SetText("STATUS:CLOSED");
 		transStatusTxt->SetColor(255,0,0,255);
 		break;
 
-	case transmitter.STATE_ERROR:
+	case IRToy_Controller::STATE_ERROR:
 		transStatusTxt->SetText("STATUS:ERROR!");
 		transStatusTxt->SetColor(255,0,0,255);
 		break;
 	}
 
-	if(transmitter.GetState()==transmitter.STATE_GOWILD)
+	if(transmitter.GetState()==IRToy_Controller::STATE_GOWILD)
 	{
 		transmitBtn->hide=false;
 	}

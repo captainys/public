@@ -72,7 +72,7 @@ int main(int ac,char *av[])
 	}
 	else
 	{
-		printf("Failed to open COM %d\n",port);
+		printf("Failed to open COM %s\n",port.c_str());
 	}
 
 	return 0;
