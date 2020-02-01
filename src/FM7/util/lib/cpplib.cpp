@@ -657,3 +657,39 @@ const char *FM7Lib::BoolToStr(bool b)
 		return "FALSE";
 	}
 }
+
+/*! Convert a string to a std::vector of unsigned chars.
+    If the string starts with ' or ", it is taken as an ASCII string.
+    Otherwise it is taken as a hexa-decimal numbers.
+
+	818A9B9C -> {0x81,0x8A,0x9B,0x9C}
+	"ABCDEF" -> {'A','B','C','D','E','F'}
+*/
+std::vector <unsigned char> FM7Lib::StrToByteArray(const char str[])
+{
+	std::vector <unsigned char> ptn;
+	if('\"'!=str[0] && '\''!=str[0])
+	{
+		for(int i=0; 0!=str[i] && 0!=str[i+1]; i+=2)
+		{
+			char buf[3];
+			buf[0]=str[i];
+			buf[1]=str[i+1];
+			buf[2]=0;
+			ptn.push_back(FM7Lib::Xtoi(buf));
+		}
+	}
+	else
+	{
+		for(int i=1; 0!=str[i] && '\"'!=str[i] && '\''!=str[i]; ++i)
+		{
+			if('\\'==str[i] && 0!=str[i+1])
+			{
+				++i;
+			}
+			ptn.push_back(str[i]);
+		}
+	}
+	return ptn;
+}
+

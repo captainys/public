@@ -72,33 +72,6 @@ void D77File::Capitalize(std::string &s)
 	ptr[0]=  dat    &0xff;
 	ptr[1]= (dat>>8)&0xff;
 }
-/* static */ std::vector <unsigned char> D77File::StrToByteArray(const char str[])
-{
-	std::vector <unsigned char> ptn;
-	if('\"'!=str[0] && '\''!=str[0])
-	{
-		for(int i=0; 0!=str[i] && 0!=str[i+1]; i+=2)
-		{
-			char buf[3];
-			buf[0]=str[i];
-			buf[1]=str[i+1];
-			buf[2]=0;
-			ptn.push_back(FM7Lib::Xtoi(buf));
-		}
-	}
-	else
-	{
-		for(int i=1; 0!=str[i] && '\"'!=str[i] && '\''!=str[i]; ++i)
-		{
-			if('\\'==str[i] && 0!=str[i+1])
-			{
-				++i;
-			}
-			ptn.push_back(str[i]);
-		}
-	}
-	return ptn;
-}
 
 ////////////////////////////////////////////////////////////
 

@@ -970,7 +970,7 @@ void D77Analyzer::FindData(int diskId,const char str[]) const
 	auto diskPtr=d77Ptr->GetDisk(diskId);
 	if(nullptr!=diskPtr)
 	{
-		auto ptn=D77File::StrToByteArray(str);
+		auto ptn=FM7Lib::StrToByteArray(str);
 		for(auto trkLoc : diskPtr->AllTrack())
 		{
 			auto trkPtr=diskPtr->FindTrack(trkLoc.track,trkLoc.side);
@@ -1002,8 +1002,8 @@ void D77Analyzer::ReplaceData(int diskId,const char fromStr[],const char toStr[]
 			return;
 		}
 
-		auto from=D77File::StrToByteArray(fromStr);
-		auto to=D77File::StrToByteArray(toStr);
+		auto from=FM7Lib::StrToByteArray(fromStr);
+		auto to=FM7Lib::StrToByteArray(toStr);
 		if(from.size()!=to.size())
 		{
 			printf("FROM and TO must be the same size.\n");
@@ -1024,7 +1024,7 @@ void D77Analyzer::StoreData(int diskId,int trk,int sid,int sec,int addr,const ch
 			return;
 		}
 
-		auto to=D77File::StrToByteArray(toStr);
+		auto to=FM7Lib::StrToByteArray(toStr);
 
 		auto secData=diskPtr->ReadSector(trk,sid,sec);
 		if(secData.size()<addr+to.size())

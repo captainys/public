@@ -162,6 +162,16 @@ std::vector <unsigned char> RawHexToByteData(const std::vector <std::string> &ra
 const char *BoolToStr(bool b);
 
 
+/*! Convert a string to a std::vector of unsigned chars.
+    If the string starts with ' or ", it is taken as an ASCII string.
+    Otherwise it is taken as a hexa-decimal numbers.
+
+	818A9B9C -> {0x81,0x8A,0x9B,0x9C}
+	"ABCDEF" -> {'A','B','C','D','E','F'}
+*/
+std::vector <unsigned char> StrToByteArray(const char str[]);
+
+
 } // namespace FM7Lib
 
 /* } */

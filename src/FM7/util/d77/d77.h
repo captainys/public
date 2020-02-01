@@ -116,14 +116,6 @@ public:
 	static void UnsignedIntToDWord(unsigned char ptr[],const unsigned int dat);
 	static void UnsignedShortToWord(unsigned char ptr[],const unsigned int dat);
 
-	/*! Convert a string to a std::vector of unsigned chars.
-	    If the string starts with ' or ", it is taken as an ASCII string.
-	    Otherwise it is taken as a hexa-decimal numbers.
-
-		818A9B9C -> {0x81,0x8A,0x9B,0x9C}
-		"ABCDEF" -> {'A','B','C','D','E','F'}
-	*/
-	static std::vector <unsigned char> StrToByteArray(const char str[]);
 public:
 	class D77Disk
 	{
