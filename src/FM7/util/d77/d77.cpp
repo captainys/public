@@ -1,5 +1,4 @@
 #include "d77.h"
-#include "../lib/cpplib.h"
 
 
 
@@ -891,6 +890,7 @@ bool D77File::D77Disk::ReplaceSectorCHRN(int C0,int H0,int R0,int N0,int C,int H
 			}
 		}
 	}
+	return true;
 }
 
 std::vector <D77File::D77Disk::TrackLocation> D77File::D77Disk::AllTrack(void) const
