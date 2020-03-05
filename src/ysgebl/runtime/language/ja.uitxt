@@ -391,6 +391,7 @@ $BGCOL 0
 +menu/global/renormal_current_orientation          #現在の巻き方向が正しいと仮定して、法線を再計算
 +menu/global/reorient                              #全ポリゴンの巻き方向を再計算
 +menu/global/reorient_assigned_normal              #割り当てられた法線ベクトルが正しいと仮定して、ポリゴンの巻き方向を修正
++menu/global/rotation                              #回転
 +menu/global/scaleindirection                      #Scale in the Direction Specified by Two Vertices
 +menu/global/scaling                               #Scaling
 +menu/global/target                                #適用対象

@@ -432,6 +432,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_MENU_GLOBAL_RENORMAL_CURRENT_ORIENTATION    FsGetTextResource("menu/global/renormal_current_orientation",L"Re-calculate Normal Vectors from Current Orientations")
 #define FSGUI_MENU_GLOBAL_REORIENT                        FsGetTextResource("menu/global/reorient",L"Recalculate Polygon Orientation")
 #define FSGUI_MENU_GLOBAL_REORIENT_ASSIGNED_NORMAL        FsGetTextResource("menu/global/reorient_assigned_normal",L"Fix Orientations assuming Assigned Normal Vector is Reliable")
+#define FSGUI_MENU_GLOBAL_ROTATION                        FsGetTextResource("menu/global/rotation",L"Rotation")
 #define FSGUI_MENU_GLOBAL_SCALEINDIRECTION                FsGetTextResource("menu/global/scaleindirection",L"Scale in the Direction Specified by Two Vertices")
 #define FSGUI_MENU_GLOBAL_SCALING                         FsGetTextResource("menu/global/scaling",L"Scaling")
 #define FSGUI_MENU_GLOBAL_TARGET                          FsGetTextResource("menu/global/target",L"Applied to...")

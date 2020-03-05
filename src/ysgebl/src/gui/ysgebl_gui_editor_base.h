@@ -1078,6 +1078,12 @@ public:
 	void Global_Scaling(FsGuiPopUpMenuItem *);
 	void Global_Scaling_DialogCallBack(double sx,double sy,double sz);
 
+	class Global_RotateDialog;
+	void Global_Rotate(FsGuiPopUpMenuItem *);
+	void Global_Rotate_DialogCallBack(const YsMatrix4x4 &tfm);
+	void Global_Rotate_DrawCallBack3d(void);
+	void Global_Rotate_SpaceKeyCallBack(void);
+
 	void Global_Scale_InDirection(FsGuiPopUpMenuItem *);
 	void Global_Scale_InDirection_DialogCallBack(FsGuiDialog *dlg,int returnCode);
 
