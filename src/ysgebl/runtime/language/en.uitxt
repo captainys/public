@@ -392,6 +392,7 @@ $BGCOL 0
 +menu/global/renormal_current_orientation          #Re-calculate Normal Vectors from Current Orientations
 +menu/global/reorient                              #Recalculate Polygon Orientation
 +menu/global/reorient_assigned_normal              #Fix Orientations assuming Assigned Normal Vector is Reliable
++menu/global/rotation                              #Rotation
 +menu/global/scaleindirection                      #Scale in the Direction Specified by Two Vertices
 +menu/global/scaling                               #Scaling
 +menu/global/target                                #Applied to...

@@ -517,3 +517,127 @@ void GeblGuiEditorBase::Global_Scale_InDirection_DialogCallBack(FsGuiDialog *dlg
 		SetNeedRedraw(YSTRUE);
 	}
 }
+
+////////////////////////////////////////////////////////////
+
+class GeblGuiEditorBase::Global_RotateDialog : public FsGuiDialog
+{
+public:
+	FsGuiButton *okBtn,*cancelBtn;
+	GeblGuiEditorBase *editor;
+	void Make(GeblGuiEditorBase *);
+	virtual void OnButtonClick(FsGuiButton *btn);
+};
+void GeblGuiEditorBase::Global_RotateDialog::Make(GeblGuiEditorBase *editor)
+{
+	this->editor=editor;
+	okBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_COMMON_OK,YSTRUE);
+	cancelBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_COMMON_CANCEL,YSFALSE);
+	Fit();
+}
+/* virtual */ void GeblGuiEditorBase::Global_RotateDialog::OnButtonClick(FsGuiButton *btn)
+{
+	if(btn==okBtn)
+	{
+		YsMatrix4x4 tfm;
+		editor->Global_Rotate_DialogCallBack(tfm);
+		editor->Edit_ClearUIMode();
+	}
+	else if(btn==cancelBtn)
+	{
+		editor->Edit_ClearUIMode();
+	}
+}
+void GeblGuiEditorBase::Global_Rotate(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=slHd)
+	{
+		auto dlg=FsGuiDialog::CreateSelfDestructiveDialog <Global_RotateDialog>();
+		dlg->Make(this);
+		draw3dCallBack=std::bind(&THISCLASS::Global_Rotate_DrawCallBack3d,this);
+		spaceKeyCallBack=std::bind(&THISCLASS::Global_Rotate_SpaceKeyCallBack,this);
+
+		YsVec3 bbx[2];
+		slHd->GetBoundingBox(bbx);
+
+		const double bbxDgn=(bbx[1]-bbx[0]).GetLength();
+
+		YsVec3 cen=(bbx[0]+bbx[1])/2.0;
+
+		const YSBOOL allowChangeAxis=YSTRUE;
+		const YSBOOL allowMoveCenter=YSTRUE;
+		const YSBOOL allowMirror=YSTRUE;
+		threeDInterface.BeginInputRotation(YsZVec(),0.0,cen,bbxDgn/2.0,allowChangeAxis,allowMoveCenter,allowMirror);
+
+		AddDialog(dlg);
+		ArrangeDialog();
+	}
+}
+void GeblGuiEditorBase::Global_Rotate_DialogCallBack(const YsMatrix4x4 &tfm)
+{
+	if(nullptr!=slHd)
+	{
+		YsShellExtEdit::StopIncUndo undoGuard(*slHd);
+		YsArray <YsVec3> allVtPos;
+		YsArray <YsShell::VertexHandle> allVtHd;
+		for(auto vtHd : slHd->AllVertex())
+		{
+			allVtPos.push_back(tfm*slHd->GetVertexPosition(vtHd));
+			allVtHd.push_back(vtHd);
+		}
+		slHd->SetMultiVertexPosition(allVtHd,allVtPos);
+
+		YsArray <YsShellPolygonHandle> plHdArray;
+		YsArray <YsVec3> newNomArray;
+		for(auto plHd : slHd->AllPolygon())
+		{
+			plHdArray.Append(plHd);
+
+			auto nom=slHd->GetNormal(plHd);
+			tfm.Mul(nom,nom,0.0);
+			newNomArray.Append(nom);
+		}
+		slHd->SetPolygonNormalMulti(plHdArray,newNomArray);
+		needRemakeDrawingBuffer=(unsigned int)NEED_REMAKE_DRAWING_ALL;
+	}
+	Edit_ClearUIMode();
+}
+void GeblGuiEditorBase::Global_Rotate_DrawCallBack3d(void)
+{
+	if(nullptr!=slHd)
+	{
+		YsMatrix4x4 tfm;
+		threeDInterface.GetRotationMatrix(tfm);
+
+		YsArray <float> vtx;
+		for(auto vtHd : slHd->AllVertex())
+		{
+			auto vtPos=tfm*slHd->GetVertexPosition(vtHd);
+			vtx.push_back(vtPos.xf());
+			vtx.push_back(vtPos.yf());
+			vtx.push_back(vtPos.zf());
+		}
+
+		struct YsGLSL3DRenderer *renderer=YsGLSLSharedFlat3DRenderer();
+		YsGLSLUse3DRenderer(renderer);
+
+#ifdef GL_PROGRAM_POINT_SIZE
+        glEnable(GL_PROGRAM_POINT_SIZE);
+#endif
+		const GLfloat col[4]={1.0f,0.0f,1.0f,1.0f};
+		YsGLSLSet3DRendererUniformColorfv(renderer,col);
+		YsGLSLSet3DRendererUniformPointSize(renderer,3);
+		YsGLSLDrawPrimitiveVtxfv(renderer,GL_POINTS,(int)vtx.size()/3,vtx.data());
+#ifdef GL_PROGRAM_POINT_SIZE
+        glDisable(GL_PROGRAM_POINT_SIZE);
+#endif
+
+		YsGLSLEndUse3DRenderer(renderer);
+	}
+}
+void GeblGuiEditorBase::Global_Rotate_SpaceKeyCallBack(void)
+{
+	YsMatrix4x4 tfm;
+	threeDInterface.GetRotationMatrix(tfm);
+	Global_Rotate_DialogCallBack(tfm);
+}
