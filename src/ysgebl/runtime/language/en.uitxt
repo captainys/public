@@ -389,6 +389,7 @@ $BGCOL 0
 +menu/global/invertpolygon                         #Invert All Polygons
 +menu/global/mergesamevertex                       #Merge Vertices at the Same Location
 +menu/global/mergesamevertexonnonmanifoldedge      #Merge Vertices at the Same Location (on Non-Manifold Edges only)
++menu/global/move                                  #Move
 +menu/global/renormal_current_orientation          #Re-calculate Normal Vectors from Current Orientations
 +menu/global/reorient                              #Recalculate Polygon Orientation
 +menu/global/reorient_assigned_normal              #Fix Orientations assuming Assigned Normal Vector is Reliable

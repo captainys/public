@@ -520,6 +520,118 @@ void GeblGuiEditorBase::Global_Scale_InDirection_DialogCallBack(FsGuiDialog *dlg
 
 ////////////////////////////////////////////////////////////
 
+class GeblGuiEditorBase::Global_MoveDialog : public FsGuiDialog
+{
+public:
+	FsGuiButton *okBtn,*cancelBtn;
+	GeblGuiEditorBase *editor;
+	void Make(GeblGuiEditorBase *);
+	virtual void OnButtonClick(FsGuiButton *btn);
+};
+void GeblGuiEditorBase::Global_MoveDialog::Make(GeblGuiEditorBase *editor)
+{
+	this->editor=editor;
+	okBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_COMMON_OK,YSTRUE);
+	cancelBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_COMMON_CANCEL,YSFALSE);
+	Fit();
+}
+/* virtual */ void GeblGuiEditorBase::Global_MoveDialog::OnButtonClick(FsGuiButton *btn)
+{
+	if(btn==okBtn)
+	{
+		auto d=editor->threeDInterface.point_pos-editor->threeDInterface.point_pos_org;
+		editor->Global_Move_DialogCallBack(d);
+		editor->Edit_ClearUIMode();
+	}
+	else if(btn==cancelBtn)
+	{
+		editor->Edit_ClearUIMode();
+	}
+}
+
+void GeblGuiEditorBase::Global_Move(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=slHd)
+	{
+		auto dlg=FsGuiDialog::CreateSelfDestructiveDialog <Global_MoveDialog>();
+		dlg->Make(this);
+		draw3dCallBack=std::bind(&THISCLASS::Global_Move_DrawCallBack3d,this);
+		spaceKeyCallBack=std::bind(&THISCLASS::Global_Move_SpaceKeyCallBack,this);
+
+		YsVec3 bbx[2];
+		slHd->GetBoundingBox(bbx);
+
+		const double bbxDgn=(bbx[1]-bbx[0]).GetLength();
+
+		YsVec3 cen=(bbx[0]+bbx[1])/2.0;
+
+		threeDInterface.BeginInputPoint2(cen);
+
+		AddDialog(dlg);
+		ArrangeDialog();
+	}
+}
+void GeblGuiEditorBase::Global_Move_DialogCallBack(const YsVec3 &d)
+{
+	if(nullptr!=slHd)
+	{
+		YsShellExtEdit::StopIncUndo undoGuard(*slHd);
+		YsArray <YsVec3> allVtPos;
+		YsArray <YsShell::VertexHandle> allVtHd;
+		for(auto vtHd : slHd->AllVertex())
+		{
+			allVtPos.push_back(d+slHd->GetVertexPosition(vtHd));
+			allVtHd.push_back(vtHd);
+		}
+		slHd->SetMultiVertexPosition(allVtHd,allVtPos);
+
+		needRemakeDrawingBuffer=(unsigned int)NEED_REMAKE_DRAWING_ALL;
+	}
+	Edit_ClearUIMode();
+}
+void GeblGuiEditorBase::Global_Move_DrawCallBack3d(void)
+{
+	auto d=threeDInterface.point_pos-threeDInterface.point_pos_org;
+
+	if(nullptr!=slHd)
+	{
+		YsMatrix4x4 tfm;
+		threeDInterface.GetRotationMatrix(tfm);
+
+		YsArray <float> vtx;
+		for(auto vtHd : slHd->AllVertex())
+		{
+			auto vtPos=slHd->GetVertexPosition(vtHd)+d;
+			vtx.push_back(vtPos.xf());
+			vtx.push_back(vtPos.yf());
+			vtx.push_back(vtPos.zf());
+		}
+
+		struct YsGLSL3DRenderer *renderer=YsGLSLSharedFlat3DRenderer();
+		YsGLSLUse3DRenderer(renderer);
+
+#ifdef GL_PROGRAM_POINT_SIZE
+        glEnable(GL_PROGRAM_POINT_SIZE);
+#endif
+		const GLfloat col[4]={1.0f,0.0f,1.0f,1.0f};
+		YsGLSLSet3DRendererUniformColorfv(renderer,col);
+		YsGLSLSet3DRendererUniformPointSize(renderer,3);
+		YsGLSLDrawPrimitiveVtxfv(renderer,GL_POINTS,(int)vtx.size()/3,vtx.data());
+#ifdef GL_PROGRAM_POINT_SIZE
+        glDisable(GL_PROGRAM_POINT_SIZE);
+#endif
+
+		YsGLSLEndUse3DRenderer(renderer);
+	}
+}
+void GeblGuiEditorBase::Global_Move_SpaceKeyCallBack(void)
+{
+	auto d=threeDInterface.point_pos-threeDInterface.point_pos_org;
+	Global_Move_DialogCallBack(d);
+}
+
+////////////////////////////////////////////////////////////
+
 class GeblGuiEditorBase::Global_RotateDialog : public FsGuiDialog
 {
 public:
@@ -540,6 +652,7 @@ void GeblGuiEditorBase::Global_RotateDialog::Make(GeblGuiEditorBase *editor)
 	if(btn==okBtn)
 	{
 		YsMatrix4x4 tfm;
+		editor->threeDInterface.GetRotationMatrix(tfm);
 		editor->Global_Rotate_DialogCallBack(tfm);
 		editor->Edit_ClearUIMode();
 	}

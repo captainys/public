@@ -388,6 +388,7 @@ $BGCOL 0
 +menu/global/invertpolygon                         #全ポリゴン反転
 +menu/global/mergesamevertex                       #同一位置の頂点をひとつにする
 +menu/global/mergesamevertexonnonmanifoldedge      #同一位置の頂点をひとつにする(ノンマニフォールドエッジ上の頂点のみ)
++menu/global/move                                  #移動
 +menu/global/renormal_current_orientation          #現在の巻き方向が正しいと仮定して、法線を再計算
 +menu/global/reorient                              #全ポリゴンの巻き方向を再計算
 +menu/global/reorient_assigned_normal              #割り当てられた法線ベクトルが正しいと仮定して、ポリゴンの巻き方向を修正

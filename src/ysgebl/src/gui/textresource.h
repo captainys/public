@@ -429,6 +429,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_MENU_GLOBAL_INVERTPOLYGON                   FsGetTextResource("menu/global/invertpolygon",L"Invert All Polygons")
 #define FSGUI_MENU_GLOBAL_MERGESAMEVERTEX                 FsGetTextResource("menu/global/mergesamevertex",L"Merge Vertices at the Same Location")
 #define FSGUI_MENU_GLOBAL_MERGESAMEVERTEXONNONMANIFOLDEDGE FsGetTextResource("menu/global/mergesamevertexonnonmanifoldedge",L"Merge Vertices at the Same Location (on Non-Manifold Edges only)")
+#define FSGUI_MENU_GLOBAL_MOVE                            FsGetTextResource("menu/global/move",L"Move")
 #define FSGUI_MENU_GLOBAL_RENORMAL_CURRENT_ORIENTATION    FsGetTextResource("menu/global/renormal_current_orientation",L"Re-calculate Normal Vectors from Current Orientations")
 #define FSGUI_MENU_GLOBAL_REORIENT                        FsGetTextResource("menu/global/reorient",L"Recalculate Polygon Orientation")
 #define FSGUI_MENU_GLOBAL_REORIENT_ASSIGNED_NORMAL        FsGetTextResource("menu/global/reorient_assigned_normal",L"Fix Orientations assuming Assigned Normal Vector is Reliable")
