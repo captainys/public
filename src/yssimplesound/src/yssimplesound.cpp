@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -191,7 +193,6 @@ void YsSoundPlayer::SetVolume(SoundData &dat,float vol)
 
 YsSoundPlayer::SoundData::SoundData()
 {
-	dat=NULL;
 	api=CreateAPISpecificData();
 	Initialize();
 }
@@ -211,11 +212,7 @@ void YsSoundPlayer::SoundData::CleanUp(void)
 {
 	CleanUpAPISpecific();
 
-	if(dat!=NULL)
-	{
-		delete [] dat;
-		dat=NULL;
-	}
+	dat.clear();
 
 	lastModifiedChannel=0;
 	stereo=YSFALSE;
@@ -286,12 +283,12 @@ YSBOOL YsSoundPlayer::SoundData::IsSigned(void) const
 
 const unsigned char *YsSoundPlayer::SoundData::DataPointer(void) const
 {
-	return dat;
+	return dat.data();
 }
 
 const unsigned char *YsSoundPlayer::SoundData::DataPointerAtTimeStep(unsigned int ts) const
 {
-	return dat+ts*BytePerTimeStep();
+	return dat.data()+ts*BytePerTimeStep();
 }
 
 static unsigned GetUnsigned(const unsigned char buf[])
@@ -463,8 +460,8 @@ YSRESULT YsSoundPlayer::SoundData::LoadWav(BinaryInStream &inStream)
 	dataSize=GetUnsigned(buf);
 	printf("Data Size=%d (0x%x)\n",dataSize,dataSize);
 
-	dat=new unsigned char [dataSize];
-	if((l=inStream.Fetch(dat,dataSize))!=dataSize)
+	dat.resize(dataSize);
+	if((l=inStream.Fetch(dat.data(),dataSize))!=dataSize)
 	{
 		printf("Warning: File ended before reading all data.\n");
 		printf("  %d (0x%x) bytes have been read\n",l,l);
@@ -496,16 +493,16 @@ YSRESULT YsSoundPlayer::SoundData::ConvertTo16Bit(void)
 	}
 	else if(bit==8)
 	{
-		if(sizeInBytes>0 && dat!=NULL)
+		if(sizeInBytes>0 && 0<dat.size()) // ? Why did I write 0<dat.size()?  2020/04/02
 		{
-			unsigned char *newDat=new unsigned char [sizeInBytes*2];
+			std::vector <unsigned char> newDat;
+			newDat.resize(sizeInBytes*2);
 			for(int i=0; i<sizeInBytes; i++)
 			{
 				newDat[i*2]  =dat[i];
 				newDat[i*2+1]=dat[i];
 			}
-			delete [] dat;
-			dat=newDat;
+			std::swap(dat,newDat);
 
 			sizeInBytes*=2;
 			bit=16;
@@ -523,13 +520,13 @@ YSRESULT YsSoundPlayer::SoundData::ConvertTo8Bit(void)
 	}
 	else if(bit==16)
 	{
-		unsigned char *newDat=new unsigned char [sizeInBytes/2];
+		std::vector <unsigned char> newDat;
+		newDat.resize(sizeInBytes/2);
 		for(int i=0; i<sizeInBytes; i+=2)
 		{
 			newDat[i/2]=dat[i];
 		}
-		delete [] dat;
-		dat=newDat;
+		std::swap(dat,newDat);
 		bit=8;
 		sizeInBytes/=2;
 		return YSOK;
@@ -547,21 +544,22 @@ YSRESULT YsSoundPlayer::SoundData::ConvertToStereo(void)
 	{
 		if(bit==8)
 		{
-			unsigned char *newDat=new unsigned char [sizeInBytes*2];
+			std::vector <unsigned char> newDat;
+			newDat.resize(sizeInBytes*2);
 			for(int i=0; i<sizeInBytes; i++)
 			{
 				newDat[i*2  ]=dat[i];
 				newDat[i*2+1]=dat[i];
 			}
-			delete [] dat;
-			dat=newDat;
+			std::swap(dat,newDat);
 			stereo=YSTRUE;
 			sizeInBytes*=2;
 			return YSOK;
 		}
 		else if(bit==16)
 		{
-			unsigned char *newDat=new unsigned char [sizeInBytes*2];
+			std::vector <unsigned char> newDat;
+			newDat.resize(sizeInBytes*2);
 			for(int i=0; i<sizeInBytes; i+=2)
 			{
 				newDat[i*2  ]=dat[i];
@@ -569,7 +567,7 @@ YSRESULT YsSoundPlayer::SoundData::ConvertToStereo(void)
 				newDat[i*2+2]=dat[i];
 				newDat[i*2+3]=dat[i+1];
 			}
-			dat=newDat;
+			std::swap(dat,newDat);
 			stereo=YSTRUE;
 			sizeInBytes*=2;
 			return YSOK;
@@ -590,15 +588,15 @@ YSRESULT YsSoundPlayer::SoundData::Resample(int newRate)
 		const size_t newNTimeStep=curNTimeStep*newRate/rate;
 		const size_t newSize=newNTimeStep*bytePerTimeStep;
 
-		unsigned char *newDat=(0<newSize ? new unsigned char [newSize] : NULL);
-		if(NULL!=newDat)
+		std::vector <unsigned char> newDat;
+		newDat.resize(newSize);
 		{
 			for(size_t ts=0; ts<newNTimeStep; ts++)
 			{
 				double oldTimeStepD=(double)curNTimeStep*(double)ts/(double)newNTimeStep;
 				size_t oldTimeStep=(size_t)oldTimeStepD;
 				double param=fmod(oldTimeStepD,1.0);
-				unsigned char *newTimeStepPtr=newDat+ts*bytePerTimeStep;
+				unsigned char *newTimeStepPtr=newDat.data()+ts*bytePerTimeStep;
 
 				for(size_t ch=0; ch<nChannel; ++ch)
 				{
@@ -656,8 +654,7 @@ YSRESULT YsSoundPlayer::SoundData::Resample(int newRate)
 		}
 
 		rate=newRate;
-		delete [] dat;
-		dat=newDat;
+		std::swap(dat,newDat);
 		sizeInBytes=newSize;
 	}
 	return YSOK;
@@ -673,18 +670,17 @@ YSRESULT YsSoundPlayer::SoundData::ConvertToMono(void)
 
 		const size_t newSize=nTimeStep*bytePerSample;
 
-		unsigned char *newDat=(0<newSize ? new unsigned char [newSize] : NULL);
-		if(NULL!=newDat)
+		std::vector <unsigned char> newDat;
+		newDat.resize(newSize);
 		{
 			for(size_t ts=0; ts<nTimeStep; ts++)
 			{
 				const int newValue=(GetSignedValueRaw(0,ts)+GetSignedValueRaw(1,ts))/2;
-				unsigned char *const newTimeStepPtr=newDat+ts*bytePerSample;
+				unsigned char *const newTimeStepPtr=newDat.data()+ts*bytePerSample;
 				SetSignedValueRaw(newTimeStepPtr,newValue);
 			}
 
-			delete [] dat;
-			dat=newDat;
+			std::swap(dat,newDat);
 			sizeInBytes=newSize;
 			stereo=YSFALSE;
 
@@ -769,18 +765,17 @@ YSRESULT YsSoundPlayer::SoundData::DeleteChannel(int channel)
 
 		const size_t newSize=nTimeStep*bytePerSample;
 
-		unsigned char *newDat=(0<newSize ? new unsigned char [newSize] : NULL);
-		if(NULL!=newDat)
+		std::vector <unsigned char> newDat;
+		newDat.resize(newSize);
 		{
 			for(size_t ts=0; ts<nTimeStep; ts++)
 			{
 				const int newValue=GetSignedValueRaw(1-channel,ts);
-				unsigned char *const newTimeStepPtr=newDat+ts*bytePerSample;
+				unsigned char *const newTimeStepPtr=newDat.data()+ts*bytePerSample;
 				SetSignedValueRaw(newTimeStepPtr,newValue);
 			}
 
-			delete [] dat;
-			dat=newDat;
+			std::swap(dat,newDat);
 			sizeInBytes=newSize;
 			stereo=YSFALSE;
 
@@ -944,7 +939,8 @@ int YsSoundPlayer::SoundData::GetSignedValue16(int channel,int atTimeStep) const
 void YsSoundPlayer::SoundData::ResizeByNumSample(long long int nSample)
 {
 	long long int newDataSize=nSample*GetNumChannel()*BytePerSample();
-	unsigned char *newDat=new unsigned char [newDataSize];
+	std::vector <unsigned char> newDat;
+	newDat.resize(newDataSize);
 
 	for(long long int i=0; i<newDataSize && i<sizeInBytes; ++i)
 	{
@@ -955,8 +951,7 @@ void YsSoundPlayer::SoundData::ResizeByNumSample(long long int nSample)
 		newDat[i]=0;
 	}
 
-	delete [] dat;
-	dat=newDat;
+	std::swap(dat,newDat);
 	sizeInBytes=newDataSize;
 }
 

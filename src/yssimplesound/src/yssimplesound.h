@@ -197,7 +197,7 @@ private:
 	unsigned int sizeInBytes;
 
 	YSBOOL isSigned;
-	unsigned char *dat;
+	std::vector <unsigned char> dat;
 	float playBackVolume;
 
 	// Written per API >>
