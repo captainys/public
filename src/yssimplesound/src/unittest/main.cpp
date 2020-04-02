@@ -1,5 +1,6 @@
 #include <vector>
 
+#include <fssimplewindow.h>
 #include <yssimplesound.h>
 
 
@@ -45,11 +46,14 @@ int main(void)
 		return 1;
 	}
 
+	FsOpenWindow(0,0,100,100,0);
+	
 	YsSoundPlayer sndPlayer;
 	sndPlayer.Start();
 	sndPlayer.PlayOneShot(data);
 	while(YSTRUE==sndPlayer.IsPlaying(data))
 	{
+		FsPollDevice();
 		sndPlayer.KeepPlaying();
 	}
 

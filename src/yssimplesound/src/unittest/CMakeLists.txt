@@ -1,6 +1,6 @@
 set(TARGET_NAME yssimplesound_test01)
 add_executable(${TARGET_NAME} main.cpp)
-target_link_libraries(${TARGET_NAME} yssimplesound)
+target_link_libraries(${TARGET_NAME} fssimplewindow yssimplesound)
 
 if(MSVC)
 	target_link_libraries(${TARGET_NAME} yssimplesound_dsound)
