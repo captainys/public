@@ -277,6 +277,12 @@ public:
 	const unsigned char *DataPointer(void) const;
 	const unsigned char *DataPointerAtTimeStep(unsigned int ts) const;
 
+	/*! Create from 44.1KHz stereo sample.  Length is automatically calculated from incoming wave.
+	    The ownership of the wave data will be taken by this class.
+	    Therefore the content of wave will be destroyed.
+	*/
+	YSRESULT CreateFrom44100HzStereo(std::vector <unsigned char> &wave);
+
 	YSRESULT LoadWav(const char fn[]);
 	YSRESULT LoadWav(FILE *fp);
 	YSRESULT LoadWavFromMemory(long long int length,const unsigned char dat[]);

@@ -303,6 +303,24 @@ static unsigned GetUnsignedShort(const unsigned char buf[])
 
 
 
+YSRESULT YsSoundPlayer::SoundData::CreateFrom44100HzStereo(std::vector <unsigned char> &wave)
+{
+	CleanUp();
+
+	stereo=YSTRUE;
+	bit=16;
+	rate=44100;
+	sizeInBytes=wave.size();
+	isSigned=YSTRUE;
+	playBackVolume=1.0;
+
+	dat.swap(wave);
+
+	return YSOK;
+}
+
+
+
 YSRESULT YsSoundPlayer::SoundData::LoadWav(const char fn[])
 {
 	FILE *fp;

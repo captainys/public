@@ -354,3 +354,7 @@ elseif(APPLE)
 elseif(UNIX)
 	add_subdirectory("linux_alsa")
 endif()
+
+
+
+add_subdirectory(unittest)
