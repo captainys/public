@@ -82,6 +82,8 @@ public:
 
 	void PopulateWriteBuffer(unsigned int &writeBufFilledInNStep,unsigned int wavPtr,const SoundData *wavFile,YSBOOL loop,int nThSound);
 	void PrintState(int errCode);
+
+	double GetCurrentPosition(const SoundData &dat) const;
 };
 
 void YsSoundPlayer::APISpecificData::PlayingSound::Make(SoundData &dat,YSBOOL loop)
@@ -461,6 +463,18 @@ void YsSoundPlayer::APISpecificData::PrintState(int errCode)
 	}
 }
 
+double YsSoundPlayer::APISpecificData::GetCurrentPosition(const SoundData &dat) const
+{
+ 	for(auto &p : playing)
+	{
+		if(nullptr==p.dat)
+		{
+			return (double)p.ptr/(double)dat.PlayBackRate();
+		}
+	}
+	return 0.0;
+}
+
 ////////////////////////////////////////////////////////////
 
 YsSoundPlayer::APISpecificData *YsSoundPlayer::CreateAPISpecificData(void)
@@ -547,9 +561,9 @@ YSBOOL YsSoundPlayer::IsPlayingAPISpecific(const SoundData &dat) const
 	return YSFALSE;
 }
 
-double YsSoundPlayer::GetCurrentPositionAPISpecific(const SoundData &) const
+double YsSoundPlayer::GetCurrentPositionAPISpecific(const SoundData &dat) const
 {
-	return 0.0;
+	return api->GetCurrentPosition(dat);
 }
 
 void YsSoundPlayer::StopAPISpecific(SoundData &dat)
