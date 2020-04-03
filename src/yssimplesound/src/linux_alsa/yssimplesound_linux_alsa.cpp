@@ -553,7 +553,7 @@ YSBOOL YsSoundPlayer::IsPlayingAPISpecific(const SoundData &dat) const
 {
 	for(auto &p : api->playing)
 	{
-		if(nullptr!=p.dat)
+		if(&dat==p.dat)
 		{
 			return YSTRUE;
 		}
