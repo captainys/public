@@ -294,6 +294,13 @@ YSBOOL YsSoundPlayer::IsPlayingAPISpecific(const SoundData &dat) const
 	return YSFALSE;
 }
 
+void YsSoundPlayer::PauseAPISpecific(SoundData &dat)
+{
+}
+void YsSoundPlayer::ResumeAPISpecific(SoundData &dat)
+{
+}
+
 double YsSoundPlayer::GetCurrentPositionAPISpecific(const SoundData &dat) const
 {
 	DWORD playCursor,writeCursor;
