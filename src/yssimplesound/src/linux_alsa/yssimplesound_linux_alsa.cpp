@@ -547,6 +547,11 @@ YSBOOL YsSoundPlayer::IsPlayingAPISpecific(const SoundData &dat) const
 	return YSFALSE;
 }
 
+double YsSoundPlayer::GetCurrentPositionAPISpecific(const SoundData &) const
+{
+	return 0.0;
+}
+
 void YsSoundPlayer::StopAPISpecific(SoundData &dat)
 {
 	YSBOOL stopped=YSFALSE;
