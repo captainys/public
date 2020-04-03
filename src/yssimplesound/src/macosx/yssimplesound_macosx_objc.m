@@ -129,5 +129,14 @@ bool YsSimpleSound_OSX_IsPlaying(struct YsNSSound *ptr)
 
 double YsSimpleSound_OSX_GetCurrentPosition(struct YsNSSound *ptr)
 {
+	if(nil!=ptr)
+	{
+#if !__has_feature(objc_arc)
+		NSSound *snd=ptr->snd;
+#else
+		NSSound *snd=(__bridge NSSound *)(ptr->snd);
+#endif
+		return [snd currentTime];
+	}
 	return 0.0;
 }
