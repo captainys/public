@@ -81,6 +81,21 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ////////////////////////////////////////////////////////////
 
+/* virtual */ YSRESULT YsShellExt::PassInPolygonStorePassAllEdge::TestPolygon(const YsShellExt &shl,YsShellPolygonHandle plHd) const
+{
+	if(YSTRUE==plgStorePtr->IsIncluded(plHd))
+	{
+		return YSOK;
+	}
+	return YSERR;
+}
+/* virtual */ YSRESULT YsShellExt::PassInPolygonStorePassAllEdge::TestEdge(const YsShellExt &shl,YsShellVertexHandle edVtHd0,YsShellVertexHandle edVtHd1) const
+{
+	return YSOK;
+}
+
+////////////////////////////////////////////////////////////
+
 YsShellExt::TrackingAlongEdgeStore::TrackingAlongEdgeStore(const YsShellEdgeStore &edgeStore)
 {
 	edgeStorePointer=&edgeStore;

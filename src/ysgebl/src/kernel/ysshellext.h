@@ -1089,6 +1089,13 @@ public:
 		virtual YSRESULT TestEdge(const YsShellExt &shl,YsShellVertexHandle edVtHd0,YsShellVertexHandle edVtHd1) const;
 		YsShellExt::FaceGroupHandle fgHd;
 	};
+	class PassInPolygonStorePassAllEdge : public Condition
+	{
+	public:
+		virtual YSRESULT TestPolygon(const YsShellExt &shl,YsShellPolygonHandle plHd) const;
+		virtual YSRESULT TestEdge(const YsShellExt &shl,YsShellVertexHandle edVtHd0,YsShellVertexHandle edVtHd1) const;
+		const YsShellPolygonStore *plgStorePtr=nullptr;
+	};
 	class PassAllPolygonDontPassConstEdge : public Condition
 	{
 	public:

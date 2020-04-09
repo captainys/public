@@ -220,6 +220,7 @@ ysshellext_alignmentutil.cpp
 ./ysshellext_snakeutil.cpp
 ysshellext_constedgesmoother.cpp
 ./ysshellext_quadmeshutil.cpp
+./ysshellext_facegroupextender.cpp
 )
 
 set(HEADERS
@@ -290,6 +291,8 @@ ysshellext_curvatureutil.h
 ysshellext_snakeutil.h
 ysshellext_constedgesmoother.h
 ysshellext_quadmeshutil.h
+ysshellext_facegroupextender.h
+./ysshellext_facegroupextender.h
 )
 
 
