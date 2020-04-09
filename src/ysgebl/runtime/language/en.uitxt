@@ -477,6 +477,7 @@ $BGCOL 0
 +menu/utility/facegroup                            #Face Group
 +menu/utility/facegroup/clearall                   #Delete All Face Groups
 +menu/utility/facegroup/expand_to_unassigned       #Expand Current Face Groups to Unassigned Polygons
++menu/utility/facegroup/from_connection            #Make Face Groups from Connection
 +menu/utility/facegroup/setname                    #Set Face Group Name
 +menu/utility/facegroup_from_constedge             #Make Face Groups from Const Edges
 +menu/utility/paint_based_on_facegroup             #Paint Based on Face Groups

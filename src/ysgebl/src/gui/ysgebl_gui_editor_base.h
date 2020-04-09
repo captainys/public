@@ -1129,6 +1129,8 @@ public:
 
 	void UtilMenu_ExpandCurrentFaceGroupToUnassignedPolygon(FsGuiPopUpMenuItem *);
 
+	void UtilMenu_MakeFaceGroupFromConnection(FsGuiPopUpMenuItem *);
+
 
 
 	void RepairMenu_FreeStitching(FsGuiPopUpMenuItem *);

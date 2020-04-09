@@ -673,6 +673,7 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 			FsGuiPopUpMenu *faceGroupSubMenu=utilSubMenu->AddTextItem(0,FSKEY_C,FSGUI_MENU_UTILITY_FACEGROUP)->AddSubMenu();
 			faceGroupSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_FACEGROUP_CLEARALL,UtilMenu_ClearFaceGroupAll,this);
 			faceGroupSubMenu->AddTextItem(mainMenu->MkId("util/faceGroup/fromConstEdge"),FSKEY_C,FSGUI_MENU_UTILITY_FACEGROUP_FROM_CONSTEDGE,UtilMenu_MakeFaceGroupFromConstEdge,this);
+			faceGroupSubMenu->AddTextItem(mainMenu->MkId("util/faceGroup/fromConnection"),FSKEY_NULL,FSGUI_MENU_UTILITY_FACEGROUP_FROM_CONNECTION)->BindCallBack(&THISCLASS::UtilMenu_MakeFaceGroupFromConnection,this);
 			faceGroupSubMenu->AddTextItem(0,FSKEY_P,FSGUI_MENU_UTILITY_PAINT_BASED_ON_FACEGROUP)->BindCallBack(&THISCLASS::UtilMenu_PaintBasedOnFaceGroup,this);
 			faceGroupSubMenu->AddTextItem(0,FSKEY_N,FSGUI_MENU_UTILITY_FACEGROUP_SETNAME,UtilMenu_FaceGroup_SetName,this);
 			faceGroupSubMenu->AddTextItem(0,FSKEY_X,FSGUI_MENU_UTILITY_FACEGROUP_EXPAND_TO_UNASSIGNED)->BindCallBack(&THISCLASS::UtilMenu_ExpandCurrentFaceGroupToUnassignedPolygon,this);

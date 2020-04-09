@@ -476,6 +476,7 @@ $BGCOL 0
 +menu/utility/facegroup                            #ポリゴングループ
 +menu/utility/facegroup/clearall                   #全ポリゴングループを削除
 +menu/utility/facegroup/expand_to_unassigned       #ポリゴングループに属さないポリゴンを隣接するポリゴングループに加える
++menu/utility/facegroup/from_connection            #Make Face Groups from Connection
 +menu/utility/facegroup/setname                    #ポリゴングループ名を設定
 +menu/utility/facegroup_from_constedge             #拘束線を元にポリゴングループを作る
 +menu/utility/paint_based_on_facegroup             #ポリゴングループを違う色で塗りわけ

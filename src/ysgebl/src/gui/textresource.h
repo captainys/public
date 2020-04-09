@@ -517,6 +517,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_MENU_UTILITY_FACEGROUP                      FsGetTextResource("menu/utility/facegroup",L"Face Group")
 #define FSGUI_MENU_UTILITY_FACEGROUP_CLEARALL             FsGetTextResource("menu/utility/facegroup/clearall",L"Delete All Face Groups")
 #define FSGUI_MENU_UTILITY_FACEGROUP_EXPAND_TO_UNASSIGNED FsGetTextResource("menu/utility/facegroup/expand_to_unassigned",L"Expand Current Face Groups to Unassigned Polygons")
+#define FSGUI_MENU_UTILITY_FACEGROUP_FROM_CONNECTION      FsGetTextResource("menu/utility/facegroup/from_connection",L"Make Face Groups from Connection")
 #define FSGUI_MENU_UTILITY_FACEGROUP_FROM_CONSTEDGE       FsGetTextResource("menu/utility/facegroup_from_constedge",L"Make Face Groups from Const Edges")
 #define FSGUI_MENU_UTILITY_FACEGROUP_SETNAME              FsGetTextResource("menu/utility/facegroup/setname",L"Set Face Group Name")
 #define FSGUI_MENU_UTILITY_PAINT_BASED_ON_FACEGROUP       FsGetTextResource("menu/utility/paint_based_on_facegroup",L"Paint Based on Face Groups")

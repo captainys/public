@@ -682,3 +682,23 @@ void GeblGuiEditorBase::UtilMenu_AddConstEdgeAlongColorBoundary(FsGuiPopUpMenuIt
 		SetNeedRedraw(YSTRUE);
 	}
 }
+
+void GeblGuiEditorBase::UtilMenu_MakeFaceGroupFromConnection(FsGuiPopUpMenuItem *)
+{
+	if(NULL!=Slhd())
+	{
+		YsShellExtEdit &shl=*Slhd();
+
+		YsShellExtEdit::StopIncUndo incUndo(shl);
+		for(auto plHd : shl.AllPolygon())
+		{
+			auto fgHd=shl.FindFaceGroupFromPolygon(plHd);
+			if(nullptr==fgHd)
+			{
+				YsShellExt::PassAll cond;
+				auto connPlHd=YsShellExt_TrackingUtil::FloodFill(shl.Conv(),plHd,cond);
+				shl.AddFaceGroup(connPlHd);
+			}
+		}
+	}
+}
