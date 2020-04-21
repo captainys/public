@@ -229,7 +229,7 @@ public:
 private:
 	YSRESULT FindFirstIntersectionWithPrecisionFlag
 	    (YsShellPolygonHandle  &iPlHd,YsVec3 &itsc,
-	     const YsVec3 &org,const YsVec3 &dir,YSBOOL highPrecision,YSSIZE_T nPlHdExclude,const YsShellPolygonHandle plHdExclude[]) const;
+	     const YsVec3 &org,YsVec3 dir,YSBOOL highPrecision,YSSIZE_T nPlHdExclude,const YsShellPolygonHandle plHdExclude[]) const;
 
 public:
 	YSRESULT GetCellListFromPolygon

@@ -2108,8 +2108,13 @@ YsShell::Elem YsShellLattice::ConvertIntersection(YsShell::PolygonHandle PlHd,co
 
 YSRESULT YsShellLattice::FindFirstIntersectionWithPrecisionFlag
     (YsShellPolygonHandle  &iPlHd,YsVec3 &itsc,
-     const YsVec3 &org,const YsVec3 &dir,YSBOOL highPrecision,YSSIZE_T nPlHdExclude,const YsShellPolygonHandle plHdExclude[]) const
+     const YsVec3 &org,YsVec3 dir,YSBOOL highPrecision,YSSIZE_T nPlHdExclude,const YsShellPolygonHandle plHdExclude[]) const
 {
+	if(YSOK!=dir.Normalize())
+	{
+		return YSERR;
+	}
+
 	if(NULL!=subLattice)
 	{
 		YsVec3 subLatRange[2];
