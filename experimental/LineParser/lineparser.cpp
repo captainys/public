@@ -266,7 +266,7 @@ long long int LineParser::Evaluate(const Term *t) const
 		}
 		else
 		{
-			printf("Unsupported unary operator %s\n",t->next->label.c_str());
+			std::cout << "Unsupported unary operator: " << t->next->label << std::endl;
 			return 0;
 		}
 	}
@@ -302,7 +302,7 @@ long long int LineParser::Evaluate(const Term *t) const
 		{
 			if(0==right)
 			{
-				printf("Division by zero.\n");
+				std::cout << "Division by zero." << std::endl;
 				return 0;
 			}
 			else
@@ -314,7 +314,7 @@ long long int LineParser::Evaluate(const Term *t) const
 		{
 			if(0==right)
 			{
-				printf("Division by zero.\n");
+				std::cout << "Division by zero." << std::endl;
 				return 0;
 			}
 			else
@@ -324,13 +324,13 @@ long long int LineParser::Evaluate(const Term *t) const
 		}
 		else
 		{
-			printf("Unsupported binary operator %s\n",t->next->label.c_str());
+			std::cout << "Unsupported binary operator: " << t->next->label << std::endl;
 			return 0;
 		}
 	}
 	else
 	{
-		printf("Decomposition failed.\n");
+		std::cout << "Decomposition failed." << std::endl;
 		return 0;
 	}
 }
@@ -360,9 +360,9 @@ void LineParser::Print(const Term *t,int indent) const
 	{
 		for(int i=0; i<indent; ++i)
 		{
-			putchar(' ');
+			std::cout << " ";
 		}
-		printf("%s\n",t->label.c_str());
+		std::cout << t->label << std::endl;
 		Print(t->child,indent+2);
 		t=t->next;
 	}
@@ -401,7 +401,7 @@ bool LineParser::ClampParenthesis(Term * &current,char left)
 			   (left=='[' && current->label[0]!=']') ||
 			   (left=='{' && current->label[0]!='}'))
 			{
-				printf("Opening and closing mismatch!\n");
+				std::cout << "Opening and closing mismatch!" << std::endl;
 				return false;
 			}
 			return true;
@@ -410,7 +410,9 @@ bool LineParser::ClampParenthesis(Term * &current,char left)
 	}
 	if(0!=left)
 	{
-		printf("Unclosed %c\n",left);
+		std::string op;
+		op.push_back(left);
+		std::cout << "Unclosed: " << op << std::endl;
 		return false;
 	}
 	return true;
