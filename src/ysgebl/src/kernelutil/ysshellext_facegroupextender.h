@@ -35,12 +35,145 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "ysshellext.h"
+#include "ysshellext_boundaryutil.h"
+#include "ysshellext_trackingutil.h"
 
 class YsShellExt_FaceGroupExtender
 {
 public:
-	YSRESULT ExtendFaceGroup(YsShellExt &shl,YsConstArrayMask <YsShell::PolygonHandle> fgPlHd,const YsVec3 box[2]);
-	YSRESULT ExtendFaceGroupContour(YsShellExt &shl,const YsShellPolygonStore &fgPlHd,YsConstArrayMask <YsShell::VertexHandle> contour,const YsVec3 box[2]);
+	template <class SHLCLASS>
+	YSRESULT ExtendFaceGroup(SHLCLASS &shl,YsConstArrayMask <YsShell::PolygonHandle> fgPlHd,const YsVec3 box[2])
+	{
+		YsShellExt_BoundaryInfo boundary;
+		YsShellPolygonStore fgPlStore(shl.Conv());
+		for(auto plHd : fgPlHd)
+		{
+			fgPlStore.Add(plHd);
+		}
+
+		boundary.MakeInfo(shl.Conv(),fgPlStore);
+		if(YSOK==boundary.CacheContour(shl.Conv()))
+		{
+			for(auto &contour : boundary.GetContourAll())
+			{
+				ExtendFaceGroupContour(shl,fgPlStore,contour,box);
+			}
+		}
+
+		return YSOK;
+	}
+
+	template <class SHLCLASS>
+	YSRESULT ExtendFaceGroupContour(SHLCLASS &shl,const YsShellPolygonStore &fgPlHd,YsConstArrayMask <YsShell::VertexHandle> contour,const YsVec3 boxIn[2])
+	{
+printf("%s %d %lld\n",__FUNCTION__,__LINE__,contour.size());
+		YsBoundingBoxMaker <YsVec3> box;
+		box.Make(2,boxIn);
+
+		YsArray <YsShell::VertexHandle> extVtHd;
+		extVtHd.resize(contour.size());
+		for(YSSIZE_T idx=0; idx<contour.size(); ++idx)
+		{
+			extVtHd[idx]=nullptr;
+printf("%s %d\n",__FUNCTION__,__LINE__);
+printf("%s\n",shl.GetVertexPosition(contour[idx]).Txt());
+
+			YsShell::PolygonHandle plHd0=nullptr;
+			for(auto plHd : shl.FindPolygonFromEdgePiece(contour[idx],contour.GetCyclic(idx+1)))
+			{
+				if(YSTRUE==fgPlHd.IsIncluded(plHd))
+				{
+					plHd0=plHd;
+					break;
+				}
+			}
+			if(nullptr==plHd0)
+			{
+				continue;
+			}
+
+printf("%s %d\n",__FUNCTION__,__LINE__);
+			YsShell::PolygonHandle lastPlHd;
+			YsShellExt::PassInPolygonStorePassAllEdge cond;
+			cond.plgStorePtr=&fgPlHd;
+			auto fanVtHd=YsShellExt_TrackingUtil::MakeVertexFanAroundVertexNonTriangular(lastPlHd,shl.Conv(),contour[idx],contour.GetCyclic(idx+1),plHd0,cond);
+printf("%d\n",(int)fanVtHd.size());
+			if(fanVtHd.size()<2)
+			{
+				continue;
+			}
+
+printf("%s %d\n",__FUNCTION__,__LINE__);
+			// Make it on the ball.
+			YsArray <YsVec3> vecOnBall;
+			vecOnBall.resize(fanVtHd.size());
+			for(YSSIZE_T idx=0; idx<fanVtHd.size(); ++idx)
+			{
+printf("%s\n",shl.GetVertexPosition(fanVtHd[idx]).Txt());
+				YsVec3 vec=shl.GetVertexPosition(fanVtHd[idx])-shl.GetVertexPosition(contour[idx]);
+				vecOnBall[idx]=YsVec3::UnitVector(vec);
+			}
+
+printf("%s %d\n",__FUNCTION__,__LINE__);
+			YsArray <double> fanAngle;
+			double totalFanAngle=0.0;
+			fanAngle.resize(vecOnBall.size()-1);
+			for(YSSIZE_T idx=0; idx+1<fanAngle.size(); ++idx)
+			{
+				double dotProd=vecOnBall[idx]*vecOnBall[idx+1];
+				dotProd=YsBound(dotProd,-1.0,1.0);
+				fanAngle[idx]=acos(dotProd);
+				totalFanAngle+=fanAngle[idx];
+			}
+			if(totalFanAngle<YsTolerance)
+			{
+				continue;
+			}
+
+printf("%s %d %lf\n",__FUNCTION__,__LINE__,totalFanAngle);
+			YsVec3 midVec=YsVec3::Origin();
+			double fanAngleAccum=0.0;
+			for(YSSIZE_T i=0; i<fanAngle.size(); ++i)
+			{
+				if(totalFanAngle/2.0<=fanAngleAccum+fanAngle[i])
+				{
+					const double t=(totalFanAngle/2.0-fanAngleAccum)/fanAngle[i];
+					midVec=-(vecOnBall[i]*(1.0-t)+vecOnBall[i+1]*t);
+				}
+				fanAngleAccum+=fanAngle[i];
+			}
+			if(midVec.Normalize()!=YSOK)
+			{
+				continue;
+			}
+
+printf("%s %d\n",__FUNCTION__,__LINE__);
+			YsVec3 org=shl.GetVertexPosition(contour[idx]);
+			if(org.x()<=box[0].x() || org.y()<=box[0].y() || org.z()<=box[0].z() ||
+			   org.x()>=box[1].x() || org.y()>=box[1].y() || org.z()>=box[1].z())
+			{
+				continue;
+			}
+printf("%s %d\n",__FUNCTION__,__LINE__);
+
+			midVec*=box.GetDiagonal().GetLength();
+
+			YsVec3 clipped[2];
+			if(YSOK==YsClipLineSeg3(clipped[0],clipped[1],org,org+midVec,box[0],box[1]))
+			{
+				if(clipped[0]==org)
+				{
+					extVtHd[idx]=shl.AddVertex(clipped[1]);
+				}
+				else if(clipped[1]==org)
+				{
+					extVtHd[idx]=shl.AddVertex(clipped[0]);
+				}
+			}
+		}
+printf("%s %d\n",__FUNCTION__,__LINE__);
+		return YSOK;
+	}
 };
 
 

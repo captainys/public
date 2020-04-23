@@ -177,6 +177,13 @@ public:
 	    YsShellPolygonHandle &lastPlHd,
 	    const YsShellExt &shl,YsShell::VertexHandle vtHd0,YsShell::VertexHandle vtHd1,YsShellPolygonHandle plHd0,YsShellExt::Condition &cond);
 
+	/*! This function makes a chain of vertices of the polygons around vtHd0.
+	    If a polygon connected to vtHd0 is not a triangle, a vertex returned may not be directly connected to vtHd0.
+	    */
+	static YsArray <YsShellVertexHandle> MakeVertexFanAroundVertexNonTriangular(
+	    YsShellPolygonHandle &lastPlHd,
+	    const YsShellExt &shl,YsShell::VertexHandle vtHd0,YsShell::VertexHandle vtHd1,YsShellPolygonHandle plHd0,YsShellExt::Condition &cond);
+
 	/*! This function returns N-neighbor vertices starting from vertex FromVtHd. 
 	    The returned array will include FromVtHd. */
 	static YsArray <YsShell::VertexHandle> GetNNeighbor(const YsShellExt &Shl,YsShell::VertexHandle FromVtHd,int N);

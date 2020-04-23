@@ -735,6 +735,82 @@ void YsShellExt_GroupEdgeConnectedPolygonByCondition(YsArray <YsArray <YsShellPo
 	return fanVtHd;
 }
 
+/* static */ YsArray <YsShellVertexHandle> YsShellExt_TrackingUtil::MakeVertexFanAroundVertexNonTriangular(
+	    YsShellPolygonHandle &lastPlHd,
+	    const YsShellExt &shl,YsShell::VertexHandle vtHd0,YsShell::VertexHandle vtHd1,YsShellPolygonHandle plHd0,YsShellExt::Condition &cond)
+{
+	YsArray <YsShell::VertexHandle> fanVtHd;
+	fanVtHd.Append(vtHd1);
+
+	auto curPlHd=plHd0;
+	auto curVtHd=vtHd1;
+
+	for(;;)  // As long as it can go
+	{
+		YsShellPolygonHandle nextPlHd=NULL;
+		YsArray <YsShellVertexHandle> nextVtHd;
+
+		auto plVtHd=shl.GetPolygonVertex(curPlHd);
+		for(YSSIZE_T idx=0; idx<plVtHd.GetN(); ++idx)
+		{
+			if(plVtHd[idx]==vtHd0)
+			{
+				if(0<nextVtHd.size())
+				{
+					nextVtHd.clear();
+					break;
+				}
+				else
+				{
+					if(plVtHd.GetCyclic(idx-1)==curVtHd && plVtHd.GetCyclic(idx+1)!=curVtHd)
+					{
+						for(int i=0; i+2<plVtHd.size(); ++i)
+						{
+							nextVtHd.push_back(plVtHd.GetCyclic(idx-2-i));
+						}
+					}
+					else if(plVtHd.GetCyclic(idx-1)!=curVtHd && plVtHd.GetCyclic(idx+1)==curVtHd)
+					{
+						for(int i=0; i+2<plVtHd.size(); ++i)
+						{
+							nextVtHd.push_back(plVtHd.GetCyclic(idx+2+i));
+						}
+					}
+					else
+					{
+						nextVtHd.clear();
+						break;
+					}
+				}
+			}
+		}
+
+		if(0==nextVtHd.size())
+		{
+			break;
+		}
+
+		lastPlHd=nextPlHd;
+
+		fanVtHd.Append(nextVtHd);
+
+		if(YSOK!=cond.TestEdge(shl,vtHd0,nextVtHd.back()))
+		{
+			break;
+		}
+
+		nextPlHd=shl.GetNeighborPolygon(curPlHd,vtHd0,nextVtHd.back());
+		if(NULL==nextPlHd || YSOK!=cond.TestPolygon(shl,nextPlHd) || YSTRUE==fanVtHd.IsIncluded(nextVtHd.back()))
+		{
+			break;
+		}
+
+		curPlHd=nextPlHd;
+		curVtHd=nextVtHd.back();
+	}
+
+	return fanVtHd;
+}
 
 /* static */ YsArray <YsShell::VertexHandle> YsShellExt_TrackingUtil::GetNNeighbor(const YsShellExt &shl,YsShell::VertexHandle fromVtHd,int nNeighbor)
 {
