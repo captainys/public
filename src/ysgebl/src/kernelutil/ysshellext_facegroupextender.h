@@ -56,6 +56,10 @@ public:
 		{
 			for(auto &contour : boundary.GetContourAll())
 			{
+				if(2<=contour.size() && contour[0]==contour.back())
+				{
+					contour.pop_back();
+				}
 				ExtendFaceGroupContour(shl,fgPlStore,contour,box);
 			}
 		}
@@ -74,21 +78,26 @@ printf("%s %d %lld\n",__FUNCTION__,__LINE__,contour.size());
 		extVtHd.resize(contour.size());
 		for(YSSIZE_T idx=0; idx<contour.size(); ++idx)
 		{
+			auto pivotVtHd=contour[idx];
+
 			extVtHd[idx]=nullptr;
 printf("%s %d\n",__FUNCTION__,__LINE__);
-printf("%s\n",shl.GetVertexPosition(contour[idx]).Txt());
+printf("%s\n",shl.GetVertexPosition(pivotVtHd).Txt());
 
 			YsShell::PolygonHandle plHd0=nullptr;
-			for(auto plHd : shl.FindPolygonFromEdgePiece(contour[idx],contour.GetCyclic(idx+1)))
+			for(auto plHd : shl.FindPolygonFromEdgePiece(pivotVtHd,contour.GetCyclic(idx+1)))
 			{
 				if(YSTRUE==fgPlHd.IsIncluded(plHd))
 				{
+printf("%s %d\n",__FUNCTION__,__LINE__);
 					plHd0=plHd;
 					break;
 				}
 			}
 			if(nullptr==plHd0)
 			{
+printf("%d\n",(int)fgPlHd.size());
+printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 
@@ -96,10 +105,11 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 			YsShell::PolygonHandle lastPlHd;
 			YsShellExt::PassInPolygonStorePassAllEdge cond;
 			cond.plgStorePtr=&fgPlHd;
-			auto fanVtHd=YsShellExt_TrackingUtil::MakeVertexFanAroundVertexNonTriangular(lastPlHd,shl.Conv(),contour[idx],contour.GetCyclic(idx+1),plHd0,cond);
+			auto fanVtHd=YsShellExt_TrackingUtil::MakeVertexFanAroundVertexNonTriangular(lastPlHd,shl.Conv(),pivotVtHd,contour.GetCyclic(idx+1),plHd0,cond);
 printf("%d\n",(int)fanVtHd.size());
 			if(fanVtHd.size()<2)
 			{
+printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 
@@ -109,8 +119,8 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 			vecOnBall.resize(fanVtHd.size());
 			for(YSSIZE_T idx=0; idx<fanVtHd.size(); ++idx)
 			{
-printf("%s\n",shl.GetVertexPosition(fanVtHd[idx]).Txt());
-				YsVec3 vec=shl.GetVertexPosition(fanVtHd[idx])-shl.GetVertexPosition(contour[idx]);
+				YsVec3 vec=shl.GetVertexPosition(fanVtHd[idx])-shl.GetVertexPosition(pivotVtHd);
+printf("%s (%s)\n",shl.GetVertexPosition(fanVtHd[idx]).Txt(),vec.Txt());
 				vecOnBall[idx]=YsVec3::UnitVector(vec);
 			}
 
@@ -118,15 +128,17 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 			YsArray <double> fanAngle;
 			double totalFanAngle=0.0;
 			fanAngle.resize(vecOnBall.size()-1);
-			for(YSSIZE_T idx=0; idx+1<fanAngle.size(); ++idx)
+			for(YSSIZE_T idx=0; idx<fanAngle.size(); ++idx)
 			{
 				double dotProd=vecOnBall[idx]*vecOnBall[idx+1];
 				dotProd=YsBound(dotProd,-1.0,1.0);
 				fanAngle[idx]=acos(dotProd);
 				totalFanAngle+=fanAngle[idx];
+printf("FA %lf\n",fanAngle[idx]);
 			}
 			if(totalFanAngle<YsTolerance)
 			{
+printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 
@@ -144,14 +156,16 @@ printf("%s %d %lf\n",__FUNCTION__,__LINE__,totalFanAngle);
 			}
 			if(midVec.Normalize()!=YSOK)
 			{
+printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 
 printf("%s %d\n",__FUNCTION__,__LINE__);
-			YsVec3 org=shl.GetVertexPosition(contour[idx]);
+			YsVec3 org=shl.GetVertexPosition(pivotVtHd);
 			if(org.x()<=box[0].x() || org.y()<=box[0].y() || org.z()<=box[0].z() ||
 			   org.x()>=box[1].x() || org.y()>=box[1].y() || org.z()>=box[1].z())
 			{
+printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 printf("%s %d\n",__FUNCTION__,__LINE__);
