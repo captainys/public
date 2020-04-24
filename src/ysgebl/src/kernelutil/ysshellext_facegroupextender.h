@@ -97,7 +97,6 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 			if(nullptr==plHd0)
 			{
 printf("%d\n",(int)fgPlHd.size());
-printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 
@@ -109,7 +108,6 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 printf("%d\n",(int)fanVtHd.size());
 			if(fanVtHd.size()<2)
 			{
-printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 
@@ -138,7 +136,6 @@ printf("FA %lf\n",fanAngle[idx]);
 			}
 			if(totalFanAngle<YsTolerance)
 			{
-printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 
@@ -151,12 +148,12 @@ printf("%s %d %lf\n",__FUNCTION__,__LINE__,totalFanAngle);
 				{
 					const double t=(totalFanAngle/2.0-fanAngleAccum)/fanAngle[i];
 					midVec=-(vecOnBall[i]*(1.0-t)+vecOnBall[i+1]*t);
+					break;
 				}
 				fanAngleAccum+=fanAngle[i];
 			}
 			if(midVec.Normalize()!=YSOK)
 			{
-printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 
@@ -165,7 +162,6 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 			if(org.x()<=box[0].x() || org.y()<=box[0].y() || org.z()<=box[0].z() ||
 			   org.x()>=box[1].x() || org.y()>=box[1].y() || org.z()>=box[1].z())
 			{
-printf("%s %d>",__FUNCTION__,__LINE__);getchar();
 				continue;
 			}
 printf("%s %d\n",__FUNCTION__,__LINE__);

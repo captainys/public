@@ -792,6 +792,11 @@ void YsShellExt_GroupEdgeConnectedPolygonByCondition(YsArray <YsArray <YsShellPo
 
 		lastPlHd=nextPlHd;
 
+		if(YSTRUE==fanVtHd.IsIncluded(nextVtHd.back()))
+		{
+			break;
+		}
+
 		fanVtHd.Append(nextVtHd);
 
 		if(YSOK!=cond.TestEdge(shl,vtHd0,nextVtHd.back()))
@@ -800,7 +805,7 @@ void YsShellExt_GroupEdgeConnectedPolygonByCondition(YsArray <YsArray <YsShellPo
 		}
 
 		nextPlHd=shl.GetNeighborPolygon(curPlHd,vtHd0,nextVtHd.back());
-		if(NULL==nextPlHd || YSOK!=cond.TestPolygon(shl,nextPlHd) || YSTRUE==fanVtHd.IsIncluded(nextVtHd.back()))
+		if(NULL==nextPlHd || YSOK!=cond.TestPolygon(shl,nextPlHd))
 		{
 			break;
 		}
