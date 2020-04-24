@@ -44,6 +44,8 @@ public:
 	template <class SHLCLASS>
 	YSRESULT ExtendFaceGroup(SHLCLASS &shl,YsConstArrayMask <YsShell::PolygonHandle> fgPlHd,const YsVec3 box[2])
 	{
+		SHLCLASS::StopIncUndo undoGuard(shl);
+
 		YsShellExt_BoundaryInfo boundary;
 		YsShellPolygonStore fgPlStore(shl.Conv());
 		for(auto plHd : fgPlHd)
@@ -70,7 +72,8 @@ public:
 	template <class SHLCLASS>
 	YSRESULT ExtendFaceGroupContour(SHLCLASS &shl,const YsShellPolygonStore &fgPlHd,YsConstArrayMask <YsShell::VertexHandle> contour,const YsVec3 boxIn[2])
 	{
-printf("%s %d %lld\n",__FUNCTION__,__LINE__,contour.size());
+		SHLCLASS::StopIncUndo undoGuard(shl);
+
 		YsBoundingBoxMaker <YsVec3> box;
 		box.Make(2,boxIn);
 
@@ -81,48 +84,39 @@ printf("%s %d %lld\n",__FUNCTION__,__LINE__,contour.size());
 			auto pivotVtHd=contour[idx];
 
 			extVtHd[idx]=nullptr;
-printf("%s %d\n",__FUNCTION__,__LINE__);
-printf("%s\n",shl.GetVertexPosition(pivotVtHd).Txt());
 
 			YsShell::PolygonHandle plHd0=nullptr;
 			for(auto plHd : shl.FindPolygonFromEdgePiece(pivotVtHd,contour.GetCyclic(idx+1)))
 			{
 				if(YSTRUE==fgPlHd.IsIncluded(plHd))
 				{
-printf("%s %d\n",__FUNCTION__,__LINE__);
 					plHd0=plHd;
 					break;
 				}
 			}
 			if(nullptr==plHd0)
 			{
-printf("%d\n",(int)fgPlHd.size());
 				continue;
 			}
 
-printf("%s %d\n",__FUNCTION__,__LINE__);
 			YsShell::PolygonHandle lastPlHd;
 			YsShellExt::PassInPolygonStorePassAllEdge cond;
 			cond.plgStorePtr=&fgPlHd;
 			auto fanVtHd=YsShellExt_TrackingUtil::MakeVertexFanAroundVertexNonTriangular(lastPlHd,shl.Conv(),pivotVtHd,contour.GetCyclic(idx+1),plHd0,cond);
-printf("%d\n",(int)fanVtHd.size());
 			if(fanVtHd.size()<2)
 			{
 				continue;
 			}
 
-printf("%s %d\n",__FUNCTION__,__LINE__);
 			// Make it on the ball.
 			YsArray <YsVec3> vecOnBall;
 			vecOnBall.resize(fanVtHd.size());
 			for(YSSIZE_T idx=0; idx<fanVtHd.size(); ++idx)
 			{
 				YsVec3 vec=shl.GetVertexPosition(fanVtHd[idx])-shl.GetVertexPosition(pivotVtHd);
-printf("%s (%s)\n",shl.GetVertexPosition(fanVtHd[idx]).Txt(),vec.Txt());
 				vecOnBall[idx]=YsVec3::UnitVector(vec);
 			}
 
-printf("%s %d\n",__FUNCTION__,__LINE__);
 			YsArray <double> fanAngle;
 			double totalFanAngle=0.0;
 			fanAngle.resize(vecOnBall.size()-1);
@@ -132,14 +126,12 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 				dotProd=YsBound(dotProd,-1.0,1.0);
 				fanAngle[idx]=acos(dotProd);
 				totalFanAngle+=fanAngle[idx];
-printf("FA %lf\n",fanAngle[idx]);
 			}
 			if(totalFanAngle<YsTolerance)
 			{
 				continue;
 			}
 
-printf("%s %d %lf\n",__FUNCTION__,__LINE__,totalFanAngle);
 			YsVec3 midVec=YsVec3::Origin();
 			double fanAngleAccum=0.0;
 			for(YSSIZE_T i=0; i<fanAngle.size(); ++i)
@@ -157,14 +149,12 @@ printf("%s %d %lf\n",__FUNCTION__,__LINE__,totalFanAngle);
 				continue;
 			}
 
-printf("%s %d\n",__FUNCTION__,__LINE__);
 			YsVec3 org=shl.GetVertexPosition(pivotVtHd);
 			if(org.x()<=box[0].x() || org.y()<=box[0].y() || org.z()<=box[0].z() ||
 			   org.x()>=box[1].x() || org.y()>=box[1].y() || org.z()>=box[1].z())
 			{
 				continue;
 			}
-printf("%s %d\n",__FUNCTION__,__LINE__);
 
 			midVec*=box.GetDiagonal().GetLength();
 
@@ -181,7 +171,22 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 				}
 			}
 		}
-printf("%s %d\n",__FUNCTION__,__LINE__);
+
+		for(YSSIZE_T idx=0; idx<contour.size(); ++idx)
+		{
+			YsShell::VertexHandle quadVtHd[4]=
+			{
+				contour[idx],
+				contour.GetCyclic(idx+1),
+				extVtHd.GetCyclic(idx+1),
+				extVtHd[idx]
+			};
+			if(nullptr!=quadVtHd[2] && nullptr!=quadVtHd[3])
+			{
+				shl.AddPolygon(4,quadVtHd);
+			}
+		}
+
 		return YSOK;
 	}
 };
