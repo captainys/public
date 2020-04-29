@@ -41,10 +41,15 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 class YsShellExt_FaceGroupExtender
 {
 public:
+	YsArray <YsShell::PolygonHandle> newPlHd;
+
+
 	template <class SHLCLASS>
 	YSRESULT ExtendFaceGroup(SHLCLASS &shl,YsConstArrayMask <YsShell::PolygonHandle> fgPlHd,const YsVec3 box[2])
 	{
 		SHLCLASS::StopIncUndo undoGuard(shl);
+
+		newPlHd.clear();
 
 		YsShellExt_BoundaryInfo boundary;
 		YsShellPolygonStore fgPlStore(shl.Conv());
@@ -183,7 +188,7 @@ public:
 			};
 			if(nullptr!=quadVtHd[2] && nullptr!=quadVtHd[3])
 			{
-				shl.AddPolygon(4,quadVtHd);
+				newPlHd.push_back(shl.AddPolygon(4,quadVtHd));
 			}
 		}
 
