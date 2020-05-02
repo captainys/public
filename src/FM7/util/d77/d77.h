@@ -395,6 +395,16 @@ public:
 	*/
 	int CreateUnformatted(int nTrack,const char diskName[]);
 
+	/*! Create a binary to be written to an image file.
+	*/
+	std::vector <unsigned char> MakeD77Image(void) const;
+
+	/*!  Create a binary to be written to an image file.
+	*/
+	std::vector <unsigned char> MakeRawImage(void) const;
+
+	bool IsModified(void) const;
+
 	void PrintInfo(void) const;
 
 	long long int GetNumDisk(void) const;
