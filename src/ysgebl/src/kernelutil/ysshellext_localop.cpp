@@ -371,6 +371,69 @@ YSRESULT YsShell_SwapInfo::NormalImprovementCheck(const YsShell &shl,const YsVec
 	return YSERR;
 }
 
+void YsShell_SwapInfo::CalcualteDihedralAngleChange(const YsShellExt &shl,double diagon[2],double border[2][4]) const
+{
+	YsVec3 newTriNom[2];
+
+	{
+		diagon[0]=YsShellExt_CalculateDihedralAngle(shl.Conv(),triPlHd);
+		
+		YsShell_CalculateNormal(shl.Conv(),triPlHd[0]);
+
+		const YsVec3 triVtPos[2][3]=
+		{
+			shl.GetVertexPosition(newTriVtHd[0][0]),
+			shl.GetVertexPosition(newTriVtHd[0][1]),
+			shl.GetVertexPosition(newTriVtHd[0][2]),
+			shl.GetVertexPosition(newTriVtHd[1][0]),
+			shl.GetVertexPosition(newTriVtHd[1][1]),
+			shl.GetVertexPosition(newTriVtHd[1][2])
+		};
+		newTriNom[0]=YsGetAverageNormalVector(3,triVtPos[0]);
+		newTriNom[1]=YsGetAverageNormalVector(3,triVtPos[1]);
+		diagon[1]=acos(YsBound(newTriNom[0]*newTriNom[1],-1.0,1.0));
+	}
+
+	int n=0;
+	for(int i=0; i<2 && n<4; ++i)
+	{
+		for(int e=0; e<3 && n<4; ++e)
+		{
+			const YsShell::VertexHandle edVtHd[2]=
+			{
+				newTriVtHd[i][e],
+				newTriVtHd[i][(e+1)%3],
+			};
+			if(YSTRUE!=YsSameEdge(edVtHd[0],edVtHd[1],newDiagonal[0],newDiagonal[1]))
+			{
+				border[0][n]=0.0;  // Tentative
+				border[1][n]=0.0;
+
+				auto edPlHd=shl.FindPolygonFromEdgePiece(edVtHd[0],edVtHd[1]);
+				if(2==edPlHd.size())
+				{
+					border[0][n]=YsShellExt_CalculateDihedralAngle(shl.Conv(),edPlHd.data());
+
+					YsShell::PolygonHandle neiPlHd=nullptr;
+					if(edPlHd[0]==triPlHd[0] || edPlHd[0]==triPlHd[1])
+					{
+						neiPlHd=edPlHd[1];
+					}
+					else
+					{
+						neiPlHd=edPlHd[0];
+					}
+
+					auto neiPlNom=YsShell_CalculateNormal(shl.Conv(),neiPlHd);
+					border[1][n]=acos(YsBound(newTriNom[i]*neiPlNom,-1.0,1.0));
+				}
+
+				++n;
+			}
+		}
+	}
+}
+
 YSBOOL YsShell_SwapInfo::FaceGroupBecomeSmoother(const YsShellExt &shl) const
 {
 	auto fgHd=shl.FindFaceGroupFromPolygon(triPlHd[0]);

@@ -342,6 +342,16 @@ public:
 	YSRESULT NormalImprovementCheck(const YsShell &shl,const YsVec3 vtxNom[4]) const;
 
 
+
+	/*! Calculate dihedral-angle change before and after the swapping.
+	      diagon[0] Dihedral angle between two triangles before
+	      diagon[1] Dihedral angle between two triangles after
+	      border[0][] Dihedral angle of the border around two triangles before
+	      border[1][] Dihedral angle of the border around two triangles after
+	*/
+	void CalcualteDihedralAngleChange(const YsShellExt &shl,double diagon[2],double border[2][4]) const;
+
+
 	/*! Check if the face group becomes smoother after applying this edge-swapping.
 	    It returns YSTRUE if the maximum dihedral angle between the two new triangles, and between a new triangle and neighboring triangle
 	    that belong to the same face group is smaller than the maximum dihedral angle from the old triangles.  YSFALSE otherwise.

@@ -1337,6 +1337,14 @@ void GeblGuiEditorBase::Edit_SwapEdge(FsGuiPopUpMenuItem *)
 			return;
 		}
 
+		double diagon[2],border[2][4];
+		swapInfo.CalcualteDihedralAngleChange(slHd->Conv(),diagon,border);
+		printf("Diagonal Before:%lfdeg After:%lfdeg\n",YsRadToDeg(diagon[0]),YsRadToDeg(diagon[1]));
+		for(int i=0; i<4; ++i)
+		{
+			printf("Border%d Before:%lfdeg After:%lfdeg\n",i,YsRadToDeg(border[0][i]),YsRadToDeg(border[1][i]));
+		}
+
 		YsShellExtEdit::StopIncUndo incUndo(slHd);
 		slHd->SetPolygonVertex(swapInfo.triPlHd[0],3,swapInfo.newTriVtHd[0]);
 		slHd->SetPolygonVertex(swapInfo.triPlHd[1],3,swapInfo.newTriVtHd[1]);
