@@ -754,3 +754,12 @@ void GeblGuiEditorBase::Global_Rotate_SpaceKeyCallBack(void)
 	threeDInterface.GetRotationMatrix(tfm);
 	Global_Rotate_DialogCallBack(tfm);
 }
+
+void GeblGuiEditorBase::Global_DihedralReducingSwap(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=slHd)
+	{
+		YsShellExt_DihedralAngleReducingSwap(*slHd);
+		needRemakeDrawingBuffer=(unsigned int)NEED_REMAKE_DRAWING_ALL;
+	}
+}

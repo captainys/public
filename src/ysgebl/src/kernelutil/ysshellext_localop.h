@@ -932,6 +932,41 @@ YsShellExt::ConstEdgeHandle YsShellExt_MergeConstEdge(SHLCLASS &shl,YSSIZE_T nCe
 }
 
 
+template <class SHLCLASS>
+void YsShellExt_DihedralAngleReducingSwap(SHLCLASS &shl)
+{
+	typename SHLCLASS::StopIncUndo incUndo(shl);
+
+	YsShellEdgeEnumHandle edHd=nullptr;
+	while(YSOK==shl.MoveToNextEdge(edHd))
+	{
+		auto edge=shl.GetEdge(edHd);
+
+		auto edPlHd=shl.FindPolygonFromEdgePiece(edge);
+		if(2==edPlHd.size() &&
+		   shl.FindFaceGroupFromPolygon(edPlHd[0])==shl.FindFaceGroupFromPolygon(edPlHd[1]))
+		{
+			YsShell_SwapInfo info;
+			if(YSOK==info.MakeInfo(shl.Conv(),edge) &&
+			   YSOK==info.ConvexityCheck(shl.Conv()) &&
+			   YSOK==info.SelfIntersectionCheck(shl.Conv()) &&
+			   YSOK==info.NewDiagonalIsInside(shl.Conv()) &&
+			   YSOK==info.GeometryCheck(shl.Conv()))
+			{
+				double diagon[2],border[2][4];
+				info.CalcualteDihedralAngleChange(shl.Conv(),diagon,border);
+				if(border[1][0]<border[0][0] &&
+				   border[1][1]<border[0][1] &&
+				   border[1][2]<border[0][2] &&
+				   border[1][3]<border[0][3])
+				{
+					info.Apply(shl);
+				}
+			}
+		}
+	}
+}
+
 
 /* } */
 #endif

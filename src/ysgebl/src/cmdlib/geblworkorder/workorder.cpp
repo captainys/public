@@ -97,6 +97,10 @@ YSRESULT GeblCmd_WorkOrder::RunWorkOrder(const YsString &workOrder)
 		{
 			return RunRepairWorkOrder(workOrder,args);
 		}
+		if(0==args[0].STRCMP("LOCALOP"))
+		{
+			return RunLocalOpWorkOrder(workOrder,args);
+		}
 		if(YSOK==RunCustomWorkOrder(workOrder,args))
 		{
 			return YSOK;

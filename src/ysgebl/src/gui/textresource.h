@@ -426,6 +426,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_MENU_FILE_SLIDESHOW                         FsGetTextResource("menu/file/slideshow",L"Slide Show")
 #define FSGUI_MENU_GLOBAL                                 FsGetTextResource("menu/global",L"Global")
 #define FSGUI_MENU_GLOBAL_DELETEUNUSED                    FsGetTextResource("menu/global/deleteunused",L"Delete All Unused Vertices")
+#define FSGUI_MENU_GLOBAL_DHA_REDUCING_SWAP               FsGetTextResource("menu/global/dha_reducing_swap",L"Dihedral-Reducing Edge Swapping")
 #define FSGUI_MENU_GLOBAL_INVERTPOLYGON                   FsGetTextResource("menu/global/invertpolygon",L"Invert All Polygons")
 #define FSGUI_MENU_GLOBAL_MERGESAMEVERTEX                 FsGetTextResource("menu/global/mergesamevertex",L"Merge Vertices at the Same Location")
 #define FSGUI_MENU_GLOBAL_MERGESAMEVERTEXONNONMANIFOLDEDGE FsGetTextResource("menu/global/mergesamevertexonnonmanifoldedge",L"Merge Vertices at the Same Location (on Non-Manifold Edges only)")

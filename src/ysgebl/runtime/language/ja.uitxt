@@ -385,6 +385,7 @@ $BGCOL 0
 +menu/file/slideshow                               #スライドショー
 +menu/global                                       #全体処理
 +menu/global/deleteunused                          #全未使用頂点削除
++menu/global/dha_reducing_swap                     #Dihedral-Reducing Edge Swapping
 +menu/global/invertpolygon                         #全ポリゴン反転
 +menu/global/mergesamevertex                       #同一位置の頂点をひとつにする
 +menu/global/mergesamevertexonnonmanifoldedge      #同一位置の頂点をひとつにする(ノンマニフォールドエッジ上の頂点のみ)

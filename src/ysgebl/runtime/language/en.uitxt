@@ -386,6 +386,7 @@ $BGCOL 0
 +menu/file/slideshow                               #Slide Show
 +menu/global                                       #Global
 +menu/global/deleteunused                          #Delete All Unused Vertices
++menu/global/dha_reducing_swap                     #Dihedral-Reducing Edge Swapping
 +menu/global/invertpolygon                         #Invert All Polygons
 +menu/global/mergesamevertex                       #Merge Vertices at the Same Location
 +menu/global/mergesamevertexonnonmanifoldedge      #Merge Vertices at the Same Location (on Non-Manifold Edges only)

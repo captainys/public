@@ -1075,6 +1075,8 @@ public:
 
 	void Global_DeleteRedundantVertex(const double tol,const YsShellVertexStore *limitedVtx);
 
+	void Global_DihedralReducingSwap(FsGuiPopUpMenuItem *);
+
 	void Global_Scaling(FsGuiPopUpMenuItem *);
 	void Global_Scaling_DialogCallBack(double sx,double sy,double sz);
 

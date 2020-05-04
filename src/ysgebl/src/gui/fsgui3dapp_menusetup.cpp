@@ -645,6 +645,7 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 		globalSubMenu->AddTextItem(0,FSKEY_T,FSGUI_MENU_GLOBAL_TRIANGULATE,Global_TriangulateAll,this);
 		globalSubMenu->AddTextItem(0,FSKEY_M,FSGUI_MENU_GLOBAL_MERGESAMEVERTEX,Global_DeleteRedundantVertex,this);
 		globalSubMenu->AddTextItem(0,FSKEY_G,FSGUI_MENU_GLOBAL_MERGESAMEVERTEXONNONMANIFOLDEDGE,Global_DeleteRedundantVertexNonManifoldEdgeOnly,this);
+		globalSubMenu->AddTextItem(0,FSKEY_M,FSGUI_MENU_GLOBAL_DHA_REDUCING_SWAP)->BindCallBack(&THISCLASS::Global_DihedralReducingSwap,this);
 		globalSubMenu->AddTextItem(0,FSKEY_O,FSGUI_MENU_GLOBAL_MOVE)->BindCallBack(&THISCLASS::Global_Move,this);
 		globalSubMenu->AddTextItem(0,FSKEY_O,FSGUI_MENU_GLOBAL_ROTATION)->BindCallBack(&THISCLASS::Global_Rotate,this);
 		globalSubMenu->AddTextItem(0,FSKEY_S,FSGUI_MENU_GLOBAL_SCALING)->BindCallBack(&THISCLASS::Global_Scaling,this);
