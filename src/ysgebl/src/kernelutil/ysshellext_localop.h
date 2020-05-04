@@ -955,12 +955,39 @@ void YsShellExt_DihedralAngleReducingSwap(SHLCLASS &shl)
 			{
 				double diagon[2],border[2][4];
 				info.CalcualteDihedralAngleChange(shl.Conv(),diagon,border);
+				// Condition (1) All four improved
 				if(border[1][0]<border[0][0] &&
 				   border[1][1]<border[0][1] &&
 				   border[1][2]<border[0][2] &&
 				   border[1][3]<border[0][3])
 				{
 					info.Apply(shl);
+				}
+				else
+				{
+					double srcBorderSorted[4];
+					for(int i=0; i<4; ++i)
+					{
+						srcBorderSorted[i]=border[0][i];
+					}
+					for(int i=0; i<4; ++i)
+					{
+						for(int j=i+1; j<4; ++j)
+						{
+							if(srcBorderSorted[i]>srcBorderSorted[j])
+							{
+								std::swap(srcBorderSorted[i],srcBorderSorted[j]);
+							}
+						}
+					}
+					// Condition (2) All four smaller than 2nd largest.
+					if(border[1][0]<srcBorderSorted[2] &&
+					   border[1][1]<srcBorderSorted[2] &&
+					   border[1][2]<srcBorderSorted[2] &&
+					   border[1][3]<srcBorderSorted[2])
+					{
+						info.Apply(shl);
+					}
 				}
 			}
 		}
