@@ -864,6 +864,11 @@ bool D77File::D77Disk::ForceWriteTrack(int trk,int sid,int nSec,const D77Disk::D
 	return WriteTrack(trk,sid,nSec,sec);
 }
 
+void D77File::D77Disk::SetNumTrack(unsigned int nTrack)
+{
+	track.resize(nTrack*2);
+}
+
 bool D77File::D77Disk::AddSector(int trk,int sid,int secId,int secSize)
 {
 	if(true==IsWriteProtected())
