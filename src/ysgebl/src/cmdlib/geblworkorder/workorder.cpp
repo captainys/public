@@ -197,6 +197,9 @@ void GeblCmd_WorkOrder::ShowHelp(void) const
 	printf("    mergevertex nonmanifold 0.00001    Merge vertices on non-manifold edges with tolerance of 0.00001\n");
 	printf("         If tolerance is not given, the default tolerance will be used.\n");
 
+	printf("  Local-Transformation Commands\n");
+	printf("    localop reducedha_swap             Apply dihedral-angle reducing swap.\n");
+
 	printf("  Global Commands\n");
 	printf("    global delete_unused_vertex        Delete all unused vertices.\n");
 
