@@ -598,6 +598,10 @@ public:
 	YSRESULT SetPositionByParameter(Tracer &tracer,const double &t) const;
 	YSRESULT SetPositionByVertex(Tracer &tracer,int idx) const;
 	double GetParameter(const Tracer &tracer) const;
+
+	/*! Returns the tangential vector.
+	*/
+	YsVec3 GetTangent(const Tracer &tracer) const;
 };
 
 typedef YsTraceLineSegment::Tracer YsLineSegmentTracer;

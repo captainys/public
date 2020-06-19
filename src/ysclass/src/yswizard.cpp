@@ -1285,6 +1285,19 @@ double YsTraceLineSegment::GetParameter(const Tracer &tracer) const
 	return -1.0;
 }
 
+YsVec3 YsTraceLineSegment::GetTangent(const Tracer &tracer) const
+{
+	if(0<=tracer.seg && tracer.seg+1<lSeg.size())
+	{
+		return YsVec3::UnitVector(lSeg[tracer.seg+1]-lSeg[tracer.seg]);
+	}
+	else if(tracer.seg+1==lSeg.size() && YSTRUE==isLoop)
+	{
+		return YsVec3::UnitVector(lSeg[0]-lSeg[tracer.seg]);
+	}
+	return YsVec3::Origin();
+}
+
 
 
 YsUniqueColorAssignmentUtil::YsUniqueColorAssignmentUtil()
