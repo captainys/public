@@ -1,0 +1,58 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-windows:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: mkdir
+      run: mkdir ci_windows
+    - name: build
+      run: |
+          cmake ../src
+          cmake --build . --config Release
+      working-directory: ./ci_windows
+
+
+
+  build-linux:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: mkdir
+      run: mkdir ci_ubuntu
+    - name: install-OpenGL
+      run: sudo apt-get install libglu1-mesa-dev mesa-common-dev
+    - name: install-ALSA
+      run: sudo apt-get install libasound2 libasound2-dev
+    - name: cmake
+      run: cmake ../src -DCMAKE_BUILD_TYPE=Release
+      working-directory: ./ci_ubuntu
+    - name: build
+      run: cmake --build . --config Release --target Tsugaru_CUI
+      working-directory: ./ci_ubuntu
+
+
+
+  build-macos:
+
+    runs-on: macos-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: mkdir
+      run: mkdir ci_macos
+    - name: cmake
+      run: cmake ../src -DCMAKE_BUILD_TYPE=Release
+      working-directory: ./ci_macos
+    - name: build
+      run: cmake --build .
+      working-directory: ./ci_macos
