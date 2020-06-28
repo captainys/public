@@ -297,7 +297,7 @@ void GeblGuiEditorBase::Edit_ForceDeleteSelection(FsGuiPopUpMenuItem *)
 
 		// Delete face group polygons.
 		auto selPlHd=slHd->GetSelectedPolygon();
-		if(0<selPlHd)
+		if(0<selPlHd.size())
 		{
 			if(YSOK==slHd->DeleteFaceGroupPolygonMulti(selPlHd))
 			{
