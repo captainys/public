@@ -427,6 +427,8 @@ void FsGuiRealFileDialog::MoveDirectoryRelative(const char dir[])
 	}
 	else
 	{
+		auto prevPath=curPath;
+
 		curPath.Set(this->curPath);
 #ifdef _WIN32
 		curPath.Append("\\");
@@ -434,7 +436,10 @@ void FsGuiRealFileDialog::MoveDirectoryRelative(const char dir[])
 		curPath.Append("/");
 #endif
 		curPath.Append(dir);
-		MakeFileList(curPath,curName);
+		if(YSOK!=MakeFileList(curPath,curName))
+		{
+			curPath=prevPath;
+		}
 	}
 }
 
