@@ -47,7 +47,7 @@ public:
 	template <class SHLCLASS>
 	YSRESULT ExtendFaceGroup(SHLCLASS &shl,YsConstArrayMask <YsShell::PolygonHandle> fgPlHd,const YsVec3 box[2])
 	{
-		SHLCLASS::StopIncUndo undoGuard(shl);
+		typename SHLCLASS::StopIncUndo undoGuard(shl);
 
 		newPlHd.clear();
 
@@ -77,7 +77,7 @@ public:
 	template <class SHLCLASS>
 	YSRESULT ExtendFaceGroupContour(SHLCLASS &shl,const YsShellPolygonStore &fgPlHd,YsConstArrayMask <YsShell::VertexHandle> contour,const YsVec3 boxIn[2])
 	{
-		SHLCLASS::StopIncUndo undoGuard(shl);
+		typename SHLCLASS::StopIncUndo undoGuard(shl);
 
 		YsBoundingBoxMaker <YsVec3> box;
 		box.Make(2,boxIn);
