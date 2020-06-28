@@ -37,7 +37,7 @@ jobs:
       run: cmake ../src -DCMAKE_BUILD_TYPE=Release
       working-directory: ./ci_ubuntu
     - name: build
-      run: cmake --build . --config Release --target Tsugaru_CUI
+      run: cmake --build . --config Release
       working-directory: ./ci_ubuntu
 
 
