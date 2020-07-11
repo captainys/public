@@ -24,7 +24,7 @@ WRITE_LOOP			LDA		,Y
 					BNE		WRITE_LOOP_NEXT ; Sample is taken from FM TOWNS. No 4th to 6th channels.
 
 					LDD		1,Y
-					CMPA	#$30
+					CMPA	#$31
 					BNE		WRITE_LOOP_WRITE
 					ANDB	#$F0
 					ORB		MULTI,PCR
@@ -45,7 +45,7 @@ WRITE_LOOP_NEXT
 					LDD		#$4C7F
 					BSR		YM2203_WRITE
 
-					LDA		#$B0
+					LDA		#$B1
 					LDB		FEEDBACK,PCR
 					LSLB
 					LSLB

@@ -1,0 +1,292 @@
+					ORG		$3000
+
+					EXPORT	ADDRESS_TOP
+					EXPORT	YM2203_SETUP
+					EXPORT	YM2203_START
+					EXPORT	YM2203_STOP
+
+					EXPORT	F_NUM
+					EXPORT	BLOCK
+					EXPORT	FB
+					EXPORT	CONNECT
+
+					EXPORT	SLOT0_DT
+					EXPORT	SLOT0_MULTI
+					EXPORT	SLOT0_TL
+					EXPORT	SLOT0_KS
+					EXPORT	SLOT0_AR
+					EXPORT	SLOT0_AM
+					EXPORT	SLOT0_DR
+					EXPORT	SLOT0_SR
+					EXPORT	SLOT0_SL
+					EXPORT	SLOT0_RR
+					EXPORT	SLOT0_SSG_EG
+
+					EXPORT	SLOT1_DT
+					EXPORT	SLOT1_MULTI
+					EXPORT	SLOT1_TL
+					EXPORT	SLOT1_KS
+					EXPORT	SLOT1_AR
+					EXPORT	SLOT1_AM
+					EXPORT	SLOT1_DR
+					EXPORT	SLOT1_SR
+					EXPORT	SLOT1_SL
+					EXPORT	SLOT1_RR
+					EXPORT	SLOT1_SSG_EG
+
+					EXPORT	SLOT2_DT
+					EXPORT	SLOT2_MULTI
+					EXPORT	SLOT2_TL
+					EXPORT	SLOT2_KS
+					EXPORT	SLOT2_AR
+					EXPORT	SLOT2_AM
+					EXPORT	SLOT2_DR
+					EXPORT	SLOT2_SR
+					EXPORT	SLOT2_SL
+					EXPORT	SLOT2_RR
+					EXPORT	SLOT2_SSG_EG
+
+					EXPORT	SLOT3_DT
+					EXPORT	SLOT3_MULTI
+					EXPORT	SLOT3_TL
+					EXPORT	SLOT3_KS
+					EXPORT	SLOT3_AR
+					EXPORT	SLOT3_AM
+					EXPORT	SLOT3_DR
+					EXPORT	SLOT3_SR
+					EXPORT	SLOT3_SL
+					EXPORT	SLOT3_RR
+					EXPORT	SLOT3_SSG_EG
+
+
+
+ADDRESS_TOP
+
+
+
+F_NUM				FDB		924
+BLOCK				FCB		3
+FB					FCB		7
+CONNECT				FCB		5
+; L,R,AMS,PMS doesn't exist in YM2203C
+
+DT_OFFSET			EQU		0
+MULTI_OFFSET		EQU		1
+TL_OFFSET			EQU		2
+KS_OFFSET			EQU		3
+AR_OFFSET			EQU		4
+AM_OFFSET			EQU		5  ; Doesn't exist in YM2203C
+DR_OFFSET			EQU		6
+SR_OFFSET			EQU		7
+SL_OFFSET			EQU		8
+RR_OFFSET			EQU		9
+SSG_EG_OFFSET		EQU		10
+
+SLOT0_DT			FCB		0
+SLOT0_MULTI			FCB		1
+SLOT0_TL			FCB		26
+SLOT0_KS			FCB		0
+SLOT0_AR			FCB		15
+SLOT0_AM			FCB		0
+SLOT0_DR			FCB		10
+SLOT0_SR			FCB		0
+SLOT0_SL			FCB		2
+SLOT0_RR			FCB		5
+SLOT0_SSG_EG		FCB		0
+
+SLOT1_DT			FCB		0
+SLOT1_MULTI			FCB		1
+SLOT1_TL			FCB		11
+SLOT1_KS			FCB		0
+SLOT1_AR			FCB		21
+SLOT1_AM			FCB		0
+SLOT1_DR			FCB		31
+SLOT1_SR			FCB		0
+SLOT1_SL			FCB		0
+SLOT1_RR			FCB		10
+SLOT1_SSG_EG		FCB		0
+
+SLOT2_DT			FCB		0
+SLOT2_MULTI			FCB		1
+SLOT2_TL			FCB		11
+SLOT2_KS			FCB		0
+SLOT2_AR			FCB		21
+SLOT2_AM			FCB		0
+SLOT2_DR			FCB		31
+SLOT2_SR			FCB		0
+SLOT2_SL			FCB		0
+SLOT2_RR			FCB		10
+SLOT2_SSG_EG		FCB		0
+
+SLOT3_DT			FCB		0
+SLOT3_MULTI			FCB		1
+SLOT3_TL			FCB		11
+SLOT3_KS			FCB		0
+SLOT3_AR			FCB		21
+SLOT3_AM			FCB		0
+SLOT3_DR			FCB		31
+SLOT3_SR			FCB		0
+SLOT3_SL			FCB		0
+SLOT3_RR			FCB		10
+SLOT3_SSG_EG		FCB		0
+
+
+
+
+YM2203_SETUP		PSHS	A,B,X,Y,U,CC,DP
+
+					LDA		#$A0
+					LDB		F_NUM+1,PCR
+					LBSR	YM2203_WRITE
+
+					LDA		#$A4
+					LDB		BLOCK,PCR
+					LSLB
+					LSLB
+					LSLB
+					ORB		F_NUM,PCR
+					LBSR	YM2203_WRITE
+
+					LDA		#$B0
+					LDB		FB,PCR
+					LSLB
+					LSLB
+					LSLB
+					ORB		CONNECT,PCR
+					LBSR	YM2203_WRITE
+
+					LEAU	SLOT0_DT,PCR
+					LDA		#$30
+					BSR		SETUP_SLOT
+
+					LEAU	SLOT1_DT,PCR
+					LDA		#$38
+					BSR		SETUP_SLOT
+
+					LEAU	SLOT2_DT,PCR
+					LDA		#$34
+					BSR		SETUP_SLOT
+
+					LEAU	SLOT3_DT,PCR
+					LDA		#$3C
+					BSR		SETUP_SLOT
+
+					PULS	A,B,X,Y,U,CC,DP,PC
+
+; U Slot data ptr
+; A First slot register
+SETUP_SLOT
+					PSHS	A		; A for DT/MULTI
+
+					LDB		DT_OFFSET,U
+					LSLB
+					LSLB
+					LSLB
+					LSLB
+					ORB		MULTI_OFFSET,U
+					BSR		YM2203_WRITE
+
+					PULS	A
+					ADDA	#$10	; A for TL
+					PSHS	A
+
+					LDB		TL_OFFSET,U
+					BSR		YM2203_WRITE
+
+					PULS	A
+					ADDA	#$10	; A for KS/AR
+					PSHS	A
+
+					LDB		KS_OFFSET,U
+					LSLB
+					LSLB
+					LSLB
+					LSLB
+					LSLB
+					LSLB
+					ORB		AR_OFFSET,U
+					BSR		YM2203_WRITE
+
+					PULS	A
+					ADDA	#$10	; A for AM/DR
+					PSHS	A
+
+					LDB		DR_OFFSET,U
+					BSR		YM2203_WRITE
+
+					PULS	A
+					ADDA	#$10	; A for SR
+					PSHS	A
+
+					LDB		SR_OFFSET,U
+					BSR		YM2203_WRITE
+
+					PULS	A
+					ADDA	#$10	; A for SL/RR
+					PSHS	A
+
+					LDB		SL_OFFSET,U
+					LSLB
+					LSLB
+					LSLB
+					LSLB
+					ORB		RR_OFFSET,U
+					BSR		YM2203_WRITE
+
+					PULS	A
+					ADDA	#$10	; A for SSG-EG
+					LDB		SSG_EG_OFFSET,U
+					BSR		YM2203_WRITE
+
+					RTS
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+YM2203_START		PSHS	A,B
+
+					LDD		#$28F0			; START TONE
+					BSR		YM2203_WRITE
+
+					PULS	A,B,PC
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+YM2203_STOP			PSHS	A,B
+					LDD		#$2800			; STOP TONE
+					BSR		YM2203_WRITE
+					PULS	A,B,PC
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+YM2203COM			EQU		$FD15
+YM2203DAT			EQU		$FD16
+
+; A reg   B data
+YM2203_WRITE		PSHS	A
+					BSR		YM2203_WAIT_READY
+					PULS	A
+
+					STA		YM2203DAT
+					LDA		#3			; Latch register number
+					STA		YM2203COM
+					CLR		YM2203COM
+
+					STB		YM2203DAT
+					LDA		#2			; Write
+					STA		YM2203COM
+					CLR		YM2203COM
+
+					RTS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+YM2203_WAIT_READY	LDA		#4			; Get Status
+					STA		YM2203COM
+					LDA		YM2203DAT
+					CLR		YM2203COM
+					TSTA
+					BMI		YM2203_WAIT_READY
+					RTS
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

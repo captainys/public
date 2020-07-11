@@ -31,8 +31,6 @@ asmSource=[
 		 "6809lib/rs232c_reset.asm",
 		 "6809lib/rs232c_recv.asm",
 		 "6809lib/rs232c_send.asm"]],
-	["FBtestM",
-		["ym2612/FBtest.asm"]],
 	["CAS0COM0",
 		["T77ToRS232C/bioshook_install.asm",
 		 "T77ToRS232C/bioshook_small.asm"]],
@@ -71,6 +69,10 @@ asmSource=[
 		 "RS232CDiskBios/sizes.asm",]],
 	["STRLOADR",
 		["rs232CLoader/strloader.asm",]],
+	["FBtestM",
+		["ym2612/FBtest.asm"]],
+	["TONEM",
+		["ym2612/TONEM.ASM"]],
 ]
 
 basSource=[
@@ -80,6 +82,7 @@ basSource=[
 	["COMTEST","rs232cTest/comtest.fbas"],
 	["D7CLIENT","D77ToRS232C/d77client.fbas"],
 	["FBtest","ym2612/FBtest.fbas"],
+	["TONE","ym2612/TONE.FBAS"],
 ]
 
 wavSource=[
