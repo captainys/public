@@ -192,6 +192,15 @@ public:
 		}
 		overlapRect.Set(newMin,newMax);
 	}
+
+	/*! Expand or shrink diagonal.
+	*/
+	void ScaleDiagonal(double s)
+	{
+		auto d=(minmax[1]-minmax[0])*s/2.0;
+		minmax[0]-=d;
+		minmax[1]+=d;
+	}
 };
 
 
