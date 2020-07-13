@@ -176,6 +176,9 @@ enum
 	FSKEY_CONVERT,
 	FSKEY_NONCONVERT,
 	FSKEY_KANA,       // Japanese JIS Keyboard Only => Win32 VK_KANA
+	FSKEY_COLON,      // Japanese JIS Keyboard Only => Win32 VK_OEM_1
+	FSKEY_AT,         // Japanese JIS Keyboard Only => Win32 VK_OEM_3
+	FSKEY_RO,         // Japanese JIS Keyboard Only => Win32 VK_OEM_102
 
 	// The following key codes won't be returned by FsInkey()
 	// These may return non zero for FsGetKeyState

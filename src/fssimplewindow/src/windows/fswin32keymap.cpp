@@ -162,11 +162,14 @@ FsWin32KeyMapper::FsWin32KeyMapper()
 	AddKeyMapping(FSKEY_TENMINUS,            VK_SUBTRACT);
 	AddKeyMapping(FSKEY_TENPLUS,             VK_ADD);
 	AddKeyMapping(FSKEY_TENENTER,            0 /* Unassignable */);
-	AddKeyMapping(FSKEY_CONTEXT,             0 /* Unassignable */);
+	AddKeyMapping(FSKEY_CONTEXT,             VK_APPS);
 
 	AddKeyMapping(FSKEY_CONVERT,             VK_CONVERT);
 	AddKeyMapping(FSKEY_NONCONVERT,          VK_NONCONVERT);
 	AddKeyMapping(FSKEY_KANA,                VK_KANA);       // Japanese JIS Keyboard Only => Win32 VK_KANA
+	AddKeyMapping(FSKEY_COLON,               VK_OEM_1);      // Japanese JIS Keyboard Only => Win32 VK_OEM_1
+	AddKeyMapping(FSKEY_AT,                  VK_OEM_3);      // Japanese JIS Keyboard Only => Win32 VK_OEM_3
+	AddKeyMapping(FSKEY_RO,                  VK_OEM_102);    // Japanese JIS Keyboard Only => Win32 VK_OEM_102
 
 	AddKeyMapping(FSKEY_LEFT_CTRL,           VK_LCONTROL);
 	AddKeyMapping(FSKEY_RIGHT_CTRL,          VK_RCONTROL);
