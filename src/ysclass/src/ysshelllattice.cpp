@@ -1053,7 +1053,7 @@ YSRESULT YsShellLattice::FillUndeterminedBlockRange(const class YsShell &shl,int
 	return YSOK;
 }
 
-YSRESULT YsShellLattice::RepairLatticeAfterModification(YsShell &shl,YSSIZE_T np,const YsVec3 p[])
+YSRESULT YsShellLattice::RepairLatticeAfterModification(const YsShell &shl,YSSIZE_T np,const YsVec3 p[])
 {
 	int bx0,by0,bz0,bx1,by1,bz1;
 	GetBlockIndexRange(bx0,by0,bz0,bx1,by1,bz1,np,p);
@@ -2319,7 +2319,7 @@ YSRESULT YsShellLattice::GetCellListFromPolygon
 	return YSERR;
 }
 
-YSRESULT YsShellLattice::SelfDiagnostic(YsArray <YsVec3> &disagree)
+YSRESULT YsShellLattice::SelfDiagnostic(YsArray <YsVec3> &disagree) const
 {
 	int i,n,bx,by,bz,nTest,tx,ty,tz;
 	YsLoopCounter ctr;

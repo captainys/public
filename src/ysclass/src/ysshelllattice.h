@@ -171,7 +171,7 @@ public:
 	YSRESULT BeginSetDomain(const class YsShell &shl,const YsVec3 &bbxMin,const YsVec3 &bbxMax,YSSIZE_T nx,YSSIZE_T ny,YSSIZE_T nz);
 
 	YSRESULT FillUndeterminedBlockRange(const class YsShell &shl,int bx0,int by0,int bz0,int bx1,int by1,int bz1,const YsShellPolygonStore *limitToThesePlg=NULL,const YsShellPolygonStore *excludePlg=NULL);
-	YSRESULT RepairLatticeAfterModification(YsShell &shl,YSSIZE_T np,const YsVec3 p[]);
+	YSRESULT RepairLatticeAfterModification(const YsShell &shl,YSSIZE_T np,const YsVec3 p[]);
 	YSRESULT AddVertex(YsShellVertexHandle vtHd);
 	YSRESULT DeleteVertex(YsShellVertexHandle vtHd);
 	YSRESULT AddPolygon(YsShellPolygonHandle plHd);
@@ -236,7 +236,7 @@ public:
 	    (YsArray <YsFixedLengthArray <int,4>,4> &cell,YsShellPolygonHandle plHd) const;
 
 
-	YSRESULT SelfDiagnostic(YsArray <YsVec3> &disagree);
+	YSRESULT SelfDiagnostic(YsArray <YsVec3> &disagree) const;
 
 	/*! This function finds polygons that may extend into the bounding box of p[0],p[1],...,p[np-1].
 	    It is NOT for finding a polygons that may be intersecting with a polygon defined by (np,p).

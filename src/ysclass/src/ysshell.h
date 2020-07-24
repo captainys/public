@@ -467,6 +467,11 @@ public:
 	public:
 		YsVec3 pos;
 	};
+	class EdgeAndValue : public Edge
+	{
+	public:
+		double value;
+	};
 	class PolygonAndPos
 	{
 	public:
