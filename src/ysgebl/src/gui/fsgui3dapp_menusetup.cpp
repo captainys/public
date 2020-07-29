@@ -650,6 +650,8 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 		globalSubMenu->AddTextItem(0,FSKEY_O,FSGUI_MENU_GLOBAL_ROTATION)->BindCallBack(&THISCLASS::Global_Rotate,this);
 		globalSubMenu->AddTextItem(0,FSKEY_S,FSGUI_MENU_GLOBAL_SCALING)->BindCallBack(&THISCLASS::Global_Scaling,this);
 		globalSubMenu->AddTextItem(0,FSKEY_C,FSGUI_MENU_GLOBAL_SCALEINDIRECTION)->BindCallBack(&THISCLASS::Global_Scale_InDirection,this);
+
+		globalSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_GLOBAL_CLOSE_ALL_HOLES)->BindCallBack(&THISCLASS::Global_CloseAllHole,this);
 	}
 
 
@@ -684,6 +686,7 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 			repairSubMenu->AddTextItem(0,FSKEY_S,FSGUI_MENU_UTILITY_REPAIR_FREESTITCH)->BindCallBack(&THISCLASS::RepairMenu_FreeStitching,this);
 			repairSubMenu->AddTextItem(0,FSKEY_L,FSGUI_MENU_UTILITY_REPAIR_LOOPSTITCH)->BindCallBack(&THISCLASS::RepairMenu_LoopStitching,this);
 			repairSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_REPAIR_DELETE_IDENTICALPOLYGON)->BindCallBack(&THISCLASS::RepairMenu_RemoveIdenticalPolygon,this);
+			repairSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_REPAIR_DELETESHURNKPOLLYGONS)->BindCallBack(&THISCLASS::Repair_DeleteShrunkPolygon,this);
 		}
 	}
 

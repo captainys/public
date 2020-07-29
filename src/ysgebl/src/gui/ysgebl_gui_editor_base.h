@@ -1095,6 +1095,8 @@ public:
 	void Global_Scale_InDirection(FsGuiPopUpMenuItem *);
 	void Global_Scale_InDirection_DialogCallBack(FsGuiDialog *dlg,int returnCode);
 
+	void Global_CloseAllHole(FsGuiPopUpMenuItem *);
+
 
 	static void Sketch_CreateConstEdgeBySketch(void *appPtr,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *);
 	static void Sketch_DrawCallBack2D(GeblGuiEditorBase &canvas);
@@ -1141,6 +1143,7 @@ public:
 
 	void RepairMenu_RemoveIdenticalPolygon(FsGuiPopUpMenuItem *);
 
+	void Repair_DeleteShrunkPolygon(FsGuiPopUpMenuItem *);
 
 	void Dnm_DnmEditMode(FsGuiPopUpMenuItem *);
 	void Dnm_EditTreeStructure(FsGuiPopUpMenuItem *);

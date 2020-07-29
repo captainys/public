@@ -385,6 +385,7 @@ $BGCOL 0
 +menu/file/saveas                                  #Save As
 +menu/file/slideshow                               #Slide Show
 +menu/global                                       #Global
++menu/global/close_all_holes                       #Close All Holes
 +menu/global/deleteunused                          #Delete All Unused Vertices
 +menu/global/dha_reducing_swap                     #Dihedral-Reducing Edge Swapping
 +menu/global/invertpolygon                         #Invert All Polygons
@@ -484,6 +485,7 @@ $BGCOL 0
 +menu/utility/paint_based_on_facegroup             #Paint Based on Face Groups
 +menu/utility/repair                               #Repair
 +menu/utility/repair/delete_identicalpolygon       #Delete Identical Polygons
++menu/utility/repair/deleteshurnkpollygons         #Delete Shrunk Polygons
 +menu/utility/repair/freestitch                    #Free Stitching
 +menu/utility/repair/loopstitch                    #Loop Stitching
 +menu/view                                         #View

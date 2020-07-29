@@ -38,6 +38,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ysshellext_mappingutil.h>
 #include <ysshellext_stitchingutil.h>
 #include <ysshellextedit_topologyutil.h>
+#include <ysshellext_trackingutil.h>
 
 
 YsArray <YsShellDnmContainer <YsShellExtEditGui>::Node *> GeblGuiEditorBase::Global_GetTarget(void)
@@ -760,6 +761,32 @@ void GeblGuiEditorBase::Global_DihedralReducingSwap(FsGuiPopUpMenuItem *)
 	if(nullptr!=slHd)
 	{
 		YsShellExt_DihedralAngleReducingSwap(*slHd);
+		needRemakeDrawingBuffer=(unsigned int)NEED_REMAKE_DRAWING_ALL;
+	}
+}
+
+void GeblGuiEditorBase::Global_CloseAllHole(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=slHd)
+	{
+		YsShellExtEdit::StopIncUndo incUndo(slHd);
+		auto &shl=*Slhd();
+		YsShellEdgeEnumHandle edHd=nullptr;
+		while(YSOK==shl.MoveToNextEdge(edHd))
+		{
+			if(1==shl.GetNumPolygonUsingEdge(edHd))
+			{
+				auto edge=shl.GetEdge(edHd);
+				YsShellExt::TrackingAlongSingleUseEdge cond;
+				auto loop=YsShellExt_TrackingUtil::TrackEdge(shl.Conv(),edge[0],edge[1],cond);
+
+				if(0<loop.size() && loop.front()==loop.back())
+				{
+					loop.pop_back();
+					shl.AddPolygon(loop);
+				}
+			}
+		}
 		needRemakeDrawingBuffer=(unsigned int)NEED_REMAKE_DRAWING_ALL;
 	}
 }

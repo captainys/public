@@ -65,8 +65,6 @@ void GeblGuiEditorBase::RepairMenu_LoopStitching(FsGuiPopUpMenuItem *)
 	}
 }
 
-
-
 void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygon(FsGuiPopUpMenuItem *)
 {
 	if(nullptr!=Slhd())
@@ -74,6 +72,37 @@ void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygon(FsGuiPopUpMenuItem *)
 		YsShellExt_IdenticalPolygonRemover remover;
 		remover.MakeDuplicatePolygonList(Slhd()->Conv());
 		remover.DeleteDuplicatePolygon(*Slhd());
+		needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_POLYGON|NEED_REMAKE_DRAWING_SELECTED_POLYGON);
+		SetNeedRedraw(YSTRUE);
+	}
+}
+
+void GeblGuiEditorBase::Repair_DeleteShrunkPolygon(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=slHd)
+	{
+		YsShellExtEdit::StopIncUndo incUndo(slHd);
+		auto &shl=*Slhd();
+		YsArray <YsShell::PolygonHandle> toDel;
+		for(auto plHd : shl.AllPolygon())
+		{
+			auto plVtHd=shl.GetPolygonVertex(plHd);
+			for(int i=plVtHd.size()-1; 0<=i; --i)
+			{
+				if(plVtHd[i]==plVtHd.GetCyclic(i+1))
+				{
+					plVtHd.Delete(i);
+				}
+			}
+			if(plVtHd.size()<3)
+			{
+				toDel.push_back(plHd);
+			}
+		}
+		for(auto plHd : toDel)
+		{
+			shl.DeletePolygon(plHd);
+		}
 		needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_POLYGON|NEED_REMAKE_DRAWING_SELECTED_POLYGON);
 		SetNeedRedraw(YSTRUE);
 	}
