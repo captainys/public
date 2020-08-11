@@ -976,21 +976,21 @@ YSRESULT YsShellLattice::SetDomain(const class YsShell &sh,YSSIZE_T nPl,const Ys
 YSRESULT YsShellLattice::FillUndeterminedBlockRange(const class YsShell &shl,int bx0,int by0,int bz0,int bx1,int by1,int bz1,const YsShellPolygonStore *limitToThesePlg,const YsShellPolygonStore *excludePlg)
 {
 	int n,nBlk,nBlkDone,bx,by,bz;
-	YsLoopCounter ctr;
+	// YsLoopCounter ctr;
 
 	nBlk=(bx1-bx0+1)*(by1-by0+1)*(bz1-bz0+1);
 	nBlkDone=0;
 
 	n=0;
-	YsPrintf("Filling Undetermined Blocks\n");
-	ctr.BeginCounter(nBlk);
+	// YsPrintf("Filling Undetermined Blocks\n");
+	// ctr.BeginCounter(nBlk);
 	for(bz=bz0; bz<=bz1; bz++)
 	{
 		for(by=by0; by<=by1; by++)
 		{
 			for(bx=bx0; bx<=bx1; bx++)
 			{
-				ctr.Increment();
+				// ctr.Increment();
 
 				if(GetBlock(bx,by,bz)->side==YSUNKNOWNSIDE)
 				{
@@ -1047,7 +1047,7 @@ YSRESULT YsShellLattice::FillUndeterminedBlockRange(const class YsShell &shl,int
 			}
 		}
 	}
-	ctr.EndCounter();
+	//ctr.EndCounter();
 	// YsPrintf("INFO: %d times FillUndeterminedBlock is fired.\n",n);
 
 	return YSOK;
