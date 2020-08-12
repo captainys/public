@@ -438,6 +438,12 @@ public:
 	*/
 	YsEditArrayObjectHandle<T,bitShift> Create(void);
 
+	/*! Create a new object and returns the handle.
+	    This function uses an external search key source.
+	    The integrity of the data will be compromised if the key is already used.
+	*/
+	YsEditArrayObjectHandle<T,bitShift> CreateWithKey(YSHASHKEY key);
+
 	/*! Access the object. */
 	T *operator[] (YsEditArrayObjectHandle<T,bitShift> hd);
 
@@ -947,6 +953,12 @@ YSBOOL YsEditArray <T,bitShift>::IsFrozen(YsEditArrayObjectHandle<T,bitShift> ob
 template <class T,const int bitShift>
 YsEditArrayObjectHandle<T,bitShift> YsEditArray <T,bitShift>::Create(void)
 {
+	return CreateWithKey((*searchKeySeed)++);
+}
+
+template <class T,const int bitShift>
+YsEditArrayObjectHandle<T,bitShift> YsEditArray<T,bitShift>::CreateWithKey(YSHASHKEY key)
+{
 	YsEditArray_INDEXTYPE newIdx;
 	if(0<deletedIndex.GetN())
 	{
@@ -963,15 +975,13 @@ YsEditArrayObjectHandle<T,bitShift> YsEditArray <T,bitShift>::Create(void)
 	obHd.index=newIdx;
 
 	objArray[newIdx].SetState(ALIVE);
-	objArray[newIdx].SetSearchKey(*searchKeySeed);
+	objArray[newIdx].SetSearchKey(key);
 	objArray[newIdx].cachedIndex=0x7fffffff;
 
 	if(YSTRUE==searchEnabled)
 	{
-		searchKeyToIndex.AddElement(*searchKeySeed,newIdx);
+		searchKeyToIndex.AddElement(key,newIdx);
 	}
-
-	++(*searchKeySeed);
 
 	Decache();
 

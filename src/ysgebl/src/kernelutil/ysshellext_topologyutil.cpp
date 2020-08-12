@@ -168,6 +168,7 @@ void YsShellExt_TopologyUtil::FindSplitLocation(YSSIZE_T &vtIdx0,YSSIZE_T &vtIdx
 /* static */ YSRESULT YsShellExt_TopologyUtil::TestPolygonChunkIsTopologicallyClosed(const YsShellExt &shl,YsConstArrayMask <YsShell::PolygonHandle> chunkPlHd)
 {
 	YsShellEdgeAttribTable <unsigned int> edgeUseCount;
+	edgeUseCount.SetShell(shl.Conv());
 	for(auto plHd : chunkPlHd)
 	{
 		auto plVtHd=shl.GetPolygonVertex(plHd);
