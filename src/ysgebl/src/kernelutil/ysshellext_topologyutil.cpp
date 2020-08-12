@@ -165,3 +165,33 @@ void YsShellExt_TopologyUtil::FindSplitLocation(YSSIZE_T &vtIdx0,YSSIZE_T &vtIdx
 	}
 }
 
+/* static */ YSRESULT YsShellExt_TopologyUtil::TestPolygonChunkIsTopologicallyClosed(const YsShellExt &shl,YsConstArrayMask <YsShell::PolygonHandle> chunkPlHd)
+{
+	YsShellEdgeAttribTable <unsigned int> edgeUseCount;
+	for(auto plHd : chunkPlHd)
+	{
+		auto plVtHd=shl.GetPolygonVertex(plHd);
+		for(int i=0; i<plVtHd.size(); ++i)
+		{
+			auto countPtr=edgeUseCount.FindAttrib(plVtHd[i],plVtHd.GetCyclic(i+1));
+			if(nullptr!=countPtr)
+			{
+				++(*countPtr);
+			}
+			else
+			{
+				YsShell::VertexHandle edVtHd[2]={plVtHd[i],plVtHd.GetCyclic(i+1)};
+				edgeUseCount.SetAttrib(edVtHd,1);
+			}
+		}
+	}
+	for(auto hd : edgeUseCount.AllHandle())
+	{
+		if(edgeUseCount.GetAttrib(hd)!=2)
+		{
+			return YSERR;
+		}
+	}
+	return YSOK;
+}
+

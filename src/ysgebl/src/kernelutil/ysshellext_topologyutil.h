@@ -103,6 +103,8 @@ public:
 	/*! Splits all degenerate polygons in the shell. */
 	template <class SHLCLASS>
 	YSRESULT SplitAllDegeneratePolygon(SHLCLASS &shl);
+
+	static YSRESULT TestPolygonChunkIsTopologicallyClosed(const YsShellExt &shl,YsConstArrayMask <YsShell::PolygonHandle> chunkPlHd);
 };
 
 template <class SHLCLASS>
