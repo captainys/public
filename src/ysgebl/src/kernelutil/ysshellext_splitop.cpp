@@ -258,10 +258,9 @@ YSRESULT YsShell_SplitInfo::SplitFaceGroup(FaceGroupSplit &fgSplit,const YsShell
 			auto plgGrp=YsShellExt_TrackingUtil::MakeEdgeConnectedPolygonGroup(shl,plHd,&cond);
 			if(0<plgGrp.GetN())
 			{
+				visited.AddPolygon(plgGrp);
 				fgSplit.fgPlHdArray.Increment();
 				fgSplit.fgPlHdArray.Last().MoveFrom(plgGrp);
-
-				visited.AddPolygon(plgGrp);
 			}
 		}
 	}

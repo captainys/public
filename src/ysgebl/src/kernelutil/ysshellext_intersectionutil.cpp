@@ -106,7 +106,9 @@ void YsShellExt_CutByPlaneUtil::MakeEdgePlaneIntersection(const YsPlane &cutPln)
 		};
 
 		YsVec3 itsc;
-		if(YSOK==cutPln.GetPenetrationHighPrecision(itsc,edVtPos[0],edVtPos[1]))
+		if(YSOK==cutPln.GetPenetrationHighPrecision(itsc,edVtPos[0],edVtPos[1]) &&
+		   itsc!=edVtPos[0] &&
+		   itsc!=edVtPos[1])
 		{
 			if(0<cutPlgPrj.GetN())
 			{
