@@ -47,6 +47,7 @@ extern "C" void FsSleepC(int ms);
 extern "C" int FsPassedTimeC(void);
 extern "C" long long int FsSubSecondTimerC(void);
 extern "C" void FsMouseC(int *lb,int *mb,int *rb,int *mx,int *my);
+extern "C" void FsSetMousePositionC(int mx,int my);
 extern "C" int FsGetMouseEventC(int *lb,int *mb,int *rb,int *mx,int *my);
 extern "C" void FsSwapBufferC(void);
 extern "C" int FsInkeyC(void);
@@ -165,6 +166,11 @@ long long int FsPassedTime(void)
 long long int FsSubSecondTimer(void)
 {
 	return FsSubSecondTimerC();
+}
+
+void FsSetMousePosition(int mx,int my)
+{
+	FsSetMousePositionC(mx,my);
 }
 
 void FsGetMouseState(int &lb,int &mb,int &rb,int &mx,int &my)
