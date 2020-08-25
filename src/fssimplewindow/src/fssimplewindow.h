@@ -392,6 +392,7 @@ long long int FsPassedTime(void);
 long long int FsSubSecondTimer(void);
 void FsGetMouseState(int &lb,int &mb,int &rb,int &mx,int &my);
 int FsGetMouseEvent(int &lb,int &mb,int &rb,int &mx,int &my);
+void FsSetMousePosition(int mx,int my);
 void FsSwapBuffers(void);
 int FsInkey(void);
 int FsInkeyChar(void);

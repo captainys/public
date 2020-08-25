@@ -490,6 +490,18 @@ void FsGetMouseState(int &lb,int &mb,int &rb,int &mx,int &my)
 	}
 }
 
+void FsSetMousePosition(int mx,int my)
+{
+	if(true==FsWin32IsWindowActive())
+	{
+		POINT cur;
+		cur.x=mx;
+		cur.y=my;
+		ClientToScreen(fsWin32Internal.hWnd,&cur);
+		SetCursorPos(cur.x,cur.y);
+	}
+}
+
 int FsGetMouseEvent(int &lb,int &mb,int &rb,int &mx,int &my)
 {
 	if(0<nMosBufUsed)
