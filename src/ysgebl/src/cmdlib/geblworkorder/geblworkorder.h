@@ -67,6 +67,7 @@ protected:
 	YSRESULT RunFaceGroupAssignBoundaryLayerSpecification(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFaceGroupRemoveBoundaryLayerSpecification(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFaceGroupCreate(const YsString &workOrder,const YsArray <YsString,16> &args);
+	YSRESULT RunFaceGroupMakeSingle(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFaceGroupMakeNoBubble(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFaceGroupExtract(const YsString &workOrder,const YsArray <YsString,16> &args);
 

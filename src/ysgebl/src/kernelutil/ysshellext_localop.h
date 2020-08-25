@@ -994,6 +994,113 @@ void YsShellExt_DihedralAngleReducingSwap(SHLCLASS &shl)
 	}
 }
 
+template <class SHLCLASS>
+YSRESULT YsShellExt_InsertVertexOnEdge(SHLCLASS &shl,const YsShellVertexHandle edVtHd[2],YsShellVertexHandle vtHd)
+{
+	YsArray <YsShellPolygonHandle,2> plHdArray;
+	if(YSOK==shl.FindPolygonFromEdgePiece(plHdArray,edVtHd))
+	{
+		for(YSSIZE_T plIdx=0; plIdx<plHdArray.GetN(); ++plIdx)
+		{
+			YsArray <YsShellVertexHandle,4> plVtHd;
+			shl.GetVertexListOfPolygon(plVtHd,plHdArray[plIdx]);
+			if(YSOK==YsShellExt_InsertVertexOnEdgeOfVertexArray(plVtHd,YSTRUE,edVtHd,vtHd))
+			{
+				shl.SetPolygonVertex(plHdArray[plIdx],plVtHd);
+			}
+		}
+	}
+
+	YsArray <YsShellExt::ConstEdgeHandle,2> ceHdArray;
+	if(YSOK==shl.FindConstEdgeFromEdgePiece(ceHdArray,edVtHd))
+	{
+		for(YSSIZE_T ceIdx=0; ceIdx<ceHdArray.GetN(); ++ceIdx)
+		{
+			YSBOOL isLoop;
+			YsArray <YsShellVertexHandle,16> ceVtHd;
+			shl.GetConstEdge(ceVtHd,isLoop,ceHdArray[ceIdx]);
+			if(YSOK==YsShellExt_InsertVertexOnEdgeOfVertexArray(ceVtHd,isLoop,edVtHd,vtHd))
+			{
+				shl.ModifyConstEdge(ceHdArray[ceIdx],ceVtHd,isLoop);
+			}
+		}
+	}
+
+	return YSOK;
+}
+
+template <class SHLCLASS>
+YSRESULT YsShellExt_ApplyPolygonSplit(SHLCLASS &shl,const YsShell_LocalOperation::PolygonSplit &plgSplit)
+{
+	YSBOOL first=YSTRUE;
+	for(auto &newPlVtHd : plgSplit.plVtHdArray)
+	{
+		if(YSTRUE==first)
+		{
+			shl.SetPolygonVertex(plgSplit.plHd,newPlVtHd);
+			first=YSFALSE;
+		}
+		else
+		{
+			auto nom=shl.GetNormal(plgSplit.plHd);
+			auto col=shl.GetColor(plgSplit.plHd);
+			auto attrib=shl.GetPolygonAttrib(plgSplit.plHd);
+			auto fgHd=shl.FindFaceGroupFromPolygon(plgSplit.plHd);
+
+			auto newPlHd=shl.AddPolygon(newPlVtHd);
+			shl.SetPolygonNormal(newPlHd,nom);
+			shl.SetPolygonColor(newPlHd,col);
+			shl.SetPolygonAttrib(newPlHd,*attrib);
+			if(NULL!=fgHd)
+			{
+				shl.AddFaceGroupPolygon(fgHd,1,&newPlHd);
+			}
+		}
+	}
+	return YSOK;
+}
+
+template <class SHLCLASS>
+YSRESULT YsShellExt_ApplyConstEdgeSplit(SHLCLASS &shl,const YsShell_LocalOperation::ConstEdgeSplit &ceSplit)
+{
+	YSBOOL first=YSTRUE;
+	for(auto &newCeVtHd : ceSplit.ceVtHdArray)
+	{
+		if(YSTRUE==first)
+		{
+			shl.ModifyConstEdge(ceSplit.ceHd,newCeVtHd,YSFALSE);
+			first=YSFALSE;
+		}
+		else
+		{
+			auto attrib=shl.GetConstEdgeAttrib(ceSplit.ceHd);
+			auto newCeHd=shl.AddConstEdge(newCeVtHd,YSFALSE);
+			shl.SetConstEdgeAttrib(newCeHd,attrib);
+		}
+	}
+	return YSOK;
+}
+
+template <class SHLCLASS>
+YSRESULT YsShellExt_ApplyFaceGroupSplit(SHLCLASS &shl,const YsShell_LocalOperation::FaceGroupSplit &fgSplit)
+{
+	if(2<=fgSplit.fgPlHdArray.GetN())
+	{
+		shl.ModifyFaceGroup(fgSplit.fgHd,fgSplit.fgPlHdArray[0]);
+		for(auto index : fgSplit.fgPlHdArray.AllIndex())
+		{
+			if(0<index)
+			{
+				auto &fgPlHd=fgSplit.fgPlHdArray[index];
+				auto newFgHd=shl.AddFaceGroup(fgPlHd);
+				auto attrib=shl.GetFaceGroupAttrib(fgSplit.fgHd);
+				shl.SetFaceGroupAttrib(newFgHd,attrib);
+			}
+		}
+		return YSOK;
+	}
+	return YSERR;
+}
 
 /* } */
 #endif

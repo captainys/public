@@ -182,71 +182,16 @@ YsShellExt::ConstEdgeHandle YsShellExtEdit_MergeConstEdge(YsShellExtEdit &shl,YS
 
 YSRESULT YsShellExtEdit_ApplyPolygonSplit(YsShellExtEdit &shl,const YsShell_LocalOperation::PolygonSplit &plgSplit)
 {
-	YSBOOL first=YSTRUE;
-	for(auto &newPlVtHd : plgSplit.plVtHdArray)
-	{
-		if(YSTRUE==first)
-		{
-			shl.SetPolygonVertex(plgSplit.plHd,newPlVtHd);
-			first=YSFALSE;
-		}
-		else
-		{
-			auto nom=shl.GetNormal(plgSplit.plHd);
-			auto col=shl.GetColor(plgSplit.plHd);
-			auto attrib=shl.GetPolygonAttrib(plgSplit.plHd);
-			auto fgHd=shl.FindFaceGroupFromPolygon(plgSplit.plHd);
-
-			auto newPlHd=shl.AddPolygon(newPlVtHd);
-			shl.SetPolygonNormal(newPlHd,nom);
-			shl.SetPolygonColor(newPlHd,col);
-			shl.SetPolygonAttrib(newPlHd,*attrib);
-			if(NULL!=fgHd)
-			{
-				shl.AddFaceGroupPolygon(fgHd,1,&newPlHd);
-			}
-		}
-	}
-	return YSOK;
+	return YsShellExt_ApplyPolygonSplit(shl,plgSplit);
 }
 
 YSRESULT YsShellExtEdit_ApplyConstEdgeSplit(YsShellExtEdit &shl,const YsShell_LocalOperation::ConstEdgeSplit &ceSplit)
 {
-	YSBOOL first=YSTRUE;
-	for(auto &newCeVtHd : ceSplit.ceVtHdArray)
-	{
-		if(YSTRUE==first)
-		{
-			shl.ModifyConstEdge(ceSplit.ceHd,newCeVtHd,YSFALSE);
-			first=YSFALSE;
-		}
-		else
-		{
-			auto attrib=shl.GetConstEdgeAttrib(ceSplit.ceHd);
-			auto newCeHd=shl.AddConstEdge(newCeVtHd,YSFALSE);
-			shl.SetConstEdgeAttrib(newCeHd,attrib);
-		}
-	}
-	return YSOK;
+	return YsShellExt_ApplyConstEdgeSplit(shl,ceSplit);
 }
 
 YSRESULT YsShellExtEdit_ApplyFaceGroupSplit(YsShellExtEdit &shl,const YsShell_LocalOperation::FaceGroupSplit &fgSplit)
 {
-	if(2<=fgSplit.fgPlHdArray.GetN())
-	{
-		shl.ModifyFaceGroup(fgSplit.fgHd,fgSplit.fgPlHdArray[0]);
-		for(auto index : fgSplit.fgPlHdArray.AllIndex())
-		{
-			if(0<index)
-			{
-				auto &fgPlHd=fgSplit.fgPlHdArray[index];
-				auto newFgHd=shl.AddFaceGroup(fgPlHd);
-				auto attrib=shl.GetFaceGroupAttrib(fgSplit.fgHd);
-				shl.SetFaceGroupAttrib(newFgHd,attrib);
-			}
-		}
-		return YSOK;
-	}
-	return YSERR;
+	return YsShellExt_ApplyFaceGroupSplit(shl,fgSplit);
 }
 

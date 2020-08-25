@@ -53,6 +53,10 @@ YSRESULT GeblCmd_WorkOrder::RunFaceGroupWorkOrder(const YsString &workOrder,cons
 		{
 			return RunFaceGroupCreate(workOrder,args);
 		}
+		else if(0==args[1].STRCMP("MAKESINGLE"))
+		{
+			return RunFaceGroupMakeSingle(workOrder,args);
+		}
 		else if(0==args[1].STRCMP("MAKENOBUBBLE"))
 		{
 			return RunFaceGroupMakeNoBubble(workOrder,args);
@@ -162,7 +166,7 @@ YSRESULT GeblCmd_WorkOrder::RunFaceGroupRemoveBoundaryLayerSpecification(const Y
 
 YSRESULT GeblCmd_WorkOrder::RunFaceGroupCreate(const YsString &workOrder,const YsArray <YsString,16> &args)
 {
-	if(2<=args.GetN() && 0==args[2].STRCMP("FROMCE"))
+	if(3<=args.GetN() && 0==args[2].STRCMP("FROMCE"))
 	{
 		YsShellExtEdit_MakeFaceGroupByConstEdge(*slHd);
 		return YSOK;
@@ -171,6 +175,22 @@ YSRESULT GeblCmd_WorkOrder::RunFaceGroupCreate(const YsString &workOrder,const Y
 	errorReason.Printf("Unrecognized sub command parameter [%s]",args[2].Txt());
 	ShowError(workOrder,errorReason);
 	return YSERR;
+}
+
+YSRESULT GeblCmd_WorkOrder::RunFaceGroupMakeSingle(const YsString &workOrder,const YsArray <YsString,16> &args)
+{
+	for(auto fgHd : slHd->AllFaceGroup())
+	{
+		slHd->DeleteFaceGroup(fgHd);
+	}
+
+	auto allPlHd=slHd->AllPolygon().Array();
+	auto newFgHd=slHd->AddFaceGroup(allPlHd);
+	if(3<=args.GetN())
+	{
+		slHd->SetFaceGroupLabel(newFgHd,args[2]);
+	}
+	return YSOK;
 }
 
 YSRESULT GeblCmd_WorkOrder::RunFaceGroupMakeNoBubble(const YsString &workOrder,const YsArray <YsString,16> &args)
