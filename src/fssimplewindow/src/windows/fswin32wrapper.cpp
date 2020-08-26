@@ -253,6 +253,21 @@ void FsOpenWindow(const FsOpenWindowOption &opt)
 	}
 }
 
+void FsResizeWindow(int newWid,int newHei)
+{
+	RECT rc;
+	GetClientRect(fsWin32Internal.hWnd,&rc);
+	rc.right =(unsigned long)(rc.left+newWid-1);
+	rc.bottom=(unsigned long)(rc.top +newHei-1);
+	AdjustWindowRect(&rc,WINSTYLE,FALSE);
+	newWid=rc.right -rc.left+1;
+	newHei=rc.bottom-rc.top +1;
+
+	GetWindowRect(fsWin32Internal.hWnd,&rc);
+
+	MoveWindow(fsWin32Internal.hWnd,rc.left,rc.top,newWid,newHei,TRUE);
+}
+
 int FsCheckWindowOpen(void)
 {
 	if(nullptr!=fsWin32Internal.hWnd)
