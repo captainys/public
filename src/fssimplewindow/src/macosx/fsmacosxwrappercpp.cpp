@@ -37,6 +37,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "fssimplewindow.h"
 
 extern "C" void FsOpenWindowC(int x0,int y0,int wid,int hei,int useDoubleBuffer,int useMultiSampleBuffer,int fullScreen,const char windowName[]);
+extern "C" void FsResizeWindowC(int wid,int hei);
 extern "C" void FsGetWindowSizeC(int *wid,int *hei);
 extern "C" void FsGetWindowPositionC(int *wid,int *hei);
 extern "C" void FsMaximizeWindowC(void);
@@ -92,6 +93,11 @@ void FsOpenWindow(const FsOpenWindowOption &opt)
 	{
 		(*fsAfterWindowCreationCallBack)(fsAfterWindowCreationCallBackParam);
 	}
+}
+
+void FsResizeWindow(int wid,int hei)
+{
+	FsResizeWindowC(wid,hei);
 }
 
 int FsCheckWindowOpen(void)

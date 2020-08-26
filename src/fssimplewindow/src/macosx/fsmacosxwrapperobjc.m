@@ -1526,6 +1526,17 @@ void FsOpenWindowC(int x0,int y0,int wid,int hei,int useDoubleBuffer,int useMult
 	FsMakeCurrentC();
 }
 
+void FsResizeWindowC(int wid,int hei)
+{
+	NSRect viewRect=[ysView frame];
+	viewRect.size.width=wid;
+	viewRect.size.height=hei;
+
+	[ysWnd setContentSize:viewRect.size];
+
+	[ysView setFrame:viewRect];
+}
+
 void FsGetWindowSizeC(int *wid,int *hei)
 {
 	NSRect rect;
