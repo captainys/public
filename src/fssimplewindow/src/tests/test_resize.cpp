@@ -28,9 +28,10 @@ int main(void)
 			{
 				printf("%d\n",phase);
 				FsResizeWindow(windowSize[phase],windowSize[phase+1]);
-				waitCount=100;
+				waitCount=10;
 			}
 		}
+		FsSleep(10);
 		--waitCount;
 	}
 	printf("Passed.\n");
