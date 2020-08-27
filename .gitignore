@@ -1,1 +1,5 @@
 __pycache__
+*.kicad_pcb-bak
+*.sch-bak
+fp-info-cache
+ir_receiver-cache.lib
