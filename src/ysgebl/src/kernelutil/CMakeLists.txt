@@ -221,6 +221,7 @@ ysshellext_alignmentutil.cpp
 ysshellext_constedgesmoother.cpp
 ./ysshellext_quadmeshutil.cpp
 ./ysshellext_facegroupextender.cpp
+./ysshellext_pipeaxisutil.cpp
 )
 
 set(HEADERS
@@ -293,6 +294,7 @@ ysshellext_constedgesmoother.h
 ysshellext_quadmeshutil.h
 ysshellext_facegroupextender.h
 ./ysshellext_facegroupextender.h
+ysshellext_pipeaxisutil.h
 )
 
 
