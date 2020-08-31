@@ -32,6 +32,7 @@ private:
 	YsVec3 GetContourCenter(const YsShellExt &shl,YsConstArrayMask <YsShell::PolygonHandle> plg) const;
 	double EstimateRadius(const YsShellExt &shl,const YsVec3 &pos,const YsVec3 &vec) const;
 	YsArray <YsVec3> ShootRadial(const YsShellExt &shl,const YsVec3 &pos,const YsVec3 &vec) const;
+	YsArray <YsVec3> ShootRadialGetNormal(const YsShellExt &shl,const YsVec3 &pos,const YsVec3 &vec) const;
 
 public:
 	YSRESULT ShootOneStep(const YsShellExt &shl);

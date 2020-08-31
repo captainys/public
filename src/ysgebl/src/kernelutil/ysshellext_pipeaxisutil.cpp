@@ -6,9 +6,12 @@
 
 void YsShellExt_PipeAxisUtil::CleanUp(void)
 {
+	path.clear();
+	reachedEnd=YSFALSE;
 }
 void YsShellExt_PipeAxisUtil::Begin(const YsShellExt &shl,YsConstArrayMask <YsShell::PolygonHandle> startPlg,YsConstArrayMask <YsShell::PolygonHandle> endPlg)
 {
+	CleanUp();
 	ltc.SetDomain(shl.Conv(),shl.GetNumPolygon()+1);
 	this->startPlg=startPlg;
 	this->endPlg=endPlg;
@@ -143,6 +146,8 @@ YSRESULT YsShellExt_PipeAxisUtil::ShootOneStep(const YsShellExt &shl)
 			double d2=v2.GetLength();
 			v1/=d1;
 			v2/=d2;
+			YsMakeGreater(longest,d1);
+			YsMakeGreater(longest,d2);
 			for(int iter=0; iter<nBisection; ++iter)
 			{
 				auto vMid=(v1+v2)/2.0;
@@ -155,6 +160,7 @@ YSRESULT YsShellExt_PipeAxisUtil::ShootOneStep(const YsShellExt &shl)
 					return YSERR;
 				}
 				auto dMid=(itscPos-offsetItsc).GetLength();
+				YsMakeGreater(longest,dMid);
 				if(d1>d2)
 				{
 					d2=dMid;
@@ -167,10 +173,76 @@ YSRESULT YsShellExt_PipeAxisUtil::ShootOneStep(const YsShellExt &shl)
 				}
 			}
 
+
+			// Tentatively make up a next pos.
 			Photon nextPos;
 			nextPos.pos=offsetItsc;
 			nextPos.vec=(v1+v2)/2.0;
-			nextPos.vec.Normalize();
+
+			// If the pipe is really thin, more adjustment is needed.
+			// (1) Try to find a vector that is parallel to the walls
+			{
+				YsShell::PolygonHandle iPlHd;
+				YsVec3 itscPos;
+				if(YSOK==ltc.FindFirstIntersection(iPlHd,itscPos,offsetItsc,nextPos.vec) &&
+				   nullptr!=iPlHd)
+				{
+					YsVec3 mid=(itscPos+offsetItsc)/2.0;
+					auto radialNom=ShootRadialGetNormal(shl,mid,nextPos.vec);
+					YsVec3 vNew;
+					if(YSOK==YsFindLeastSquareFittingPlaneNormal(vNew,radialNom.size(),radialNom.data()))
+					{
+						if(vNew*nextPos.vec<0.0)
+						{
+							vNew=-vNew;
+						}
+						if(YSOK==ltc.FindFirstIntersection(iPlHd,itscPos,offsetItsc,vNew) &&
+						   nullptr!=iPlHd)
+						{
+							auto dist=(itscPos-offsetItsc).GetSquareLength();
+							if(longest<dist)
+							{
+printf("%s %d\n",__FUNCTION__,__LINE__);
+								longest=dist;
+								nextPos.vec=vNew;
+							}
+						}
+					}
+				}
+			}
+
+			// (2) Push it
+			for(;;)
+			{
+				bool moved=false;
+				YsShell::PolygonHandle iPlHd;
+				YsVec3 itscPos;
+				if(YSOK==ltc.FindFirstIntersection(iPlHd,itscPos,offsetItsc,nextPos.vec) &&
+				   nullptr!=iPlHd)
+				{
+					YsVec3 mid=(itscPos+offsetItsc)/2.0;
+					auto radial=ShootRadial(shl,mid,nextPos.vec);
+					auto cen=YsGetCenter(radial.size(),radial.data());
+					auto vNew=cen-offsetItsc;
+					if(YSOK==vNew.Normalize() &&
+					   YSOK==ltc.FindFirstIntersection(iPlHd,itscPos,offsetItsc,vNew) &&
+					   nullptr!=iPlHd)
+					{
+						auto dist=(itscPos-offsetItsc).GetSquareLength();
+						if(longest<dist)
+						{
+							longest=dist;
+							nextPos.vec=vNew;
+							moved=true;
+						}
+					}
+				}
+				if(true!=moved)
+				{
+					break;
+				}
+			}
+
 			path.push_back(nextPos);
 			return YSOK;
 		}
@@ -210,6 +282,29 @@ YsArray <YsVec3> YsShellExt_PipeAxisUtil::ShootRadial(const YsShellExt &shl,cons
 		if(YSOK==ltc.FindFirstIntersection(iPlHd,itscPos,pos,ray) && nullptr!=iPlHd)
 		{
 			radialItsc.push_back(itscPos);
+		}
+	}
+
+	return radialItsc;
+}
+YsArray <YsVec3> YsShellExt_PipeAxisUtil::ShootRadialGetNormal(const YsShellExt &shl,const YsVec3 &pos,const YsVec3 &vec) const
+{
+	auto U=vec.GetArbitraryPerpendicularVector();
+	U.Normalize();
+	auto V=vec^U;
+	V.Normalize();
+
+	YsArray <YsVec3> radialItsc;
+	for(int i=0; i<nSearchDir; ++i)
+	{
+		double a=(double)i*YsPi*2.0/(double)nSearchDir;
+		auto ray=U*cos(a)+V*sin(a);
+
+		YsShell::PolygonHandle iPlHd;
+		YsVec3 itscPos;
+		if(YSOK==ltc.FindFirstIntersection(iPlHd,itscPos,pos,ray) && nullptr!=iPlHd)
+		{
+			radialItsc.push_back(shl.GetNormal(iPlHd));
 		}
 	}
 
