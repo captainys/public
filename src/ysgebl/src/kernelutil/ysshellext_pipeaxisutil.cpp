@@ -120,6 +120,11 @@ YSRESULT YsShellExt_PipeAxisUtil::ShootOneStep(const YsShellExt &shl)
 		double longest=0.0;
 		for(int i=0; i<searchDir.size(); ++i)
 		{
+			if(true==IsBackflow(shl,path.back().pos,offsetItsc,searchDir[i]))
+			{
+				continue;
+			}
+
 			double d=(searchDir[i]-offsetItsc).GetLength();
 			if(longest<d)
 			{
@@ -202,7 +207,6 @@ YSRESULT YsShellExt_PipeAxisUtil::ShootOneStep(const YsShellExt &shl)
 							auto dist=(itscPos-offsetItsc).GetSquareLength();
 							if(longest<dist)
 							{
-printf("%s %d\n",__FUNCTION__,__LINE__);
 								longest=dist;
 								nextPos.vec=vNew;
 							}
@@ -248,6 +252,46 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 		}
 	}
 	return YSERR;
+}
+bool YsShellExt_PipeAxisUtil::IsBackflow(const YsShellExt &shl,const YsVec3 &currentPos,const YsVec3 &nextPos,const YsVec3 &nextItsc) const
+{
+	// See backflow_problem.png
+	YsVec3 curDir=nextPos-currentPos;
+	YsVec3 nextDir=nextItsc-nextPos;
+	if(0.0<=curDir*nextDir)
+	{
+		return false;  // Not a back flow.
+	}
+
+	YsVec3 nearPos;
+	if(YSOK==YsGetNearestPointOnLine3(nearPos,currentPos,nextPos,nextItsc))
+	{
+		YsVec3 toLastSegment=nearPos-nextItsc;
+		double L=toLastSegment.GetLength();
+		if(YSOK==toLastSegment.Normalize())
+		{
+			YsVec3 o=nextItsc+toLastSegment*(YsTolerance*2.0+L*0.01);
+
+			YsArray <YsVec3,16> itscPos;
+			YsArray <YsShellPolygonHandle,16> itscPlHd;
+			if(YSOK==ltc.ShootFiniteRay(itscPos,itscPlHd,o,currentPos))
+			{
+				if(0==itscPos.size())
+				{
+					// Means reachable without crossing a polygon.
+					// In the same pipe.
+					// Consider it as a backflow.
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+	}
+
+	return false; // Cannot judge.
 }
 double YsShellExt_PipeAxisUtil::EstimateRadius(const YsShellExt &shl,const YsVec3 &pos,const YsVec3 &vec) const
 {

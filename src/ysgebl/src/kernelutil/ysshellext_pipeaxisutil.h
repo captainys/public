@@ -34,6 +34,8 @@ private:
 	YsArray <YsVec3> ShootRadial(const YsShellExt &shl,const YsVec3 &pos,const YsVec3 &vec) const;
 	YsArray <YsVec3> ShootRadialGetNormal(const YsShellExt &shl,const YsVec3 &pos,const YsVec3 &vec) const;
 
+	bool IsBackflow(const YsShellExt &shl,const YsVec3 &currentPos,const YsVec3 &nextPos,const YsVec3 &nextItsc) const;
+
 public:
 	YSRESULT ShootOneStep(const YsShellExt &shl);
 };
