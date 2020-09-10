@@ -1239,6 +1239,9 @@ void D77Analyzer::Compare(const std::vector <std::string> &argv) const
 
 int main(int ac,char *av[])
 {
+	bool readRaw=false;
+	const char *fName=av[1];
+
 	if(3<=ac && (0==strcmp("-new",av[1]) || 0==strcmp("-NEW",av[1])))
 	{
 		D77File d77;
@@ -1248,6 +1251,11 @@ int main(int ac,char *av[])
 		term.Terminal(d77);
 		return 0;
 	}
+	if(3<=ac && (0==strcmp("-raw",av[1]) || 0==strcmp("-RAW",av[1])))
+	{
+		fName=av[2];
+		readRaw=true;
+	}
 
 	if(2>ac)
 	{
@@ -1255,6 +1263,8 @@ int main(int ac,char *av[])
 		printf("  d77analyze filename.d77\n");
 		printf("    or\n");
 		printf("  d77analyze -new filename.d77\n");
+		printf("    or\n");
+		printf("  d77analyze -raw filename.bin\n");
 		return 1;
 	}
 
@@ -1276,7 +1286,18 @@ int main(int ac,char *av[])
 
 
 	D77File d77;
-	d77.SetData(dat);
+	if(true!=readRaw)
+	{
+		d77.SetData(dat);
+	}
+	else
+	{
+		if(true!=d77.SetRawBinary(dat,false))
+		{
+			return 1;
+		}
+
+	}
 	d77.PrintInfo();
 
 	D77Analyzer term;
