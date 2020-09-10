@@ -1269,7 +1269,7 @@ int main(int ac,char *av[])
 	}
 
 	std::vector <unsigned char> dat;
-	FILE *fp=fopen(av[1],"rb");
+	FILE *fp=fopen(fName,"rb");
 	if(nullptr==fp)
 	{
 		return 1;
