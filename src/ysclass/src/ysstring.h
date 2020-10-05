@@ -2455,7 +2455,7 @@ Float_Type YsGenericString<CHARTYPE>::AtoReal(void) const
 	aboveDecimal=GetRawNumber<long long int>(ptr);
 
 	long long belowDecimal=0;
-	int belowDecimalDenom=1;
+	double belowDecimalDenom=1.0;
 	add=1;
 	if(ptr<Strlen() && '.'==vv[ptr])
 	{
@@ -2467,7 +2467,7 @@ Float_Type YsGenericString<CHARTYPE>::AtoReal(void) const
 				long long int n=vv[ptr]-'0';
 				belowDecimal*=10;
 				belowDecimal+=n;
-				belowDecimalDenom*=10;
+				belowDecimalDenom*=10.0;
 			}
 			else if(','!=vv[ptr] || '.'==vv[ptr])
 			{
@@ -2477,7 +2477,7 @@ Float_Type YsGenericString<CHARTYPE>::AtoReal(void) const
 		}
 	}
 
-	double base=(double)aboveDecimal+((double)belowDecimal/(double)belowDecimalDenom);
+	double base=(double)aboveDecimal+((double)belowDecimal/belowDecimalDenom);
 	if(sign<0)
 	{
 		base=-base;
