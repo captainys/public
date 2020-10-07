@@ -1103,6 +1103,13 @@ public:
 	static YSRESULT Sketch_CreateConstEdge_LButtonCallBack(GeblGuiEditorBase &canvas,YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my);
 	static YSRESULT Sketch_CreateConstEdge_MouseMoveCallBack(GeblGuiEditorBase &canvas,YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my);
 
+	void Sketch_MakeSheet(FsGuiPopUpMenuItem *);
+	YSRESULT Sketch_MakeSheet_LButtonDownCallBack(FsGuiMouseButtonSet btn,YsVec2i pos);
+	YSRESULT Sketch_MakeSheet_LButtonUpCallBack(FsGuiMouseButtonSet btn,YsVec2i pos);
+	YSRESULT Sketch_MakeSheet_MouseMoveCallBack(FsGuiMouseButtonSet btn,YsVec2i from,YsVec2i to);
+
+	void SketchUtil_MakeSheet(YsShellExtEdit &shl);
+
 
 
 	static void UtilMenu_ClearConstEdgeAll(void *appPtr,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *);

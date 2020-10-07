@@ -526,6 +526,7 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 		auto sketchSubMenu=mainMenu->AddTextItem(0,FSKEY_K,FSGUI_MENU_SKETCH)->GetSubMenu();
 		{
 			sketchSubMenu->AddTextItem(0,FSKEY_C,FSGUI_MENU_SKETCH_CREATECONSTEDGE,Sketch_CreateConstEdgeBySketch,this);
+			sketchSubMenu->AddTextItem(0,FSKEY_S,FSGUI_MENU_SKETCH_MAKESHEET)->BindCallBack(&THISCLASS::Sketch_MakeSheet,this);
 		}
 	}
 

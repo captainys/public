@@ -130,3 +130,63 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 	}
 	return YSOK;
 }
+
+
+void GeblGuiEditorBase::Sketch_MakeSheet(FsGuiPopUpMenuItem *)
+{
+	Edit_ClearUIMode();
+
+	if(NULL!=slHd)
+	{
+		auto &shl=*slHd;
+		sketchUI->StartSketchInterface(shl.Conv(),drawEnv);
+		BindLButtonDownCallBack(&THISCLASS::Sketch_MakeSheet_LButtonDownCallBack,this);
+		BindLButtonUpCallBack(&THISCLASS::Sketch_MakeSheet_LButtonUpCallBack,this);
+		BindMouseMoveCallBack(&THISCLASS::Sketch_MakeSheet_MouseMoveCallBack,this);
+		UIDrawCallBack2D=Sketch_DrawCallBack2D;
+		SetNeedRedraw(YSTRUE);
+	}
+}
+YSRESULT GeblGuiEditorBase::Sketch_MakeSheet_LButtonDownCallBack(FsGuiMouseButtonSet btn,YsVec2i pos)
+{
+	sketchUI->BeginStroke();
+	return YSOK;
+}
+YSRESULT GeblGuiEditorBase::Sketch_MakeSheet_LButtonUpCallBack(FsGuiMouseButtonSet btn,YsVec2i pos)
+{
+	sketchUI->EndStroke();
+	if(nullptr!=slHd)
+	{
+		SketchUtil_MakeSheet(*slHd);
+		needRemakeDrawingBuffer|=NEED_REMAKE_DRAWING_VERTEX|NEED_REMAKE_DRAWING_POLYGON;
+		SetNeedRedraw(YSTRUE);
+	}
+	return YSOK;
+}
+YSRESULT GeblGuiEditorBase::Sketch_MakeSheet_MouseMoveCallBack(FsGuiMouseButtonSet btn,YsVec2i from,YsVec2i to)
+{
+	if(YSTRUE==btn.lb)
+	{
+		sketchUI->AddStrokePoint(YsVec2(to.xf(),to.yf()));
+		SetNeedRedraw(YSTRUE);
+		return YSOK;
+	}
+	return YSERR;
+}
+
+void GeblGuiEditorBase::SketchUtil_MakeSheet(YsShellExtEdit &shl)
+{
+	YsArray <YsShell::VertexHandle> vtHdArray;
+	double nearz,farz;
+	nearz=drawEnv.GetViewDistance()*0.1;
+	farz=drawEnv.GetViewDistance()*1.9;
+
+	for(auto &p : sketchUI->GetStroke())
+	{
+		YsVec3 nearPos,farPos;
+		drawEnv.TransformScreenCoordTo3DWithZ(nearPos,p.winCoord.x(),p.winCoord.y(),nearz);
+		drawEnv.TransformScreenCoordTo3DWithZ(farPos,p.winCoord.x(),p.winCoord.y(),farz);
+		vtHdArray.push_back(shl.AddVertex(nearPos));
+		vtHdArray.push_back(shl.AddVertex(farPos));
+	}
+}

@@ -469,6 +469,25 @@ void Ys3DDrawingEnvironment::TransformScreenCoordTo3DLine(YsVec3 &org,YsVec3 &ve
 	vec.Normalize();
 }
 
+void Ys3DDrawingEnvironment::TransformScreenCoordTo3DWithZ(YsVec3 &pos,double sx,double sy,double z) const
+{
+	if(YSTRUE==screenOriginIsTopLeft)
+	{
+		sy=(double)windowHeight-sy;
+	}
+
+	const YsMatrix4x4 &viewMat=GetViewMatrix();
+	const YsMatrix4x4 &projMat=GetProjectionMatrix();
+	const YsMatrix4x4 projViewMat=projMat*viewMat;
+
+	double normz,nearz,farz;
+	GetNearFar(nearz,farz);
+
+	normz=2.0*(z-nearz)/(farz-nearz)-1.0;
+
+	const YsVec3 p(sx,sy,normz);
+	YsTransformScreenCoordTo3DCoord(pos,p,viewport,projViewMat);
+}
 
 
 ////////////////////////////////////////////////////////////

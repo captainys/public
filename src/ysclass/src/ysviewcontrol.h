@@ -224,6 +224,9 @@ public:
 
 	/*! This function transforms a screen coordinate to a 3D line that goes through org and is parallel to vec. */
 	void TransformScreenCoordTo3DLine(YsVec3 &org,YsVec3 &vec,double sx,double sy) const;
+
+	/*! This function transforms a screen coordinate.  Z is the distance from the viewpoint to the projection plane. */
+	void TransformScreenCoordTo3DWithZ(YsVec3 &pos,double sx,double sy,double z) const;
 };
 
 

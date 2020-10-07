@@ -505,6 +505,8 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_MENU_SELECT_VERTEX_USEDBYTWOCONSEDGE        FsGetTextResource("menu/select/vertex/usedbytwoconsedge",L"Used by Two Const Edges")
 #define FSGUI_MENU_SKETCH                                 FsGetTextResource("menu/sketch",L"Sketch Interface")
 #define FSGUI_MENU_SKETCH_CREATECONSTEDGE                 FsGetTextResource("menu/sketch/createconstedge",L"Create Const-Edges by Sketch Interface")
+#define FSGUI_MENU_SKETCH_MAKESHEET                       FsGetTextResource("menu/sketch/makesheet",L"Make Sheet")
+#define FSGUI_MENU_SKETCH_SEPARATE                        FsGetTextResource("menu/sketch/separate",L"Separate")
 #define FSGUI_MENU_UTILITY                                FsGetTextResource("menu/utility",L"Utility")
 #define FSGUI_MENU_UTILITY_CONSTEDGE                      FsGetTextResource("menu/utility/constedge",L"Const Edge")
 #define FSGUI_MENU_UTILITY_CONSTEDGE_ADDBYDHA             FsGetTextResource("menu/utility/constedge/addbydha",L"Add by Dihedral Angle")

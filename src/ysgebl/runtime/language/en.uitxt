@@ -465,6 +465,8 @@ $BGCOL 0
 +menu/select/vertex_single_use_edge_loop           #Single-use edge loop from one or two selected verticex
 +menu/sketch                                       #Sketch Interface
 +menu/sketch/createconstedge                       #Create Const-Edges on the Current Model
++menu/sketch/makesheet                             #Make Sheet
++menu/sketch/separate                              #Separate
 +menu/utility                                      #Utility
 +menu/utility/constedge                            #Const Edge
 +menu/utility/constedge/addbydha                   #Add by Dihedral Angle
