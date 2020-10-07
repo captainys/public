@@ -925,6 +925,17 @@ YSRESULT YsTraceLineSegment::SetLineSegment(YSSIZE_T np,const YsVec3 p[],YSBOOL 
 	return ResetLineSegment();
 }
 
+YSRESULT YsTraceLineSegment::SetLineSegment(YsConstArrayMask <YsVec3> p,YSBOOL islp)
+{
+	lSeg=p;
+	isLoop=islp;
+	if(islp==YSTRUE)
+	{
+		lSeg.Append(lSeg[0]);
+	}
+	return ResetLineSegment();
+}
+
 YSSIZE_T YsTraceLineSegment::GetCurrentSegment(void) const
 {
 	return curPos.seg;

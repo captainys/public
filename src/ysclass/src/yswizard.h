@@ -562,8 +562,7 @@ public:
 	    This function also calculates length cache.
 	*/
 	YSRESULT SetLineSegment(YSSIZE_T np,const YsVec3 p[],YSBOOL isLoop);
-	template <const int N>
-	YSRESULT SetLineSegment(YsArray <YsVec3,N> &p,YSBOOL isLoop);
+	YSRESULT SetLineSegment(YsConstArrayMask <YsVec3> p,YSBOOL isLoop);
 
 	YSSIZE_T GetCurrentSegment(void) const;
 	const YsVec3 &GetCurrentPosition(void) const;
@@ -608,17 +607,6 @@ typedef YsTraceLineSegment::Tracer YsLineSegmentTracer;
 
 
 
-template <const int N>
-YSRESULT YsTraceLineSegment::SetLineSegment(YsArray <YsVec3,N> &p,YSBOOL islp)
-{
-	lSeg=p;
-	isLoop=islp;
-	if(islp==YSTRUE)
-	{
-		lSeg.Append(lSeg[0]);
-	}
-	return ResetLineSegment();
-}
 
 
 
