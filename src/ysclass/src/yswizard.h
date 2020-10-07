@@ -469,13 +469,14 @@ public:
 
 ////////////////////////////////////////////////////////////
 
-class YsTraceLineSegment
+template <class VecClass>
+class YsTraceLineSegmentTemplate
 {
 public:
 	class Tracer
 	{
 	public:
-		YsVec3 pos;
+		VecClass pos;
 		YSSIZE_T seg;
 		double segParam;
 
@@ -484,7 +485,7 @@ public:
 		*/
 		YSBOOL wentAround;
 
-		const YsVec3 &GetPosition(void) const;
+		const VecClass &GetPosition(void) const;
 		YSSIZE_T GetSegment(void) const;
 
 		bool operator<(const Tracer &t)
@@ -547,7 +548,7 @@ public:
 
 protected:
 	YSBOOL isLoop;
-	YsArray <YsVec3> lSeg;
+	YsArray <VecClass> lSeg;
 
 	Tracer curPos;
 
@@ -561,12 +562,12 @@ public:
 	/*! Set line segments in the data structure.
 	    This function also calculates length cache.
 	*/
-	YSRESULT SetLineSegment(YSSIZE_T np,const YsVec3 p[],YSBOOL isLoop);
-	YSRESULT SetLineSegment(YsConstArrayMask <YsVec3> p,YSBOOL isLoop);
+	YSRESULT SetLineSegment(YSSIZE_T np,const VecClass p[],YSBOOL isLoop);
+	YSRESULT SetLineSegment(YsConstArrayMask <VecClass> p,YSBOOL isLoop);
 
 	YSSIZE_T GetCurrentSegment(void) const;
-	const YsVec3 &GetCurrentPosition(void) const;
-	const YsVec3 GetCurrentTangent(void) const;
+	const VecClass &GetCurrentPosition(void) const;
+	const VecClass GetCurrentTangent(void) const;
 	const double &GetTotalLength(void) const;
 
 	/*! Returns YSTRUE if it is a loop, YSFALSE otherwise.
@@ -592,7 +593,7 @@ public:
 	*/
 	YSRESULT MoveToDistanceFromP0(Tracer &tracer,double dist) const;
 
-	YSRESULT SetPosition(Tracer &tracer,const YsVec3 &pos) const;
+	YSRESULT SetPosition(Tracer &tracer,const VecClass &pos) const;
 
 	YSRESULT SetPositionByParameter(Tracer &tracer,const double &t) const;
 	YSRESULT SetPositionByVertex(Tracer &tracer,int idx) const;
@@ -600,13 +601,467 @@ public:
 
 	/*! Returns the tangential vector.
 	*/
-	YsVec3 GetTangent(const Tracer &tracer) const;
+	VecClass GetTangent(const Tracer &tracer) const;
+};
+
+template <class VecClass>
+const VecClass &YsTraceLineSegmentTemplate <VecClass>::Tracer::GetPosition(void) const
+{
+	return pos;
+}
+
+template <class VecClass>
+YSSIZE_T YsTraceLineSegmentTemplate <VecClass>::Tracer::GetSegment(void) const
+{
+	return seg;
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::ResetLineSegment(void)
+{
+	if(lSeg.GetN()>0)
+	{
+		int i;
+		double sl;
+
+		totalLength=0.0;
+		segLength.Set(0,NULL);
+		segLengthAddUp.Set(0,NULL);
+		segLengthAddUp.Append(0.0);
+		for(i=0; i<lSeg.GetN()-1; i++)
+		{
+			sl=(lSeg[i+1]-lSeg[i]).GetLength();
+			totalLength+=sl;
+			segLength.Append(sl);
+			segLengthAddUp.Append(totalLength);
+		}
+		if(isLoop==YSTRUE)
+		{
+			sl=(lSeg[0]-lSeg.GetEndItem()).GetLength();
+			totalLength+=sl;
+			segLength.Append(sl);
+			segLengthAddUp.Append(totalLength);
+		}
+
+		curPos.pos=lSeg[0];
+		curPos.segParam=0.0;
+		curPos.seg=0;
+		curPos.wentAround=YSFALSE;
+
+		if(totalLength<YsTolerance)
+		{
+			lSeg.Set(0,NULL);
+			return YSERR;
+		}
+
+		return YSOK;
+	}
+	return YSERR;
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::SetLineSegment(YSSIZE_T np,const VecClass p[],YSBOOL islp)
+{
+	lSeg.Set(np,p);
+	isLoop=islp;
+	if(islp==YSTRUE)
+	{
+		lSeg.Append(lSeg[0]);
+	}
+	return ResetLineSegment();
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::SetLineSegment(typename YsConstArrayMask <VecClass> p,YSBOOL islp)
+{
+	lSeg=p;
+	isLoop=islp;
+	if(islp==YSTRUE)
+	{
+		lSeg.Append(lSeg[0]);
+	}
+	return ResetLineSegment();
+}
+template <class VecClass>
+YSSIZE_T YsTraceLineSegmentTemplate<VecClass>::GetCurrentSegment(void) const
+{
+	return curPos.seg;
+}
+template <class VecClass>
+const VecClass &YsTraceLineSegmentTemplate<VecClass>::GetCurrentPosition(void) const
+{
+	return curPos.pos;
+}
+template <class VecClass>
+const VecClass YsTraceLineSegmentTemplate<VecClass>::GetCurrentTangent(void) const
+{
+	VecClass t;
+	if(curPos.seg<lSeg.GetN()-1)
+	{
+		t=lSeg[curPos.seg+1]-lSeg[curPos.seg];
+		t.Normalize();
+		return t;
+	}
+	else if(2<=lSeg.GetN())
+	{
+		t=lSeg[lSeg.GetN()-1]-lSeg[lSeg.GetN()-2];
+		t.Normalize();
+		return t;
+	}
+	return YsOrigin();
+}
+template <class VecClass>
+const double &YsTraceLineSegmentTemplate<VecClass>::GetTotalLength(void) const
+{
+	return totalLength;
+}
+template <class VecClass>
+typename YsTraceLineSegmentTemplate<VecClass>::Tracer YsTraceLineSegmentTemplate<VecClass>::Head(void) const
+{
+	Tracer tracer;
+	tracer.seg=0;
+	tracer.segParam=0.0;
+	tracer.pos=lSeg[0];
+	tracer.wentAround=YSFALSE;
+	return tracer;
+}
+template <class VecClass>
+typename YsTraceLineSegmentTemplate<VecClass>::Tracer YsTraceLineSegmentTemplate<VecClass>::Tail(void) const
+{
+	Tracer tracer;
+	tracer.seg=lSeg.GetN()-2;
+	tracer.segParam=1.0;
+	tracer.pos=lSeg.Last();
+	tracer.wentAround=YSFALSE;
+	return tracer;
+}
+template <class VecClass>
+YSBOOL YsTraceLineSegmentTemplate<VecClass>::IsLoop(void) const
+{
+	return isLoop;
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::MoveByDistance(const double &dist)
+{
+	return MoveByDistance(curPos,dist);
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::SetPosition(Tracer &tracer,const VecClass &pos) const
+{
+	double nearDist=0.0;
+	YSSIZE_T nearIdx=-1;
+	double nearParam=0.0;
+	VecClass nearPos;
+
+	for(YSSIZE_T idx=0; idx<lSeg.size(); ++idx)
+	{
+		double dist=(lSeg[idx]-pos).GetLength();
+		if(0>nearIdx || dist<nearDist)
+		{
+			nearDist=dist;
+			nearIdx=idx;
+			nearParam=0.0;
+			nearPos=lSeg[idx];
+		}
+
+		if(idx<lSeg.size()-1)
+		{
+			VecClass p;
+			if(YSOK==YsGetNearestPointOnLine3(p,lSeg[idx],lSeg[idx+1],pos) &&
+			   YSTRUE==YsCheckInBetween3(p,lSeg[idx],lSeg[idx+1]))
+			{
+				double dist=(p-pos).GetLength();
+				if(dist<nearDist)
+				{
+					nearDist=dist;
+					nearIdx=idx;
+					nearParam=(p-lSeg[idx]).GetLength()/(lSeg[idx+1]-lSeg[idx]).GetLength();
+					nearPos=p;
+				}
+			}
+		}
+	}
+
+	if(YSTRUE==isLoop && 3<=lSeg.size())
+	{
+		VecClass p;
+		if(YSOK==YsGetNearestPointOnLine3(p,lSeg.back(),lSeg.front(),pos) &&
+		   YSTRUE==YsCheckInBetween3(p,lSeg.back(),lSeg.front()))
+		{
+			double dist=(p-pos).GetLength();
+			if(dist<nearDist)
+			{
+				nearDist=dist;
+				nearIdx=lSeg.size()-1;
+				nearParam=(p-lSeg.back()).GetLength()/(lSeg.back()-lSeg.front()).GetLength();
+				nearPos=p;
+			}
+		}
+	}
+
+	tracer.pos=nearPos;
+	tracer.seg=nearIdx;
+	tracer.segParam=nearParam;
+	tracer.wentAround=YSFALSE;
+
+	return YSOK;
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::SetPositionByParameter(const double &tt)
+{
+	return SetPositionByParameter(curPos,tt);
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::MoveToDistanceFromP0(Tracer &tracer,double dist) const
+{
+	if(YSTRUE==isLoop)
+	{
+		dist=fmod(dist,totalLength);
+		if(dist<0.0)
+		{
+			dist+=totalLength;
+		}
+	}
+	else
+	{
+		if(dist<=0.0)
+		{
+			tracer=Head();
+			return YSOK;
+		}
+		else if(totalLength<=dist)
+		{
+			tracer=Tail();
+			return YSOK;
+		}
+	}
+
+	tracer.wentAround=YSFALSE;
+	if(dist<segLengthAddUp[tracer.seg])  // Going backward
+	{
+		YSSIZE_T s=tracer.seg;
+		for(s=tracer.seg; 0<s && dist<segLengthAddUp[s]; --s)
+		{
+		}
+		// At this point s==0 or segLengthAddUp[s]<=dist
+		tracer.segParam=(dist-segLengthAddUp[s])/segLength[s];
+		tracer.seg=s;
+		tracer.pos=lSeg[s]*(1.0-tracer.segParam)+lSeg[s+1]*tracer.segParam;
+	}
+	else
+	{
+		YSSIZE_T s=tracer.seg;
+		if(YSTRUE==isLoop && segLengthAddUp[lSeg.GetN()-1]<dist)
+		{
+			s=lSeg.GetN()-1;
+			tracer.wentAround=YSTRUE;
+		}
+		else
+		{
+			for(s=tracer.seg; s<lSeg.GetN()-1 && segLengthAddUp[s+1]<dist; ++s)
+			{
+			}
+		}
+		tracer.segParam=(dist-segLengthAddUp[s])/segLength[s];
+		tracer.seg=s;
+		tracer.pos=lSeg[s]*(1.0-tracer.segParam)+lSeg[s+1]*tracer.segParam;
+	}
+
+	return YSOK;
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::MoveByDistance(Tracer &tracer,const double &dist) const
+{
+	tracer.wentAround=YSFALSE;
+	if(dist>0.0)
+	{
+		double distRemain;
+		distRemain=dist;
+		while(distRemain>0.0)
+		{
+			double restOfCurSeg;
+			restOfCurSeg=(1.0-tracer.segParam)*segLength[tracer.seg];
+			if(distRemain<restOfCurSeg)
+			{
+				tracer.segParam+=distRemain/segLength[tracer.seg];
+				tracer.segParam=YsBound(tracer.segParam,0.0,1.0);
+				tracer.pos=lSeg[tracer.seg]*(1.0-tracer.segParam)+lSeg[tracer.seg+1]*tracer.segParam;
+				distRemain=0.0;
+			}
+			else
+			{
+				distRemain-=restOfCurSeg;
+				if(tracer.seg<lSeg.GetN()-2)
+				{
+					tracer.seg++;
+					tracer.pos=lSeg[tracer.seg];
+					tracer.segParam=0.0;
+				}
+				else if(isLoop!=YSTRUE)
+				{
+					tracer.pos=lSeg[tracer.seg+1];
+					tracer.segParam=1.0;
+					distRemain=0.0;
+				}
+				else
+				{
+					tracer.seg=0;
+					tracer.pos=lSeg[0];
+					tracer.segParam=0.0;
+					tracer.wentAround=YSTRUE;
+				}
+			}
+		}
+		return YSOK;
+	}
+	else if(dist<0.0)
+	{
+		double distRemain;
+		distRemain=-dist;
+		while(distRemain>0.0)
+		{
+			double restOfCurSeg;
+			restOfCurSeg=tracer.segParam*segLength[tracer.seg];
+			if(distRemain<restOfCurSeg)
+			{
+				tracer.segParam-=distRemain/segLength[tracer.seg];
+				tracer.segParam=YsBound(tracer.segParam,0.0,1.0);
+				tracer.pos=lSeg[tracer.seg]*(1.0-tracer.segParam)+lSeg[tracer.seg+1]*tracer.segParam;
+				distRemain=0.0;
+			}
+			else
+			{
+				distRemain-=restOfCurSeg;
+				if(tracer.seg>0)
+				{
+					tracer.seg--;
+					tracer.pos=lSeg[tracer.seg+1];
+					tracer.segParam=1.0;
+				}
+				else if(isLoop!=YSTRUE)
+				{
+					tracer.pos=lSeg[0];
+					tracer.segParam=0.0;
+					distRemain=0.0;
+				}
+				else
+				{
+					tracer.seg=(int)lSeg.GetN()-2;
+					tracer.pos=lSeg.GetEndItem();
+					tracer.segParam=1.0;
+					tracer.wentAround=YSTRUE;
+				}
+			}
+		}
+		return YSOK;
+	}
+	else
+	{
+		return YSOK;
+	}
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::SetPositionByParameter(Tracer &tracer,const double &tt) const
+{
+	double t;
+	t=tt;
+	if(isLoop==YSTRUE)
+	{
+		if(t>1.0)
+		{
+			t=fmod(t,1.0);
+		}
+		else if(t<0.0)
+		{
+			t=1.0-fmod(-t,1.0);
+		}
+	}
+	else
+	{
+		t=YsBound(t,0.0,1.0);
+	}
+
+	double tDist;
+	tDist=totalLength*t;
+
+	YSSIZE_T n1,n2;
+	n1=0;
+	n2=segLengthAddUp.GetN()-1;
+	while(n2-n1>1)
+	{
+		YSSIZE_T mid;
+		mid=(n1+n2)/2;
+		if(segLengthAddUp[mid]<tDist)
+		{
+			n1=mid;
+		}
+		else
+		{
+			n2=mid;
+		}
+	}
+
+	double distRemain;
+	distRemain=tDist-segLengthAddUp[n1];
+
+	tracer.segParam=distRemain/segLength[n1];
+	tracer.segParam=YsBound(tracer.segParam,0.0,1.0);
+	tracer.pos=lSeg[n1]*(1.0-tracer.segParam)+lSeg[n1+1]*tracer.segParam;
+	tracer.seg=(int)n1;
+
+	return YSOK;
+}
+template <class VecClass>
+YSRESULT YsTraceLineSegmentTemplate<VecClass>::SetPositionByVertex(Tracer &tracer,int idx) const
+{
+	if(0<=idx && idx<lSeg.GetN()-1)
+	{
+		tracer.pos=lSeg[idx];
+		tracer.seg=idx;
+		tracer.segParam=0.0;
+		return YSOK;
+	}
+	else if(idx==lSeg.GetN()-1)
+	{
+		tracer.pos=lSeg[idx];
+		tracer.seg=idx-1;
+		tracer.segParam=1.0;
+		return YSOK;
+	}
+	return YSERR;
+}
+template <class VecClass>
+double YsTraceLineSegmentTemplate<VecClass>::GetParameter(const Tracer &tracer) const
+{
+	if((0<=tracer.seg && tracer.seg<lSeg.GetN()-1) ||
+	  (tracer.seg==lSeg.GetN()-1 && isLoop==YSTRUE))
+	{
+		double l;
+		l=segLengthAddUp[tracer.seg]+segLength[tracer.seg]*tracer.segParam;
+		return l/totalLength;
+	}
+	return -1.0;
+}
+template <class VecClass>
+VecClass YsTraceLineSegmentTemplate<VecClass>::GetTangent(const Tracer &tracer) const
+{
+	if(0<=tracer.seg && tracer.seg+1<lSeg.size())
+	{
+		return VecClass::UnitVector(lSeg[tracer.seg+1]-lSeg[tracer.seg]);
+	}
+	else if(tracer.seg+1==lSeg.size() && YSTRUE==isLoop)
+	{
+		return VecClass::UnitVector(lSeg[0]-lSeg[tracer.seg]);
+	}
+	return VecClass::Origin();
+}
+
+class YsTraceLineSegment : public YsTraceLineSegmentTemplate <YsVec3>
+{
 };
 
 typedef YsTraceLineSegment::Tracer YsLineSegmentTracer;
 
 
 
+////////////////////////////////////////////////////////////
 
 
 

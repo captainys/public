@@ -80,6 +80,12 @@ public:
 	YSRESULT UnprojectStrokePoint(YSSIZE_T idx);
 	YSRESULT ExtendProjection(void);
 
+	/*! Resamples the stroke.
+	    Projection will be erased.
+	    If projection is needed must be recalculated.
+	*/
+	void Resample(int nSeg);
+
 	/*! This function makes the stroke clockwise on the window.
 	*/
 	YSRESULT MakeClockwise(void);

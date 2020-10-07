@@ -155,8 +155,9 @@ YSRESULT GeblGuiEditorBase::Sketch_MakeSheet_LButtonDownCallBack(FsGuiMouseButto
 YSRESULT GeblGuiEditorBase::Sketch_MakeSheet_LButtonUpCallBack(FsGuiMouseButtonSet btn,YsVec2i pos)
 {
 	sketchUI->EndStroke();
-	if(nullptr!=slHd)
+	if(nullptr!=slHd && 2<=sketchUI->GetStroke().size())
 	{
+		sketchUI->Resample(16);
 		SketchUtil_MakeSheet(*slHd);
 		needRemakeDrawingBuffer|=NEED_REMAKE_DRAWING_VERTEX|NEED_REMAKE_DRAWING_POLYGON;
 		SetNeedRedraw(YSTRUE);
@@ -188,5 +189,18 @@ void GeblGuiEditorBase::SketchUtil_MakeSheet(YsShellExtEdit &shl)
 		drawEnv.TransformScreenCoordTo3DWithZ(farPos,p.winCoord.x(),p.winCoord.y(),farz);
 		vtHdArray.push_back(shl.AddVertex(nearPos));
 		vtHdArray.push_back(shl.AddVertex(farPos));
+	}
+
+	for(int i=0; i+3<vtHdArray.size(); i+=2)
+	{
+		YsShell::VertexHandle triVtHd[2][3];
+		triVtHd[0][0]=vtHdArray[i];
+		triVtHd[0][1]=vtHdArray[i+1];
+		triVtHd[0][2]=vtHdArray[i+2];
+		triVtHd[1][0]=vtHdArray[i+2];
+		triVtHd[1][1]=vtHdArray[i+1];
+		triVtHd[1][2]=vtHdArray[i+3];
+		shl.AddPolygon(3,triVtHd[0]);
+		shl.AddPolygon(3,triVtHd[1]);
 	}
 }

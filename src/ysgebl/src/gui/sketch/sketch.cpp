@@ -207,6 +207,34 @@ YSRESULT PolyCreSketchInterface::ExtendProjection(void)
 	return YSOK;
 }
 
+void PolyCreSketchInterface::Resample(int nSeg)
+{
+	YsArray <YsVec2> plg,resample;
+	for(auto s : stroke)
+	{
+		plg.push_back(s.winCoord);
+	}
+
+	YsTraceLineSegmentTemplate <YsVec2> lSeg;
+	YsTraceLineSegmentTemplate <YsVec2>::Tracer tracer;
+	lSeg.SetLineSegment(plg,YSFALSE);
+
+	for(int i=0; i<=nSeg; ++i)
+	{
+		double t=(double)i/(double)nSeg;
+		lSeg.SetPositionByParameter(tracer,t);
+		resample.push_back(tracer.pos);
+	}
+
+	stroke.clear();
+	for(auto p : resample)
+	{
+		stroke.Increment();
+		stroke.back().Initialize();
+		stroke.back().winCoord=p;
+	}
+}
+
 YSRESULT PolyCreSketchInterface::MakeClockwise(void)
 {
 	YsArray <YsVec2> plg;
