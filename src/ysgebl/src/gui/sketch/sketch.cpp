@@ -235,6 +235,39 @@ void PolyCreSketchInterface::Resample(int nSeg)
 	}
 }
 
+void PolyCreSketchInterface::CalculateNearFarFromIntersection(double &nearz,double &farz) const
+{
+	auto modelView=viewCtrl->GetViewMatrix();
+
+	viewCtrl->GetNearFar(nearz,farz);
+	const double NEARZ=nearz;
+	const double FARZ=farz;
+	std::swap(nearz,farz);
+	for(auto stk : stroke)
+	{
+		YsArray <YsVec3,16> itsc;
+		YsArray <YsShell::PolygonHandle,16> itscPlHd;
+		YsVec3 nearPos,farPos;
+		viewCtrl->TransformScreenCoordTo3DWithZ(nearPos,stk.winCoord.x(),stk.winCoord.y(),NEARZ);
+		viewCtrl->TransformScreenCoordTo3DWithZ(farPos,stk.winCoord.x(),stk.winCoord.y(),FARZ);
+		if(YSOK==ltc.ShootFiniteRay(itsc,itscPlHd,nearPos,farPos))
+		{
+			for(auto i : itsc)
+			{
+				i=modelView*i;
+				YsMakeGreater(farz,fabs(i.z()));  // Why fabs?  PolygonCrest may be in Left-Hand or Right-Hand coordinate system mode.
+				YsMakeSmaller(nearz,fabs(i.z()));
+			}
+		}
+	}
+
+	if(farz<nearz) // means no intersections
+	{
+		nearz=NEARZ;
+		farz=FARZ;
+	}
+}
+
 YSRESULT PolyCreSketchInterface::MakeClockwise(void)
 {
 	YsArray <YsVec2> plg;

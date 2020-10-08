@@ -157,7 +157,6 @@ YSRESULT GeblGuiEditorBase::Sketch_MakeSheet_LButtonUpCallBack(FsGuiMouseButtonS
 	sketchUI->EndStroke();
 	if(nullptr!=slHd && 2<=sketchUI->GetStroke().size())
 	{
-		sketchUI->Resample(16);
 		SketchUtil_MakeSheet(*slHd);
 		needRemakeDrawingBuffer|=NEED_REMAKE_DRAWING_VERTEX|NEED_REMAKE_DRAWING_POLYGON;
 		SetNeedRedraw(YSTRUE);
@@ -177,30 +176,59 @@ YSRESULT GeblGuiEditorBase::Sketch_MakeSheet_MouseMoveCallBack(FsGuiMouseButtonS
 
 void GeblGuiEditorBase::SketchUtil_MakeSheet(YsShellExtEdit &shl)
 {
+	const int uDiv=16;
+	const int vDiv=16;
+
+	sketchUI->Resample(uDiv);
+
 	YsArray <YsShell::VertexHandle> vtHdArray;
 	double nearz,farz;
-	nearz=drawEnv.GetViewDistance()*0.1;
-	farz=drawEnv.GetViewDistance()*1.9;
+	sketchUI->CalculateNearFarFromIntersection(nearz,farz);
+	if(farz<nearz)
+	{
+		nearz=drawEnv.GetViewDistance()*0.1;
+		farz=drawEnv.GetViewDistance()*1.9;
+	}
+	else
+	{
+		double d=farz-nearz;
+		farz+=d*0.2;
+		nearz-=d*0.2;
+	}
 
 	for(auto &p : sketchUI->GetStroke())
 	{
 		YsVec3 nearPos,farPos;
 		drawEnv.TransformScreenCoordTo3DWithZ(nearPos,p.winCoord.x(),p.winCoord.y(),nearz);
 		drawEnv.TransformScreenCoordTo3DWithZ(farPos,p.winCoord.x(),p.winCoord.y(),farz);
-		vtHdArray.push_back(shl.AddVertex(nearPos));
-		vtHdArray.push_back(shl.AddVertex(farPos));
+		for(int i=0; i<=vDiv; ++i)
+		{
+			double t=(double)i/(double)vDiv;
+			vtHdArray.push_back(shl.AddVertex(nearPos*(1.0-t)+farPos*t));
+		}
 	}
 
-	for(int i=0; i+3<vtHdArray.size(); i+=2)
+	for(int u=0; u<uDiv; ++u)
 	{
-		YsShell::VertexHandle triVtHd[2][3];
-		triVtHd[0][0]=vtHdArray[i];
-		triVtHd[0][1]=vtHdArray[i+1];
-		triVtHd[0][2]=vtHdArray[i+2];
-		triVtHd[1][0]=vtHdArray[i+2];
-		triVtHd[1][1]=vtHdArray[i+1];
-		triVtHd[1][2]=vtHdArray[i+3];
-		shl.AddPolygon(3,triVtHd[0]);
-		shl.AddPolygon(3,triVtHd[1]);
+		for(int v=0; v<vDiv; ++v)
+		{
+			YsShell::VertexHandle quadVtHd[4]=
+			{
+				vtHdArray[(v  )*(uDiv+1)+u],
+				vtHdArray[(v+1)*(uDiv+1)+u],
+				vtHdArray[(v+1)*(uDiv+1)+u+1],
+				vtHdArray[(v  )*(uDiv+1)+u+1],
+			};
+
+			YsShell::VertexHandle triVtHd[2][3];
+			triVtHd[0][0]=quadVtHd[0];
+			triVtHd[0][1]=quadVtHd[1];
+			triVtHd[0][2]=quadVtHd[2];
+			triVtHd[1][0]=quadVtHd[2];
+			triVtHd[1][1]=quadVtHd[3];
+			triVtHd[1][2]=quadVtHd[0];
+			shl.AddPolygon(3,triVtHd[0]);
+			shl.AddPolygon(3,triVtHd[1]);
+		}
 	}
 }

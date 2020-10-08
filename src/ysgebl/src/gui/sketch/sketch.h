@@ -86,6 +86,11 @@ public:
 	*/
 	void Resample(int nSeg);
 
+	/*! Calculate near and far Z by calculating intersections.
+	    If there is no intersections, returned nearz>farz.
+	*/
+	void CalculateNearFarFromIntersection(double &nearz,double &farz) const;
+
 	/*! This function makes the stroke clockwise on the window.
 	*/
 	YSRESULT MakeClockwise(void);
