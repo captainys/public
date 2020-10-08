@@ -523,11 +523,15 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 
 	if(0!=(mainMenuOpt.menuOption&mainMenuOpt.ADD_SKETCHIF))
 	{
-		auto sketchSubMenu=mainMenu->AddTextItem(0,FSKEY_K,FSGUI_MENU_SKETCH)->GetSubMenu();
+		sketchMenu=mainMenu->AddTextItem(0,FSKEY_K,FSGUI_MENU_SKETCH)->GetSubMenu();
 		{
-			sketchSubMenu->AddTextItem(0,FSKEY_C,FSGUI_MENU_SKETCH_CREATECONSTEDGE,Sketch_CreateConstEdgeBySketch,this);
-			sketchSubMenu->AddTextItem(0,FSKEY_S,FSGUI_MENU_SKETCH_MAKESHEET)->BindCallBack(&THISCLASS::Sketch_MakeSheet,this);
+			sketchMenu->AddTextItem(0,FSKEY_C,FSGUI_MENU_SKETCH_CREATECONSTEDGE,Sketch_CreateConstEdgeBySketch,this);
+			sketchMenu->AddTextItem(0,FSKEY_S,FSGUI_MENU_SKETCH_MAKESHEET)->BindCallBack(&THISCLASS::Sketch_MakeSheet,this);
 		}
+	}
+	else
+	{
+		sketchMenu=nullptr;
 	}
 
 

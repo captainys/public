@@ -130,6 +130,8 @@ public:
 	FsGuiPopUpMenu *fileRecent;
 	FsGuiRecentFiles recent;
 
+	FsGuiPopUpMenu *sketchMenu;
+
 	FsGuiPopUpMenuItem *viewDrawAxis;
 	FsGuiPopUpMenuItem *viewDrawVertex;
 	FsGuiPopUpMenuItem *viewDrawConstEdge;
