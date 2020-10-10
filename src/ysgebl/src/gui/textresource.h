@@ -97,6 +97,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_DLG_BOOL_DEFECTEXPLANATION                  FsGetTextResource("dlg/bool/defectexplanation",L"Models need to be closed solids for a boolean operation to succeed.\nEach edge needs to be used from two polygons.  \nNon-neighboring polygons must not intersect each other.\n \nDue to these defects, the calculation may fail.\nAre you sure to proceed with the boolean operation?")
 #define FSGUI_DLG_BOOL_DEFECTFOUND                        FsGetTextResource("dlg/bool/defectfound",L"Defects found")
 #define FSGUI_DLG_BOOL_DIAGNOSE                           FsGetTextResource("dlg/bool/diagnose",L"Diagnose before Boolean Calculation")
+#define FSGUI_DLG_BOOL_ITSCREDUCINGSWAP                   FsGetTextResource("dlg/bool/itscreducingswap",L"Intersection-Reducing Edge Swapping")
 #define FSGUI_DLG_BOOL_NONMANIFOLD                        FsGetTextResource("dlg/bool/nonmanifold",L" > Non-Manifold Edges - Use View->Highlight->Non-Manifold Edges to look for the problematic edges")
 #define FSGUI_DLG_BOOL_PICKEDSHELL                        FsGetTextResource("dlg/bool/pickedshell",L"[Picked model]")
 #define FSGUI_DLG_BOOL_POTENTIALPROBLEMS                  FsGetTextResource("dlg/bool/potentialproblems",L"Potential Problems")

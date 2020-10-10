@@ -56,6 +56,7 @@ $BGCOL 0
 +dlg/bool/defectexplanation                        #集合演算が成功するためには、両方のモデルが閉じた立体である必要があります。\nそれぞれのエッジは2枚のポリゴンから使われている必要があります。\n隣接しないポリゴン同士の干渉は除去する必要があります。\n \nこの問題により、集合演算が失敗する可能性があります。それでも計算を実行しますか?
 +dlg/bool/defectfound                              #モデルに問題が見つかりました
 +dlg/bool/diagnose                                 #計算前にモデルの整合性をチェック
++dlg/bool/itscreducingswap                         #Intersection-Reducing Edge Swapping
 +dlg/bool/nonmanifold                              # > ポリゴン1枚、または3枚以上から使われているエッジ
 +dlg/bool/pickedshell                              #[ピックしたモデル]
 +dlg/bool/potentialproblems                        #計算に影響がある可能性のある問題点

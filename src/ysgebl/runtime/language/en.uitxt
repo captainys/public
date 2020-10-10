@@ -56,6 +56,7 @@ $BGCOL 0
 +dlg/bool/defectexplanation                        #Models need to be closed solids for a boolean operation to succeed.\nEach edge needs to be used from two polygons.  \nNon-neighboring polygons must not intersect with each other.\n \nDue to these defects, the calculation may fail.\nAre you sure to proceed with the boolean operation?
 +dlg/bool/defectfound                              #Defects found
 +dlg/bool/diagnose                                 #Diagnose before Boolean Calculation
++dlg/bool/itscreducingswap                         #Intersection-Reducing Edge Swapping
 +dlg/bool/nonmanifold                              # > Non-Manifold Edges - Use View->Highlight->Non-Manifold Edges to look for the problematic edges
 +dlg/bool/pickedshell                              #[Picked model]
 +dlg/bool/potentialproblems                        #Potential Problems

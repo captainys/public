@@ -40,6 +40,7 @@ private:
 
 	FsGuiButton *cancelBtn;
 public:
+	FsGuiButton *intersectionReducingSwappingBtn;
 	FsGuiButton *diagnoseBtn;
 	FsGuiButton *recalcNormalBtn;
 	FsGuiButton *triangulateNonPlanarBtn;

@@ -36,6 +36,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ysshellextedit_boolutil.h>
 #include <ysshellextedit_orientationutil.h>
 #include <ysshellextedit_localop.h>
+#include <ysshellext_itscreduction.h>
 
 #include "booldialog.h"
 #include "../textresource.h"
@@ -74,10 +75,13 @@ YSRESULT PolyCreBoolDialog::Make(void)
 
 		AddStaticText(0,FSKEY_NULL,FSGUI_DLG_BOOL_CLICKONSHELL,YSTRUE);
 
+		intersectionReducingSwappingBtn=AddTextButton(0,FSKEY_NULL,FSGUI_CHECKBOX,FSGUI_DLG_BOOL_ITSCREDUCINGSWAP,YSTRUE);
 		diagnoseBtn=AddTextButton(0,FSKEY_NULL,FSGUI_CHECKBOX,FSGUI_DLG_BOOL_DIAGNOSE,YSTRUE);
 		recalcNormalBtn=AddTextButton(0,FSKEY_NULL,FSGUI_CHECKBOX,FSGUI_DLG_BOOL_RECALCNORMAL,YSTRUE);
 		triangulateNonPlanarBtn=AddTextButton(0,FSKEY_NULL,FSGUI_CHECKBOX,FSGUI_DLG_BOOL_TRIANGULATENONPLANAR,YSTRUE);
 		cancelBtn=AddTextButton(0,FSKEY_ESC,FSGUI_PUSHBUTTON,FSGUI_COMMON_CANCEL,YSTRUE);
+
+		intersectionReducingSwappingBtn->SetCheck(YSTRUE);
 
 		diagnoseBtn->SetCheck(YSTRUE);
 		recalcNormalBtn->SetCheck(YSTRUE);
@@ -415,6 +419,26 @@ YSRESULT GeblGuiEditorBase::Bool_Apply(YSBOOLEANOPERATION boolOpType,YsShellExtE
 
 	YsShellExtEdit::StopIncUndo incUndoA(&slHdA);
 	YsShellExtEdit::StopIncUndo incUndoB(&slHdB);
+
+	if(YSTRUE==boolDlg->intersectionReducingSwappingBtn->GetCheck())
+	{
+		YsShellExt_IntersectionReducingEdgeSwapping utilA,utilB;
+		YsShellExt_IntersectionReducingEdgeSwapping::Option opt;
+
+		const YsShellExt &shlA=slHdA.Conv();
+		const YsShellExt &shlB=slHdB.Conv();
+
+		std::thread t1(&YsShellExt_IntersectionReducingEdgeSwapping::ApplySwappingThread<YsShellExtEdit>,&utilA,&slHdA,&shlB,&opt);
+		std::thread t2(&YsShellExt_IntersectionReducingEdgeSwapping::ApplySwappingThread<YsShellExtEdit>,&utilB,&slHdB,&shlA,&opt);
+		t1.join();
+		t2.join();
+
+		// YsShellLattice ltcA,ltcB;
+		// ltcA.SetDomain(slHdA->Conv(),slHdA->GetNumPolygon()+1);
+		// ltcB.SetDomain(slHdB->Conv(),slHdB->GetNumPolygon()+1);
+		// utilA.ApplySwapping(*slHdA,slHdB->Conv(),ltcB,opt);
+		// utilB.ApplySwapping(*slHdB,slHdA->Conv(),ltcA,opt);
+	}
 
 	if(YSTRUE==boolDlg->triangulateNonPlanarBtn->GetCheck())
 	{
