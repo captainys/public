@@ -1530,6 +1530,19 @@ static YSRESULT YsBlendShell2EdgeFaceIntersection
 	nNewVtx=0;
 	watch=YSFALSE;
 
+
+	// cutter (cutterPln, cutterPlHd):
+	//   A cutter is a polygon/plane that cuts edges of the other shell.
+	//   The other shell means the where the edge/cutter is coming from.  Both are already dumped 
+	//   in one shell.
+	//   When a cutter cuts an edge, the cutter polygon is also divided so that the
+	//   intersecting vertex is used by one of the polygons of the shell that cutter belongs to.
+	// The problem:
+	//   If an intersection is very close to one of the edges of the cutter polygon, it makes a near-180 turn.
+	//   Near-180 turn will cause numerical instability in the subsequent processes, especially
+	//   final polygon-by-polygon cutting.
+
+
 	plHd=NULL;
 	while((plHd=newShell.FindNextPolygon(plHd))!=NULL)
 	{

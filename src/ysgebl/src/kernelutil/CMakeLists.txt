@@ -222,6 +222,7 @@ ysshellext_constedgesmoother.cpp
 ./ysshellext_quadmeshutil.cpp
 ./ysshellext_facegroupextender.cpp
 ./ysshellext_pipeaxisutil.cpp
+./ysshellext_itscreduction.cpp
 )
 
 set(HEADERS
@@ -295,6 +296,7 @@ ysshellext_quadmeshutil.h
 ysshellext_facegroupextender.h
 ./ysshellext_facegroupextender.h
 ysshellext_pipeaxisutil.h
+ysshellext_itscreduction.h
 )
 
 
