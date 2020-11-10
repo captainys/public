@@ -474,6 +474,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_MENU_SELECT_POLYGON_EDGECONNECTED           FsGetTextResource("menu/select/polygon/edgeconnected",L"Edge-Conncted from Current Selection")
 #define FSGUI_MENU_SELECT_POLYGON_FROMEDGE                FsGetTextResource("menu/select/polygon/fromedge",L"From Edge (2 vertices)")
 #define FSGUI_MENU_SELECT_POLYGON_INVERT                  FsGetTextResource("menu/select/polygon/invert",L"Invert")
+#define FSGUI_MENU_SELECT_POLYGON_LARGEST_CHUNK           FsGetTextResource("menu/select/polygon/largest_chunk",L"Largest CHunk")
 #define FSGUI_MENU_SELECT_POLYGON_NARROW                  FsGetTextResource("menu/select/polygon/narrow",L"Narrow Polygons")
 #define FSGUI_MENU_SELECT_POLYGON_NONTRIANGULAR           FsGetTextResource("menu/select/polygon/nontriangular",L"Non-Triangular Polygon")
 #define FSGUI_MENU_SELECT_POLYGON_OFSELECTEDFACEGROUP     FsGetTextResource("menu/select/polygon/ofselectedfacegroup",L"Of Selected Face Groups")

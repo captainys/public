@@ -1626,3 +1626,14 @@ void GeblGuiEditorBase::Select_Polygon_CannotCalculateNormal(FsGuiPopUpMenuItem 
 		SetNeedRedraw(YSTRUE);
 	}
 }
+
+void GeblGuiEditorBase::Select_Polygon_LargestChunk(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=Slhd())
+	{
+		auto &shl=*Slhd();
+		shl.SelectPolygon(YsShellExt_TrackingUtil::GetLargestChunk(shl.Conv()));
+		needRemakeDrawingBuffer|=NEED_REMAKE_DRAWING_SELECTED_POLYGON;
+		SetNeedRedraw(YSTRUE);
+	}
+}

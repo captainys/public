@@ -191,6 +191,10 @@ public:
 	/*! This function returns N-neighbor vertices starting from the given set of vertices. 
 	    The returned array will include FromVtHd. */
 	static YsArray <YsShell::VertexHandle> GetNNeighbor(const YsShellExt &Shl,const YsArray <YsShell::VertexHandle> &FromVtHd,int N);
+
+	/*! Returns the largest chunk of connected polygons in terms of area.  It will not count non-manifold connections as conntected.
+	*/
+	static YsArray <YsShell::PolygonHandle> GetLargestChunk(const YsShellExt &shl);
 };
 
 template <const int N,const int M>

@@ -101,6 +101,10 @@ YSRESULT GeblCmd_WorkOrder::RunWorkOrder(const YsString &workOrder)
 		{
 			return RunLocalOpWorkOrder(workOrder,args);
 		}
+		if(0==args[0].STRCMP("INFO"))
+		{
+			return RunInfoWorkOrder(workOrder,args);
+		}
 		if(YSOK==RunCustomWorkOrder(workOrder,args))
 		{
 			return YSOK;
@@ -215,6 +219,9 @@ void GeblCmd_WorkOrder::ShowHelp(void) const
 	printf("                                       Try to kill flat triangles.  The first argument to the command is a criterion for\n");
 	printf("                                       identifying flat triangles.  The second argument and on are the schemes for killing\n");
 	printf("                                       flat triangles.  The schemes will be applied in the order given in the arguments.\n");
+
+	printf("  Info Commands\n");
+	printf("    info volume output_filename         Compute volume and write to file.\n");
 
 	printf("  File Input/Output\n");
 	printf("    fileio open filename               Open a file.  File type is identified based on the extension.\n");

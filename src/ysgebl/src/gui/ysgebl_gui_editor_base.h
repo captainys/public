@@ -952,6 +952,7 @@ public:
 	YSRESULT Select_PolygonByStroke_LButtonUpCallBack(YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my);
 	YSRESULT Select_PolygonByStroke_MouseMoveCallBack(YSBOOL lb,YSBOOL mb,YSBOOL rb,int mx,int my);
 
+	void Select_Polygon_LargestChunk(FsGuiPopUpMenuItem *);
 
 
 	void View_RefreshBuffer(FsGuiPopUpMenuItem *);

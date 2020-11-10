@@ -484,6 +484,7 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 				select_polygon->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_SELECT_POLYGON_SAMECOLORFROMCURRENTSELECTION)->BindCallBack(&THISCLASS::Select_PolygonSameColorFromCurrentSelection,this);
 				select_polygon->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_SELECT_POLYGON_NARROW)->BindCallBack(&THISCLASS::Select_Polygon_Narrow,this);
 				select_polygon->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_SELECT_POLYGON_CANNOT_COMPUTE_NORMAL)->BindCallBack(&THISCLASS::Select_Polygon_CannotCalculateNormal,this);
+				select_polygon->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_SELECT_POLYGON_LARGEST_CHUNK)->BindCallBack(&THISCLASS::Select_Polygon_LargestChunk,this);
 			}
 
 			if(nullptr!=select_constEdge)

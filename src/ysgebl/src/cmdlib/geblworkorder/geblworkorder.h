@@ -105,6 +105,9 @@ protected:
 	YSRESULT RunLocalOpWorkOrder(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunLocalOpWorkOrder_DhaReducingSwapping(const YsString &workOrder,const YsArray <YsString,16> &args);
 
+	YSRESULT RunInfoWorkOrder(const YsString &workOrder,const YsArray <YsString,16> &args);
+	YSRESULT RunInfoWorkOrder_ComputeVolume(const YsString &workOrder,const YsArray <YsString,16> &args);
+
 	virtual YSRESULT RunCustomWorkOrder(const YsString &workOrder,const YsArray <YsString,16> &args);
 
 	virtual void ShowError(const YsString &workOrder,const YsString &reason) const;

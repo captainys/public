@@ -433,6 +433,7 @@ $BGCOL 0
 +menu/select/polygon/edgeconnected                 #現在選択されているポリゴンからエッジ接続のポリゴン
 +menu/select/polygon/fromedge                      #2頂点で指定したエッジに隣接するポリゴン
 +menu/select/polygon/invert                        #選択を反転
++menu/select/polygon/largest_chunk                 #Largest CHunk
 +menu/select/polygon/narrow                        #Narrow Polygons
 +menu/select/polygon/nontriangular                 #非三角形(4頂点以上)ポリゴン
 +menu/select/polygon/ofselectedfacegroup           #選択したポリゴングループに属するポリゴン

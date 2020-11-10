@@ -434,6 +434,7 @@ $BGCOL 0
 +menu/select/polygon/edgeconnected                 #Edge-Conncted from Current Selection
 +menu/select/polygon/fromedge                      #From Edge (2 vertices)
 +menu/select/polygon/invert                        #Invert
++menu/select/polygon/largest_chunk                 #Largest CHunk
 +menu/select/polygon/narrow                        #Narrow Polygons
 +menu/select/polygon/nontriangular                 #Non-Triangular Polygon
 +menu/select/polygon/ofselectedfacegroup           #Of Selected Face Groups

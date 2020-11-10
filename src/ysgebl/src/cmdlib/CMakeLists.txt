@@ -179,7 +179,8 @@ geblworkorder/workorder_control.cpp
 geblworkorder/workorder_facegroup.cpp
 geblworkorder/workorder_global.cpp
 geblworkorder/workorder_localop.cpp
-./geblworkorder/workorder_repair.cpp
+geblworkorder/workorder_repair.cpp
+geblworkorder/workorder_info.cpp
 )
 
 set(HEADERS

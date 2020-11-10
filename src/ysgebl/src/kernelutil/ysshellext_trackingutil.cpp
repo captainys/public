@@ -1031,3 +1031,32 @@ YsShell::VertexHandle YsShellExt_FindNearestBoundaryVertex(const YsShellExt &shl
 	return nullptr;
 }
 
+
+/* static */ YsArray <YsShell::PolygonHandle> YsShellExt_TrackingUtil::GetLargestChunk(const YsShellExt &shl)
+{
+	YsShellPolygonStore visited;
+	YsArray <YsShell::PolygonHandle> largest;
+	double largestArea=0.0;
+	visited.SetShell(shl.Conv());
+
+	for(auto plHd0 : shl.AllPolygon())
+	{
+		if(YSTRUE!=visited.IsIncluded(plHd0))
+		{
+			YsShellExt::PassAll cond;
+			auto grp=YsShellExt_TrackingUtil::FloodFill(shl,plHd0,cond);
+			double area=0.0;
+			for(auto plHd : grp)
+			{
+				visited.Add(plHd);
+				area+=shl.GetPolygonArea(plHd);
+			}
+			if(largestArea<area)
+			{
+				std::swap(largest,grp);
+				largestArea=area;
+			}
+		}
+	}
+	return largest;
+}
