@@ -41,6 +41,13 @@ FORMAT_TRACKINFO	FDB		$2000
 
 PREFORMAT_RESTORE				PSHS	A,B,X,Y,U,DP
 
+					; Avoid Disk Redirector to redirect this BIOS call >>
+					LDX		#$00FA
+					LEAX	$FB00,X
+					LDX		,X
+					STX		RELOC_PREFOM+1,PCR
+					; Avoid Disk Redirector to redirect this BIOS call <<
+
 					LDA		FORMAT_DRIVE,PCR
 					STA		RESTORE_DRIVE,PCR
 
@@ -52,7 +59,7 @@ PREFORMAT_RESTORE				PSHS	A,B,X,Y,U,DP
 					; JSR		BIOSCALL_RESTORE
 					; BEQ		RESTORE_NOERROR
 
-					JSR		[$FBFA]
+RELOC_PREFOM		JSR		$0000
 					BCC		PREFORMAT_RESTORE_NOERROR
 
 					INC		ERRORRETURN,PCR
