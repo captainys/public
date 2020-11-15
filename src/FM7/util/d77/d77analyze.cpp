@@ -182,6 +182,43 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 	{
 		ReplaceData(diskId,argv[1].c_str(),argv[2].c_str());
 	}
+	else if("SP"==cmd)
+	{
+		for(auto diskId=0; diskId<d77Ptr->GetNumDisk(); ++diskId)
+		{
+			char fName[256];
+			sprintf(fName,"%d.d77",diskId+1);
+			FILE *fp=fopen(fName,"wb");
+			if(nullptr!=fp)
+			{
+				auto diskPtr=d77Ptr->GetDisk(diskId);
+				if(nullptr!=diskPtr)
+				{
+					auto img=diskPtr->MakeD77Image();
+					if(0<img.size())
+					{
+						auto wrote=fwrite(img.data(),1,img.size(),fp);
+						if(wrote==img.size())
+						{
+							printf("Wrote Disk %d\n",diskId);
+						}
+						else
+						{
+							printf("Could not write all bytes.\n");
+							printf("Disk full maybe?\n");
+							break;
+						}
+					}
+				}
+				fclose(fp);
+				printf("Saved %s.\n",fName);
+			}
+			else
+			{
+				printf("Failed to Save %s.\n",fName);
+			}
+		}
+	}
 	else if('S'==cmd[0] && 6<=argv.size())
 	{
 		// S trk side sec addr "pattern"
@@ -684,6 +721,8 @@ void D77Analyzer::Help(void) const
 	printf("W filename\n");
 	printf("\tWrite disk to a .D77 file.\n");
 	printf("\tCurrnent disk only.  It doesn't write multi-disk D77.\n");
+	printf("SP\n");
+	printf("\tWrite multi-disk image to single-disk images 1.d77 2.d77 ....\n");
 	printf("WRAW filename.bin\n");
 	printf("\tWrite Raw Binary.\n");
 	printf("X D DS\n");
