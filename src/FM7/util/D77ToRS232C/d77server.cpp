@@ -237,7 +237,7 @@ bool D77ServerCommandParameterInfo::Recognize(int ac,char *av[])
 		{
 			fBasic=true;
 		}
-		else if("-DELDUPSECN"==arg)
+		else if("-DELDUPSECN"==arg || "-DELDUPSEC"==arg)
 		{
 			delDuplicateSec=true;
 		}
