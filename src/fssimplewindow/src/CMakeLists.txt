@@ -56,5 +56,6 @@ add_library(${TARGET_NAME} ${SRCS} ${HEADERS})
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(fssimplenowindow fssimplewindowcommon.cpp nownd/fssimplenowindow.cpp)
+target_include_directories(fssimplenowindow PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(tests)
