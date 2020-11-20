@@ -33,6 +33,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "ysshell.h"
 #include "ysrect.h"
+#include "ysarraymask.h"
 
 // Declaration /////////////////////////////////////////////
 class YsWizard
@@ -705,7 +706,7 @@ const VecClass YsTraceLineSegmentTemplate<VecClass>::GetCurrentTangent(void) con
 		t.Normalize();
 		return t;
 	}
-	return YsOrigin();
+	return VecClass::Origin();
 }
 template <class VecClass>
 const double &YsTraceLineSegmentTemplate<VecClass>::GetTotalLength(void) const
