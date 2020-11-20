@@ -356,6 +356,8 @@ bool D77Server::Run(int ac,char *av[])
 	}
 
 
+
+	diskPtr->ClearWriteProtected();
 	if(true==cpi.delDuplicateSec)
 	{
 		for(auto loc : diskPtr->AllTrack())
