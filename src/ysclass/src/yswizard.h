@@ -564,7 +564,17 @@ public:
 	    This function also calculates length cache.
 	*/
 	YSRESULT SetLineSegment(YSSIZE_T np,const VecClass p[],YSBOOL isLoop);
-	YSRESULT SetLineSegment(YsConstArrayMask <VecClass> p,YSBOOL isLoop);
+
+	YSRESULT SetLineSegment(YsConstArrayMask <VecClass> p,YSBOOL isLoop)
+	{
+		lSeg=p;
+		isLoop=islp;
+		if(islp==YSTRUE)
+		{
+			lSeg.Append(lSeg[0]);
+		}
+		return ResetLineSegment();
+	}
 
 	YSSIZE_T GetCurrentSegment(void) const;
 	const VecClass &GetCurrentPosition(void) const;
@@ -662,17 +672,6 @@ template <class VecClass>
 YSRESULT YsTraceLineSegmentTemplate<VecClass>::SetLineSegment(YSSIZE_T np,const VecClass p[],YSBOOL islp)
 {
 	lSeg.Set(np,p);
-	isLoop=islp;
-	if(islp==YSTRUE)
-	{
-		lSeg.Append(lSeg[0]);
-	}
-	return ResetLineSegment();
-}
-template <class VecClass>
-YSRESULT YsTraceLineSegmentTemplate<VecClass>::SetLineSegment(typename YsConstArrayMask <VecClass> p,YSBOOL islp)
-{
-	lSeg=p;
 	isLoop=islp;
 	if(islp==YSTRUE)
 	{

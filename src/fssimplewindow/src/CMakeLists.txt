@@ -1,4 +1,5 @@
 set(TARGET_NAME fssimplewindow)
+set(SUB_FOLDER lib)
 
 # Linking framework based on http://www.cmake.org/Wiki/CMake:HowToUseExistingOSXFrameworks
 if(APPLE)
@@ -54,8 +55,10 @@ android/fssimplewindow_android.h
 
 add_library(${TARGET_NAME} ${SRCS} ${HEADERS})
 target_include_directories(${TARGET_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+set_property(TARGET ${TARGET_NAME} PROPERTY FOLDER ${SUB_FOLDER})
 
 add_library(fssimplenowindow fssimplewindowcommon.cpp nownd/fssimplenowindow.cpp)
 target_include_directories(fssimplenowindow PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+set_property(TARGET fssimplenowindow PROPERTY FOLDER ${SUB_FOLDER})
 
 add_subdirectory(tests)
