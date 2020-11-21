@@ -568,8 +568,8 @@ public:
 	YSRESULT SetLineSegment(YsConstArrayMask <VecClass> p,YSBOOL isLoop)
 	{
 		lSeg=p;
-		isLoop=islp;
-		if(islp==YSTRUE)
+		this->isLoop=isLoop;
+		if(YSTRUE==isLoop)
 		{
 			lSeg.Append(lSeg[0]);
 		}
