@@ -299,8 +299,8 @@ const YsConstArrayMask <YsShell::VertexHandle> YsShellExt_BoundaryInfo::GetConto
 {
 	if(YSTRUE==contourCache.IsInRange(idx))
 	{
-		auto nVt=contourCache[idx].vtHdArray.GetN();
-		auto vtHdArray=contourCache[idx].vtHdArray;
+		auto nVt=contourCache[idx].vtHdArray.size();
+		auto vtHdArray=contourCache[idx].vtHdArray.data();
 		return YsConstArrayMask <YsShell::VertexHandle> (nVt,vtHdArray);
 	}
 	return YsConstArrayMask <YsShell::VertexHandle> (0,nullptr);
