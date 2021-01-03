@@ -98,7 +98,7 @@ if(NOT ANDROID)
 endif()
 
 add_subdirectory("yssimplesound/src")
-add_subdirectory("yssimplesound/src/nownd")
+
 if(NOT ANDROID)
 	add_subdirectory("yssimplesound/test")
 	add_subdirectory("yssimplesound/sample")

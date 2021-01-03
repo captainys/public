@@ -1340,6 +1340,16 @@ const D77File::D77Disk::D77Sector *D77File::D77Disk::GetSector(int trk,int sid,i
 	return nullptr;
 }
 
+const D77File::D77Disk::D77Sector *D77File::D77Disk::GetSectorByIndex(int trk,int sid,int sec) const
+{
+	auto trkPtr=FindTrack(trk,sid);
+	if(nullptr!=trkPtr && 0<=sec && sec<trkPtr->sector.size())
+	{
+		return &trkPtr->sector[sec];
+	}
+	return nullptr;
+}
+
 bool D77File::D77Disk::CopyTrack(int dstTrk,int dstSide,int srcTrk,int srcSide)
 {
 	auto fromTrk=GetTrack(srcTrk,srcSide);

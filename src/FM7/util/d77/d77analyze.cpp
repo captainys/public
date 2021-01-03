@@ -29,6 +29,9 @@ public:
 	void ProcessCommand(const std::vector <std::string> &argv);
 	void Help(void) const;
 	void DumpSector(int diskId,int cyl,int side,int sec) const;
+	void DumpSectorByIndex(int diskId,int cyl,int side,int sec) const;
+	void DumpSector(const D77File::D77Disk::D77Sector &sec) const;
+	void DumpSectorToFile(const D77File::D77Disk::D77Sector &sec,std::string fName) const;
 	bool MoveToNextSector(int diskId,int &cyl,int &side,int &sec) const;
 	void DiagnoseDuplicateSector(int diskId) const;
 	void FindTrackWithSector(int diskId,int sectorId) const;
@@ -148,30 +151,90 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 	}
 	else if('D'==cmd[0])
 	{
-		if(4<=argv.size())
+		if('F'==cmd[1])  // DF
 		{
-			auto cyl=FM7Lib::Atoi(argv[1].data());
-			auto side=FM7Lib::Atoi(argv[2].data());
-			auto sec=FM7Lib::Atoi(argv[3].data());
-			DumpSector(diskId,cyl,side,sec);
-			lastDumpTrk=cyl;
-			lastDumpSide=side;
-			lastDumpSec=sec;
-		}
-		else if(1==argv.size())
-		{
-			if(true==MoveToNextSector(diskId,lastDumpTrk,lastDumpSide,lastDumpSec))
+			if(5<=argv.size())
 			{
-				DumpSector(diskId,lastDumpTrk,lastDumpSide,lastDumpSec);
+				auto cyl=FM7Lib::Atoi(argv[1].data());
+				auto side=FM7Lib::Atoi(argv[2].data());
+				auto sec=FM7Lib::Atoi(argv[3].data());
+				auto diskPtr=d77Ptr->GetDisk(diskId);
+				if('#'==argv[3][0])
+				{
+					sec=FM7Lib::Atoi(argv[3].data()+1);
+					auto secPtr=diskPtr->GetSectorByIndex(cyl,side,sec);
+					if(nullptr!=secPtr)
+					{
+						DumpSectorToFile(*secPtr,argv[4]);
+					}
+					else
+					{
+						printf("No Such Sector.\n");
+					}
+				}
+				else
+				{
+					auto secPtr=diskPtr->GetSector(cyl,side,sec-1);
+					if(nullptr!=secPtr)
+					{
+						DumpSectorToFile(*secPtr,argv[4]);
+					}
+					else
+					{
+						printf("No Such Sector.\n");
+					}
+				}
 			}
 			else
 			{
-				printf("No more sector.\n");
+				printf("Too few arguments.\n");
 			}
 		}
 		else
 		{
-			printf("Too few arguments.\n");
+			if(4<=argv.size())
+			{
+				auto cyl=FM7Lib::Atoi(argv[1].data());
+				auto side=FM7Lib::Atoi(argv[2].data());
+				auto sec=FM7Lib::Atoi(argv[3].data());
+				if('#'==argv[3][0])
+				{
+					auto diskPtr=d77Ptr->GetDisk(diskId);
+					sec=FM7Lib::Atoi(argv[3].c_str()+1);
+					auto secPtr=diskPtr->GetSectorByIndex(cyl,side,sec-1);
+					if(nullptr!=secPtr)
+					{
+						DumpSectorByIndex(diskId,cyl,side,sec);
+						sec=secPtr->sector; // For next sector.
+					}
+					else
+					{
+						printf("No such sector.\n");
+					}
+				}
+				else
+				{
+					DumpSector(diskId,cyl,side,sec);
+				}
+				lastDumpTrk=cyl;
+				lastDumpSide=side;
+				lastDumpSec=sec;
+			}
+			else if(1==argv.size())
+			{
+				if(true==MoveToNextSector(diskId,lastDumpTrk,lastDumpSide,lastDumpSec))
+				{
+					DumpSector(diskId,lastDumpTrk,lastDumpSide,lastDumpSec);
+				}
+				else
+				{
+					printf("No more sector.\n");
+				}
+			}
+			else
+			{
+				printf("Too few arguments.\n");
+			}
 		}
 	}
 	else if('F'==cmd[0] && 2<=argv.size())
@@ -300,14 +363,25 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 	}
 	else if('M'==cmd[0])
 	{
-		if(2<=argv.size() && 0==strcmp("DS",argv[1].c_str()))
+		auto subCmd=argv[1];
+		FM7Lib::Capitalize(subCmd);
+		if(2<=argv.size() && 0==strcmp("DS",subCmd.c_str()))
 		{
 			DeleteDuplicateSector(diskId);
 		}
-		else if(3<=argv.size() && 0==strcmp("DL",argv[1].c_str()))
+		else if(3<=argv.size() && 0==strcmp("DL",subCmd.c_str()))
 		{
+			auto diskPtr=d77Ptr->GetDisk(diskId);
+			if(nullptr==diskPtr)
+			{
+				printf("No disk is open.\n");
+			}
+			else if(diskPtr->IsWriteProtected())
+			{
+				printf("Disk write protected.\n");
+			}
 			// M DL x  argc==3
-			if(3==argv.size())
+			else if(3==argv.size())
 			{
 				auto sectorId=FM7Lib::Atoi(argv[2].c_str());
 				DeleteSectorWithId(diskId,sectorId);
@@ -334,7 +408,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				printf("Incorrect number of arguments.\n");
 			}
 		}
-		else if(6<=argv.size() && 0==strcmp("RN",argv[1].c_str()))
+		else if(6<=argv.size() && 0==strcmp("RN",subCmd.c_str()))
 		{
 			auto track=FM7Lib::Atoi(argv[2].c_str());
 			auto side=FM7Lib::Atoi(argv[3].c_str());
@@ -342,7 +416,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 			auto sectorTo=FM7Lib::Atoi(argv[5].c_str());
 			RenumberSector(diskId,track,side,sectorFrom,sectorTo);
 		}
-		else if(6<=argv.size() && 0==strcmp("SZ",argv[1].c_str()))
+		else if(6<=argv.size() && 0==strcmp("SZ",subCmd.c_str()))
 		{
 			auto track=FM7Lib::Atoi(argv[2].c_str());
 			auto side=FM7Lib::Atoi(argv[3].c_str());
@@ -350,7 +424,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 			auto newSize=FM7Lib::Atoi(argv[5].c_str());
 			ResizeSector(diskId,track,side,sector,newSize);
 		}
-		else if(6<=argv.size() && 0==strcmp("CRC",argv[1].c_str()))
+		else if(6<=argv.size() && 0==strcmp("CRC",subCmd.c_str()))
 		{
 			auto track=FM7Lib::Atoi(argv[2].c_str());
 			auto side=FM7Lib::Atoi(argv[3].c_str());
@@ -358,7 +432,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 			auto newError=FM7Lib::Atoi(argv[5].c_str());
 			SetSectorCRCError(diskId,track,side,sector,newError);
 		}
-		else if(6<=argv.size() && "DDM"==argv[1])
+		else if(6<=argv.size() && "DDM"==subCmd)
 		{
 			auto track=FM7Lib::Atoi(argv[2].c_str());
 			auto side=FM7Lib::Atoi(argv[3].c_str());
@@ -366,7 +440,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 			auto newDDM=FM7Lib::Atoi(argv[5].c_str());
 			SetSectorDDM(diskId,track,side,sector,newDDM);
 		}
-		else if(5<=argv.size() && "CS"==argv[1])
+		else if(5<=argv.size() && "CS"==subCmd)
 		{
 			auto track=FM7Lib::Atoi(argv[2].c_str());
 			auto side=FM7Lib::Atoi(argv[3].c_str());
@@ -389,7 +463,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
-		else if(4<=argv.size() && "CT"==argv[1])
+		else if(4<=argv.size() && "CT"==subCmd)
 		{
 			auto track=FM7Lib::Atoi(argv[2].c_str());
 			auto side=FM7Lib::Atoi(argv[3].c_str());
@@ -414,7 +488,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
-		else if(2<=argv.size() && "WPON"==argv[1])
+		else if(2<=argv.size() && "WPON"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			if(nullptr!=diskPtr)
@@ -423,7 +497,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				printf("Set Write Protect.\n");
 			}
 		}
-		else if(2<=argv.size() && "WPOFF"==argv[1])
+		else if(2<=argv.size() && "WPOFF"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			if(nullptr!=diskPtr)
@@ -432,7 +506,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				printf("Cleared Write Protect.\n");
 			}
 		}
-		else if(6<=argv.size() && "FMT"==argv[1])
+		else if(6<=argv.size() && "FMT"==subCmd)
 		{
 			auto track=FM7Lib::Atoi(argv[2].c_str());
 			auto side=FM7Lib::Atoi(argv[3].c_str());
@@ -440,13 +514,13 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 			auto size=FM7Lib::Atoi(argv[5].c_str());
 			FormatTrack(diskId,track,side,nSec,size);
 		}
-		else if(4<=argv.size() && "UFMT"==argv[1])
+		else if(4<=argv.size() && "UFMT"==subCmd)
 		{
 			auto track=FM7Lib::Atoi(argv[2].c_str());
 			auto side=FM7Lib::Atoi(argv[3].c_str());
 			UnformatTrack(diskId,track,side);
 		}
-		else if(6<=argv.size() && "ADSC"==argv[1])
+		else if(6<=argv.size() && "ADSC"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			auto track=FM7Lib::Atoi(argv[2].c_str());
@@ -465,7 +539,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
-		else if(6<=argv.size() && "CPSC"==argv[1])
+		else if(6<=argv.size() && "CPSC"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			auto track1=FM7Lib::Atoi(argv[2].c_str());
@@ -488,7 +562,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
-		else if(6<=argv.size() && "CPTR"==argv[1])
+		else if(6<=argv.size() && "CPTR"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			auto track1=FM7Lib::Atoi(argv[2].c_str());
@@ -524,7 +598,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
-		else if(9<=argv.size() && "CHRN"==argv[1])
+		else if(9<=argv.size() && "CHRN"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			if(nullptr!=diskPtr)
@@ -546,7 +620,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
-		else if(9<=argv.size() && "CHRN"==argv[1])
+		else if(9<=argv.size() && "CHRN"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			if(nullptr!=diskPtr)
@@ -569,7 +643,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
-		else if(10<=argv.size() && "REPLCHRN"==argv[1])
+		else if(10<=argv.size() && "REPLCHRN"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			if(nullptr!=diskPtr)
@@ -593,7 +667,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
-		else if(6<=argv.size() && "W"==argv[1])
+		else if(6<=argv.size() && "W"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			if(nullptr!=diskPtr)
@@ -642,7 +716,7 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 				}
 			}
 		}
-		else if(6<=argv.size() && "WS"==argv[1])
+		else if(6<=argv.size() && "WS"==subCmd)
 		{
 			auto diskPtr=d77Ptr->GetDisk(diskId);
 			if(nullptr!=diskPtr)
@@ -671,6 +745,45 @@ void D77Analyzer::ProcessCommand(const std::vector <std::string> &argv)
 						for(int i=0; i<dat.size() && binDat.dat.size(); ++i)
 						{
 							dat[i]=binDat.dat[i];
+						}
+						diskPtr->WriteSector(track,side,secId,dat.size(),dat.data());
+
+						printf("Updated Track=%d Side=%d Sector=%d\n",track,side,secId);
+					}
+					else
+					{
+						fprintf(stderr,"Cannot find the sector.\n");
+					}
+				}
+			}
+		}
+		else if(6<=argv.size() && "WB"==subCmd)
+		{
+			auto diskPtr=d77Ptr->GetDisk(diskId);
+			if(nullptr!=diskPtr)
+			{
+				if(diskPtr->IsWriteProtected())
+				{
+					fprintf(stderr,"Write protected\n");
+				}
+				else
+				{
+					auto track=FM7Lib::Atoi(argv[2].c_str());
+					auto side=FM7Lib::Atoi(argv[3].c_str());
+					auto secId=FM7Lib::Atoi(argv[4].c_str());
+
+					auto newSecDat=FM7Lib::ReadBinaryFile(argv[5].c_str());
+					if(0==newSecDat.size())
+					{
+						fprintf(stderr,"Cannot read %s\n",argv[5].c_str());
+					}
+
+					auto dat=diskPtr->ReadSector(track,side,secId);
+					if(0<dat.size())
+					{
+						for(int i=0; i<dat.size() && i<=newSecDat.size(); ++i)
+						{
+							dat[i]=newSecDat[i];
 						}
 						diskPtr->WriteSector(track,side,secId,dat.size(),dat.data());
 
@@ -716,6 +829,8 @@ void D77Analyzer::Help(void) const
 	printf("\tCompare disk image.\n");
 	printf("D track side sec\n");
 	printf("\tDump sector.\n");
+	printf("DF track side sec filename.bin\n");
+	printf("\tDump sector to a binary file.\n");
 	printf("W\n");
 	printf("\tWrite disk to the original .D77 file.\n");
 	printf("W filename\n");
@@ -763,6 +878,10 @@ void D77Analyzer::Help(void) const
 	printf("M CRC trk sid sec 1/0\n");
 	printf("\tChange the sector CRC error status.\n");
 	printf("\tGive -1 as sec to set CRC error to all the sectors in the track.\n");
+	printf("M WB trk sid sec input_file\n");
+	printf("\tWrite binary file to the sector.\n");
+	printf("\tSize longer than the sector length will be ignored.\n");
+	printf("\tIf the file size is shorter than the sector length, only up to the binary-size bytes will be updated.\n");
 	printf("M W trk sid sec input_file\n");
 	printf("\tWrite binary dump to the sector.\n");
 	printf("\tInput file must be a text file of hexadecimal numbers\n");
@@ -782,6 +901,27 @@ void D77Analyzer::Help(void) const
 	printf("\tRemove write protect.\n");
 }
 
+void D77Analyzer::DumpSectorByIndex(int diskId,int cyl,int side,int idx) const
+{
+	auto diskPtr=d77Ptr->GetDisk(diskId);
+	if(nullptr!=diskPtr)
+	{
+		auto secPtr=diskPtr->GetSectorByIndex(cyl,side,idx);
+		if(nullptr!=secPtr)
+		{
+			DumpSector(*secPtr);
+		}
+		else
+		{
+			printf("No such sector.\n");
+		}
+	}
+	else
+	{
+		printf("Disk is not open.\n");
+	}
+}
+
 void D77Analyzer::DumpSector(int diskId,int cyl,int side,int sec) const
 {
 	auto diskPtr=d77Ptr->GetDisk(diskId);
@@ -794,33 +934,7 @@ void D77Analyzer::DumpSector(int diskId,int cyl,int side,int sec) const
 			if(s.sector==sec)
 			{
 				appeared=true;
-				printf("Disk:%d Track:%d Side:%d Sector:%d\n",diskId,cyl,side,sec);
-				for(int i=0; i<s.sectorData.size(); ++i)
-				{
-					if(0==i%16)
-					{
-						printf("%04x ",i);
-					}
-					printf(" %02x",s.sectorData[i]);
-					if(15==i%16 || i==s.sectorData.size()-1)
-					{
-						printf("|");
-						int i0=(i&0xfffffff0);
-						for(int j=i0; j<=i; ++j)
-						{
-							if(' '<=s.sectorData[j] && s.sectorData[j]<128)
-							{
-								printf("%c",s.sectorData[j]);
-							}
-							else
-							{
-								printf(".");
-							}
-						}
-
-						printf("\n");
-					}
-				}
+				DumpSector(s);
 			}
 		}
 		if(true!=appeared)
@@ -831,6 +945,56 @@ void D77Analyzer::DumpSector(int diskId,int cyl,int side,int sec) const
 		{
 			printf("\n");
 		}
+	}
+	else
+	{
+		printf("Disk is not open.\n");
+	}
+}
+
+void D77Analyzer::DumpSector(const D77File::D77Disk::D77Sector &s) const
+{
+	printf("Disk:%d Track:%d Side:%d Sector:%d\n",diskId,s.cylinder,s.head,s.sector);
+	for(int i=0; i<s.sectorData.size(); ++i)
+	{
+		if(0==i%16)
+		{
+			printf("%04x ",i);
+		}
+		printf(" %02x",s.sectorData[i]);
+		if(15==i%16 || i==s.sectorData.size()-1)
+		{
+			printf("|");
+			int i0=(i&0xfffffff0);
+			for(int j=i0; j<=i; ++j)
+			{
+				if(' '<=s.sectorData[j] && s.sectorData[j]<128)
+				{
+					printf("%c",s.sectorData[j]);
+				}
+				else
+				{
+					printf(".");
+				}
+			}
+
+			printf("\n");
+		}
+	}
+}
+
+void D77Analyzer::DumpSectorToFile(const D77File::D77Disk::D77Sector &sec,std::string fName) const
+{
+	FILE *fp=fopen(fName.c_str(),"wb");
+	if(nullptr!=fp)
+	{
+		fwrite(sec.sectorData.data(),1,sec.sectorData.size(),fp);
+		fclose(fp);
+		printf("Wrote %s\n",fName);
+	}
+	else
+	{
+		printf("Could not write to file.\n");
 	}
 }
 
