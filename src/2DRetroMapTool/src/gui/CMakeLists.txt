@@ -1,5 +1,5 @@
 set(TARGET_NAME "2DRetroMapTool")
-add_executable(${TARGET_NAME} 
+add_executable(${TARGET_NAME} MACOSX_BUNDLE
 	fsgui3dapp.cpp
 	fsgui3dmain.cpp
 	singleton.cpp
