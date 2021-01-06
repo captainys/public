@@ -1,4 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
+project(YS_PUBLIC)
+
+enable_testing()
+
 add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(experimental)
