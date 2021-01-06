@@ -1,4 +1,0 @@
-10 OPEN "O",#1,"COM0:(F8N1)"
-20 PRINT #1,"Hello from FM-7"
-30 CLOSE
-RUN

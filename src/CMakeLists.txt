@@ -170,10 +170,6 @@ endif()
 
 add_subdirectory("2DRetroMapTool/src")
 
-if(NOT ANDROID)
-	add_subdirectory("FM7")
-endif()
-
 add_subdirectory("ir_transceiver")
 
 add_subdirectory(opencv)
