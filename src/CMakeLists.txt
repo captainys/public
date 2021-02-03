@@ -181,3 +181,6 @@ endforeach(ONE_LIBRARY)
 
 # Copy local-YS_LIBRARY_LIST back to global-YS_LIBRARY_LIST
 set(YS_LIBRARY_LIST ${YS_LIBRARY_LIST} PARENT_SCOPE)
+
+# To identify all tests in the global scope.
+set(YS_ALL_BATCH_TEST ${YS_ALL_BATCH_TEST} PARENT_SCOPE)

@@ -63,3 +63,5 @@ target_include_directories(fssimplenowindow PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 set_property(TARGET fssimplenowindow PROPERTY FOLDER ${SUB_FOLDER})
 
 add_subdirectory(tests)
+
+set(YS_ALL_BATCH_TEST ${YS_ALL_BATCH_TEST} PARENT_SCOPE)
