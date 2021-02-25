@@ -65,6 +65,10 @@ YSRESULT GeblCmd_WorkOrder::RunFaceGroupWorkOrder(const YsString &workOrder,cons
 		{
 			return RunFaceGroupExtract(workOrder,args);
 		}
+		else if(0==args[1].STRCMP("RENAME"))
+		{
+			return RunFaceGroupRename(workOrder,args);
+		}
 
 		YsString errorReason;
 		errorReason.Printf("Unrecognized sub command [%s]",args[1].Txt());
@@ -273,4 +277,24 @@ YSRESULT GeblCmd_WorkOrder::RunFaceGroupExtract(const YsString &workOrder,const 
 		}
 	}
 	return YSOK;
+}
+YSRESULT GeblCmd_WorkOrder::RunFaceGroupRename(const YsString &workOrder,const YsArray <YsString,16> &args)
+{
+	// facegroup rename from to
+	if(4<=args.size())
+	{
+		auto from=args[2];
+		auto to=args[3];
+		for(auto fgHd : slHd->AllFaceGroup())
+		{
+			YsString label=slHd->GetFaceGroupLabel(fgHd);
+			if(0==label.Strcmp(from))
+			{
+				slHd->SetFaceGroupLabel(fgHd,to);
+			}
+		}
+		return YSOK;
+	}
+	ShowError(workOrder,"Too few arguments.");
+	return YSERR;
 }

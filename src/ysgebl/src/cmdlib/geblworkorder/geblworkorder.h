@@ -70,6 +70,7 @@ protected:
 	YSRESULT RunFaceGroupMakeSingle(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFaceGroupMakeNoBubble(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFaceGroupExtract(const YsString &workOrder,const YsArray <YsString,16> &args);
+	YSRESULT RunFaceGroupRename(const YsString &workOrder,const YsArray <YsString,16> &args);
 
 protected:
 	YSRESULT RunMergeVertexWorkOrder(const YsString &workOrder,const YsArray <YsString,16> &args);
