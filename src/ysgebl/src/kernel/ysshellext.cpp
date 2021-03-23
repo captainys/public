@@ -243,7 +243,7 @@ YSBOOL YsShellExt::FaceGroupCoreAttrib::IsTemporary(void) const
 
 void YsShellExt::FaceGroup::Initialize(void)
 {
-	FaceGroupCoreAttrib::Initialize();
+	FaceGroupAttrib::Initialize();
 	fgPlHd.CleanUp();
 }
 
