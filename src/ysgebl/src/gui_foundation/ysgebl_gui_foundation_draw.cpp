@@ -230,15 +230,13 @@ void GeblGuiFoundation::DrawConstEdge(const YsShellExtEditGui &shl) const
 	auto &vboSet=shl.GetVboSet();
 	auto &bufManager=YsGLBufferManager::GetSharedBufferManager();
 
-	auto unitPtr=bufManager.GetBufferUnit(vboSet.constEdgePosHd);
+	auto unitPtr=bufManager.GetBufferUnit(vboSet.constEdgePosColHd);
 	if(nullptr!=unitPtr && YsGLBufferManager::Unit::EMPTY!=unitPtr->GetState())
 	{
 		YsGLSLRenderer renderer(YsGLSLSharedFlat3DRenderer());
 		glLineWidth(3);
 
-		const GLfloat constEdgeCol[4]={0.0,0.0,0.0,1.0};
-		YsGLSLSet3DRendererUniformColorfv(renderer,constEdgeCol);
-		unitPtr->GetActualBuffer()->DrawPrimitiveVtx(renderer,GL_LINES);
+		unitPtr->GetActualBuffer()->DrawPrimitiveVtxCol(renderer,GL_LINES);
 
 		glLineWidth(1);
 	}

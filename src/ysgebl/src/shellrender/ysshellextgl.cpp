@@ -63,7 +63,7 @@ void YsShellExtVboSet::Initialize(void)
 
 	lightPosColPointSizeHd=nullptr;
 
-	constEdgePosHd=nullptr;
+	constEdgePosColHd=nullptr;
 
 	selectedConstEdgePosHd=nullptr;
 
@@ -106,7 +106,7 @@ void YsShellExtVboSet::CleanUp(void)
 
 	bufferManager.Delete(lightPosColPointSizeHd);
 
-	bufferManager.Delete(constEdgePosHd);
+	bufferManager.Delete(constEdgePosColHd);
 
 	bufferManager.Delete(selectedConstEdgePosHd);
 
@@ -249,11 +249,11 @@ void YsHasShellExtVboSet::RemakeSelectedPolygonVbo(YsShellExtVboSet &vboSet,cons
 void YsHasShellExtVboSet::RemakeConstEdgeVbo(YsShellExtVboSet &vboSet,const YsShellExtDrawingBuffer &dBuf) const
 {
 	auto &bufferManager=YsGLBufferManager::GetSharedBufferManager();
-	if(nullptr==vboSet.constEdgePosHd)
+	if(nullptr==vboSet.constEdgePosColHd)
 	{
-		vboSet.constEdgePosHd=bufferManager.Create();
+		vboSet.constEdgePosColHd=bufferManager.Create();
 	}
-	bufferManager.MakeVtx(vboSet.constEdgePosHd,YsGL::LINES,dBuf.constEdgeVtxBuffer);
+	bufferManager.MakeVtxCol(vboSet.constEdgePosColHd,YsGL::LINES,dBuf.constEdgeVtxBuffer,dBuf.constEdgeColBuffer);
 }
 
 void YsHasShellExtVboSet::RemakeSelectedConstEdgeVbo(YsShellExtVboSet &vboSet,const YsShellExtDrawingBuffer &dBuf) const

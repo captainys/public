@@ -36,6 +36,26 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define YS_RUN_PARALLEL
 
+
+YsColor YsShellExtDrawingBuffer::GetConstEdgeColor(const YsShellExt &shl,YsShellExt::ConstEdgeHandle ceHd) const
+{
+	auto found=temporaryCeColor[shl.GetSearchKey(ceHd)];
+	if(nullptr!=found)
+	{
+		return *found;
+	}
+	return YsBlack();
+}
+void YsShellExtDrawingBuffer::SetTemporaryConstEdgeColor(const YsShellExt &shl,YsShellExt::ConstEdgeHandle ceHd,YsColor col)
+{
+	temporaryCeColor.Update(shl.GetSearchKey(ceHd),col);
+}
+void YsShellExtDrawingBuffer::ResetTemporaryConstEdgeColor(const YsShellExt &shl)
+{
+	temporaryCeColor.CleanUp();
+}
+
+
 YsShellExtDrawingBuffer::YsShellExtDrawingBuffer()
 {
 	viewPortEnabled=YSFALSE;
@@ -908,6 +928,7 @@ void YsShellExtDrawingBuffer::RemakeConstEdgeBuffer(const class YsShellExt &shl,
 	}
 
 	constEdgeVtxBuffer.CleanUp();
+	constEdgeColBuffer.CleanUp();
 	constEdgeIdxBuffer.CleanUp();
 
 	YsShellExt::ConstEdgeHandle ceHd=NULL;
@@ -924,6 +945,8 @@ void YsShellExtDrawingBuffer::RemakeConstEdgeBuffer(const class YsShellExt &shl,
 
 		shl.GetConstEdge(nVt,ceVtHd,isLoop,ceHd);
 
+		YsColor col=GetConstEdgeColor(shl,ceHd);
+
 		for(YSSIZE_T vtIdx=0; vtIdx<nVt-1; ++vtIdx)
 		{
 			YsVec3 edVtPos[2];
@@ -936,6 +959,9 @@ void YsShellExtDrawingBuffer::RemakeConstEdgeBuffer(const class YsShellExt &shl,
 				constEdgeVtxBuffer.AddVertex(edVtPos[0]);
 				constEdgeVtxBuffer.AddVertex(edVtPos[1]);
 
+				constEdgeColBuffer.AddColor(col);
+				constEdgeColBuffer.AddColor(col);
+
 				constEdgeIdxBuffer.Append(shl.GetSearchKey(ceHd));
 			}
 			else
@@ -945,6 +971,9 @@ void YsShellExtDrawingBuffer::RemakeConstEdgeBuffer(const class YsShellExt &shl,
 				{
 					constEdgeVtxBuffer.AddVertex(clippedEdVtPos[0]);
 					constEdgeVtxBuffer.AddVertex(clippedEdVtPos[1]);
+
+					constEdgeColBuffer.AddColor(col);
+					constEdgeColBuffer.AddColor(col);
 
 					constEdgeIdxBuffer.Append(shl.GetSearchKey(ceHd));
 				}
@@ -963,6 +992,9 @@ void YsShellExtDrawingBuffer::RemakeConstEdgeBuffer(const class YsShellExt &shl,
 				constEdgeVtxBuffer.AddVertex(edVtPos[0]);
 				constEdgeVtxBuffer.AddVertex(edVtPos[1]);
 
+				constEdgeColBuffer.AddColor(col);
+				constEdgeColBuffer.AddColor(col);
+
 				constEdgeIdxBuffer.Append(shl.GetSearchKey(ceHd));
 			}
 			else
@@ -972,6 +1004,9 @@ void YsShellExtDrawingBuffer::RemakeConstEdgeBuffer(const class YsShellExt &shl,
 				{
 					constEdgeVtxBuffer.AddVertex(clippedEdVtPos[0]);
 					constEdgeVtxBuffer.AddVertex(clippedEdVtPos[1]);
+
+					constEdgeColBuffer.AddColor(col);
+					constEdgeColBuffer.AddColor(col);
 
 					constEdgeIdxBuffer.Append(shl.GetSearchKey(ceHd));
 				}

@@ -43,6 +43,13 @@ class YsShellExtDrawingBuffer
 	YSBOOL crossSectionEnabled;
 	YsPlane crossSection;
 
+	YsHashTable <YsColor> temporaryCeColor;
+
+	YsColor GetConstEdgeColor(const YsShellExt &shl,YsShellExt::ConstEdgeHandle ceHd) const;
+public:
+	void SetTemporaryConstEdgeColor(const YsShellExt &shl,YsShellExt::ConstEdgeHandle ceHd,YsColor col);
+	void ResetTemporaryConstEdgeColor(const YsShellExt &shl);
+
 public:
 	class ShapeInfo
 	{
@@ -129,6 +136,7 @@ public:
 	YsArray <int> selectedPolygonIdxBuffer;
 
 	YsGLVertexBuffer constEdgeVtxBuffer;
+	YsGLColorBuffer constEdgeColBuffer;
 	YsArray <int> constEdgeIdxBuffer;
 
 	YsGLVertexBuffer selectedConstEdgeVtxBuffer;

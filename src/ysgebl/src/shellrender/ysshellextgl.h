@@ -63,7 +63,7 @@ public:
 
 	YsGLBufferManager::Handle lightPosColPointSizeHd;
 
-	YsGLBufferManager::Handle constEdgePosHd;
+	YsGLBufferManager::Handle constEdgePosColHd;
 
 	YsGLBufferManager::Handle selectedConstEdgePosHd;
 
