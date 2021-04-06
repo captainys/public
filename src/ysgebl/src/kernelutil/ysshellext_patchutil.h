@@ -125,8 +125,9 @@ public:
 	}
 
 	template <class SHLCLASS>
-	void TransferPatchToOriginalShell(SHLCLASS &originalShl,const YsColor col) const
+	YsArray <YsShell::PolygonHandle> TransferPatchToOriginalShell(SHLCLASS &originalShl,const YsColor col) const
 	{
+		YsArray <YsShell::PolygonHandle> created;
 		for(auto patchPlHd : shl.AllPolygon())
 		{
 			YsArray <YsShellVertexHandle,4> plVtHd;
@@ -137,8 +138,10 @@ public:
 				auto newPlHd=originalShl.AddPolygon(plVtHd);
 				originalShl.SetPolygonNormal(newPlHd,nom);
 				originalShl.SetPolygonColor(newPlHd,col);
+				created.push_back(newPlHd);
 			}
 		}
+		return created;
 	}
 };
 
@@ -232,12 +235,14 @@ public:
 	}
 
 	template <class SHLCLASS>
-	void TransferPatchToOriginalShell(SHLCLASS &originalShl,const YsColor col) const
+	YsArray <YsShell::PolygonHandle> TransferPatchToOriginalShell(SHLCLASS &originalShl,const YsColor col) const
 	{
+		YsArray <YsShell::PolygonHandle> created;
 		for(auto &patch : patchUtil)
 		{
-			patch.TransferPatchToOriginalShell(originalShl,col);
+			created.Append(patch.TransferPatchToOriginalShell(originalShl,col));
 		}
+		return created;
 	}
 };
 
