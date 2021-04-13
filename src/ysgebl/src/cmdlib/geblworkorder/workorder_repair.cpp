@@ -36,6 +36,10 @@ YSRESULT GeblCmd_WorkOrder::RunRepairWorkOrder_Delete(const YsString &workOrder,
 		{
 			return RunRepairWorkOrder_Delete_FlatTriangle(workOrder,args);
 		}
+		else if(0==subCmd.STRCMP("COLLAPSED_POLYGON"))
+		{
+			return RunRepairWorkOrder_Delete_CollapsedPolygon(workOrder,args);
+		}
 		YsString errorReason;
 		errorReason.Printf("Unrecognized sub-sub command [%s]",args[1].Txt());
 		ShowError(workOrder,errorReason);
@@ -106,4 +110,37 @@ YSRESULT GeblCmd_WorkOrder::RunRepairWorkOrder_Delete_FlatTriangle(const YsStrin
 		ShowError(workOrder,"Too few arguments.");
 	}
 	return YSERR;
+}
+
+YSRESULT GeblCmd_WorkOrder::RunRepairWorkOrder_Delete_CollapsedPolygon(const YsString &workOrder,const YsArray <YsString,16> &args)
+{
+	auto &shl=*slHd;
+	YsArray <YsShell::PolygonHandle> toDel;
+	for(auto plHd : shl.AllPolygon())
+	{
+		auto plVtHd=shl.GetPolygonVertex(plHd);
+		bool mod=false;
+		for(int i=0; i<plVtHd.size() && 3<=plVtHd.size(); ++i)
+		{
+			if(plVtHd[i]==plVtHd.GetCyclic(i+1))
+			{
+				mod=true;
+				plVtHd.Delete(i);
+				--i;
+			}
+		}
+		if(plVtHd.size()<3)
+		{
+			toDel.push_back(plHd);
+		}
+		else if(true==mod)
+		{
+			shl.SetPolygonVertex(plHd,plVtHd);
+		}
+	}
+	for(auto plHd : toDel)
+	{
+		shl.DeletePolygon(plHd);
+	}
+	return YSOK;
 }

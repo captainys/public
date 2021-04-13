@@ -222,6 +222,7 @@ void GeblCmd_WorkOrder::ShowHelp(void) const
 	printf("                                       Try to kill flat triangles.  The first argument to the command is a criterion for\n");
 	printf("                                       identifying flat triangles.  The second argument and on are the schemes for killing\n");
 	printf("                                       flat triangles.  The schemes will be applied in the order given in the arguments.\n");
+	printf("    repair delete collapsed_polygon    Delete collapsed polygons.  (Such as a triangle using a same vertex twice.)\n");
 
 	printf("  Info Commands\n");
 	printf("    info volume output_filename         Compute volume and write to file.\n");

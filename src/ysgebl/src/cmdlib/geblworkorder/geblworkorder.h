@@ -102,6 +102,7 @@ protected:
 	YSRESULT RunRepairWorkOrder_Delete(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunRepairWorkOrder_Delete_IdenticalPolygon(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunRepairWorkOrder_Delete_FlatTriangle(const YsString &workOrder,const YsArray <YsString,16> &args);
+	YSRESULT RunRepairWorkOrder_Delete_CollapsedPolygon(const YsString &workOrder,const YsArray <YsString,16> &args);
 
 	YSRESULT RunLocalOpWorkOrder(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunLocalOpWorkOrder_DhaReducingSwapping(const YsString &workOrder,const YsArray <YsString,16> &args);
