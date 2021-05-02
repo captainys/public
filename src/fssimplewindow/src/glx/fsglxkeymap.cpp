@@ -150,7 +150,7 @@ void FsXCreateKeyMapping(void)
 	FsXAddKeyMapping(FSKEY_F11,                 XK_F11);
 	FsXAddKeyMapping(FSKEY_F12,                 XK_F12);
 	FsXAddKeyMapping(FSKEY_PRINTSCRN,           0);
-	FsXAddKeyMapping(FSKEY_SCROLLLOCK,          0);
+	FsXAddKeyMapping(FSKEY_SCROLLLOCK,          XK_Scroll_Lock);
 	FsXAddKeyMapping(FSKEY_PAUSEBREAK,          XK_Cancel);
 	FsXAddKeyMapping(FSKEY_TILDA,               0);
 	FsXAddKeyMapping(FSKEY_MINUS,               XK_minus);

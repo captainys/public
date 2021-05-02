@@ -16,7 +16,7 @@ endif()
 
 
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Android")
-	set(LIB_DEPENDENCY EGL GLESv3)
+	set(LIB_DEPENDENCY EGL GLESv2)
 endif()
 
 
