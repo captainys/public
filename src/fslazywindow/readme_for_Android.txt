@@ -1,7 +1,22 @@
+Update 2021/05/03
+   *** **** it!  Why does Android Studio change every time I look at it!
+
+
+
 Pre-requisite:
   Ninja build system seems to be "separately" installed from Android Studio.
   There is absolutely zero description about this pre-requisite.
   Good job, Google.
+
+  Update 2021/05/03:
+    In the new Android Studio
+    Ninja build doesn't seem to be separately installed, or may not be used at all.
+    NDK needs to be installed from:
+    1 Tools->SDK Management
+    2 In the dialog: Appearance & Behavior -> System Settings -> Android SDK
+    3 In the right pane: Click on SDK Tools tab.
+    4 Check "NDK (Side by side)" and "CMake".
+    5 "Apply" and "OK"
 
 
 
@@ -12,23 +27,40 @@ Pre-requisite:
 		C++ Standard "C++11"
 		Check	"Exception Support"
 		Check 	"Runtime Type Information (RTTI)"
+	Update 2021/05/03
+		Why the **** does it change every time I look at it!?
+		File -> New Project -> Scroll Down to select "Native C++"
+		"Next"
+		C++ Standard "C++11" or whatever needed.
+		"Finish"
+	Wait very long time until the project loads.
+	For the first time, it takes minutes to load a project.
+
+
 
 (2) Copy files in template_addition/android/cpp/* to (Project)/app/src/main/cpp/*
 
 (3) Copy files in template_addition/android/java/* to (Project)/app/src/main/java/*
 
-(4) Open CMakeLists.txt in "External Build Files", and insert following lines in the end.  Replace "somewhere" with an appropriate location.  Replace "sample00_bouncingBall" with your application.  The application project (in this example, sample00_bouncingBall) needs to be after fslazywindow library in target_link_libraries.  Otherwise functions in the application project will not be linked.
+(4) Open CMakeLists.txt in "External Build Files", and insert following lines in the end.  Replace "somewhere" with an appropriate location.  Make sure to use slash instead of backslash if copy & paste in Windows.  Replace "AndroidProgram" with your application.  The application project (in this example, AndroidProgram) needs to be after fslazywindow library in target_link_libraries.  Otherwise functions in the application project will not be linked.
 
+set(TARGET_NAME AndroidProgram)
 add_compile_options(-O2)
 set(YS_ANDROID_ASSET_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/src/main/assets")
 add_subdirectory(somewhere/public/src ${CMAKE_BINARY_DIR}/public_src)
 #add_subdirectory(somewhere/public/tests ${CMAKE_BINARY_DIR}/public_tests)
 add_library(ysgles2lib SHARED src/main/cpp/ysgles2view.cpp)
-target_link_libraries(ysgles2lib fssimplewindow fslazywindow sample00_bouncingBall ysclass ysgl ysglcpp ysglcpp_gl2 log android)
+target_link_libraries(ysgles2lib fssimplewindow fslazywindow ${TARGET_NAME} ysclass ysgl ysglcpp ysglcpp_gl2 log android)
+
+Update 2021/05/03
+Aparently the new Android Studio makes CMakeLists.cpp under cpp subdirectory.  I don't know if it always is the case.  (Why the **** does it change every time I look at it!?)  If that's the case, remove "src/main/cpp" in the above CMake-let.
+
 
 (5) In Gradle Scripts, open "build.gradle (Module: app)", and find defaultConfig block.  In defaultConfig -> externalNativeBuild -> cmake, insert the following line.
 
                 targets "native-lib","ysgles2lib"
+
+Update 2021/05/03.  It changes every time I look at it.  It is a sign that Android Studio is a bad program.  There are two "build.gradle"s, and the one you need to open is "build.gradle (Module: *****.app)"
 
 "native-lib" is the name for the default native library.  I hope Google doesn't change it.  If it does, replace as it does.  Without this line, Android Studio will stupidly try to build all the projects in CMake source tree, some of which may not be compiled for Android.
 
@@ -45,14 +77,14 @@ But, once you successfully pass CMake, Android Studio may ask you if you want to
 
 (6) The FsLazyWindow application needs to be a library rather than an executable.  If you are using add_executable like:
 
-add_executable(sample00_bouncingBall MACOSX_BUNDLE main.cpp)
+add_executable(AndroidProgram MACOSX_BUNDLE main.cpp)
 
 Replace with:
 
 if("${CMAKE_SYSTEM_NAME}" STREQUAL "Android")
-	add_library(sample00_bouncingBall main.cpp)
+	add_library(AndroidProgram main.cpp)
 else()
-	add_executable(sample00_bouncingBall MACOSX_BUNDLE main.cpp)
+	add_executable(AndroidProgram MACOSX_BUNDLE main.cpp)
 endif()
 
 Or, if you are using my template, add:
@@ -106,6 +138,27 @@ import lib.ysflight.YsAsset;
 
 
 
+Memo to myself:
+OpenGL ES GLSL requires an infamous precision specifier.
+
+	varying vec4 varyingColor;
+
+needs to be written as:
+
+	varying highp vec4 varyingColor;
+
+It only breaks compatibility between desktop systems and portable devices.  In desktop systems,
+the compile function can insert:
+
+#define highp
+#define mediump
+#define lowp
+
+to let GLSL compiler ignore precision prefixes.
+
+
+
+
 
 ERRORS!  Android Studio is deplorable.
 
@@ -150,3 +203,17 @@ Showing CMake Errors.
   I appreciate them travel back in time and never come back.
 
 
+
+
+Console Output
+Include the following headers, and
+
+#include <android/log.h>
+#include <android/fssimplewindowconnector.h>
+#include <android/fslazywindowconnector.h>
+#include <android/fslazywindow_android.h>
+#include <android/fssimplewindow_android.h>
+
+replace printf with something like:
+
+        __android_log_print(ANDROID_LOG_INFO,"Ys","%s %d",__FUNCTION__,__LINE__);
