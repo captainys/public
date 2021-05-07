@@ -188,7 +188,14 @@ public:
 			};
 			if(nullptr!=quadVtHd[2] && nullptr!=quadVtHd[3])
 			{
-				newPlHd.push_back(shl.AddPolygon(4,quadVtHd));
+				// newPlHd.push_back(shl.AddPolygon(4,quadVtHd));
+				YsShell::VertexHandle triVtHd[2][3]=
+				{
+					{quadVtHd[0],quadVtHd[1],quadVtHd[2]},
+					{quadVtHd[2],quadVtHd[3],quadVtHd[0]},
+				};
+				newPlHd.push_back(shl.AddPolygon(3,triVtHd[0]));
+				newPlHd.push_back(shl.AddPolygon(3,triVtHd[1]));
 			}
 		}
 

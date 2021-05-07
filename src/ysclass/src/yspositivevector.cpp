@@ -728,6 +728,13 @@ const YsShell &YsPositiveVolumeCalculator::GetVolume(void) const
 
 YsVec3 YsPositiveVolumeCalculator::GetCenterOfGravity(void) const
 {
+	return GetCG().pos;
+}
+
+YsResultAndVec3 YsPositiveVolumeCalculator::GetCG(void) const
+{
+	YsResultAndVec3 respos;
+
 	YsVec3 sum=YsVec3::Origin();
 	double totalWeight=0.0;
 
@@ -752,7 +759,12 @@ YsVec3 YsPositiveVolumeCalculator::GetCenterOfGravity(void) const
 
 	if(0.0<totalWeight)
 	{
-		return sum/totalWeight;
+		respos.res=YSOK;
+		respos.pos=sum/totalWeight;
+		return respos;
 	}
-	return sum;
+
+	respos.res=YSERR;
+	respos.pos=YsVec3::Origin();
+	return respos;
 }

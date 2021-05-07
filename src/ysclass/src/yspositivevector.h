@@ -136,8 +136,17 @@ public:
 	*/
 	const YsShell &GetVolume(void) const;
 
-	/*! Returns the center of gravity. */
+	/*! Returns the center of gravity.
+	    Should use GetCG.  This function is left for backward compatibility, but
+	    due to a risk, will be deleted eventually.
+	*/
 	YsVec3 GetCenterOfGravity(void) const;
+
+	/*! Returns the center of gravity.
+	    There is a possibility that only a slice of a polygon is left in the volume.
+	    In that case, GetCenterOfGravity should fail even if there are some polygons left.
+	*/
+	YsResultAndVec3 GetCG(void) const;
 };
 
 
