@@ -471,7 +471,7 @@ int FsGetKeyState(int fsKeyCode)
 	if(true==FsWin32IsWindowActive())
 	{
 		const int vk=fsKeyMapper.FsKeyToVk(fsKeyCode);
-		return (GetAsyncKeyState(vk)&0x8000)!=0;
+		return (GetKeyState(vk)&0x8000)!=0;
 	}
 	return 0;
 }
