@@ -47,43 +47,20 @@ By the way, only 64-bit binary is provided for MacOSX.
 
 
 [Source Code]
+Polygon Crest is part of my open-source projects, and the source code is available from the github:
 
-The source code is included in the same archive.  I have compiled and tested with Visual Studio 2012, GCC 4.6, and clang that comes with XCode 7.
+    https://github.com/captainys/public
 
-If you extract the files as:
+Do the following to compile the program:
 
-  +--(Home Directory)
-     +--PolygonCrest
-        +--bin
-        +--src
+git clone https://github.com/captainys/public
+mkdir build
+cd build
+cmake ../public/src
+history
+cmake --build . --config Release
 
-Then you can build the program by typing:
-
-% cd ~/PolygonCrest
-% mkdir build
-% cd build
-% cmake ../src
-% make
-
-in MacOSX and Linux, or
-
-> cd %USERPROFILE%/PolygonCrest
-> mkdir build
-> cd build
-> cmake ../src
-> msbuild Project.sln
-
-in Windows Visual Studio Command Prompt.
-
-Visual Studio 2013 or higher is required to compile in Windows.  GCC 4.6, X11 libraries, and OpenGL libraries are required to compile in Linux.  XCode 7.x or higher and Command Line Tools is required to compile in MacOSX.  Also cmake 3.0 or newer is required.
-
-I have written all source files except glext.h, glxext.h, and wglext.h.  I have downloaded these three files from http://www.opengl.org, and the redistribution is allowed as described in the files.  These three files are included to eliminate external dependency in Visual C++ environment.
-
-
-
-
-It will create C:\lib in Windows, or ~/ysbin in Linux and MacOSX.  If you donÅft have a write-permission of the C drive, set environment variable called USERLIBDIR and USERINCDIR, and give the locations where libraries and headers are copied.
-
+The executable file will be generated ysgebl/src/main/Release sub-directory in the build directory.
 
 
 

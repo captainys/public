@@ -45,38 +45,17 @@ Windowsの場合  -> ダウンロードしたZipを解凍して bin ディレクトリのysgebl32.exe (
 
 
 [ソースコード]
+ソースコードはGithubからダウンロードできる。コンパイルするには、次のステップでコマンドを入力する。
 
-PolygonCrest.zipには、ソースファイルも同梱している。なお、Visual Studio 2013, GCC 4.6, XCode 7付属のclangコンパイラでコンパイルできることを確認した。
+git clone https://github.com/captainys/public
+mkdir build
+cd build
+cmake ../public/src
+history
+cmake --build . --config Release
 
-以下のようなディレクトリ構造になるように、ファイルを解凍したとすると、
+このコマンドは、buildディレクトリの ysgebl/src/main/Release サブディレクトリに実行ファイルを生成する。
 
-  +--(Home Directory)
-     +--PolygonCrest
-        +--bin
-        +--src
-
-Mac OSX, Linuxでは、以下のようにタイプしてプログラムをコンパイルできる。
-
-% cd ~/PolygonCrest
-% mkdir build
-% cd build
-% cmake ../src
-% make
-
-Windowsでは、Visual Studio Command Prompt上で、以下のようにタイプしてコンパイルできる。
-
-> cd %USERPROFILE%/PolygonCrest
-> mkdir build
-> cd build
-> cmake ../src
-> msbuild Project.sln
-
-
-Windowsでは、Visual Studio 2013以上が必要(C++11の機能結構使ってるからVS2010だとだめ)。Linuxでは、GCC 4.6以上、X11ライブラリ、OpenGLライブラリが必要。MacOSXでは、XCode 7以上とコマンドラインツールが必要。また、CMake 3.0以上が必要。後は依存するもの無いと思ったけど。
-
-なお、Windowsでコンパイルするとき、C:\libとC:\tmp\objというディレクトリができる。なので、Cドライブに書き込み権限がないと失敗する。もしも、Cドライブに書き込み権限が無い場合は、環境変数USERLIBDIRにライブラリ格納先ディレクトリを、USEROBJDIRにオブジェクトファイル格納先を指定すれば多分成功すると思う。
-
-なお、MacOSX, Linuxでは、~/ysbinというディレクトリができる。が、これは個人のホームディレクトリだから、多分問題ないと思う。えーと、ユーザ名にスペースが入ってたりすると、途中で失敗するかも。そういう場合は、ユーザ名のスペースをとっぱらってから再度トライしてほしい。あるいは、Makefileを書き換えるか。
 
 
 
