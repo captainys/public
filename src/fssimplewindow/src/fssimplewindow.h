@@ -241,7 +241,23 @@ FSKEY_NUM_KEYCODE
 		#endif
 	#endif // << #ifndef FSSIMPLEWINDOW_DONT_INCLUDE_OPENGL_HEADERS
 
+	// Liberate keywords hijacked by windows.h >>
+	#ifdef INFINITE
+	#undef INFINITE
+	#endif
 
+	#ifdef max
+	#undef max
+	#endif
+
+	#ifdef min
+	#undef min
+	#endif
+
+	#ifdef rad
+	#undef rad
+	#endif
+	// Liberate keywords hijacked by windows.h <<
 
 #ifdef __cplusplus
 // This needs to be included from Objective-C code for mouse-event enums.
