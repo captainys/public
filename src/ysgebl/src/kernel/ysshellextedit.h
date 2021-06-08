@@ -950,6 +950,19 @@ public:
 	/*! This function adds a face group.  If nPl==0 and fgPlHd==NULL, this function creates an empty face group that can later be populated. */
 	FaceGroupHandle AddFaceGroup(YSSIZE_T nPl,const YsShellPolygonHandle fgPlHd[]);
 
+	/*!
+	*/
+	template <class T>
+	FaceGroupHandle AddFaceGroupT(const T &fgPlHdIn)
+	{
+		YsArray <YsShell::PolygonHandle> fgPlHd;
+		for(auto plHd : fgPlHdIn)
+		{
+			fgPlHd.push_back(plHd);
+		}
+		return AddFaceGroup(fgPlHd);
+	}
+
 	/*! This function adds a face group. */
 	FaceGroupHandle AddFaceGroup(const YsConstArrayMask <YsShellPolygonHandle> &fgPlHd);
 

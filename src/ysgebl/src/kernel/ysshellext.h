@@ -1504,6 +1504,19 @@ public:
 	*/
 	FaceGroupHandle AddFaceGroup(const YsConstArrayMask <YsShellPolygonHandle> &fgPlHd);
 
+	/*!
+	*/
+	template <class T>
+	FaceGroupHandle AddFaceGroupT(const T &fgPlHdIn)
+	{
+		YsArray <YsShell::PolygonHandle> fgPlHd;
+		for(auto plHd : fgPlHdIn)
+		{
+			fgPlHd.push_back(plHd);
+		}
+		return AddFaceGroup(fgPlHd);
+	}
+
 	/*! This function modifies a face group by replacing a list of polygons. */
 	YSRESULT ModifyFaceGroup(FaceGroupHandle fgHd,const YSSIZE_T nPl,const YsShellPolygonHandle fgPlHd[]);
 

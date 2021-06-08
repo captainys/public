@@ -167,6 +167,8 @@ void GeblCmd_WorkOrder::ShowHelp(void) const
 	printf("    facegroup create fromce            Create face groups based on the constraint edges.\n");
 	printf("    facegroup makesingle \"name\"        Make one face group of all polygons.  Name is optional.\n");
 	printf("                                       Existing face groups will be deleted.\n");
+	printf("    facegroup makesingle_unassigned \"name\"    Make one face group of all polygons that is not assigned a face group.\n");
+	printf("                                         Name is optional.\n");
 	printf("    facegroup elemsize name \"name\" size\n");
 	printf("                       ident ident# size\n");
 	printf("                       color rrggbb size\n");

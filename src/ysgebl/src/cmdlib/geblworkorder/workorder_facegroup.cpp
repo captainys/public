@@ -57,6 +57,10 @@ YSRESULT GeblCmd_WorkOrder::RunFaceGroupWorkOrder(const YsString &workOrder,cons
 		{
 			return RunFaceGroupMakeSingle(workOrder,args);
 		}
+		else if(0==args[1].STRCMP("MAKESINGLE_UNASSIGNED"))
+		{
+			return RunFaceGroupMakeSingleUnassigned(workOrder,args);
+		}
 		else if(0==args[1].STRCMP("MAKENOBUBBLE"))
 		{
 			return RunFaceGroupMakeNoBubble(workOrder,args);
@@ -190,6 +194,24 @@ YSRESULT GeblCmd_WorkOrder::RunFaceGroupMakeSingle(const YsString &workOrder,con
 
 	auto allPlHd=slHd->AllPolygon().Array();
 	auto newFgHd=slHd->AddFaceGroup(allPlHd);
+	if(3<=args.GetN())
+	{
+		slHd->SetFaceGroupLabel(newFgHd,args[2]);
+	}
+	return YSOK;
+}
+
+YSRESULT GeblCmd_WorkOrder::RunFaceGroupMakeSingleUnassigned(const YsString &workOrder,const YsArray <YsString,16> &args)
+{
+	YsArray <YsShell::PolygonHandle> fgPlHd;
+	for(auto plHd : slHd->AllPolygon())
+	{
+		if(nullptr==slHd->FindFaceGroupFromPolygon(plHd))
+		{
+			fgPlHd.push_back(plHd);
+		}
+	}
+	auto newFgHd=slHd->AddFaceGroup(fgPlHd);
 	if(3<=args.GetN())
 	{
 		slHd->SetFaceGroupLabel(newFgHd,args[2]);
