@@ -607,11 +607,17 @@ public:
 	/*! This function loads .STL data. */
 	YSRESULT LoadStl(const char fn[]);
 
+	/*! This function loads .STL data. */
+	YSRESULT MergeStl(const char fn[]);
+
 	/*! This function loads Wavefront .OBJ data. */
 	YSRESULT LoadObj(const char fn[]);
 
 	/*! This function loads Wavefront .OBJ data. */
 	YSRESULT LoadObj(YsTextInputStream &inStream);
+
+	/*! This function loads Wavefront .OBJ data. */
+	YSRESULT MergeObj(YsTextInputStream &inStream);
 
 	/*! This function loads OpenMESH OFF data. */
 	YSRESULT LoadOff(const char fn[]);

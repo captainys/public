@@ -42,6 +42,10 @@ YSRESULT GeblCmd_WorkOrder::RunFileIOWorkOrder(const YsString &workOrder,const Y
 		{
 			return RunFileIOWorkOrder_Open(workOrder,args);
 		}
+		else if(0==args[1].STRCMP("MERGE"))
+		{
+			return RunFileIOWorkOrder_Merge(workOrder,args);
+		}
 		else if(0==args[1].STRCMP("OPENSRF"))
 		{
 			return RunFileIOWorkOrder_OpenSrf(workOrder,args);
@@ -83,6 +87,22 @@ YSRESULT GeblCmd_WorkOrder::RunFileIOWorkOrder_Open(const YsString &workOrder,co
 	{
 		slHd=shlGrpPtr->CreateShell(nullptr);
 		return GeblCmd_FileIo_ReadFile(*slHd,args[2]);
+	}
+	else
+	{
+		ShowError(workOrder,"Too few arguments.");
+		return YSERR;
+	}
+}
+YSRESULT GeblCmd_WorkOrder::RunFileIOWorkOrder_Merge(const YsString &workOrder,const YsArray <YsString,16> &args)
+{
+	if(3<=args.GetN())
+	{
+		if(nullptr==slHd)
+		{
+			slHd=shlGrpPtr->CreateShell(nullptr);
+		}
+		return GeblCmd_FileIo_MergeFile(*slHd,args[2]);
 	}
 	else
 	{

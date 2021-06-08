@@ -1201,6 +1201,9 @@ public:
 	/*! This function loads a .STL file. */
 	YSRESULT LoadStl(const char fn[]);
 
+	/*! This function loads a .STL file. */
+	YSRESULT MergeStl(const char fn[]);
+
 	/*! This function loads Wavefront .OBJ data. */
 	YSRESULT LoadObj(YsTextInputStream &inStream);
 

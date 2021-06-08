@@ -81,6 +81,52 @@ YSRESULT GeblCmd_FileIo_ReadFile(YsShellExtEdit &shl,const YsString fn)
 	}
 }
 
+YSRESULT GeblCmd_FileIo_MergeFile(YsShellExtEdit &shl,const YsString fn)
+{
+	YsString ext;
+	fn.GetExtension(ext);
+
+	if(0==ext.STRCMP(".SRF"))
+	{
+		FILE *fp=fopen(fn,"r");
+		if(NULL!=fp)
+		{
+			YsTextFileInputStream inStream(fp);
+			shl.MergeSrf(inStream);
+			fclose(fp);
+			return YSOK;
+		}
+		else
+		{
+			return YSERR;
+		}
+	}
+	if(0==ext.STRCMP(".OBJ"))
+	{
+		FILE *fp=fopen(fn,"r");
+		if(NULL!=fp)
+		{
+			YsTextFileInputStream inStream(fp);
+			shl.MergeObj(inStream);
+			fclose(fp);
+			return YSOK;
+		}
+		else
+		{
+			return YSERR;
+		}
+	}
+	else if(0==ext.STRCMP(ext,".STL"))
+	{
+		return shl.MergeStl(fn);
+	}
+	else
+	{
+		fprintf(stderr,"File type %s not supported.\n",(const char *)ext);
+		return YSERR;
+	}
+}
+
 YSRESULT GeblCmd_FileIo_SaveFile(const GeblCmd_CommandParameterInfo &cpi,const YsShellExtEdit &shl)
 {
 	YSRESULT res=YSOK;

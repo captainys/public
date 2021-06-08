@@ -34,6 +34,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ysclass.h>
 
 YSRESULT GeblCmd_FileIo_ReadFile(class YsShellExtEdit &shl,const YsString fn);
+YSRESULT GeblCmd_FileIo_MergeFile(class YsShellExtEdit &shl,const YsString fn);
 YSRESULT GeblCmd_FileIo_SaveFile(const class GeblCmd_CommandParameterInfo &cpi,const class YsShellExtEdit &shl);
 YSRESULT GeblCmd_FileIo_SaveFile(const YsString fn,const class YsShellExtEdit &shl);
 

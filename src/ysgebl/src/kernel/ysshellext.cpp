@@ -701,6 +701,64 @@ YSRESULT YsShellExt::LoadStl(const char fn[])
 	return res;
 }
 
+YSRESULT YsShellExt::MergeStl(const char fn[])
+{
+	YsShellPolygonStore existingPlg;
+	YsShellVertexStore existingVtx;
+
+	existingPlg.SetShell(this->Conv());
+	existingVtx.SetShell(this->Conv());
+	for(auto vtHd : AllVertex())
+	{
+		existingVtx.Add(vtHd);
+	}
+	for(auto plHd : AllPolygon())
+	{
+		existingPlg.Add(plHd);
+	}
+
+	YSRESULT res=YsShell::MergeStl(fn);
+	if(YSOK==res)
+	{
+		for(YsShellVertexHandle vtHd=NULL; YSOK==MoveToNextVertex(vtHd); )
+		{
+			if(YSTRUE!=existingVtx.IsIncluded(vtHd))
+			{
+				const YSHASHKEY vtKey=GetSearchKey(vtHd);
+
+				YsEditArrayObjectHandle <VertexAttrib> vtAttribHd=vtAttribArray.Create();
+				vtKeyToVtAttribArrayHandle.AddElement(vtKey,vtAttribHd);
+
+				vtAttribArray[vtAttribHd]->Initialize();
+			}
+		}
+
+		for(YsShellPolygonHandle plHd=NULL; YSOK==MoveToNextPolygon(plHd); )
+		{
+			if(YSTRUE!=existingPlg.IsIncluded(plHd))
+			{
+				const YSHASHKEY plKey=GetSearchKey(plHd);
+
+				YsEditArrayObjectHandle <PolygonAttrib> plAttribHd=plAttribArray.Create();
+				plKeyToPlAttribArrayHandle.AddElement(plKey,plAttribHd);
+
+				plAttribArray[plAttribHd]->Initialize();
+
+				int nPlVt;
+				const YsShellVertexHandle *plVtHd;
+				GetVertexListOfPolygon(nPlVt,plVtHd,plHd);
+
+				for(YSSIZE_T idx=0; idx<nPlVt; ++idx)
+				{
+					VertexAttrib *vtAttrib=GetVertexAttrib(plVtHd[idx]);
+					++(vtAttrib->refCount);
+				}
+			}
+		}
+	}
+	return res;
+}
+
 YSRESULT YsShellExt::LoadObj(YsTextInputStream &inStream)
 {
 	YsShellExtObjReader::ReadOption opt;

@@ -92,6 +92,7 @@ protected:
 	YSRESULT RunFileIOWorkOrder(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFileIOWorkOrder_Save(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFileIOWorkOrder_Open(const YsString &workOrder,const YsArray <YsString,16> &args);
+	YSRESULT RunFileIOWorkOrder_Merge(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFileIOWorkOrder_OpenSrf(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFileIOWorkOrder_OpenStl(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFileIOWorkOrder_SaveVertexCurvature(const YsString &workOrder,const YsArray <YsString,16> &args);

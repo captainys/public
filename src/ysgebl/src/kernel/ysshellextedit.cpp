@@ -397,6 +397,13 @@ YSRESULT YsShellExtEdit::LoadObj(YsTextInputStream &inStream)
 	return objReader.ReadObj(*this,inStream,opt);
 }
 
+YSRESULT YsShellExtEdit::MergeObj(YsTextInputStream &inStream)
+{
+	YsShellExtObjReader::ReadOption opt;
+	YsShellExtObjReader objReader;
+	return objReader.ReadObj(*this,inStream,opt);
+}
+
 YSRESULT YsShellExtEdit::LoadOff(const char fn[])
 {
 	FILE *fp=fopen(fn,"r");
@@ -438,6 +445,11 @@ YSRESULT YsShellExtEdit::LoadDxf(YsTextInputStream &inStream)
 YSRESULT YsShellExtEdit::LoadStl(const char fn[])
 {
 	return YsShellExt::LoadStl(fn);
+}
+
+YSRESULT YsShellExtEdit::MergeStl(const char fn[])
+{
+	return YsShellExt::MergeStl(fn);
 }
 
 YSBOOL YsShellExtEdit::IsModified(void) const

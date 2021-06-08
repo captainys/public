@@ -163,7 +163,9 @@ public:
 	YsArray <YsShellPolygonHandle> currentPlGrp;
 
 public:
-	/*! Begins reading .OBJ file. */
+	/*! Begins reading .OBJ file.
+	    It doesn't delete existinv vertices and polygons.  It essentially dumps incoming vertices and polygons to the shell.
+	*/
 	void BeginReadObj(const ReadOption &option);
 
 	/*! Read one line of .OBJ file. */
@@ -172,7 +174,9 @@ public:
 	/*! End reading .OBJ file. */
 	void EndReadObj(YsShellExt &shl);
 
-	/*! This function reads a .OBJ file from a text-input stream.  Internally this uses BeginReadObj, EndReadObj, and ReadObnOneLine. */
+	/*! This function reads a .OBJ file from a text-input stream.  Internally this uses BeginReadObj, EndReadObj, and ReadObnOneLine.
+	    It doesn't delete existinv vertices and polygons.  It essentially dumps incoming vertices and polygons to the shell.
+	*/
 	YSRESULT ReadObj(YsShellExt &shl,YsTextInputStream &inStream,const ReadOption &option);
 
 private:
