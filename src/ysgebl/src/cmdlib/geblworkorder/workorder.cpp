@@ -202,6 +202,11 @@ void GeblCmd_WorkOrder::ShowHelp(void) const
 	printf("    facegroup rename from to           Rename file name.\n");
 	printf("                                       Multiple face groups can have same name.\n");
 	printf("                                       This function will rename all that matches.\n");
+	printf("    facegroup make_one_polygon name \"name\"\n");
+	printf("                     ident ident#\n");
+	printf("                     all\n");
+	printf("                     nearpos x y z\n");
+	printf("                                       Merge polygons of the specified face group to make it one polygon.\n");
 
 	printf("  Merge-Vertexes Commands\n");
 	printf("    mergevertex all 0.00001            Merge all vertices within tolerance of 0.00001\n");

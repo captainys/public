@@ -28,6 +28,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //////////////////////////////////////////////////////////// */
 
 #include <ysshellextedit_facegrouputil.h>
+#include <ysshellext_boundaryutil.h>
 #include "geblworkorder.h"
 #include <ysshellextmisc.h>
 
@@ -72,6 +73,10 @@ YSRESULT GeblCmd_WorkOrder::RunFaceGroupWorkOrder(const YsString &workOrder,cons
 		else if(0==args[1].STRCMP("RENAME"))
 		{
 			return RunFaceGroupRename(workOrder,args);
+		}
+		else if(0==args[1].STRCMP("MAKE_ONE_POLYGON"))
+		{
+			return RunFaceGroupMakeOnePolygon(workOrder,args);
 		}
 
 		YsString errorReason;
@@ -319,4 +324,48 @@ YSRESULT GeblCmd_WorkOrder::RunFaceGroupRename(const YsString &workOrder,const Y
 	}
 	ShowError(workOrder,"Too few arguments.");
 	return YSERR;
+}
+YSRESULT GeblCmd_WorkOrder::RunFaceGroupMakeOnePolygon(const YsString &workOrder,const YsArray <YsString,16> &args)
+{
+	auto &shl=*slHd;
+	YSSIZE_T idx=2;
+	while(idx<args.size())
+	{
+		auto targetFgHd=cmdSupport.GetFaceGroupHandle(shl.Conv(),idx,args);
+		if(0<targetFgHd.size())
+		{
+			for(auto fgHd : targetFgHd)
+			{
+				auto fgPlHd=shl.GetFaceGroup(fgHd);
+
+				YsShellExt_BoundaryInfo util;
+				util.MakeInfo(shl.Conv(),fgPlHd.size(),fgPlHd.data());
+				util.CacheContour(shl.Conv());
+
+				if(0<fgPlHd.size() && 1==util.GetNumContour())
+				{
+					auto contour=util.GetContour(0);
+					auto nVt=contour.size();
+					if(3<=nVt)
+					{
+						if(contour.front()==contour.back())
+						{
+							--nVt;
+						}
+						shl.SetPolygonVertex(fgPlHd[0],nVt,contour.data());
+						for(int j=1; j<fgPlHd.size(); ++j)
+						{
+							shl.ForceDeletePolygon(fgPlHd[j]);
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			ShowError(workOrder,"Specified face Group(s) does not exist.");
+			return YSERR;
+		}
+	}
+	return YSOK;
 }
