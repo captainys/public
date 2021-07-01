@@ -59,6 +59,20 @@ public:
 	static YsPrintf *GetDefault(void);
 };
 
+// Declaration /////////////////////////////////////////////
+
+class YsPrintfStdout : public YsPrintf
+{
+protected:
+	virtual void Output(char str[]);
+};
+
+class YsPrintfStderr : public YsPrintf
+{
+protected:
+	virtual void Output(char str[]);
+};
+
 ////////////////////////////////////////////////////////////
 
 void YsTurnOnErrorOutput(void);

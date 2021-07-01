@@ -79,6 +79,18 @@ public:
 		//    to
 		// return {(a0),(a1),...,(aN),(b0),(b1),...,(bN)}
 
+	static YsList <T> *LegacyAppend(YsList <T> *current,YsList <T> *neo)
+	{
+		if(nullptr==current)
+		{
+			return neo;
+		}
+		else
+		{
+			return current->Append(neo);
+		}
+	}
+
 	YsList <T> *DetachFromList(void);
 		// {(a0),(a1),(a2),...,(a n-1),(an=this),(a n+1),...,(aN)}
 		//   to

@@ -578,6 +578,7 @@ YSRESULT YsShellLattice::RegisterShell(const class YsShell &sh)
 	auto n=sh.GetNumVertex();
 	int i=0;
 	YsPrintf("Set Vertices\n");
+printf("%s %d",__FUNCTION__,__LINE__);
 
 	ctr.BeginCounter(n);
 	while((vtHd=sh.FindNextVertex(vtHd))!=NULL)

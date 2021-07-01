@@ -126,7 +126,8 @@ int YsPrintf::Printf(const char *fmt,...)
 	return a;
 }
 
-YsPrintf *YsPrintf::def=NULL;
+static YsPrintfStdout ysStdout;
+YsPrintf *YsPrintf::def=&ysStdout;
 YSBOOL YsPrintf::masterSwitch=YSTRUE;
 
 void YsPrintf::SetDefault(void)
@@ -136,12 +137,24 @@ void YsPrintf::SetDefault(void)
 
 void YsPrintf::ResetDefault(void)
 {
-	def=NULL;
+	def=&ysStdout;
 }
 
 YsPrintf *YsPrintf::GetDefault(void)
 {
 	return def;
+}
+
+////////////////////////////////////////////////////////////
+
+void YsPrintfStdout::Output(char str[])
+{
+	printf("%s",str);
+}
+
+void YsPrintfStderr::Output(char str[])
+{
+	fprintf(stderr,"%s",str);
 }
 
 ////////////////////////////////////////////////////////////
@@ -225,7 +238,7 @@ char YsLoopCounter::defNewLine='\n';  // Mac OSX terminal doesn't update with \r
 
 YsLoopCounter::YsLoopCounter()
 {
-	output=NULL;
+	output=YsPrintf::def;
 	lastShowedTime=0;
 	length=0;
 	current=0;
@@ -300,14 +313,29 @@ void YsLoopCounter::End(void)
 // 		}
 // 		else
 // #endif
-	if(length!=0)
+	if(nullptr!=output)
 	{
-		output->Printf("%d/%d\n",(int)length,(int)length);
-		output->Printf("Done!\n");
+		if(length!=0)
+		{
+			output->Printf("%d/%d\n",(int)length,(int)length);
+			output->Printf("Done!\n");
+		}
+		else
+		{
+			output->Printf("Done!\n");
+		}
 	}
 	else
 	{
-		output->Printf("Done!\n");
+		if(length!=0)
+		{
+			printf("%d/%d\n",(int)length,(int)length);
+			printf("Done!\n");
+		}
+		else
+		{
+			printf("Done!\n");
+		}
 	}
 }
 

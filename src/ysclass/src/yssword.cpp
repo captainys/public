@@ -253,7 +253,7 @@ YSRESULT YsSword::SetInitialPolygon(YSSIZE_T np,const YsVec3 p[],const int id[],
 				return YSERR;
 			}
 
-			plg=plg->Append(neo);
+			plg=YsList<YsSwordPolygon>::LegacyAppend(plg,neo);
 			return YSOK;
 		}
 	}
