@@ -1344,7 +1344,10 @@ YsShellExt::ConstEdgeHandle YsShellExt::AddConstEdge(YSSIZE_T nVt,const YsShellV
 			++vtAttrib->refCount;
 		}
 
-		extSearch->ConstEdgeAdded(newCeHd);
+		if(nullptr!=extSearch)
+		{
+			extSearch->ConstEdgeAdded(newCeHd);
+		}
 	}
 	return newCeHd;
 }
@@ -1431,7 +1434,10 @@ YSRESULT YsShellExt::ModifyConstEdge(ConstEdgeHandle ceHd,YSSIZE_T nVt,const YsS
 	ConstEdge *ceProp=constEdgeArray[ceHd];
 	if(NULL!=ceProp && YSTRUE!=constEdgeArray.IsFrozen(ceHd))
 	{
-		extSearch->ConstEdgeAboutToBeDeleted(ceHd);
+		if(nullptr!=extSearch)
+		{
+			extSearch->ConstEdgeAboutToBeDeleted(ceHd);
+		}
 
 		for(YSSIZE_T idx=0; idx<ceProp->vtHdArray.GetN(); ++idx)
 		{
@@ -1451,7 +1457,10 @@ YSRESULT YsShellExt::ModifyConstEdge(ConstEdgeHandle ceHd,YSSIZE_T nVt,const YsS
 			++vtAttrib->refCount;
 		}
 
-		extSearch->ConstEdgeAdded(ceHd);
+		if(nullptr!=extSearch)
+		{
+			extSearch->ConstEdgeAdded(ceHd);
+		}
 
 		return YSOK;
 	}
@@ -1476,7 +1485,10 @@ YSRESULT YsShellExt::AddConstEdgeVertex(ConstEdgeHandle ceHd,YSSIZE_T nVt,const 
 			++vtAttrib->refCount;
 		}
 
-		extSearch->ConstEdgeVertexAdded(ceHd,nVt,ceVtHd);
+		if(nullptr!=extSearch)
+		{
+			extSearch->ConstEdgeVertexAdded(ceHd,nVt,ceVtHd);
+		}
 
 		return YSOK;
 	}
@@ -1535,7 +1547,10 @@ YSRESULT YsShellExt::FreezeConstEdge(YsShellExt::ConstEdgeHandle ceHd)
 	const ConstEdge *ceProp=constEdgeArray[ceHd];
 	if(NULL!=ceProp && 0==ceProp->refCount)
 	{
-		extSearch->ConstEdgeAboutToBeDeleted(ceHd);
+		if(nullptr!=extSearch)
+		{
+			extSearch->ConstEdgeAboutToBeDeleted(ceHd);
+		}
 
 		for(YSSIZE_T idx=0; idx<ceProp->vtHdArray.GetN(); ++idx)
 		{
@@ -1565,7 +1580,10 @@ YSRESULT YsShellExt::MeltConstEdge(ConstEdgeHandle ceHd)
 			--vtAttrib->refCountFromFrozenEntity;
 		}
 
-		extSearch->ConstEdgeAdded(ceHd);
+		if(nullptr!=extSearch)
+		{
+			extSearch->ConstEdgeAdded(ceHd);
+		}
 	}
 	return YSERR;
 }
@@ -1575,7 +1593,10 @@ YSRESULT YsShellExt::DeleteConstEdge(YsShellExt::ConstEdgeHandle ceHd)
 	ConstEdge *ceProp=constEdgeArray[ceHd];
 	if(NULL!=ceProp && YSTRUE!=constEdgeArray.IsFrozen(ceHd) && 0==ceProp->refCount && 0==ceProp->refCountFromFrozenEntity)
 	{
-		extSearch->ConstEdgeAboutToBeDeleted(ceHd);
+		if(nullptr!=extSearch)
+		{
+			extSearch->ConstEdgeAboutToBeDeleted(ceHd);
+		}
 
 		for(YSSIZE_T idx=0; idx<ceProp->vtHdArray.GetN(); ++idx)
 		{
