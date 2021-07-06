@@ -69,6 +69,12 @@ set(DATA_FILE_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../../data)
 # OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 cmake_minimum_required(VERSION 3.0.0)
+if("${CMAKE_CURRENT_SOURCE_DIR}" MATCHES "^${CMAKE_SOURCE_DIR}" AND
+   "${CMAKE_BINARY_DIR}" MATCHES "^${CMAKE_SOURCE_DIR}")
+	message(FATAL_ERROR "In-source build prohibited.\nClear cache and Start cmake from somewhere else.")
+	# First condition is to allow inclusion of the project from outside CMake project with
+	# explicit binary-directory specification.   eg. add_subdirectory from Android CMakeLists.txt
+endif()
 
 if(MSVC)
 	if(NOT WIN_SUBSYSTEM)
@@ -85,11 +91,13 @@ if(MSVC)
 		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /ZW")
 	endif()
 
-	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:${WIN_SUBSYSTEM},5.02 /MACHINE:x64")
-	else()
-		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:${WIN_SUBSYSTEM},5.01 /MACHINE:X86")
-	endif()
+	# I want to keep compatibility with older operating systems, but it's getting difficult.
+	# I have to comment out the following lines.
+	# if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	# 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:${WIN_SUBSYSTEM},5.02 /MACHINE:x64")
+	# else()
+	# 	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:${WIN_SUBSYSTEM},5.01 /MACHINE:X86")
+	# endif()
 endif()
 
 if(NOT DEFINED TARGET_NAME)
