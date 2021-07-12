@@ -139,7 +139,21 @@ public:
 	void Test(void) const;
 
 	void Encache(void) const;
+	static void Encache(YsList <T> *ptr)
+	{
+		if(nullptr!=ptr)
+		{
+			ptr->Encache();
+		}
+	}
 	void Decache(void) const;
+	static void Decache(YsList <T> *ptr)
+	{
+		if(nullptr!=ptr)
+		{
+			ptr->Decache();
+		}
+	}
 
 	T dat;
 
@@ -153,6 +167,21 @@ protected:
 
 	void SetNext(YsList <T> *neoNxt);
 	void SetPrev(YsList <T> *neoPrv);
+
+	static void SetNext(YsList <T> *target,YsList <T> *neoNxt)
+	{
+		if(nullptr!=target)
+		{
+			target->SetNext(neoNxt);
+		}
+	}
+	static void SetPrev(YsList <T> *target,YsList <T> *neoPrv)
+	{
+		if(nullptr!=target)
+		{
+			target->SetPrev(neoPrv);
+		}
+	}
 
 	void InitializeForRecycle(void);
 };
@@ -448,8 +477,8 @@ template <class T> YsList <T> * YsList <T>::Append(YsList <T> *follow)
 			l2=follow->SeekTop();
 		}
 
-		l1->Decache();
-		l2->Decache();
+		Decache(l1);
+		Decache(l2);
 
 		if(l1==l2)
 		{
@@ -461,8 +490,8 @@ template <class T> YsList <T> * YsList <T>::Append(YsList <T> *follow)
 		YsList <T> *l1End,*l2Top;
 		l1End=l1->SeekEnd();
 		l2Top=l2;
-		l1End->SetNext(l2Top);
-		l2Top->SetPrev(l1End);
+		SetNext(l1End,l2Top);
+		SetPrev(l2Top,l1End);
 
 		// Reset "top" of all l2 members
 		YsList <T> *ptr;
@@ -507,7 +536,7 @@ template <class T> YsList <T> * YsList <T>::DetachFromList(void)
 			YsList <T> *neoTop,*seeker;
 			neoTop=Next();
 
-			neoTop->SetPrev(NULL);
+			SetPrev(neoTop,NULL);
 			if(neoTop!=NULL)
 			{
 				neoTop->btm=btm;   // btm is kept only in the top node
@@ -519,7 +548,7 @@ template <class T> YsList <T> * YsList <T>::DetachFromList(void)
 
 			InitializeForRecycle();
 
-			neoTop->Decache();
+			Decache(neoTop);
 
 			return neoTop;
 		}
@@ -534,7 +563,7 @@ template <class T> YsList <T> * YsList <T>::DetachFromList(void)
 
 			YsList <T> *neoBtm;
 			neoBtm=Prev();
-			neoBtm->SetNext(NULL);
+			SetNext(neoBtm,NULL);
 
 			top->btm=neoBtm;  // btm is kept only on the top node
 
@@ -547,8 +576,8 @@ template <class T> YsList <T> * YsList <T>::DetachFromList(void)
 			YsList <T> *n1,*n2;
 			n1=Prev();
 			n2=Next();
-			n1->SetNext(n2);
-			n2->SetPrev(n1);
+			SetNext(n1,n2);
+			SetPrev(n2,n1);
 
 			YsList <T> *top;
 			top=SeekTop();
@@ -675,10 +704,10 @@ template <class T> YsList <T> * YsList <T>::Insert(int n,YsList <T> *toIns)
 			i2=toIns->SeekEnd();
 			n2=Seek(n);
 
-			n1->SetNext(i1);
-			i1->SetPrev(n1);
-			i2->SetNext(n2);
-			n2->SetPrev(i2);
+			SetNext(n1,i1);
+			SetPrev(i1,n1);
+			SetNext(i2,n2);
+			SetPrev(n2,i2);
 
 			for(seeker=i1; seeker!=n2; seeker=seeker->Next())
 			{
@@ -772,8 +801,8 @@ template <class T> YsList <T> *YsList <T>::Split(YsList <T> *splitPoint)
 			l1End=splitPoint->Prev();
 			l2Top=splitPoint;
 
-			l1End->SetNext(NULL);
-			l2Top->SetPrev(NULL);
+			SetNext(l1End,NULL);
+			SetPrev(l2Top,NULL);
 
 			this->btm=l1End;   // btm is kept only in the top node
 
