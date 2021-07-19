@@ -4180,6 +4180,9 @@ public:
 	YsKeyStore(YSSIZE_T nTable=16);
 	YsKeyStore(const YsKeyStore &incoming);
 	YsKeyStore(YsKeyStore &&incoming);
+private:
+	void Construct(YSSIZE_T nTable);
+public:
 	~YsKeyStore();
 	void CleanUp(void);
 	void CleanUpThin(void);

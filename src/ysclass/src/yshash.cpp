@@ -40,6 +40,23 @@ int YsHashSameKeyGroupCreateDeleteCounter=0;
 
 YsKeyStore::YsKeyStore(YSSIZE_T nTable)
 {
+	Construct(nTable);
+}
+
+YsKeyStore::YsKeyStore(const YsKeyStore &incoming)
+{
+	Construct(16);
+	CopyFrom(incoming);
+}
+
+YsKeyStore::YsKeyStore(YsKeyStore &&incoming)
+{
+	Construct(16);
+	MoveFrom(incoming);
+}
+
+void YsKeyStore::Construct(YSSIZE_T nTable)
+{
 	YSSIZE_T i;
 	if(0<nTable)
 	{
@@ -58,16 +75,6 @@ YsKeyStore::YsKeyStore(YSSIZE_T nTable)
 	autoResizeMax=0;
 	nKey=0;
 	nTab=nTable;
-}
-
-YsKeyStore::YsKeyStore(const YsKeyStore &incoming)
-{
-	CopyFrom(incoming);
-}
-
-YsKeyStore::YsKeyStore(YsKeyStore &&incoming)
-{
-	MoveFrom(incoming);
 }
 
 YsKeyStore::~YsKeyStore()
