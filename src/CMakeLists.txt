@@ -15,6 +15,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(YS_COMMAND_BINARY_DIR ${CMAKE_BINARY_DIR}/exe)
 set(YS_COMMAND_BINARY_DIR ${YS_COMMAND_BINARY_DIR} PARENT_SCOPE)
 
+set(YS_PUBLIC_LIBRARIES 1 PARENT_SCOPE)
 
 
 # OpenGL ES 2.0 for Windows required for compiling for Universal Windows Platform.

@@ -8,3 +8,5 @@ add_subdirectory(tests)
 add_subdirectory(experimental)
 
 set(YS_ALL_BATCH_TEST ${YS_ALL_BATCH_TEST} PARENT_SCOPE)
+
+set(YS_PUBLIC_LIBRARIES 1 PARENT_SCOPE)
