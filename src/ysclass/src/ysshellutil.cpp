@@ -995,6 +995,7 @@ YSRESULT YsShellCrawler::Start(
 
 
 	// Set up (If the point is outside of the initial polygon, move it to the point on the polygon.)
+	this->start=startPos;
 	currentPlHd=startPlHd;
 	shl.GetVertexListOfPolygon(nPlVt,plVtHd,currentPlHd);
 	shl.GetNormalOfPolygon(nom,currentPlHd);
@@ -1088,8 +1089,21 @@ YSRESULT YsShellCrawler::Start(
 	currentPos.SetZ(cen.z());
 	tfmInv.Mul(currentPos,currentPos);
 
+	if(CRAWL_A_TO_B==crawlingMode)
+	{
+		currentDir=(this->goal-this->start);
+		if(YSOK!=currentDir.Normalize())
+		{
+			return YSERR;
+		}
 
-	if(crawlingMode==CRAWL_ON_PLANE) // 2)
+		currentDir-=(nom*currentDir)*nom;
+		if(currentDir.Normalize()!=YSOK)
+		{
+			return YSERR;
+		}
+	}
+	else if(crawlingMode==CRAWL_ON_PLANE) // 2)
 	{
 		YsVec3 ref;
 		ref=nom^constPlane.GetNormal();
@@ -1463,7 +1477,7 @@ YSRESULT YsShellCrawler::Crawl(const YsShell &shl,const double &dist,YSBOOL watc
 	const YsShellVertexHandle *plVtHd;
 	const YsShellSearchTable *search;
 
-	double noImproveCtr; // Used when crawlingMode==1 (Head-to-goal mode)
+	int noImproveCtr; // Used when crawlingMode==1 (Head-to-goal mode)
 	double prevGoalDist; // Used when crawlingMode==1 (Head-to-goal mode)
 
 	noImproveCtr=0;
@@ -1507,6 +1521,19 @@ YSRESULT YsShellCrawler::Crawl(const YsShell &shl,const double &dist,YSBOOL watc
 	if(crawlingMode==CRAWL_TO_GOAL)
 	{
 		prevGoalDist=(goal-currentPos).GetLength();
+	}
+	else if(CRAWL_A_TO_B==crawlingMode)
+	{
+		YsVec3 nearp;
+		if(YSOK==YsGetNearestPointOnLine3(nearp,start,goal,currentPos))
+		{
+			prevGoalDist=(nearp-goal).GetLength();
+		}
+		else
+		{
+			reachedDeadEnd=YSTRUE;
+			return YSOK;
+		}
 	}
 
 	while(distRemain>YsTolerance)
@@ -1741,7 +1768,7 @@ YSRESULT YsShellCrawler::Crawl(const YsShell &shl,const double &dist,YSBOOL watc
 				distRemain=0.0;
 				break;
 			}
-			else if(nextEdVtHd[0]!=NULL && crawlingMode==CRAWL_TO_GOAL /*1*/)  // This if statement has been added 2008/05/01
+			else if(nextEdVtHd[0]!=NULL && crawlingMode==CRAWL_TO_GOAL)  // This if statement has been added 2008/05/01
 			{
 				double prjGoalDist;
 				currentDir.Normalize();
@@ -1851,7 +1878,50 @@ YSRESULT YsShellCrawler::Crawl(const YsShell &shl,const double &dist,YSBOOL watc
 					break;
 				}
 			}
+			else if(nextEdVtHd[0]!=NULL && crawlingMode==CRAWL_A_TO_B)
+			{
+				currentDir.Normalize();
+				YsVec3 nextPos=currentPos+currentDir*moveDist;
 
+				if(YSTRUE==watch)
+				{
+					printf("nextPos %s start %s goal %s\n",nextPos.Txt(),start.Txt(),goal.Txt());
+				}
+
+				if(nextPos==goal)
+				{
+					reachedGoal=YSTRUE;
+					currentPos=goal;
+					currentEdVtHd[0]=nextEdVtHd[0];
+					currentEdVtHd[1]=nextEdVtHd[1];
+					reachedGoal=YSTRUE;
+					break;
+				}
+
+				if(YSTRUE!=YsCheckInBetween3(nextPos,start,goal))
+				{
+					// Either dead-end or goal.
+					YsVec3 nearp;
+					if(YSOK==YsGetNearestPointOnLine3(nearp,currentPos,nextPos,goal) &&
+					   YSTRUE==YsCheckInBetween3(nearp,currentPos,nextPos))
+					{
+						currentPos=nearp;
+						currentState=STATE_IN_POLYGON;
+						if(goal!=nearp)  // Near point, not quite goal
+						{
+							reachedDeadEnd=YSTRUE;
+							reachedNearGoal=YSTRUE;
+						}
+						else
+						{
+							reachedGoal=YSTRUE;
+						}
+						break;
+					}
+					reachedDeadEnd=YSTRUE;
+					break;
+				}
+			}
 			distRemain-=moveDist;
 		}
 
@@ -1912,6 +1982,46 @@ YSRESULT YsShellCrawler::Crawl(const YsShell &shl,const double &dist,YSBOOL watc
 
 			double goalDist;
 			goalDist=(currentPos-goal).GetLength();
+			if(prevGoalDist-goalDist<YsTolerance)
+			{
+				noImproveCtr++;
+				if(noImproveCtr>=2)
+				{
+					reachedDeadEnd=YSTRUE;
+					break;
+				}
+			}
+			else
+			{
+				prevGoalDist=goalDist;
+				noImproveCtr=0;
+			}
+		}
+		else if(CRAWL_A_TO_B==crawlingMode)
+		{
+			if(currentPos==goal)
+			{
+				reachedGoal=YSTRUE;
+				break;
+			}
+			YsVec3 a_to_b=goal-start;
+			if(currentDir*a_to_b<0.0)
+			{
+				reachedDeadEnd=YSTRUE;
+				break;
+			}
+			double goalDist;
+			YsVec3 nearp;
+			if(YSOK==YsGetNearestPointOnLine3(nearp,start,goal,currentPos))
+			{
+				goalDist=(nearp-goal).GetLength();
+			}
+			else
+			{
+				reachedDeadEnd=YSTRUE;
+				return YSOK;
+			}
+
 			if(prevGoalDist-goalDist<YsTolerance)
 			{
 				noImproveCtr++;
@@ -2040,7 +2150,7 @@ void YsShellCrawler::FindOutGoingEdge(
 		//   this edge in the subsequent Crawl function.  So, this check should only be
 		//   concerned when the current position is on the same edge.
 		// Special Case: Goal is on the edge on which the current position is lying >>
-		if(CRAWL_TO_GOAL==crawlingMode)
+		if(CRAWL_TO_GOAL==crawlingMode || CRAWL_A_TO_B==crawlingMode)
 		{
 			YsVec2 np;
 			if(YSTRUE==watch)
@@ -2065,6 +2175,10 @@ void YsShellCrawler::FindOutGoingEdge(
 					auto dist=(np-prjPos).GetSquareLength();
 					LandOnEdge(nextEdVtHd,nextEdParam,np,edVtPos0,edVtPos1,tstEdVtHd);
 					moveDist=dist;
+					if(YSTRUE==watch)
+					{
+						printf("Goal is on the same edge.\n");
+					}
 				}
 			}
 		}
@@ -2443,7 +2557,7 @@ void YsShellCrawler::CrawlCalculateProjectedPolygonAndDirection(
 	}
 	prjPlg[nPlVt]=prjPlg[0];
 
-	if(CRAWL_TO_GOAL==crawlingMode)
+	if(CRAWL_TO_GOAL==crawlingMode || CRAWL_A_TO_B==crawlingMode)
 	{
 		prjGoal.SetX(a1*goal);
 		prjGoal.SetY(a2*goal);
@@ -2633,6 +2747,16 @@ YSRESULT YsShellCrawler::MoveAcrossEdge(
 			}
 		}
 		break;
+	case CRAWL_A_TO_B:
+		{
+			currentDir=goal-currentPos;
+			currentDir-=nom*(currentDir*nom);
+			if(currentDir.Normalize()!=YSOK)
+			{
+				reachedDeadEnd=YSTRUE;
+			}
+		}
+		break;
 	}
 
 	currentState=STATE_ON_EDGE; // 1;
@@ -2765,6 +2889,16 @@ YSRESULT YsShellCrawler::MoveAcrossVertex(const YsShell &shl,const YsShellSearch
 				case 1:
 					{
 						nextDirCan=goal-currentPos;
+						if(nextDirCan.Normalize()!=YSOK)
+						{
+							reachedDeadEnd=YSTRUE;
+						}
+					}
+					break;
+				case CRAWL_A_TO_B:
+					{
+						nextDirCan=goal-currentPos;
+						nextDirCan-=nom*(nextDirCan*nom);
 						if(nextDirCan.Normalize()!=YSOK)
 						{
 							reachedDeadEnd=YSTRUE;

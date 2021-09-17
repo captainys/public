@@ -137,8 +137,19 @@ public:
 	{
 		CRAWL_TO_DIRECTION,
 		CRAWL_TO_GOAL,
-		CRAWL_ON_PLANE
+		CRAWL_ON_PLANE,
+		CRAWL_A_TO_B,
 	};
+
+	// 2021/09/17
+	// The difference between CRAWL_TO_GOAL and CRAWL_A_TO_B:
+	// CRAWL_TO_GOAL doesn't consider the starting point.  Therefore, when the goal projected onto the current plane is
+	// within the current polygon, the crawler cannot find the direction to move because moving any direction tangent
+	// to the plane will increase the distance to the goal.
+	// 
+	// In CRAWL_A_TO_B mode, it tries to move to vector AB projected on the current plane.  Stops when it cannot
+	// reduce the projected (onto line AB) distance.
+	// Starting point is recorded when Start function is called.
 
 	YsShellPolygonHandle currentPlHd;
 	YsVec3 currentPos,currentDir;
@@ -151,7 +162,8 @@ protected:
 	YSBOOL reachedNearGoal;
 
 public:
-	YsVec3 goal;  // Used only when crawlingMode==1
+	YsVec3 start; // Used only when crawlingMode==3
+	YsVec3 goal;  // Used only when crawlingMode==1 or 3
 	YsPlane constPlane;  // Used only when crawlingMode==2
 
 	int currentState;  // 0:Inside the polygon    1:On an edge of the polygon    2:On a vertex of the polygon
@@ -177,7 +189,8 @@ public:
 
 	void SetConstraintPlane(const YsPlane &pln);
 
-	/*! This function has no effect on the crawling result unless the mode is set to CRAWL_TO_GOAL.
+	/*! This function has no effect on the crawling result unless the mode is set to CRAWL_TO_GOAL or CRAWL_A_TO_B.
+	    Make sure to use SetMode to change the crawling mode to CRAWL_TO_GOAL or CRAWL_A_TO_B to make this function take effect.
 	*/
 	void SetGoal(const YsVec3 &Goal);
 
@@ -187,7 +200,7 @@ public:
 
 
 	/*! If crawling to goal, give goalposition-startPos as startDir. 
-	    If the crawling mode is CRAWL_TO_GOAL, startDir will be ignored.
+	    If the crawling mode is CRAWL_TO_GOAL or CRAWL_A_TO_B, startDir will be ignored.
 	*/
 	YSRESULT Start(const YsShell &shl,const YsVec3 &startPos,const YsVec3 &startDir,YsShellPolygonHandle startPlHd,YSBOOL watch=YSFALSE);
 	YSRESULT Start(const YsShell &shl,const YsVec3 &startPos,const YsVec3 &startDir,const YsShellVertexHandle startEdVtHd[2],YSBOOL watch=YSFALSE);
