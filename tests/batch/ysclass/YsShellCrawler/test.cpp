@@ -166,6 +166,68 @@ YSRESULT TestFromPolygonWithCanPassFunc(const YsShell &shl)
 }
 
 
+YSRESULT TestPointToPoint(const YsShell &shl,const YsShellLattice &ltc,YsVec3 from,YsVec3 to)
+{
+	printf("Point to Point\n");
+
+	YsShellCrawler crawler;
+	crawler.SetMode(YsShellCrawler::CRAWL_A_TO_B);
+	crawler.SetGoal(to);
+
+	double dist;
+	YsVec3 nearp;
+	YsShellPolygonHandle nearPlHd=ltc.FindNearestPolygon(dist,nearp,from);
+	if(nullptr!=nearPlHd)
+	{
+		if(YSOK!=crawler.Start(shl,from,YsVec3::Origin(),nearPlHd))
+		{
+			fprintf(stderr,"Cannot start.\n");
+			return YSERR;
+		}
+	}
+	else
+	{
+		return YSERR;
+	}
+
+	while(YSOK==crawler.Crawl(shl,0.0))
+	{
+		if(YSTRUE==crawler.ReachedNearGoal())
+		{
+			printf("Near Goal.\n");
+			printf("%s\n",crawler.currentPos.Txt());
+			break;
+		}
+		if(YSTRUE==crawler.DeadEnd())
+		{
+			printf("Dead End.\n");
+			printf("%s\n",crawler.currentPos.Txt());
+			break;
+		}
+		if(YSTRUE==crawler.ReachedGoal())
+		{
+			printf("Goal.\n");
+			printf("%s\n",crawler.currentPos.Txt());
+			break;
+		}
+	}
+
+	return YSOK;
+}
+
+YSRESULT TestPointToPoint(const YsShell &shl)
+{
+	YsShellLattice ltc;
+	ltc.SetDomain(shl,shl.GetNumPolygon()+1);
+
+	if(YSOK!=TestPointToPoint(shl,ltc,YsVec3(2.6516504294, 3.9016504294, 0.9567085809),YsVec3(3.9429025374, 0.6764951252, -2.7244755339)))
+	{
+		return YSERR;
+	}
+	return YSOK;
+}
+
+
 int main(void)
 {
 	YsFileIO::ChDir(YsSpecialPath::GetProgramBaseDirW());
@@ -190,6 +252,27 @@ int main(void)
 	{
 		++nFail;
 	}
+
+
+
+	YsShell shl2;
+	if(YSOK!=shl2.LoadSrf("crawlertest2.srf"))
+	{
+		fprintf(stderr,"Cannot load crawlertest2.srf!\n");
+		return 1;
+	}
+
+	shl2.Encache();
+
+	YsShellSearchTable search2;
+	shl2.AttachSearchTable(&search2);
+
+	if(YSOK!=TestPointToPoint(shl2))
+	{
+		++nFail;
+	}
+
+
 
 	printf("%d failed.\n",nFail);
 	if(0<nFail)
