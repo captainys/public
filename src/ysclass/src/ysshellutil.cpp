@@ -1959,7 +1959,7 @@ YSRESULT YsShellCrawler::Crawl(const YsShell &shl,const double &dist,YSBOOL watc
 				printf("Moving across a vertex.\n");
 			}
 
-			if(MoveAcrossVertex(shl,search,nom,nextEdVtHd[0])!=YSOK)
+			if(MoveAcrossVertex(shl,search,nom,nextEdVtHd[0],watch)!=YSOK)
 			{
 				if(reachedDeadEnd==YSTRUE)
 				{
@@ -2763,7 +2763,7 @@ YSRESULT YsShellCrawler::MoveAcrossEdge(
 	return YSOK;
 }
 
-YSRESULT YsShellCrawler::MoveAcrossVertex(const YsShell &shl,const YsShellSearchTable *search,const YsVec3 &nom,YsShellVertexHandle nextEdVtHd)
+YSRESULT YsShellCrawler::MoveAcrossVertex(const YsShell &shl,const YsShellSearchTable *search,const YsVec3 &nom,YsShellVertexHandle nextEdVtHd,YSBOOL watch)
 {
 	int nFoundPlHd;
 	const YsShellPolygonHandle *foundPlHd;
@@ -2783,10 +2783,18 @@ YSRESULT YsShellCrawler::MoveAcrossVertex(const YsShell &shl,const YsShellSearch
 	// If it move across a vertex twice, but is staying at the same position,
 	// consider it as a dead end.  Or, the crawler go back and forth between
 	// the two vertices and may fall into an infinite loop.
-	if(currentEdVtHd[0]==currentEdVtHd[1] &&
+	// 2021/09/22
+	// But, pass this check if it is the first step.  The crawler starts on a vertex of a polygon, in which case
+	// the first step is just finding a correct polygon to move into.
+	if(YSTRUE!=firstStep &&
+	   currentEdVtHd[0]==currentEdVtHd[1] &&
 	   nullptr!=currentEdVtHd[0] &&
 	   shl.GetVertexPosition(currentEdVtHd[0])==shl.GetVertexPosition(nextEdVtHd))
 	{
+		if(YSTRUE==watch)
+		{
+			printf("Dead End in MoveAcrossVertex\n");
+		}
 		reachedDeadEnd=YSTRUE;
 		return YSERR;
 	}
@@ -2809,6 +2817,11 @@ YSRESULT YsShellCrawler::MoveAcrossVertex(const YsShell &shl,const YsShellSearch
 
 		for(i=0; i<nFoundPlHd; i++)
 		{
+			if(YSTRUE==watch)
+			{
+				printf("Trying Polygon Key=%d\n",shl.GetSearchKey(foundPlHd[i]));
+			}
+
 			int thisLevel=2;
 			if(nullptr!=canPassFunc && YSTRUE==canPassFunc->IsLowPriorityPolygon(shl,foundPlHd[i]))
 			{
@@ -2898,7 +2911,7 @@ YSRESULT YsShellCrawler::MoveAcrossVertex(const YsShell &shl,const YsShellSearch
 				case CRAWL_A_TO_B:
 					{
 						nextDirCan=goal-currentPos;
-						nextDirCan-=nom*(nextDirCan*nom);
+						nextDirCan-=nextNom*(nextDirCan*nextNom);
 						if(nextDirCan.Normalize()!=YSOK)
 						{
 							reachedDeadEnd=YSTRUE;
@@ -2916,6 +2929,10 @@ YSRESULT YsShellCrawler::MoveAcrossVertex(const YsShell &shl,const YsShellSearch
 					{
 						if(YsVectorPointingInside(plVtPos.GetN(),plVtPos,nextNom,j,nextDirCan)==YSTRUE)
 						{
+							if(YSTRUE==watch)
+							{
+								printf("Vector points inside of polygon key=%d\n",shl.GetSearchKey(foundPlHd[i]));
+							}
 							nextPlHd=foundPlHd[i];
 							nextPlHdLevel=thisLevel;
 							nextDir=nextDirCan;

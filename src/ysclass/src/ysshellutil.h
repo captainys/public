@@ -282,7 +282,7 @@ protected:
 	void CrawlCalculateProjectedPolygonAndDirection(
 	    const YsShell &shl,YsVec2 &dir,YsVec2 &goal,YsArray <YsVec2,32> &plg,int nPlVt,const YsShellVertexHandle plVtHd[],const YsVec3 &nom);
 	YSRESULT MoveAcrossEdge(const YsShell &shl,const YsShellSearchTable *search,const YsVec3 &nom,const YsShellVertexHandle nextEdVtHd[2],const double &nextEdParam);
-	YSRESULT MoveAcrossVertex(const YsShell &shl,const YsShellSearchTable *search,const YsVec3 &nom,const YsShellVertexHandle nextEdVtHd);
+	YSRESULT MoveAcrossVertex(const YsShell &shl,const YsShellSearchTable *search,const YsVec3 &nom,const YsShellVertexHandle nextEdVtHd,YSBOOL watch);
 };
 
 typedef YsShellCrawler::StopperFunction YsShellCrawlStopperFunction;
