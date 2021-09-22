@@ -2750,7 +2750,7 @@ YSRESULT YsShellCrawler::MoveAcrossEdge(
 	case CRAWL_A_TO_B:
 		{
 			currentDir=goal-currentPos;
-			currentDir-=nom*(currentDir*nom);
+			currentDir-=nextNom*(currentDir*nextNom);
 			if(currentDir.Normalize()!=YSOK)
 			{
 				reachedDeadEnd=YSTRUE;

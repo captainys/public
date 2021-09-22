@@ -166,7 +166,7 @@ YSRESULT TestFromPolygonWithCanPassFunc(const YsShell &shl)
 }
 
 
-YSRESULT TestPointToPoint(const YsShell &shl,const YsShellLattice &ltc,YsVec3 from,YsVec3 to)
+YSRESULT TestPointToPoint(const YsShell &shl,const YsShellLattice &ltc,YsVec3 from,YsVec3 to,YSBOOL mustBeNearGoal,YSBOOL mustBeDeadEnd,YSBOOL mustBeGoal)
 {
 	printf("Point to Point\n");
 
@@ -190,7 +190,7 @@ YSRESULT TestPointToPoint(const YsShell &shl,const YsShellLattice &ltc,YsVec3 fr
 		return YSERR;
 	}
 
-	while(YSOK==crawler.Crawl(shl,0.0))
+	while(YSOK==crawler.Crawl(shl,0.0,YSTRUE))
 	{
 		if(YSTRUE==crawler.ReachedNearGoal())
 		{
@@ -212,6 +212,14 @@ YSRESULT TestPointToPoint(const YsShell &shl,const YsShellLattice &ltc,YsVec3 fr
 		}
 	}
 
+	if(mustBeNearGoal!=crawler.ReachedNearGoal() ||
+	   mustBeDeadEnd!=crawler.DeadEnd() ||
+	   mustBeGoal!=crawler.ReachedGoal())
+	{
+		printf("Wrong Final State.\n");
+		return YSERR;
+	}
+
 	return YSOK;
 }
 
@@ -220,10 +228,29 @@ YSRESULT TestPointToPoint(const YsShell &shl)
 	YsShellLattice ltc;
 	ltc.SetDomain(shl,shl.GetNumPolygon()+1);
 
-	if(YSOK!=TestPointToPoint(shl,ltc,YsVec3(2.6516504294, 3.9016504294, 0.9567085809),YsVec3(3.9429025374, 0.6764951252, -2.7244755339)))
+	if(YSOK!=TestPointToPoint(shl,ltc,YsVec3(2.6516504294, 3.9016504294, 0.9567085809),YsVec3(3.9429025374, 0.6764951252, -2.7244755339),YSFALSE,YSFALSE,YSTRUE))
 	{
 		return YSERR;
 	}
+
+	if(YSOK!=TestPointToPoint(shl,ltc,YsVec3(4.017427067773, 1.664072777316, -2.318946347852),YsVec3(3.516747297385, 1.456684426016, -3.130004719906),YSFALSE,YSFALSE,YSTRUE))
+	{
+		return YSERR;
+	}
+
+	if(YSOK!=TestPointToPoint(shl,ltc,YsVec3(4.017427067773, 1.664072777316, -2.318946347852),YsVec3(2.517087182579, 1.042611648700, -4.077465784245),YSFALSE,YSFALSE,YSTRUE))
+	{
+		return YSERR;
+	}
+
+	if(YSOK!=TestPointToPoint(shl,ltc,YsVec3(3.266407412191, 1.352990250365, -3.535533905933),YsVec3(4.143099000000, 0.810447000000, -2.882803000000),YSTRUE,YSTRUE,YSFALSE))
+	{
+		return YSERR;
+	}
+
+
+
+
 	return YSOK;
 }
 
