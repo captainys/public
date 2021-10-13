@@ -1909,14 +1909,26 @@ YSRESULT YsShellCrawler::Crawl(const YsShell &shl,const double &dist,YSBOOL watc
 						currentState=STATE_IN_POLYGON;
 						if(goal!=nearp)  // Near point, not quite goal
 						{
+							if(YSTRUE==watch)
+							{
+								printf("Dead End && Goal\n");
+							}
 							reachedDeadEnd=YSTRUE;
 							reachedNearGoal=YSTRUE;
 						}
 						else
 						{
+							if(YSTRUE==watch)
+							{
+								printf("Goal\n");
+							}
 							reachedGoal=YSTRUE;
 						}
 						break;
+					}
+					if(YSTRUE==watch)
+					{
+						printf("Dead End\n");
 					}
 					reachedDeadEnd=YSTRUE;
 					break;
