@@ -70,7 +70,9 @@ void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygonLeavingOne(FsGuiPopUpMe
 	if(nullptr!=Slhd())
 	{
 		YsShellExt_IdenticalPolygonRemover remover;
-		remover.MakeDuplicatePolygonList(Slhd()->Conv());
+		YSBOOL takeReverse=YSTRUE;
+		YSBOOL setToDeleteSoucePolygon=YSFALSE;
+		remover.MakeDuplicatePolygonList(Slhd()->Conv(),takeReverse,setToDeleteSoucePolygon);
 		remover.DeleteDuplicatePolygon(*Slhd());
 		needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_POLYGON|NEED_REMAKE_DRAWING_SELECTED_POLYGON);
 		SetNeedRedraw(YSTRUE);
@@ -82,7 +84,9 @@ void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygonLeavingNone(FsGuiPopUpM
 	if(nullptr!=Slhd())
 	{
 		YsShellExt_IdenticalPolygonRemover remover;
-		remover.MakeDuplicatePolygonList(Slhd()->Conv());
+		YSBOOL takeReverse=YSTRUE;
+		YSBOOL setToDeleteSoucePolygon=YSTRUE;
+		remover.MakeDuplicatePolygonList(Slhd()->Conv(),takeReverse,setToDeleteSoucePolygon);
 		remover.DeleteDuplicatePolygon(*Slhd());
 		needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_POLYGON|NEED_REMAKE_DRAWING_SELECTED_POLYGON);
 		SetNeedRedraw(YSTRUE);

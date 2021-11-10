@@ -14,7 +14,7 @@ private:
 	YsShellPolygonStore toDel;
 
 public:
-	void MakeDuplicatePolygonList(const YsShellExt &shl,YSBOOL takeReverse=YSTRUE);
+	void MakeDuplicatePolygonList(const YsShellExt &shl,YSBOOL takeReverse=YSTRUE,YSBOOL setToDeleteSource=YSFALSE);
 
 	template <class SHLCLASS>
 	void DeleteDuplicatePolygon(SHLCLASS &shl)
