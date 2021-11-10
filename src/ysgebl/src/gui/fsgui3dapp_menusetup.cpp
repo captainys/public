@@ -691,7 +691,8 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 			FsGuiPopUpMenu *repairSubMenu=utilSubMenu->AddTextItem(0,FSKEY_R,FSGUI_MENU_UTILITY_REPAIR)->AddSubMenu();
 			repairSubMenu->AddTextItem(0,FSKEY_S,FSGUI_MENU_UTILITY_REPAIR_FREESTITCH)->BindCallBack(&THISCLASS::RepairMenu_FreeStitching,this);
 			repairSubMenu->AddTextItem(0,FSKEY_L,FSGUI_MENU_UTILITY_REPAIR_LOOPSTITCH)->BindCallBack(&THISCLASS::RepairMenu_LoopStitching,this);
-			repairSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_REPAIR_DELETE_IDENTICALPOLYGON)->BindCallBack(&THISCLASS::RepairMenu_RemoveIdenticalPolygon,this);
+			repairSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_REPAIR_DELETE_IDENTICALPOLYGON_LEAVING_ONE)->BindCallBack(&THISCLASS::RepairMenu_RemoveIdenticalPolygonLeavingOne,this);
+			repairSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_REPAIR_DELETE_IDENTICALPOLYGON_LEAVING_NONE)->BindCallBack(&THISCLASS::RepairMenu_RemoveIdenticalPolygonLeavingNone,this);
 			repairSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_REPAIR_DELETESHURNKPOLLYGONS)->BindCallBack(&THISCLASS::Repair_DeleteShrunkPolygon,this);
 		}
 	}

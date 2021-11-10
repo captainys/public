@@ -487,7 +487,8 @@ $BGCOL 0
 +menu/utility/facegroup_from_constedge             #拘束線を元にポリゴングループを作る
 +menu/utility/paint_based_on_facegroup             #ポリゴングループを違う色で塗りわけ
 +menu/utility/repair                               #修復
-+menu/utility/repair/delete_identicalpolygon       #Delete Identical Polygons
++menu/utility/repair/delete_identicalpolygonOne       #Delete Identical Polygons Leaving One
++menu/utility/repair/delete_identicalpolygonNone       #Delete Identical Polygons Leaving None
 +menu/utility/repair/deleteshurnkpollygons         #Delete Shrunk Polygons
 +menu/utility/repair/freestitch                    #ポリゴン1枚からのみ使われているエッジの縫い合わせ(一般)
 +menu/utility/repair/loopstitch                    #ポリゴン1枚からのみ使われているエッジの縫い合わせ(残存ループ用)

@@ -1151,7 +1151,9 @@ public:
 
 	void RepairMenu_LoopStitching(FsGuiPopUpMenuItem *);
 
-	void RepairMenu_RemoveIdenticalPolygon(FsGuiPopUpMenuItem *);
+	void RepairMenu_RemoveIdenticalPolygonLeavingOne(FsGuiPopUpMenuItem *);
+
+	void RepairMenu_RemoveIdenticalPolygonLeavingNone(FsGuiPopUpMenuItem *);
 
 	void Repair_DeleteShrunkPolygon(FsGuiPopUpMenuItem *);
 

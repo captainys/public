@@ -65,7 +65,19 @@ void GeblGuiEditorBase::RepairMenu_LoopStitching(FsGuiPopUpMenuItem *)
 	}
 }
 
-void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygon(FsGuiPopUpMenuItem *)
+void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygonLeavingOne(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=Slhd())
+	{
+		YsShellExt_IdenticalPolygonRemover remover;
+		remover.MakeDuplicatePolygonList(Slhd()->Conv());
+		remover.DeleteDuplicatePolygon(*Slhd());
+		needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_POLYGON|NEED_REMAKE_DRAWING_SELECTED_POLYGON);
+		SetNeedRedraw(YSTRUE);
+	}
+}
+
+void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygonLeavingNone(FsGuiPopUpMenuItem *)
 {
 	if(nullptr!=Slhd())
 	{
