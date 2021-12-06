@@ -519,6 +519,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_MENU_UTILITY_CONSTEDGE_CONSTRAINALL         FsGetTextResource("menu/utility/constedge/constrainall",L"Constrain All Edges")
 #define FSGUI_MENU_UTILITY_CONSTEDGE_OPENCLOSELOOP        FsGetTextResource("menu/utility/constedge/opencloseloop",L"Open/Close a Loop")
 #define FSGUI_MENU_UTILITY_CONSTEDGE_RECONSIDER           FsGetTextResource("menu/utility/constedge/reconsider",L"Auto Connect/Split Const Edgesdir")
+#define FSGUI_MENU_UTILITY_CONSTEDGE_REVERSE              FsGetTextResource("menu/utility/constedge/reverse",L"Reverse Order")
 #define FSGUI_MENU_UTILITY_CONSTEDGE_SETNAME              FsGetTextResource("menu/utility/constedge/setname",L"Set Const-Edge Name")
 #define FSGUI_MENU_UTILITY_FACEGROUP                      FsGetTextResource("menu/utility/facegroup",L"Face Group")
 #define FSGUI_MENU_UTILITY_FACEGROUP_CLEARALL             FsGetTextResource("menu/utility/facegroup/clearall",L"Delete All Face Groups")

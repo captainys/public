@@ -479,6 +479,7 @@ $BGCOL 0
 +menu/utility/constedge/constrainall               #Constrain All Edges
 +menu/utility/constedge/opencloseloop              #Open/Close a Loop
 +menu/utility/constedge/reconsider                 #Auto Connect/Split Const Edgesdir
++menu/utility/constedge/reverse                    #Reverse Order
 +menu/utility/constedge/setname                    #Set Const-Edge Name
 +menu/utility/facegroup                            #Face Group
 +menu/utility/facegroup/clearall                   #Delete All Face Groups

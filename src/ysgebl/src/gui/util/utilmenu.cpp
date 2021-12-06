@@ -175,7 +175,29 @@ void GeblGuiEditorBase::UtilMenu_SetConstEdgeName(FsGuiPopUpMenuItem *)
 	}
 }
 
+void GeblGuiEditorBase::UtilMenu_ReverseConstEdge(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=Slhd())
+	{
+		auto &shl=*Slhd();
+		YsShellExtEdit::StopIncUndo incUndo(shl);
 
+		for(auto ceHd : shl.GetSelectedConstEdge())
+		{
+			YsArray <YsShell::VertexHandle> ceVtHd=shl.GetConstEdgeVertex(ceHd);
+			ceVtHd.Invert();
+			shl.ModifyConstEdge(ceHd,ceVtHd);
+		}
+
+		needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_CONSTEDGE|NEED_REMAKE_DRAWING_SELECTED_CONSTEDGE);
+		SetNeedRedraw(YSTRUE);
+	}
+}
+
+void GeblGuiEditorBase::UtilMenu_ConnectSelectedConstEdge(FsGuiPopUpMenuItem *)
+{
+printf("Working on it");
+}
 
 ////////////////////////////////////////////////////////////
 

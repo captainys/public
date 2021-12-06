@@ -676,6 +676,7 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 			constEdgeSubMenu->AddTextItem(0,FSKEY_F,FSGUI_MENU_UTILITY_CONSTEDGE_ADDFGBOUNDARY,UtilMenu_AddConstEdgeOnFaceGroupBoundary,this);
 			constEdgeSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_CONSTEDGE_ADDONCOLORBOUNDARY)->BindCallBack(&THISCLASS::UtilMenu_AddConstEdgeAlongColorBoundary,this);
 			constEdgeSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_CONSTEDGE_OPENCLOSELOOP,UtilMenu_OpenCloseConstEdge,this);
+			constEdgeSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_CONSTEDGE_REVERSE)->BindCallBack(&THISCLASS::UtilMenu_ReverseConstEdge,this);
 			AddMenuItem(constEdgeSubMenu,FSKEY_R,FSGUI_MENU_UTILITY_CONSTEDGE_RECONSIDER,&THISCLASS::UtilMenu_ReconsiderConstEdge);
 		}
 		{

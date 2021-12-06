@@ -1131,6 +1131,10 @@ public:
 
 	void UtilMenu_AddConstEdgeAlongColorBoundary(FsGuiPopUpMenuItem *);
 
+	void UtilMenu_ConnectSelectedConstEdge(FsGuiPopUpMenuItem *);
+
+	void UtilMenu_ReverseConstEdge(FsGuiPopUpMenuItem *);
+
 	static void UtilMenu_OpenCloseConstEdge(void *appPtr,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *);
 	void UtilMenu_ReconsiderConstEdge(FsGuiPopUpMenuItem *);
 

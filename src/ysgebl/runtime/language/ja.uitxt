@@ -478,6 +478,7 @@ $BGCOL 0
 +menu/utility/constedge/constrainall               #全稜線を拘束
 +menu/utility/constedge/opencloseloop              #閉ループ/オープン切り替え
 +menu/utility/constedge/reconsider                 #拘束線の自動接続・自動分割
++menu/utility/constedge/reverse                    #Reverse Order
 +menu/utility/constedge/setname                    #拘束線の名前を指定
 +menu/utility/facegroup                            #ポリゴングループ
 +menu/utility/facegroup/clearall                   #全ポリゴングループを削除
