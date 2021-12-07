@@ -470,6 +470,7 @@ $BGCOL 0
 +menu/sketch/makesheet                             #Make Sheet
 +menu/sketch/separate                              #Separate
 +menu/utility                                      #Utility
++menu/utility/connect_selected_ce                  #Connect Selected Const Edges
 +menu/utility/constedge                            #Const Edge
 +menu/utility/constedge/addbydha                   #Add by Dihedral Angle
 +menu/utility/constedge/addfgboundary              #Add Const-Edge on Face-Group Boundaries

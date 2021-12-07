@@ -469,6 +469,7 @@ $BGCOL 0
 +menu/sketch/makesheet                             #Make Sheet
 +menu/sketch/separate                              #Separate
 +menu/utility                                      #その他
++menu/utility/connect_selected_ce                  #Connect Selected Const Edges
 +menu/utility/constedge                            #拘束線
 +menu/utility/constedge/addbydha                   #折れ角が高いところに追加
 +menu/utility/constedge/addfgboundary              #ポリゴングループ境界に拘束線を追加

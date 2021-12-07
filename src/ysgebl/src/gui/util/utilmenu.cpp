@@ -196,7 +196,51 @@ void GeblGuiEditorBase::UtilMenu_ReverseConstEdge(FsGuiPopUpMenuItem *)
 
 void GeblGuiEditorBase::UtilMenu_ConnectSelectedConstEdge(FsGuiPopUpMenuItem *)
 {
-printf("Working on it");
+	if(nullptr!=Slhd())
+	{
+		auto &shl=*Slhd();
+		YsShellExtEdit::StopIncUndo incUndo(shl);
+
+		YsArray <YsShell::VertexHandle> newCeVtHd;
+		for(auto ceHd : shl.GetSelectedConstEdge())
+		{
+			YsArray <YsShell::VertexHandle> ceVtHd=shl.GetConstEdgeVertex(ceHd);
+			if(0==newCeVtHd.size())
+			{
+				newCeVtHd=shl.GetConstEdgeVertex(ceHd);
+			}
+			else if(0<ceVtHd.size())
+			{
+				double d0=shl.GetEdgeLength(newCeVtHd.back(),ceVtHd.front());
+				double d1=shl.GetEdgeLength(newCeVtHd.back(),ceVtHd.back());
+				if(d1<d0)
+				{
+					ceVtHd.Invert();
+				}
+				newCeVtHd.Append(ceVtHd);
+			}
+		}
+
+		if(0<newCeVtHd.size())
+		{
+			bool first=true;
+			for(auto ceHd : shl.GetSelectedConstEdge())
+			{
+				if(true==first)
+				{
+					shl.ModifyConstEdge(ceHd,newCeVtHd);
+					first=false;
+				}
+				else
+				{
+					shl.DeleteConstEdge(ceHd);
+				}
+			}
+		}
+
+		needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_CONSTEDGE|NEED_REMAKE_DRAWING_SELECTED_CONSTEDGE);
+		SetNeedRedraw(YSTRUE);
+	}
 }
 
 ////////////////////////////////////////////////////////////

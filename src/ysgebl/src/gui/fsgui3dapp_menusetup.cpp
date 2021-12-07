@@ -678,6 +678,7 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 			constEdgeSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_CONSTEDGE_OPENCLOSELOOP,UtilMenu_OpenCloseConstEdge,this);
 			constEdgeSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_CONSTEDGE_REVERSE)->BindCallBack(&THISCLASS::UtilMenu_ReverseConstEdge,this);
 			AddMenuItem(constEdgeSubMenu,FSKEY_R,FSGUI_MENU_UTILITY_CONSTEDGE_RECONSIDER,&THISCLASS::UtilMenu_ReconsiderConstEdge);
+			constEdgeSubMenu->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_UTILITY_CONNECT_SELECTED_CE)->BindCallBack(&THISCLASS::UtilMenu_ConnectSelectedConstEdge,this);
 		}
 		{
 			FsGuiPopUpMenu *faceGroupSubMenu=utilSubMenu->AddTextItem(0,FSKEY_C,FSGUI_MENU_UTILITY_FACEGROUP)->AddSubMenu();
