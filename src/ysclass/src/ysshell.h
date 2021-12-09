@@ -1093,12 +1093,22 @@ public:
 	/*! Returns center (non-weight average) of vertex positions. */
 	const YsVec3 GetCenter(YSSIZE_T nVt,const VertexHandle vtHd[]) const;
 
+	/*! Returns center (non-weight average) of vertex positions. 
+	    Center is calculated as Sigma(edgeLength*edgeCenter)/totalEdgeLength.
+	*/
+	const YsVec3 GetCenterEdgeWeighted(YSSIZE_T nVt,const VertexHandle vtHd[]) const;
+
 	/*! Returns center (non-weight average) of vertex positions. */
 	template <const int N>
 	inline const YsVec3 GetCenter(const YsArray <VertexHandle,N> &vtHdArray) const;
 
 	/*! Returns center (non-weight average) of the vertices of the polygon. */
 	const YsVec3 GetCenter(PolygonHandle plHd) const;
+
+	/*! Returns center of the polygon edge weighted.
+	    Center is calculated as Sigma(edgeLength*edgeCenter)/totalEdgeLength.
+	*/
+	const YsVec3 GetCenterEdgeWeighted(PolygonHandle plHd) const;
 
 	/*! Returns center of the edge. */
 	const YsVec3 GetCenter(VertexHandle edVtHd0,VertexHandle edVtHd1) const;

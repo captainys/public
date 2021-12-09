@@ -438,19 +438,28 @@ void YsPositiveVectorCalculator::AddVector(YsVec3 n)
 
 YSRESULT YsPositiveVectorCalculator::GetPositiveVector(YsVec3 &vec) const
 {
-	if(0<shl.GetNumPolygon())
+	vec=YsVec3(0.0,0.0,0.0);
+	YsShellPolygonHandle plHd=NULL;
+	while(NULL!=(plHd=shl.FindNextPolygon(plHd)))
 	{
-		vec=YsVec3(0.0,0.0,0.0);
-		YsShellPolygonHandle plHd=NULL;
-		while(NULL!=(plHd=shl.FindNextPolygon(plHd)))
-		{
-			YsVec3 cen;
-			shl.GetCenterOfPolygon(cen,plHd);
-			vec+=cen;
-		}
-		return vec.Normalize();
+		YsVec3 cen;
+		shl.GetCenterOfPolygon(cen,plHd);
+		vec+=cen;
 	}
-	return YSERR;
+	return vec.Normalize();
+}
+
+YSRESULT YsPositiveVectorCalculator::GetPositiveVectorAreaWeighted(YsVec3 &vec) const
+{
+	vec=YsVec3(0.0,0.0,0.0);
+	YsShellPolygonHandle plHd=NULL;
+	while(NULL!=(plHd=shl.FindNextPolygon(plHd)))
+	{
+		YsVec3 cen=shl.GetCenterEdgeWeighted(plHd);
+		cen*=shl.GetPolygonArea(plHd);
+		vec+=cen;
+	}
+	return vec.Normalize();
 }
 
 // See also positive-vector-2.docx
@@ -463,10 +472,10 @@ YSRESULT YsPositiveVectorCalculator::GetPositiveVector(YsVec3 &vec) const
 	YsArray <double,16> slope(nRefVec,NULL);
 	YsArray <double,16> dotProd(nRefVec,NULL);
 
-if(YsVec3(-0.921480,  -0.370117,   0.117849)==vecIn)
-{
-watch=true;
-}
+	//if(YsVec3(-0.921480,  -0.370117,   0.117849)==vecIn)
+	//{
+	//	watch=true;
+	//}
 
 	vecOut=vecIn;
 	if(true==watch)

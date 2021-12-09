@@ -1343,11 +1343,36 @@ const YsVec3 YsShell::GetCenter(YSSIZE_T nVt,const YsShellVertexHandle vtHd[]) c
 	return sum;
 }
 
+const YsVec3 YsShell::GetCenterEdgeWeighted(YSSIZE_T nVt,const YsShellVertexHandle vtHd[]) const
+{
+	double totalWeight=0.0;
+	auto total=YsVec3::Origin();
+	for(YSSIZE_T idx=0; idx<nVt; ++idx)
+	{
+		auto edgeCen=(GetVertexPosition(vtHd[idx])+GetVertexPosition(vtHd[(idx+1)%nVt]))/2.0;
+		auto len=GetEdgeLength(vtHd[idx],vtHd[(idx+1)%nVt]);
+		total+=edgeCen*len;
+		totalWeight+=len;
+	}
+	if(0.0<totalWeight)
+	{
+		total/=totalWeight;
+	}
+	return total;
+}
+
 const YsVec3 YsShell::GetCenter(YsShellPolygonHandle plHd) const
 {
 	YsArray <YsShellVertexHandle,4> plVtHd;
 	GetPolygon(plVtHd,plHd);
 	return GetCenter(plVtHd);
+}
+
+const YsVec3 YsShell::GetCenterEdgeWeighted(YsShellPolygonHandle plHd) const
+{
+	YsArray <YsShellVertexHandle,4> plVtHd;
+	GetPolygon(plVtHd,plHd);
+	return GetCenterEdgeWeighted(plVtHd.size(),plVtHd.data());
 }
 
 const YsVec3 YsShell::GetCenter(YsShellVertexHandle edVtHd0,YsShellVertexHandle edVtHd1) const
