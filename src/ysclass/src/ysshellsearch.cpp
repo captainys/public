@@ -1710,6 +1710,8 @@ YSRESULT YsShellSearchTable::Prepare(void)
 		vtxToPlg.Prepare();
 		edgToPlg.Prepare();
 		edgToPlg.edgeListAllocator.CollectGarbage();
+		texCoordSearch.PrepareTable();
+		texCoordToPlg.PrepareTable();
 	// 	vtxLstToPlg.Prepare();
 		return YSOK;
 	}
@@ -2218,6 +2220,15 @@ YSRESULT YsShellSearchTable::DeletePolygon(const YsShell &shl,YsShellPolygonHand
 	vtxToEdg.DeleteEdge(shl,vtHdLst[nVtHd-1],vtHdLst[0]);
 
 	return err;
+}
+
+YSRESULT YsShellSearchTable::AddTexCoord(const YsShell &shl,YsShell::TexCoordHandle tcHd)
+{
+	return texCoordSearch.Add(shl.GetSearchKey(tcHd),tcHd);
+}
+YSRESULT YsShellSearchTable::DeleteTexCoord(const YsShell &shl,YsShell::TexCoordHandle tcHd)
+{
+	return texCoordSearch.Delete(shl.GetSearchKey(tcHd),tcHd);
 }
 
 int YsShellSearchTable::GetNumEdge(const YsShell &) const

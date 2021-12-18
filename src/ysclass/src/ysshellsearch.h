@@ -343,6 +343,8 @@ public:
 	YSRESULT DeleteVertex(const YsShell &shl,YsShellVertexHandle vtHd);
 	YSRESULT AddPolygon(const YsShell &shl,YsShellPolygonHandle plHd);
 	YSRESULT DeletePolygon(const YsShell &shl,YsShellPolygonHandle plHd);
+	YSRESULT AddTexCoord(const YsShell &shl,YsShell::TexCoordHandle tcHd);
+	YSRESULT DeleteTexCoord(const YsShell &shl,YsShell::TexCoordHandle tcHd);
 
 	YsShellVertexHandle FindVertex(const YsShell &shl,unsigned searchKey) const;
 
@@ -442,6 +444,8 @@ protected:
 	YsShellPlgToPlgTable plgToPlg;
 	YsShellVtxToPlgTable vtxToPlg;
 	YsShellEdgToPlgTable edgToPlg;
+	YsHashTable <YsShell::TexCoordHandle> texCoordSearch;
+	YsHashTable <YsArray <YsShellPolygonHandle,4> > texCoordToPlg;
 // 	YsShellVtxLstToPlgTable vtxLstToPlg;
 
 

@@ -357,7 +357,10 @@ void YsShell::CommonInitialization(void)
 {
 	vtx.UseSharedSearchKeySeed(uniqueSearchKey);
 	plg.UseSharedSearchKeySeed(uniqueSearchKey);
+	texCoord.UseSharedSearchKeySeed(uniqueSearchKey);
 	YsHasTextMetaData::UseSharedSearchKeySeed(uniqueSearchKey);
+
+	texCoord.EnableSearch();
 
 	matrixIsSet=YSFALSE;
 	mat.Initialize();
@@ -424,12 +427,14 @@ void YsShell::Encache(void) const
 {
 	plg.Encache();
 	vtx.Encache();
+	texCoord.Encache();
 }
 
 void YsShell::Decache(void) const
 {
 	plg.Decache();
 	vtx.Decache();
+	texCoord.Decache();
 }
 
 
@@ -846,6 +851,55 @@ YSRESULT YsShell::ModifyVertexPosition(YsShellVertexHandle vtHd,const YsVec3 &ne
 	}
 	return YSERR;
 }
+
+YSRESULT YsShell::SetVertexPosition(VertexHandle vtHd,const YsVec3 &neoPos)
+{
+	return ModifyVertexPosition(vtHd,neoPos);
+}
+YsShell::TexCoordHandle YsShell::AddTexCoord(const YsVec2 &uv)
+{
+	auto tcHd=texCoord.Create();
+	texCoord[tcHd]->texCoord=uv;
+	texCoord[tcHd]->refCount=0;
+	texCoord[tcHd]->refCountFrozen=0;
+	return tcHd;
+}
+YSRESULT YsShell::DeleteTexCoord(TexCoordHandle tcHd)
+{
+	auto ptr=texCoord[tcHd];
+	if(nullptr!=ptr)
+	{
+		if(0==ptr->refCount+ptr->refCountFrozen)
+		{
+			return texCoord.Delete(tcHd);
+		}
+	}
+	return YSERR;
+}
+YSRESULT YsShell::SetTexCoord(TexCoordHandle tcHd,const YsVec2 &uv)
+{
+	auto ptr=texCoord[tcHd];
+	if(nullptr!=ptr)
+	{
+		ptr->texCoord=uv;
+		return YSOK;
+	}
+	return YSERR;
+}
+YsShell::TexCoordHandle YsShell::FindTexCoord(YSHASHKEY key) const
+{
+	return texCoord.FindObject(key);
+}
+YsVec2 YsShell::GetTexCoordUV(TexCoordHandle tcHd) const
+{
+	auto ptr=texCoord[tcHd];
+	if(nullptr!=ptr)
+	{
+		return ptr->texCoord;
+	}
+	return YsVec2::Origin();
+}
+
 
 YsShellPolygonHandle YsShell::AddPolygonVertex(YSSIZE_T nv,const YsVec3 v[],int fa3,const int fa4[])
 {
@@ -2889,6 +2943,11 @@ YSHASHKEY YsShell::GetSearchKey(VertexHandle vtHd) const
 YSHASHKEY YsShell::GetSearchKey(YsShellPolygonHandle plHd) const
 {
 	return plg.GetSearchKey(plHd);
+}
+
+YSHASHKEY YsShell::GetSearchKey(TexCoordHandle tcHd) const
+{
+	return texCoord.GetSearchKey(tcHd);
 }
 
 YSHASHKEY YsShell::GetSearchKeyMaybeFrozen(YsShellVertexHandle vtHd) const

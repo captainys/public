@@ -177,6 +177,20 @@ protected:
 #endif
 };
 
+////////////////////////////////////////////////////////////
+
+class YsShellTexCoord
+{
+public:
+	YsVec2 texCoord;
+	int refCount=0;
+	int refCountFrozen=0;
+
+	YSHASHKEY GetSearchKey(void) const;
+};
+
+////////////////////////////////////////////////////////////
+
 class YsShellReadSrfVariable
 {
 public:
@@ -315,6 +329,10 @@ public:
 	*/
 	typedef YsEditArrayObjectHandle <YsShellPolygon> PolygonHandle;
 
+	/*!
+	*/
+	typedef YsEditArrayObjectHandle <YsShellTexCoord> TexCoordHandle;
+
 public:
 	class Condition
 	{
@@ -349,6 +367,8 @@ protected:
 
 	YsEditArray <YsShellPolygon> plg;
 	mutable PolygonHandle currentPlHd;
+
+	YsEditArray <YsShellTexCoord> texCoord;
 // }
 
 
@@ -912,6 +932,13 @@ public:
 	YSRESULT ModifyVertexPosition(int vtId,const YsVec3 &neoPos);
 	YSRESULT ModifyVertexPosition(VertexHandle vtHd,const YsVec3 &neoPos);
 
+	YSRESULT SetVertexPosition(VertexHandle vtHd,const YsVec3 &neoPos);
+	TexCoordHandle AddTexCoord(const YsVec2 &uv);
+	YSRESULT DeleteTexCoord(TexCoordHandle tcHd);
+	YSRESULT SetTexCoord(TexCoordHandle tcHd,const YsVec2 &uv);
+	TexCoordHandle FindTexCoord(YSHASHKEY key) const;
+	YsVec2 GetTexCoordUV(TexCoordHandle tcHd) const;
+
 	/*! Modifies the vertex list of the polygon.
 	    (Made function name consistent with YsShellExt class.)
 	*/
@@ -1205,6 +1232,7 @@ public:
 
 	YSHASHKEY GetSearchKey(VertexHandle vtHd) const;
 	YSHASHKEY GetSearchKey(PolygonHandle plHd) const;
+	YSHASHKEY GetSearchKey(TexCoordHandle tcHd) const;
 
 	/*! This function returns a search key of the vertex pointed by vtHd even if the vertex is frozen. 
 	    GetSearchKey returns a search key only when vtHd is not frozen. */
