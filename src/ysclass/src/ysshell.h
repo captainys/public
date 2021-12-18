@@ -144,9 +144,24 @@ protected:
 #endif
 };
 
+////////////////////////////////////////////////////////////
+
+class YsShellTexCoord
+{
+public:
+	YsVec2 texCoord;
+	int refCount=0;
+	int refCountFrozen=0;
+
+	YSHASHKEY GetSearchKey(void) const;
+};
+
 // Declaration /////////////////////////////////////////////
 class YsShellPolygon : public YsShellItem
 {
+friend class YsShell;
+friend class YsShellSearchTable;
+
 public:
 	YsShellPolygon();
 	void Initialize(void);
@@ -172,21 +187,10 @@ public:
 protected:
 	YsVec3 nom;
 	YsArray <YsEditArrayObjectHandle <YsShellVertex>,4> idx;
+	YsArray <YsEditArrayObjectHandle <YsShellTexCoord>,4> texCoord;
 #ifndef YSLOWMEM
 	YsColor col;
 #endif
-};
-
-////////////////////////////////////////////////////////////
-
-class YsShellTexCoord
-{
-public:
-	YsVec2 texCoord;
-	int refCount=0;
-	int refCountFrozen=0;
-
-	YSHASHKEY GetSearchKey(void) const;
 };
 
 ////////////////////////////////////////////////////////////
@@ -896,6 +900,172 @@ public:
 
 
 
+	/*! Support for STL-like iterator */
+	class TexCoordEnumerator
+	{
+	public:
+		const YsShell *shl;
+
+		class iterator
+		{
+		public:
+			const YsShell *shl;
+			TexCoordHandle prev,plHd,next;
+			int dir;
+		private:
+			inline void Forward(void)
+			{
+				if(0<=dir)
+				{
+					prev=plHd;
+					plHd=next;
+					next=shl->FindNextTexCoord(plHd);
+				}
+				else
+				{
+					next=plHd;
+					plHd=prev;
+					prev=shl->FindPrevTexCoord(plHd);
+				}
+			}
+			inline void Backward(void)
+			{
+				if(0<=dir)
+				{
+					next=plHd;
+					plHd=prev;
+					prev=shl->FindPrevTexCoord(plHd);
+				}
+				else
+				{
+					prev=plHd;
+					plHd=next;
+					next=shl->FindNextTexCoord(plHd);
+				}
+			}
+		public:
+			inline iterator &operator++()
+			{
+				Forward();
+				return *this;
+			}
+			inline iterator operator++(int)
+			{
+				iterator copy=*this;
+				Forward();
+				return copy;
+			}
+			inline iterator &operator--()
+			{
+				Backward();
+				return *this;
+			}
+			inline iterator operator--(int)
+			{
+				iterator copy=*this;
+				Backward();
+				return copy;
+			}
+			inline bool operator==(const iterator &from)
+			{
+				return (shl==from.shl && plHd==from.plHd);
+			}
+			inline bool operator!=(const iterator &from)
+			{
+				return (shl!=from.shl || plHd!=from.plHd);
+			}
+			inline TexCoordHandle &operator*()
+			{
+				return plHd;
+			}
+		};
+
+		/*! Support for STL-like iterator */
+		inline iterator begin() const
+		{
+			iterator iter;
+			iter.shl=shl;
+			iter.prev=NULL;
+			iter.plHd=shl->FindNextTexCoord(NULL);
+			iter.next=shl->FindNextTexCoord(iter.plHd);
+			iter.dir=1;
+			return iter;
+		}
+
+		/*! Support for STL-like iterator */
+		inline iterator end() const
+		{
+			iterator iter;
+			iter.shl=shl;
+			iter.prev=NULL;
+			iter.plHd=NULL;
+			iter.next=NULL;
+			iter.dir=1;
+			return iter;
+		}
+
+		/*! Support for STL-like iterator */
+		inline iterator rbegin() const
+		{
+			iterator iter;
+			iter.shl=shl;
+			iter.next=NULL;
+			iter.plHd=shl->FindPrevTexCoord(NULL);
+			iter.prev=shl->FindPrevTexCoord(iter.plHd);
+			iter.dir=-1;
+			return iter;
+		}
+
+		/*! Support for STL-like iterator */
+		inline iterator rend() const
+		{
+			iterator iter;
+			iter.shl=shl;
+			iter.prev=NULL;
+			iter.plHd=NULL;
+			iter.next=NULL;
+			iter.dir=-1;
+			return iter;
+		}
+
+		YsArray <TexCoordHandle> Array(void) const
+		{
+			YsArray <TexCoordHandle> hdArray(shl->GetNumTexCoord(),NULL);
+			YSSIZE_T idx=0;
+			for(auto hd=begin(); hd!=end(); ++hd)
+			{
+				hdArray[idx]=*hd;
+				++idx;
+			}
+			return hdArray;
+		}
+	};
+
+	/*! Support for STL-like iterator 
+	    TexCoords can be iterated by: 
+	    YsShell shl; or const YsShell shl;
+	    for(auto plIter=shl.AllTexCoord().begin(); plIter!=shl.AllTexCoord().end(); ++plIter)
+	    {
+			(*plIter) is a TexCoordHandle in the loop.
+	    }
+
+		Or, with range-based for loop:
+	    for(auto plHd : shl.AllTexCoord())
+	    {
+			plHd is a TexCoordHandle in the loop.
+	    }
+
+		Since the iterator caches the next TexCoord handle in itself, it is safe to delete a TexCoord inside the loop.
+	    */
+	inline const TexCoordEnumerator AllTexCoord(void) const
+	{
+		TexCoordEnumerator allTexCoord;
+		allTexCoord.shl=this;
+		return allTexCoord;
+	}
+
+
+
 public:
 	YsShell();
 	YsShell(const YsShell &from);
@@ -932,12 +1102,17 @@ public:
 	YSRESULT ModifyVertexPosition(int vtId,const YsVec3 &neoPos);
 	YSRESULT ModifyVertexPosition(VertexHandle vtHd,const YsVec3 &neoPos);
 
+	YSSIZE_T GetNumTexCoord(void) const;
 	YSRESULT SetVertexPosition(VertexHandle vtHd,const YsVec3 &neoPos);
 	TexCoordHandle AddTexCoord(const YsVec2 &uv);
 	YSRESULT DeleteTexCoord(TexCoordHandle tcHd);
 	YSRESULT SetTexCoord(TexCoordHandle tcHd,const YsVec2 &uv);
 	TexCoordHandle FindTexCoord(YSHASHKEY key) const;
 	YsVec2 GetTexCoordUV(TexCoordHandle tcHd) const;
+	void SetPolygonTexCoord(PolygonHandle plHd,YSSIZE_T nt,const TexCoordHandle t[]);
+	void SetPolygonTexCoord(PolygonHandle plHd,const YsConstArrayMask <TexCoordHandle> &plTcHd);
+	TexCoordHandle FindNextTexCoord(TexCoordHandle tcHd) const;
+	TexCoordHandle FindPrevTexCoord(TexCoordHandle tcHd) const;
 
 	/*! Modifies the vertex list of the polygon.
 	    (Made function name consistent with YsShellExt class.)
@@ -1684,6 +1859,30 @@ inline YsShell::PolygonEnumerator::iterator rbegin(const YsShell::PolygonEnumera
 inline YsShell::PolygonEnumerator::iterator rend(const YsShell::PolygonEnumerator &allPolygon)
 {
 	return allPolygon.rend();
+}
+
+/*! Support for STL-like iterator */
+inline YsShell::TexCoordEnumerator::iterator begin(const YsShell::TexCoordEnumerator &allTexCoord)
+{
+	return allTexCoord.begin();
+}
+
+/*! Support for STL-like iterator */
+inline YsShell::TexCoordEnumerator::iterator end(const YsShell::TexCoordEnumerator &allTexCoord)
+{
+	return allTexCoord.end();
+}
+
+/*! Support for STL-like iterator */
+inline YsShell::TexCoordEnumerator::iterator rbegin(const YsShell::TexCoordEnumerator &allTexCoord)
+{
+	return allTexCoord.rbegin();
+}
+
+/*! Support for STL-like iterator */
+inline YsShell::TexCoordEnumerator::iterator rend(const YsShell::TexCoordEnumerator &allTexCoord)
+{
+	return allTexCoord.rend();
 }
 
 ////////////////////////////////////////////////////////////

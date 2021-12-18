@@ -2222,13 +2222,44 @@ YSRESULT YsShellSearchTable::DeletePolygon(const YsShell &shl,YsShellPolygonHand
 	return err;
 }
 
-YSRESULT YsShellSearchTable::AddTexCoord(const YsShell &shl,YsShell::TexCoordHandle tcHd)
+YSRESULT YsShellSearchTable::AddPolygonTexCoord(const YsShell &shl,YsShellPolygonHandle plHd)
 {
-	return texCoordSearch.Add(shl.GetSearchKey(tcHd),tcHd);
+	auto plg=shl.GetPolygon(plHd);
+	for(auto tcHd : plg->texCoord)
+	{
+		auto found=texCoordToPlg[shl.GetSearchKey(tcHd)];
+		if(nullptr!=found)
+		{
+			found->push_back(plHd);
+		}
+		else
+		{
+			YsArray <YsShell::PolygonHandle> tcPlHd;
+			tcPlHd.push_back(plHd);
+			texCoordToPlg.Add(shl.GetSearchKey(tcHd),tcPlHd);
+		}
+	}
+	return YSOK;
 }
-YSRESULT YsShellSearchTable::DeleteTexCoord(const YsShell &shl,YsShell::TexCoordHandle tcHd)
+YSRESULT YsShellSearchTable::DeletePolygonTexCoord(const YsShell &shl,YsShellPolygonHandle plHd)
 {
-	return texCoordSearch.Delete(shl.GetSearchKey(tcHd),tcHd);
+	auto plg=shl.GetPolygon(plHd);
+	for(auto tcHd : plg->texCoord)
+	{
+		auto found=texCoordToPlg[shl.GetSearchKey(tcHd)];
+		if(nullptr!=found)
+		{
+			for(YSSIZE_T i=0; i<found->size(); ++i)
+			{
+				if((*found)[i]==plHd)
+				{
+					found->DeleteBySwapping(i);
+					break;
+				}
+			}
+		}
+	}
+	return YSOK;
 }
 
 int YsShellSearchTable::GetNumEdge(const YsShell &) const
@@ -2301,3 +2332,14 @@ YSBOOL YsShellSearchTable::CheckPolygonExist(const YsShell &shl,int nPlVt,const 
 
 ////////////////////////////////////////////////////////////
 
+YsConstArrayMask <YsShell::PolygonHandle> YsShellSearchTable::FindPolygonFromTexCoord(YsShell::TexCoordHandle tcHd) const
+{
+	auto found=texCoordToPlg[attachedShell->GetSearchKey(tcHd)];
+	if(nullptr!=found)
+	{
+		YsConstArrayMask <YsShell::PolygonHandle> ary(found->size(),found->data());
+		return ary;
+	}
+	YsConstArrayMask <YsShell::PolygonHandle> ary(0,nullptr);
+	return ary;
+}
