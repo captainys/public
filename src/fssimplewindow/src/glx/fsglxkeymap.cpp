@@ -230,6 +230,23 @@ void FsXCreateKeyMapping(void)
 	FsXAddKeyMapping(FSKEY_TENPLUS,             XK_KP_Add);
 	FsXAddKeyMapping(FSKEY_TENENTER,            XK_KP_Enter);
 
+	FsXAddKeyMapping(FSKEY_TEN0,                XK_KP_Insert);
+	FsXAddKeyMapping(FSKEY_TEN1,                XK_KP_End);
+	FsXAddKeyMapping(FSKEY_TEN2,                XK_KP_Down);
+	FsXAddKeyMapping(FSKEY_TEN3,                XK_KP_Page_Down);
+	FsXAddKeyMapping(FSKEY_TEN4,                XK_KP_Left);
+	FsXAddKeyMapping(FSKEY_TEN5,                XK_KP_Begin);
+	FsXAddKeyMapping(FSKEY_TEN6,                XK_KP_Right);
+	FsXAddKeyMapping(FSKEY_TEN7,                XK_KP_Home);
+	FsXAddKeyMapping(FSKEY_TEN8,                XK_KP_Up);
+	FsXAddKeyMapping(FSKEY_TEN9,                XK_KP_Page_Up);
+	FsXAddKeyMapping(FSKEY_TENDOT,              XK_KP_Delete);
+	// FsXAddKeyMapping(FSKEY_TENSLASH,            XK_KP_Divide);
+	// FsXAddKeyMapping(FSKEY_TENSTAR,             XK_KP_Multiply);
+	// FsXAddKeyMapping(FSKEY_TENMINUS,            XK_KP_Subtract);
+	// FsXAddKeyMapping(FSKEY_TENPLUS,             XK_KP_Add);
+	// FsXAddKeyMapping(FSKEY_TENENTER,            XK_KP_Enter);
+
 	FsXAddKeyMapping(FSKEY_CONVERT,             XK_Henkan);
 	FsXAddKeyMapping(FSKEY_NONCONVERT,          XK_Muhenkan);
 	FsXAddKeyMapping(FSKEY_KANA,                XK_Kana_Lock);
