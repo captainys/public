@@ -156,6 +156,8 @@ public:
 	YsArray <YsShell::VertexHandle> vtHdArray;
 	YsArray <YsShell::TexCoordHandle> tcHdArray;
 	YsArray <YsVec3> nomArray;  // Stores normals from "vn" tag.  For future versions.
+	YsString mtllib;
+	YsString usemtl; // Incomplete.
 
 	YSBOOL inPlGrp;
 	YsString currentPlGrpName;
