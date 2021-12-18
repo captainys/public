@@ -1135,8 +1135,8 @@ void YsShellExtObjReader::BeginReadObj(const ReadOption &option)
 {
 	this->option=option;
 	vtHdArray.CleanUp();
+	tcHdArray.CleanUp();
 	nomArray.CleanUp();
-	texCoordArray.CleanUp();
 
 	inPlGrp=YSFALSE;
 	currentPlGrpName.Set("");
@@ -1174,12 +1174,13 @@ YSRESULT YsShellExtObjReader::ReadObjOneLine(YsShellExt &shl,YsString &str)
 			{
 				return YSERR;
 			}
-			YsVec2 tex(args[1],args[2]);
-			texCoordArray.Append(tex);
+			YsVec2 pos(args[1],args[2]);
+			tcHdArray.push_back(shl.AddTexCoord(pos));
 		}
 		else if(0==strcmp(args[0],"f"))
 		{
-			YsArray <YsShellVertexHandle> plVtHdArray;
+			YsArray <YsShell::VertexHandle> plVtHdArray;
+			YsArray <YsShell::TexCoordHandle> tcHdArray;
 			for(int idx=1; idx<args.GetN(); ++idx)
 			{
 				int vtIdx,texCoordIdx,nomIdx;
@@ -1197,12 +1198,20 @@ YSRESULT YsShellExtObjReader::ReadObjOneLine(YsShellExt &shl,YsString &str)
 				{
 					return YSERR;
 				}
+				if(YSTRUE==tcHdArray.IsInRange(texCoordIdx))
+				{
+					tcHdArray.push_back(tcHdArray[texCoordIdx]);
+				}
 			}
 
 			auto plHd=shl.AddPolygon(plVtHdArray);
 			if(YSTRUE==inPlGrp)
 			{
 				currentPlGrp.Append(plHd);
+			}
+			if(tcHdArray.size()==plVtHdArray.size())
+			{
+				shl.SetPolygonTexCoord(plHd,tcHdArray);
 			}
 		}
 		else if(0==args[0].STRCMP("L"))

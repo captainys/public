@@ -193,6 +193,17 @@ public:
 	using YsShell::MetaDataEnumerator;
 	using YsShell::AllMetaData;
 
+	using YsShell::GetNumTexCoord;
+	using YsShell::SetVertexPosition;
+	using YsShell::AddTexCoord;
+	using YsShell::DeleteTexCoord;
+	using YsShell::SetTexCoord;
+	using YsShell::FindTexCoord;
+	using YsShell::GetTexCoordUV;
+	using YsShell::SetPolygonTexCoord;
+	using YsShell::FindNextTexCoord;
+	using YsShell::FindPrevTexCoord;
+
 public:
 	// ConstEdgeStore, FaceGrouopStore, and VolumeStore stores search keys.
 	// Therefore, the same storage is valid for a clone shell.

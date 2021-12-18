@@ -153,9 +153,9 @@ public:
 	};
 
 	ReadOption option;
-	YsArray <YsShellVertexHandle> vtHdArray;
+	YsArray <YsShell::VertexHandle> vtHdArray;
+	YsArray <YsShell::TexCoordHandle> tcHdArray;
 	YsArray <YsVec3> nomArray;  // Stores normals from "vn" tag.  For future versions.
-	YsArray <YsVec2> texCoordArray;  // Stores normals from "vt" tag.  For future versions.
 
 	YSBOOL inPlGrp;
 	YsString currentPlGrpName;
