@@ -193,6 +193,8 @@ public:
 	using YsShell::MetaDataEnumerator;
 	using YsShell::AllMetaData;
 
+	using YsShell::AllTexCoord;
+	using YsShell::GetTexCoordIdFromHandle;
 	using YsShell::GetNumTexCoord;
 	using YsShell::SetVertexPosition;
 	using YsShell::AddTexCoord;
@@ -201,6 +203,7 @@ public:
 	using YsShell::FindTexCoord;
 	using YsShell::GetTexCoordUV;
 	using YsShell::SetPolygonTexCoord;
+	using YsShell::GetPolygonTexCoord;
 	using YsShell::FindNextTexCoord;
 	using YsShell::FindPrevTexCoord;
 

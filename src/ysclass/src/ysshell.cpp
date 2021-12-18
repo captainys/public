@@ -559,6 +559,18 @@ int YsShell::GetVertexIdFromHandle(VertexHandle vtHd) const
 	}
 }
 
+int YsShell::GetTexCoordIdFromHandle(TexCoordHandle tcHd) const
+{
+	if(nullptr!=tcHd)
+	{
+		return (int)texCoord.GetIndexFromHandle(tcHd);
+	}
+	else
+	{
+		return -1;
+	}
+}
+
 int YsShell::GetPolygonIdFromHandle(YsShellPolygonHandle plHd) const
 {
 	if(plHd!=NULL)
@@ -932,6 +944,18 @@ void YsShell::SetPolygonTexCoord(PolygonHandle plHd,YSSIZE_T nt,const TexCoordHa
 void YsShell::SetPolygonTexCoord(PolygonHandle plHd,const YsConstArrayMask <TexCoordHandle> &plTcHd)
 {
 	SetPolygonTexCoord(plHd,plTcHd.size(),plTcHd.data());
+}
+
+YsConstArrayMask <YsShell::TexCoordHandle> YsShell::GetPolygonTexCoord(PolygonHandle plHd) const
+{
+	auto *plg=GetPolygon(plHd);
+	if(nullptr!=plg)
+	{
+		YsConstArrayMask <TexCoordHandle> ary(plg->texCoord.size(),plg->texCoord.data());
+		return ary;
+	}
+	YsConstArrayMask <TexCoordHandle> ary(0,nullptr);
+	return ary;
 }
 
 YsShell::TexCoordHandle YsShell::FindNextTexCoord(TexCoordHandle tcHd) const

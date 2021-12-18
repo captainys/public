@@ -200,6 +200,7 @@ private:
 
 	void BeginWriteObj(const WriteOption &option);
 	void WriteVertex(YsTextOutputStream &outStream,const YsShellExt &shl);
+	void WriteTexCoord(YsTextOutputStream &outStream,const YsShellExt &shl);
 	void MakeNormalArray(const YsShellExt &shl);
 	void WriteNormal(YsTextOutputStream &outStream);
 	void SortPolygonByFaceGroupKey(const YsShellExt &shl);

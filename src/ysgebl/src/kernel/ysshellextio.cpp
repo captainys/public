@@ -1354,6 +1354,15 @@ void YsShellExtObjWriter::WriteVertex(YsTextOutputStream &outStream,const YsShel
 	}
 }
 
+void YsShellExtObjWriter::WriteTexCoord(YsTextOutputStream &outStream,const YsShellExt &shl)
+{
+	for(auto tcHd : shl.AllTexCoord())
+	{
+		auto tcPos=shl.GetTexCoordUV(tcHd);
+		outStream.Printf("vt %.10lf %.10lf\n",tcPos.x(),tcPos.y());
+	}
+}
+
 void YsShellExtObjWriter::MakeNormalArray(const YsShellExt &shl)
 {
 	for(auto vtHd : shl.AllVertex())
@@ -1428,22 +1437,36 @@ void YsShellExtObjWriter::WritePolygon(YsTextOutputStream &outStream,const YsShe
 		}
 
 		auto plVtHd=shl.GetPolygonVertex(plHdArray[idx]);
+		auto tcVtHd=shl.GetPolygonTexCoord(plHdArray[idx]);
 		outStream.Printf("f");
-		for(auto vtHd : plVtHd)
+		for(YSSIZE_T i=0; i<plVtHd.size(); ++i)
 		{
+			auto vtHd=plVtHd[i];
 			int vtIdx=shl.GetVertexIdFromHandle(vtHd);
 			int nomIdx=-1;
+			int texCoordIdx=-1;
 			vtKeyToNomIdx.FindElement(nomIdx,shl.GetSearchKey(vtHd));
 
-			++vtIdx;
-			++nomIdx;
-			if(YSTRUE==nomArray.IsInRange(nomIdx))
+			if(i<tcVtHd.size() && nullptr!=tcVtHd[i])
 			{
-				outStream.Printf(" %d//%d",vtIdx,nomIdx);
+				texCoordIdx=shl.GetTexCoordIdFromHandle(tcVtHd[i]);
+			}
+
+			outStream.Printf(" %d",vtIdx+1);
+			if(0<=texCoordIdx)
+			{
+				outStream.Printf("/%d",texCoordIdx+1);
+				if(YSTRUE==nomArray.IsInRange(nomIdx+1))
+				{
+					outStream.Printf("/%d",nomIdx+1);
+				}
 			}
 			else
 			{
-				outStream.Printf(" %d",vtIdx);
+				if(YSTRUE==nomArray.IsInRange(nomIdx+1))
+				{
+					outStream.Printf("//%d",vtIdx+1,nomIdx+1);
+				}
 			}
 		}
 		outStream.Printf("\n");
@@ -1483,6 +1506,7 @@ YSRESULT YsShellExtObjWriter::WriteObj(YsTextOutputStream &outStream,const YsShe
 	BeginWriteObj(option);
 
 	WriteVertex(outStream,shl);
+	WriteTexCoord(outStream,shl);
 	MakeNormalArray(shl);
 	WriteNormal(outStream);
 	SortPolygonByFaceGroupKey(shl);

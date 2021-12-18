@@ -1111,6 +1111,7 @@ public:
 	YsVec2 GetTexCoordUV(TexCoordHandle tcHd) const;
 	void SetPolygonTexCoord(PolygonHandle plHd,YSSIZE_T nt,const TexCoordHandle t[]);
 	void SetPolygonTexCoord(PolygonHandle plHd,const YsConstArrayMask <TexCoordHandle> &plTcHd);
+	YsConstArrayMask <TexCoordHandle> GetPolygonTexCoord(PolygonHandle plHd) const;
 	TexCoordHandle FindNextTexCoord(TexCoordHandle tcHd) const;
 	TexCoordHandle FindPrevTexCoord(TexCoordHandle tcHd) const;
 
@@ -1246,6 +1247,7 @@ public:
 
 	int GetVertexIdFromHandle(VertexHandle vtx) const;
 	int GetPolygonIdFromHandle(PolygonHandle plg) const;
+	int GetTexCoordIdFromHandle(TexCoordHandle tcHd) const;
 	VertexHandle GetVertexHandleFromId(YSSIZE_T vtId) const;
 	PolygonHandle GetPolygonHandleFromId(YSSIZE_T plId) const;
 
