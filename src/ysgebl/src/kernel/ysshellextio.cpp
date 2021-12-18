@@ -1180,7 +1180,7 @@ YSRESULT YsShellExtObjReader::ReadObjOneLine(YsShellExt &shl,YsString &str)
 		else if(0==strcmp(args[0],"f"))
 		{
 			YsArray <YsShell::VertexHandle> plVtHdArray;
-			YsArray <YsShell::TexCoordHandle> tcHdArray;
+			YsArray <YsShell::TexCoordHandle> plTcHdArray;
 			for(int idx=1; idx<args.GetN(); ++idx)
 			{
 				int vtIdx,texCoordIdx,nomIdx;
@@ -1200,7 +1200,7 @@ YSRESULT YsShellExtObjReader::ReadObjOneLine(YsShellExt &shl,YsString &str)
 				}
 				if(YSTRUE==tcHdArray.IsInRange(texCoordIdx))
 				{
-					tcHdArray.push_back(tcHdArray[texCoordIdx]);
+					plTcHdArray.push_back(tcHdArray[texCoordIdx]);
 				}
 			}
 
@@ -1209,9 +1209,9 @@ YSRESULT YsShellExtObjReader::ReadObjOneLine(YsShellExt &shl,YsString &str)
 			{
 				currentPlGrp.Append(plHd);
 			}
-			if(tcHdArray.size()==plVtHdArray.size())
+			if(plTcHdArray.size()==plVtHdArray.size())
 			{
-				shl.SetPolygonTexCoord(plHd,tcHdArray);
+				shl.SetPolygonTexCoord(plHd,plTcHdArray);
 			}
 		}
 		else if(0==args[0].STRCMP("L"))
