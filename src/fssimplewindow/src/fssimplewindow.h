@@ -207,7 +207,13 @@ FSKEY_NUM_KEYCODE
 	#endif
 
 	#ifndef FSSIMPLEWINDOW_DONT_INCLUDE_OPENGL_HEADERS
-		#ifdef _WIN32
+		#ifdef YS_TESTCOMPILE_VC
+			#define APIENTRY
+			#define WINGDIAPI
+			#define CALLBACK
+			#include <GL/gl.h>
+			#include <GL/glu.h>
+		#elif defined(_WIN32)
 			#ifndef WIN32_LEAN_AND_MEAN
 				// Prevent inclusion of winsock.h
 				#define WIN32_LEAN_AND_MEAN

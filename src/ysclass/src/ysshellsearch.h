@@ -343,6 +343,8 @@ public:
 	YSRESULT DeleteVertex(const YsShell &shl,YsShellVertexHandle vtHd);
 	YSRESULT AddPolygon(const YsShell &shl,YsShellPolygonHandle plHd);
 	YSRESULT DeletePolygon(const YsShell &shl,YsShellPolygonHandle plHd);
+	YSRESULT AddPolygonTexCoord(const YsShell &shl,YsShellPolygonHandle plHd);
+	YSRESULT DeletePolygonTexCoord(const YsShell &shl,YsShellPolygonHandle plHd);
 
 	YsShellVertexHandle FindVertex(const YsShell &shl,unsigned searchKey) const;
 
@@ -433,6 +435,8 @@ public:
 	    (YsArray <YsShellPolygonHandle,minSize> &plHdList,
 	     const YsShell &shl,int nPlVt,const YsShellVertexHandle plVtHd[]) const;
 
+	YsConstArrayMask <YsShell::PolygonHandle> FindPolygonFromTexCoord(YsShell::TexCoordHandle tcHd) const;
+
 // 	YSBOOL GetOverlapWarning(void) const;
 // 	void ClearOverlapWarning(void) const;
 
@@ -442,6 +446,8 @@ protected:
 	YsShellPlgToPlgTable plgToPlg;
 	YsShellVtxToPlgTable vtxToPlg;
 	YsShellEdgToPlgTable edgToPlg;
+	YsHashTable <YsShell::TexCoordHandle> texCoordSearch;
+	YsHashTable <YsArray <YsShellPolygonHandle,4> > texCoordToPlg;
 // 	YsShellVtxLstToPlgTable vtxLstToPlg;
 
 

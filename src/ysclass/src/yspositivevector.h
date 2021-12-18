@@ -100,6 +100,13 @@ public:
 	    YSERR and the content of vec will be undefined.  */
 	YSRESULT GetPositiveVector(YsVec3 &vec) const;
 
+	/*! Returns a vector that the dot (inner) product is always positive for 
+	    all reference vectors.  If no such vector exists, this function returns
+	    YSERR and the content of vec will be undefined.  
+	    This function calculates area-weighted sum of the normal vectors of the remaining polygons.
+	*/
+	YSRESULT GetPositiveVectorAreaWeighted(YsVec3 &vec) const;
+
 	/*! After finding a positive vector, this function tries to maximize the minimum of vecOut*refVec[i].  
 	    All refVec[i] need to be normalized before given to this function.  Or the result may be meaningless.
 	    Constraint vectors will limit the direction so that vecOut*constVec[i] will be zero or greater.  */

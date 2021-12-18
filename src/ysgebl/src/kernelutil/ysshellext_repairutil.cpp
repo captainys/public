@@ -2,7 +2,7 @@
 
 
 
-void YsShellExt_IdenticalPolygonRemover::MakeDuplicatePolygonList(const YsShellExt &shl,YSBOOL takeReverse)
+void YsShellExt_IdenticalPolygonRemover::MakeDuplicatePolygonList(const YsShellExt &shl,YSBOOL takeReverse,YSBOOL setToDeleteSource)
 {
 	toDel.CleanUp();
 	toDel.SetShell(shl.Conv());
@@ -20,6 +20,10 @@ void YsShellExt_IdenticalPolygonRemover::MakeDuplicatePolygonList(const YsShellE
 				   YSTRUE==YsCheckSamePolygon<YsShell::VertexHandle>(plVtHd.size(),plVtHd.data(),plVtHdCmp.data(),takeReverse))
 				{
 					toDel.Add(plHdCmp);
+					if(YSTRUE==setToDeleteSource)
+					{
+						toDel.Add(plHd);
+					}
 				}
 			}
 		}

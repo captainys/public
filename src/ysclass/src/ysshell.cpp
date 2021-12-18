@@ -357,7 +357,10 @@ void YsShell::CommonInitialization(void)
 {
 	vtx.UseSharedSearchKeySeed(uniqueSearchKey);
 	plg.UseSharedSearchKeySeed(uniqueSearchKey);
+	texCoord.UseSharedSearchKeySeed(uniqueSearchKey);
 	YsHasTextMetaData::UseSharedSearchKeySeed(uniqueSearchKey);
+
+	texCoord.EnableSearch();
 
 	matrixIsSet=YSFALSE;
 	mat.Initialize();
@@ -424,12 +427,14 @@ void YsShell::Encache(void) const
 {
 	plg.Encache();
 	vtx.Encache();
+	texCoord.Encache();
 }
 
 void YsShell::Decache(void) const
 {
 	plg.Decache();
 	vtx.Decache();
+	texCoord.Decache();
 }
 
 
@@ -457,6 +462,7 @@ YSRESULT YsShell::AttachSearchTable(YsShellSearchTable *search) const
 			while((plHd=FindNextPolygon(plHd))!=NULL)
 			{
 				search->AddPolygon(*this,plHd);
+				search->AddPolygonTexCoord(*this,plHd);
 			}
 
 			return YSOK;
@@ -846,6 +852,97 @@ YSRESULT YsShell::ModifyVertexPosition(YsShellVertexHandle vtHd,const YsVec3 &ne
 	}
 	return YSERR;
 }
+
+YSRESULT YsShell::SetVertexPosition(VertexHandle vtHd,const YsVec3 &neoPos)
+{
+	return ModifyVertexPosition(vtHd,neoPos);
+}
+
+YSSIZE_T YsShell::GetNumTexCoord(void) const
+{
+	return texCoord.size();
+}
+YsShell::TexCoordHandle YsShell::AddTexCoord(const YsVec2 &uv)
+{
+	auto tcHd=texCoord.Create();
+	texCoord[tcHd]->texCoord=uv;
+	texCoord[tcHd]->refCount=0;
+	texCoord[tcHd]->refCountFrozen=0;
+	return tcHd;
+}
+YSRESULT YsShell::DeleteTexCoord(TexCoordHandle tcHd)
+{
+	auto ptr=texCoord[tcHd];
+	if(nullptr!=ptr)
+	{
+		if(0==ptr->refCount+ptr->refCountFrozen)
+		{
+			return texCoord.Delete(tcHd);
+		}
+	}
+	return YSERR;
+}
+YSRESULT YsShell::SetTexCoord(TexCoordHandle tcHd,const YsVec2 &uv)
+{
+	auto ptr=texCoord[tcHd];
+	if(nullptr!=ptr)
+	{
+		ptr->texCoord=uv;
+		return YSOK;
+	}
+	return YSERR;
+}
+YsShell::TexCoordHandle YsShell::FindTexCoord(YSHASHKEY key) const
+{
+	return texCoord.FindObject(key);
+}
+YsVec2 YsShell::GetTexCoordUV(TexCoordHandle tcHd) const
+{
+	auto ptr=texCoord[tcHd];
+	if(nullptr!=ptr)
+	{
+		return ptr->texCoord;
+	}
+	return YsVec2::Origin();
+}
+void YsShell::SetPolygonTexCoord(PolygonHandle plHd,YSSIZE_T nt,const TexCoordHandle t[])
+{
+	YsShellPolygon *plg=GetPolygon(plHd);
+	if(nullptr!=plg)
+	{
+		if(nullptr!=searchTable)
+		{
+			searchTable->DeletePolygonTexCoord(*this,plHd);
+		}
+		for(auto tc : plg->texCoord)
+		{
+			--texCoord[tc]->refCount;
+		}
+		plg->texCoord.Set(nt,t);
+		for(auto tc : plg->texCoord)
+		{
+			++texCoord[tc]->refCount;
+		}
+		if(nullptr!=searchTable)
+		{
+			searchTable->AddPolygonTexCoord(*this,plHd);
+		}
+	}
+}
+void YsShell::SetPolygonTexCoord(PolygonHandle plHd,const YsConstArrayMask <TexCoordHandle> &plTcHd)
+{
+	SetPolygonTexCoord(plHd,plTcHd.size(),plTcHd.data());
+}
+
+YsShell::TexCoordHandle YsShell::FindNextTexCoord(TexCoordHandle tcHd) const
+{
+	return texCoord.FindNext(tcHd);
+}
+YsShell::TexCoordHandle YsShell::FindPrevTexCoord(TexCoordHandle tcHd) const
+{
+	return texCoord.FindPrev(tcHd);
+}
+
 
 YsShellPolygonHandle YsShell::AddPolygonVertex(YSSIZE_T nv,const YsVec3 v[],int fa3,const int fa4[])
 {
@@ -1343,11 +1440,36 @@ const YsVec3 YsShell::GetCenter(YSSIZE_T nVt,const YsShellVertexHandle vtHd[]) c
 	return sum;
 }
 
+const YsVec3 YsShell::GetCenterEdgeWeighted(YSSIZE_T nVt,const YsShellVertexHandle vtHd[]) const
+{
+	double totalWeight=0.0;
+	auto total=YsVec3::Origin();
+	for(YSSIZE_T idx=0; idx<nVt; ++idx)
+	{
+		auto edgeCen=(GetVertexPosition(vtHd[idx])+GetVertexPosition(vtHd[(idx+1)%nVt]))/2.0;
+		auto len=GetEdgeLength(vtHd[idx],vtHd[(idx+1)%nVt]);
+		total+=edgeCen*len;
+		totalWeight+=len;
+	}
+	if(0.0<totalWeight)
+	{
+		total/=totalWeight;
+	}
+	return total;
+}
+
 const YsVec3 YsShell::GetCenter(YsShellPolygonHandle plHd) const
 {
 	YsArray <YsShellVertexHandle,4> plVtHd;
 	GetPolygon(plVtHd,plHd);
 	return GetCenter(plVtHd);
+}
+
+const YsVec3 YsShell::GetCenterEdgeWeighted(YsShellPolygonHandle plHd) const
+{
+	YsArray <YsShellVertexHandle,4> plVtHd;
+	GetPolygon(plVtHd,plHd);
+	return GetCenterEdgeWeighted(plVtHd.size(),plVtHd.data());
 }
 
 const YsVec3 YsShell::GetCenter(YsShellVertexHandle edVtHd0,YsShellVertexHandle edVtHd1) const
@@ -1992,10 +2114,15 @@ YSRESULT YsShell::DeletePolygon(YsShellPolygonHandle plHd)
 			vtx=GetVertex(p->GetVertexHandle(i));
 			vtx->DecrementReferenceCount();
 		}
+		for(auto tcHd : p->texCoord)
+		{
+			--texCoord[tcHd]->refCount;
+		}
 
 		if(searchTable!=NULL)
 		{
 			searchTable->DeletePolygon(*this,plHd);
+			searchTable->DeletePolygonTexCoord(*this,plHd);
 		}
 
 		DetachSpecialAttributeBeforeDeletingPolygon(*plg[plHd]);
@@ -2864,6 +2991,11 @@ YSHASHKEY YsShell::GetSearchKey(VertexHandle vtHd) const
 YSHASHKEY YsShell::GetSearchKey(YsShellPolygonHandle plHd) const
 {
 	return plg.GetSearchKey(plHd);
+}
+
+YSHASHKEY YsShell::GetSearchKey(TexCoordHandle tcHd) const
+{
+	return texCoord.GetSearchKey(tcHd);
 }
 
 YSHASHKEY YsShell::GetSearchKeyMaybeFrozen(YsShellVertexHandle vtHd) const
@@ -4759,6 +4891,13 @@ YSRESULT YsShell::FreezePolygon(YsShellPolygonHandle plHd)
 		if(searchTable!=NULL)
 		{
 			searchTable->DeletePolygon(*this,plHd);
+			searchTable->DeletePolygonTexCoord(*this,plHd);
+		}
+
+		for(auto tcHd : p->texCoord)
+		{
+			--texCoord[tcHd]->refCount;
+			++texCoord[tcHd]->refCountFrozen;
 		}
 
 		plg.Freeze(plHd);
@@ -4812,6 +4951,12 @@ YSRESULT YsShell::MeltPolygon(YsShellPolygonHandle plHd)
 			if(searchTable!=NULL)
 			{
 				searchTable->AddPolygon(*this,plHd);
+				searchTable->AddPolygonTexCoord(*this,plHd);
+			}
+			for(auto tcHd : plgPtr->texCoord)
+			{
+				++texCoord[tcHd]->refCount;
+				--texCoord[tcHd]->refCountFrozen;
 			}
 			return YSOK;
 		}

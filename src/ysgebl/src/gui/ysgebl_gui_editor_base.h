@@ -1131,6 +1131,10 @@ public:
 
 	void UtilMenu_AddConstEdgeAlongColorBoundary(FsGuiPopUpMenuItem *);
 
+	void UtilMenu_ConnectSelectedConstEdge(FsGuiPopUpMenuItem *);
+
+	void UtilMenu_ReverseConstEdge(FsGuiPopUpMenuItem *);
+
 	static void UtilMenu_OpenCloseConstEdge(void *appPtr,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *);
 	void UtilMenu_ReconsiderConstEdge(FsGuiPopUpMenuItem *);
 
@@ -1151,7 +1155,9 @@ public:
 
 	void RepairMenu_LoopStitching(FsGuiPopUpMenuItem *);
 
-	void RepairMenu_RemoveIdenticalPolygon(FsGuiPopUpMenuItem *);
+	void RepairMenu_RemoveIdenticalPolygonLeavingOne(FsGuiPopUpMenuItem *);
+
+	void RepairMenu_RemoveIdenticalPolygonLeavingNone(FsGuiPopUpMenuItem *);
 
 	void Repair_DeleteShrunkPolygon(FsGuiPopUpMenuItem *);
 

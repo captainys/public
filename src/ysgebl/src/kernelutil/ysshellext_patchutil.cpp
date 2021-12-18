@@ -626,7 +626,19 @@ void YsShellExt_MultiPatchSequence::CalculateNormal(void)
 	{
 		YsShellExt_OrientationUtil orientationUtil;
 		orientationUtil.CleanUp();
-		orientationUtil.FixOrientationOfClosedSolid(patch.shl);
+
+		// I have changed from FixOrientationOfClosedSolid to FixOrientationFromReliablePolygon because
+		// sheet-generation from multiple const-edges was taking infinity.
+		// Since one patch in the sequence cannot be closed, FixOrientationOfClosedSolid is not the right function.
+		// The question is, why I chose to use this function?  Was there a reason?
+		// If I change, will it break my purpose?
+		// orientationUtil.FixOrientationOfClosedSolid(patch.shl);
+		if(0==patch.shl.GetNumPolygon())
+		{
+			continue;
+		}
+		orientationUtil.FixOrientationFromReliablePolygon(patch.shl,patch.shl.FindNextPolygon(nullptr),YSFALSE);
+
 		auto plHdNeedFip=orientationUtil.GetPolygonNeedFlip();
 
 		for(auto plHd : plHdNeedFip)

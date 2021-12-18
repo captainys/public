@@ -65,12 +65,28 @@ void GeblGuiEditorBase::RepairMenu_LoopStitching(FsGuiPopUpMenuItem *)
 	}
 }
 
-void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygon(FsGuiPopUpMenuItem *)
+void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygonLeavingOne(FsGuiPopUpMenuItem *)
 {
 	if(nullptr!=Slhd())
 	{
 		YsShellExt_IdenticalPolygonRemover remover;
-		remover.MakeDuplicatePolygonList(Slhd()->Conv());
+		YSBOOL takeReverse=YSTRUE;
+		YSBOOL setToDeleteSoucePolygon=YSFALSE;
+		remover.MakeDuplicatePolygonList(Slhd()->Conv(),takeReverse,setToDeleteSoucePolygon);
+		remover.DeleteDuplicatePolygon(*Slhd());
+		needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_POLYGON|NEED_REMAKE_DRAWING_SELECTED_POLYGON);
+		SetNeedRedraw(YSTRUE);
+	}
+}
+
+void GeblGuiEditorBase::RepairMenu_RemoveIdenticalPolygonLeavingNone(FsGuiPopUpMenuItem *)
+{
+	if(nullptr!=Slhd())
+	{
+		YsShellExt_IdenticalPolygonRemover remover;
+		YSBOOL takeReverse=YSTRUE;
+		YSBOOL setToDeleteSoucePolygon=YSTRUE;
+		remover.MakeDuplicatePolygonList(Slhd()->Conv(),takeReverse,setToDeleteSoucePolygon);
 		remover.DeleteDuplicatePolygon(*Slhd());
 		needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_POLYGON|NEED_REMAKE_DRAWING_SELECTED_POLYGON);
 		SetNeedRedraw(YSTRUE);

@@ -469,6 +469,7 @@ $BGCOL 0
 +menu/sketch/makesheet                             #Make Sheet
 +menu/sketch/separate                              #Separate
 +menu/utility                                      #その他
++menu/utility/connect_selected_ce                  #Connect Selected Const Edges
 +menu/utility/constedge                            #拘束線
 +menu/utility/constedge/addbydha                   #折れ角が高いところに追加
 +menu/utility/constedge/addfgboundary              #ポリゴングループ境界に拘束線を追加
@@ -478,6 +479,7 @@ $BGCOL 0
 +menu/utility/constedge/constrainall               #全稜線を拘束
 +menu/utility/constedge/opencloseloop              #閉ループ/オープン切り替え
 +menu/utility/constedge/reconsider                 #拘束線の自動接続・自動分割
++menu/utility/constedge/reverse                    #Reverse Order
 +menu/utility/constedge/setname                    #拘束線の名前を指定
 +menu/utility/facegroup                            #ポリゴングループ
 +menu/utility/facegroup/clearall                   #全ポリゴングループを削除
@@ -487,7 +489,8 @@ $BGCOL 0
 +menu/utility/facegroup_from_constedge             #拘束線を元にポリゴングループを作る
 +menu/utility/paint_based_on_facegroup             #ポリゴングループを違う色で塗りわけ
 +menu/utility/repair                               #修復
-+menu/utility/repair/delete_identicalpolygon       #Delete Identical Polygons
++menu/utility/repair/delete_identicalpolygonOne       #Delete Identical Polygons Leaving One
++menu/utility/repair/delete_identicalpolygonNone       #Delete Identical Polygons Leaving None
 +menu/utility/repair/deleteshurnkpollygons         #Delete Shrunk Polygons
 +menu/utility/repair/freestitch                    #ポリゴン1枚からのみ使われているエッジの縫い合わせ(一般)
 +menu/utility/repair/loopstitch                    #ポリゴン1枚からのみ使われているエッジの縫い合わせ(残存ループ用)

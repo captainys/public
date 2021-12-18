@@ -470,6 +470,7 @@ $BGCOL 0
 +menu/sketch/makesheet                             #Make Sheet
 +menu/sketch/separate                              #Separate
 +menu/utility                                      #Utility
++menu/utility/connect_selected_ce                  #Connect Selected Const Edges
 +menu/utility/constedge                            #Const Edge
 +menu/utility/constedge/addbydha                   #Add by Dihedral Angle
 +menu/utility/constedge/addfgboundary              #Add Const-Edge on Face-Group Boundaries
@@ -479,6 +480,7 @@ $BGCOL 0
 +menu/utility/constedge/constrainall               #Constrain All Edges
 +menu/utility/constedge/opencloseloop              #Open/Close a Loop
 +menu/utility/constedge/reconsider                 #Auto Connect/Split Const Edgesdir
++menu/utility/constedge/reverse                    #Reverse Order
 +menu/utility/constedge/setname                    #Set Const-Edge Name
 +menu/utility/facegroup                            #Face Group
 +menu/utility/facegroup/clearall                   #Delete All Face Groups
