@@ -508,6 +508,21 @@ public:
 	using YsShell::MetaDataEnumerator;
 	using YsShell::AllMetaData;
 
+	// TexCoords are not tracked by undo/redo at this time.
+	using YsShell::AllTexCoord;
+	using YsShell::GetTexCoordIdFromHandle;
+	using YsShell::GetNumTexCoord;
+	using YsShell::SetVertexPosition;
+	using YsShell::AddTexCoord;
+	using YsShell::DeleteTexCoord;
+	using YsShell::SetTexCoord;
+	using YsShell::FindTexCoord;
+	using YsShell::GetTexCoordUV;
+	using YsShell::SetPolygonTexCoord;
+	using YsShell::GetPolygonTexCoord;
+	using YsShell::FindNextTexCoord;
+	using YsShell::FindPrevTexCoord;
+
 public:
 	/*! Default constructor */
 	YsShellExtEdit();
