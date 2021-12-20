@@ -983,18 +983,19 @@ YSRESULT YsSword::ConvexnizeGo
 }
 
 YsList <YsSwordPolygon> *YsSword::ConvexnizeOnePolygon
-  (YSBOOL tri,YsList <YsSwordPolygon> *target,YSCONVEXNIZESTRATEGY strategy)
+  (YSBOOL tri,YsList <YsSwordPolygon> *targetPlg,YSCONVEXNIZESTRATEGY strategy)
 {
 	int id1,id2;
-	if(tri==YSFALSE && YsCheckConvexByAngle2(target->dat.prj.GetN(),target->dat.prj)==YSTRUE)
+	if(tri==YSFALSE && YsCheckConvexByAngle2(targetPlg->dat.prj.GetN(),targetPlg->dat.prj)==YSTRUE)
 	{
-		return target;
+		return targetPlg;
 	}
 
-	if(FindConvexnizeVertexPair(id1,id2,target,strategy)==YSOK)
+	// To keep it as same behavior as the legacy code, first check FindConvexnizeVertexPair for target, then the rest.
+	if(FindConvexnizeVertexPair(id1,id2,targetPlg,strategy)==YSOK)
 	{
-		YsList <YsSwordPolygon> *newPolygon,*plg1,*plg2,*tPlg1,*tPlg2;
-		newPolygon=SeparateByTwo(target,id1,id2);
+		YsList <YsSwordPolygon> *newPolygon;
+		newPolygon=SeparateByTwo(targetPlg,id1,id2);
 
 		// 2005/02/08 Now SeparateByTwo may return NULL when a polygon is like a quad A-B-C-B, and it is not an error.
 		// if(newPolygon==NULL || newPolygon->Next()==NULL)
@@ -1007,29 +1008,41 @@ YsList <YsSwordPolygon> *YsSword::ConvexnizeOnePolygon
 			return NULL;
 		}
 
-
-		plg1=newPolygon;
-		plg2=newPolygon->Next();
-
-		if(plg2!=NULL)
+		YsArray <YsList <YsSwordPolygon> *> todo;
+		todo.push_back(newPolygon);
+		if(nullptr!=newPolygon->Next())
 		{
-			tPlg2=ConvexnizeOnePolygon(tri,plg2,strategy);
-			if(tPlg2!=plg2)
-			{
-				newPolygon=plg2->DeleteFromList();
-				newPolygon=newPolygon->Append(tPlg2);
-			}
+			todo.push_back(newPolygon->Next());
 		}
-
-		tPlg1=ConvexnizeOnePolygon(tri,plg1,strategy);
-		if(tPlg1!=plg1)
+		while(0<todo.size())
 		{
-			newPolygon=plg1->DeleteFromList();
-			newPolygon=newPolygon->Append(tPlg1);
+			auto plgPtr=todo.back();
+			todo.pop_back();
+
+			if(FindConvexnizeVertexPair(id1,id2,plgPtr,strategy)==YSOK)
+			{
+				YsList <YsSwordPolygon> *separated;
+				separated=SeparateByTwo(plgPtr,id1,id2);
+
+				if(nullptr!=separated)
+				{
+					if(nullptr==separated->Next()) // Was not really divided
+					{
+						separated->DeleteFromList();
+					}
+					else
+					{
+						todo.push_back(separated);
+						todo.push_back(separated->Next());
+						newPolygon=plgPtr->DeleteFromList();
+						newPolygon=newPolygon->Append(separated);
+					}
+				}
+			}
 		}
 		return newPolygon;
 	}
-	return target;
+	return targetPlg;
 }
 
 YSRESULT YsSword::FindConvexnizeVertexPair
