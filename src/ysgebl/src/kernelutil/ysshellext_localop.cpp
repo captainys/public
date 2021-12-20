@@ -1143,6 +1143,9 @@ YsArray <YsShellVertexHandle> YsShellExt_TriangulatePolygon(const YsShell &shl,c
 	}
 
 	// Last resort.  Use YsSword.
+/*	YsSword crashes on Linux.  Not use it for the time being.
+    In fact, if the above triangulator fails, it is unlikely YsSword 
+	to succeed anyway.
 	YsSword sword;
 	sword.SetInitialPolygon(plVtPos.GetN(),plVtPos,plVtIdx);
 	if(YSOK==sword.Triangulate())
@@ -1164,7 +1167,7 @@ YsArray <YsShellVertexHandle> YsShellExt_TriangulatePolygon(const YsShell &shl,c
 				break;
 			}
 		}
-	}
+	} */
 
 	return triVtHd;
 }
