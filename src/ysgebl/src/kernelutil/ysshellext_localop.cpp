@@ -1124,7 +1124,14 @@ YsArray <YsShellVertexHandle> YsShellExt_TriangulatePolygon(const YsShell &shl,c
 			triVtHd.Resize(triIdx.size());
 			for(YSSIZE_T idx=0; idx<triIdx.size(); ++idx)
 			{
-				triVtHd[idx]=plVtHd[triIdx[idx]];
+				if(0<=triIdx[idx])
+				{
+					triVtHd[idx]=plVtHd[triIdx[idx]];
+				}
+				else
+				{
+					triVtHd[idx]=nullptr; // Error? First triangle remains undeleted?
+				}
 			}
 			return triVtHd;
 		}
