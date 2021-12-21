@@ -50,6 +50,11 @@ void YsShellExt_BoundaryInfo::CleanUp(void)
 	contourCache.CleanUp();
 }
 
+void YsShellExt_BoundaryInfo::SetPermissibleMode(bool permissible)
+{
+	this->permissible=permissible;
+}
+
 void YsShellExt_BoundaryInfo::MakeInfo(
     const YsShell &shl,
     YSSIZE_T nPl,const YsShellPolygonHandle plHdPtr[])
@@ -143,7 +148,7 @@ YSRESULT YsShellExt_BoundaryInfo::CacheContour(const YsShell &shl)
 		{
 			twoConnection.Append(vtHd);
 		}
-		else if(1==nConnVtHd)
+		else if(1==nConnVtHd && true!=permissible)
 		{
 			contourCache.CleanUp();
 			return YSERR;
@@ -160,7 +165,7 @@ YSRESULT YsShellExt_BoundaryInfo::CacheContour(const YsShell &shl)
 		{
 			for(int i=0; i<nConnVtHd; ++i)
 			{
-				if(YSOK!=TrackAndAddLoop(usedEdgePiece,shl,vtHd,connVtHd[i],connection))
+				if(YSOK!=TrackAndAddLoop(usedEdgePiece,shl,vtHd,connVtHd[i],connection) && true!=permissible)
 				{
 					contourCache.CleanUp();
 					return YSERR;
@@ -178,13 +183,18 @@ YSRESULT YsShellExt_BoundaryInfo::CacheContour(const YsShell &shl)
 		{
 			for(int i=0; i<nConnVtHd; ++i)
 			{
-				if(YSOK!=TrackAndAddLoop(usedEdgePiece,shl,vtHd,connVtHd[i],connection))
+				if(YSOK!=TrackAndAddLoop(usedEdgePiece,shl,vtHd,connVtHd[i],connection) && true!=permissible)
 				{
 					contourCache.CleanUp();
 					return YSERR;
 				}
 			}
 		}
+	}
+
+	if(true==permissible)
+	{
+		return YSOK;
 	}
 
 	for(YSSIZE_T idx=0; idx<=srcEdVtHd.GetN()-2; idx+=2)

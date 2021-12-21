@@ -52,10 +52,17 @@ protected:
 	YsArray <YsShellVertexHandle> nonDuplicateVtHdArray;
 	YsArray <BoundaryContour> contourCache;
 
+	/*! In permissible mode, CacheContour will ignore all boundary edge pieces that cannot form a loop.
+	    In non-permissible mode, CacheContour will fail if any of the boundary edge pieces cannot form a loop.
+	*/
+	bool permissible=false;
+
 public:
 	YsShellExt_BoundaryInfo();
 	~YsShellExt_BoundaryInfo();
 	void CleanUp(void);
+
+	void SetPermissibleMode(bool permissible);
 
 	void MakeInfo(
 	    const YsShell &shl,
