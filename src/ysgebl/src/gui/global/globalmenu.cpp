@@ -554,6 +554,8 @@ void GeblGuiEditorBase::Global_Move(FsGuiPopUpMenuItem *)
 {
 	if(nullptr!=slHd)
 	{
+		Edit_ClearUIMode();
+
 		auto dlg=FsGuiDialog::CreateSelfDestructiveDialog <Global_MoveDialog>();
 		dlg->Make(this);
 		draw3dCallBack=std::bind(&THISCLASS::Global_Move_DrawCallBack3d,this);
@@ -666,6 +668,8 @@ void GeblGuiEditorBase::Global_Rotate(FsGuiPopUpMenuItem *)
 {
 	if(nullptr!=slHd)
 	{
+		Edit_ClearUIMode();
+
 		auto dlg=FsGuiDialog::CreateSelfDestructiveDialog <Global_RotateDialog>();
 		dlg->Make(this);
 		draw3dCallBack=std::bind(&THISCLASS::Global_Rotate_DrawCallBack3d,this);
