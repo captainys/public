@@ -90,6 +90,7 @@ protected:
 
 	YSRESULT RunGlobalWorkOrder(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunGlobalWorkOrder_DeleteUnusedVertex(const YsString &workOrder,const YsArray <YsString,16> &args);
+	YSRESULT RunGlobalWorkOrder_Scaling(const YsString &workOrder,const YsArray <YsString,16> &args);
 
 	YSRESULT RunFileIOWorkOrder(const YsString &workOrder,const YsArray <YsString,16> &args);
 	YSRESULT RunFileIOWorkOrder_Save(const YsString &workOrder,const YsArray <YsString,16> &args);

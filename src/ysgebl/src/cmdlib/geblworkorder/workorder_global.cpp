@@ -41,6 +41,10 @@ YSRESULT GeblCmd_WorkOrder::RunGlobalWorkOrder(const YsString &workOrder,const Y
 		{
 			return RunGlobalWorkOrder_DeleteUnusedVertex(workOrder,args);
 		}
+		if(0==subCmd.STRCMP("SCALE"))
+		{
+			return RunGlobalWorkOrder_Scaling(workOrder,args);
+		}
 
 		YsString errorReason;
 		errorReason.Printf("Unrecognized sub command [%s]",args[1].Txt());
@@ -66,5 +70,42 @@ YSRESULT GeblCmd_WorkOrder::RunGlobalWorkOrder_DeleteUnusedVertex(const YsString
 		}
 	}
 	shl.DeleteMultiVertex(toDel);
+	return YSOK;
+}
+
+YSRESULT GeblCmd_WorkOrder::RunGlobalWorkOrder_Scaling(const YsString &workOrder,const YsArray <YsString,16> &args)
+{
+	double sx=1.0,sy=1.0,sz=1.0;
+	if(5<=args.size())
+	{
+		sx=args[2].Atof();
+		sy=args[3].Atof();
+		sz=args[4].Atof();
+	}
+	else if(3<=args.size())
+	{
+		sx=args[2].Atof();
+		sy=args[2].Atof();
+		sz=args[2].Atof();
+	}
+	else
+	{
+		ShowError(workOrder,"Too few arguments.");
+		return YSERR;
+	}
+
+	auto &shl=*slHd;
+	YsArray <YsShell::VertexHandle> vtHd;
+	YsArray <YsVec3> newPos;
+	for(auto hd : shl.AllVertex())
+	{
+		auto pos=shl.GetVertexPosition(hd);
+		pos.MulX(sx);
+		pos.MulY(sy);
+		pos.MulZ(sz);
+		vtHd.push_back(hd);
+		newPos.push_back(pos);
+	}
+	shl.SetMultiVertexPosition(vtHd,newPos);
 	return YSOK;
 }

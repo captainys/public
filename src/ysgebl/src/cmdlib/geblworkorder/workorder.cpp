@@ -218,6 +218,8 @@ void GeblCmd_WorkOrder::ShowHelp(void) const
 
 	printf("  Global Commands\n");
 	printf("    global delete_unused_vertex        Delete all unused vertices.\n");
+	printf("    global scale factor                Scaling by factor.\n");
+	printf("    global scale sx sy sz              Scaling in X,Y,Z directions by sx,sy,sz respectively.\n");
 
 	printf("  Stitching Commands\n");
 	printf("    stitch free                        Free stitching.\n");
