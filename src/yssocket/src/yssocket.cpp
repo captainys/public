@@ -2,6 +2,9 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 
 #ifdef _WIN32
 #define _WINSOCKAPI_
@@ -16,6 +19,7 @@ typedef int socklen_t;
 #else
 #include <unistd.h>
 #include <netdb.h>
+#include <strings.h>
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <sys/socket.h>
