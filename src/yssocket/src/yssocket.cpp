@@ -1,7 +1,7 @@
 // ioctlsocket can set socket to non-blocking mode
 //
 
-
+#include <stdio.h>
 
 #ifdef _WIN32
 #define _WINSOCKAPI_

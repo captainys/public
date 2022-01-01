@@ -3,7 +3,77 @@
 /* { */
 
 
-#include <ysclass.h>
+#ifndef YSRESULT_IS_DEFINED
+#define YSRESULT_IS_DEFINED
+/*! Enum for processing result. */
+typedef enum
+{
+	YSERR,  /*!< There were error(s). */
+	YSOK    /*!< The process was successful. */
+} YSRESULT;
+#endif
+
+#ifndef YSBOOL_IS_DEFINED
+#define YSBOOL_IS_DEFINED
+/*! Enum for boolearn. */
+typedef enum
+{
+	YSFALSE,     /*!< False */
+	YSTRUE,      /*!< True */
+	YSTFUNKNOWN  /*!< Unable to tell true or false. */
+} YSBOOL;
+
+inline YSBOOL YsOr(YSBOOL a,YSBOOL b)
+{
+	if(YSTRUE==a || YSTRUE==b)
+	{
+		return YSTRUE;
+	}
+	return YSFALSE;
+}
+inline YSBOOL YsAnd(YSBOOL a,YSBOOL b)
+{
+	if(YSTRUE==a && YSTRUE==b)
+	{
+		return YSTRUE;
+	}
+	return YSFALSE;
+}
+inline YSBOOL YsXor(YSBOOL a,YSBOOL b)
+{
+	if(a!=b && (a==YSTRUE || b==YSTRUE))
+	{
+		return YSTRUE;
+	}
+	return YSFALSE;
+}
+#endif
+
+
+
+#ifndef YSSIZE_T_IS_DEFINED
+#define YSSIZE_T_IS_DEFINED
+// Tested with:
+//   GCC 32bit
+//   GCC 64bit
+//   VC++ 64bit
+//   VC++ 32bit
+#if defined(__GNUC__) && __SIZEOF_POINTER__==4
+	typedef int YSSIZE_T;
+#elif defined(__GNUC__) && __SIZEOF_POINTER__==8
+	#include <inttypes.h>
+	typedef int64_t YSSIZE_T;
+#elif defined(_WIN64)
+	typedef __int64 YSSIZE_T;
+#elif defined(_WIN32)
+	typedef int YSSIZE_T;
+#else
+	// Could not identify bitness.  YSSIZE_T falls back to int."
+	typedef int YSSIZE_T;
+#endif
+
+#endif // #ifndef YSSIZE_T_IS_DEFINED
+
 
 
 #ifdef _WIN32

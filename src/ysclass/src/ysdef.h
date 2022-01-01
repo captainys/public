@@ -85,6 +85,9 @@ inline YSBOOL YsXor(YSBOOL a,YSBOOL b)
 #endif
 
 
+
+#ifndef YSSIZE_T_IS_DEFINED
+#define YSSIZE_T_IS_DEFINED
 // Tested with:
 //   GCC 32bit
 //   GCC 64bit
@@ -103,6 +106,8 @@ inline YSBOOL YsXor(YSBOOL a,YSBOOL b)
 	// Could not identify bitness.  YSSIZE_T falls back to int."
 	typedef int YSSIZE_T;
 #endif
+
+#endif // #ifndef YSSIZE_T_IS_DEFINED
 
 
 typedef unsigned int YSHASHKEY;
