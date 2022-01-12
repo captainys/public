@@ -217,6 +217,7 @@ void YsShellPolygon::Initialize(void)
 {
 	YsShellItem::Initialize();
 	idx.Set(0,NULL);
+	texCoord.Set(0,NULL);
 	nom.Set(0.0,0.0,0.0);
 #ifndef YSLOWMEM
 	col.SetIntRGB(128,128,128);
