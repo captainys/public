@@ -364,7 +364,7 @@ void FsGui3DMainCanvas::File_SaveAsOneBitmapSave(const YsWString fn)
 		{
 			RetroMap_World::Field::MakeBitmapInfo info;
 			RetroMap_World::MapPieceStore excludeMapPiece;
-			auto bbx=fieldPtr->GetBoundingBox2i();
+			auto bbx=fieldPtr->GetBoundingBox2i(File_SaveAsOneBitmapForEachField_IncludeMarkUp);
 			auto bmpSize=bbx.GetSize();
 			bmpSize*=File_SaveAsOneBitmapForEachField_Mul;
 			bmpSize/=File_SaveAsOneBitmapForEachField_Div;
@@ -488,7 +488,7 @@ void FsGui3DMainCanvas::File_SaveAsOneBitmapForEachField_Save(const YsWString fn
 			{
 				RetroMap_World::Field::MakeBitmapInfo info;
 				RetroMap_World::MapPieceStore excludeMapPiece;
-				auto bbx=fieldPtr->GetBoundingBox2i();
+				auto bbx=fieldPtr->GetBoundingBox2i(File_SaveAsOneBitmapForEachField_IncludeMarkUp);
 				auto bmpSize=bbx.GetSize();
 				bmpSize*=File_SaveAsOneBitmapForEachField_Mul;
 				bmpSize/=File_SaveAsOneBitmapForEachField_Div;

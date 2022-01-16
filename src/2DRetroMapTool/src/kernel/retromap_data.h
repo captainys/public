@@ -622,7 +622,7 @@ public:
 		YsRect3 GetBoundingBox(void) const;
 
 		/*! Returns the bounding box of the field in integer. */
-		YsRect2i GetBoundingBox2i(void) const;
+		YsRect2i GetBoundingBox2i(YSBOOL includeMarkUp) const;
 
 		/*! Returns the top-most map piece that the visible area includes the given coordinate. */
 		MapPieceHandle FindMapPieceFromCoordinate(const YsVec2 &pos) const;

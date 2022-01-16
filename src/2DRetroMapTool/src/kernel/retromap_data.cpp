@@ -1338,7 +1338,7 @@ YsBitmap RetroMap_World::Field::MakeBitmap(YsVec2i origin,YsVec2i bmpSize,YsColo
 YsBitmap RetroMap_World::Field::MakeBitmap(YSBOOL mapPiece,YSBOOL markUp) const
 {
 	MapPieceStore excludeMapPiece;
-	auto bbx=GetBoundingBox2i();
+	auto bbx=GetBoundingBox2i(markUp);
 	return MakeBitmap(bbx[0],bbx.GetSize(),YsWhite(),mapPiece,markUp,excludeMapPiece);
 }
 
@@ -1914,7 +1914,7 @@ YsRect3 RetroMap_World::Field::GetBoundingBox(void) const
 	return rect;
 }
 
-YsRect2i RetroMap_World::Field::GetBoundingBox2i(void) const
+YsRect2i RetroMap_World::Field::GetBoundingBox2i(YSBOOL includeMarkUp) const
 {
 	YsBoundingBoxMaker <YsVec2i> mkBbx;
 
@@ -1922,9 +1922,12 @@ YsRect2i RetroMap_World::Field::GetBoundingBox2i(void) const
 	{
 		mkBbx.Add(mapPiece[mpHd]->GetBoundingBox2i());
 	}
-	for(auto muHd : AllMarkUp())
+	if(YSTRUE==includeMarkUp)
 	{
-		mkBbx.Add(markUp[muHd]->GetBoundingBox2i());
+		for(auto muHd : AllMarkUp())
+		{
+			mkBbx.Add(markUp[muHd]->GetBoundingBox2i());
+		}
 	}
 
 	YsRect2i rect;
