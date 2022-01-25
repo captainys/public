@@ -109,6 +109,12 @@ public:
 	*/
 	YSRESULT CutOut(YsBitmapTemplate <ComponentType,NumComponentPerPixel> &destination,int thisX0,int thisY0,int wid,int hei,ComponentType clearColor) const
 	{
+		if(0==wid || 0==hei)
+		{
+			destination.CleanUp();
+			return YSOK;
+		}
+
 		destination.Create(wid,hei);
 
 		int destY=0;
