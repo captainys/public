@@ -1569,6 +1569,9 @@ void FsMaximizeWindowC(void)
 		restoreRect=[ysWnd frame];
 		maximizedOrFullScreen=true;
 	}
+
+	[[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationDefault];
+
 	NSScreen *screen=[ysWnd screen];
 	NSRect visibleFrame=[screen visibleFrame];
 	[ysWnd setFrame:visibleFrame display:TRUE];
@@ -1576,12 +1579,27 @@ void FsMaximizeWindowC(void)
 
 void FsUnmaximizeWindowC(void)
 {
-	[ysWnd setFrame:restoreRect display:TRUE];
-	maximizedOrFullScreen=false;
+	if(true==maximizedOrFullScreen)
+	{
+		[[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationDefault];
+		[ysWnd setFrame:restoreRect display:TRUE];
+		maximizedOrFullScreen=false;
+	}
 }
 
 void FsMakeFullScreenC(void)
 {
+	if(true!=maximizedOrFullScreen)
+	{
+		restoreRect=[ysWnd frame];
+		maximizedOrFullScreen=true;
+	}
+
+	[[NSApplication sharedApplication] setPresentationOptions:NSApplicationPresentationDefault|NSApplicationPresentationHideMenuBar|NSApplicationPresentationHideDock];
+
+	NSScreen *screen=[ysWnd screen];
+	NSRect visibleFrame=[screen visibleFrame];
+	[ysWnd setFrame:visibleFrame display:TRUE];
 }
 
 void FsPollDeviceC(void)
