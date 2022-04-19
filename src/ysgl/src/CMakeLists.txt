@@ -519,6 +519,6 @@ else()
 endif()
 
 if(MSVC AND NOT "${CMAKE_SYSTEM_NAME}" STREQUAL "WindowsStore")
-	target_include_directories(ysgl PUBLIC ${CMAKE_SOURCE_DIR}/public/src/imported/include)
+	target_include_directories(ysgl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../imported/include)
 endif()
 
