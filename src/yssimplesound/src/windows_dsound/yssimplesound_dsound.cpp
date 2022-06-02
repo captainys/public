@@ -231,7 +231,7 @@ void YsSoundPlayer::SetVolumeAPISpecific(SoundData &dat,float leftVol,float righ
 {
 	if(nullptr!=dat.api->dSoundBuf)
 	{
-		vol=(leftVol+rightVol)/2.0;
+		float vol=(leftVol+rightVol)/2.0;
 
 		// left=1, right=0 -> DSBPAN_LEFT
 		// left=0, right=1 -> DSBPAN_RIGHT
