@@ -2744,6 +2744,7 @@ public:
 		if(YSOK!=RewindElemEnumHandle(hd))
 		{
 			hd=NullHandle();
+			return hd;
 		}
 	}
     inline YsFixedLengthToMultiHashElemEnumHandle Null(void) const
