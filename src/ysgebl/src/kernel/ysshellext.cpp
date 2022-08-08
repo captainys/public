@@ -1968,12 +1968,33 @@ YSRESULT YsShellExt::SetFaceGroupLabel(FaceGroupHandle fgHd,const char label[])
 	return YSERR;
 }
 
+YSRESULT YsShellExt::SetFaceGroupExtRef(FaceGroupHandle fgHd,const char extRef[])
+{
+	FaceGroup *fgProp=faceGroupArray[fgHd];
+	if(NULL!=fgProp && YSTRUE!=faceGroupArray.IsFrozen(fgHd))
+	{
+		fgProp->extRef=extRef;
+		return YSOK;
+	}
+	return YSERR;
+}
+
 const char *YsShellExt::GetFaceGroupLabel(FaceGroupHandle fgHd) const
 {
 	const FaceGroup *fgProp=faceGroupArray[fgHd];
 	if(NULL!=fgProp && YSTRUE!=faceGroupArray.IsFrozen(fgHd))
 	{
 		return fgProp->label;
+	}
+	return "";
+}
+
+const char *YsShellExt::GetFaceGroupExtRef(FaceGroupHandle fgHd) const
+{
+	const FaceGroup *fgProp=faceGroupArray[fgHd];
+	if(NULL!=fgProp && YSTRUE!=faceGroupArray.IsFrozen(fgHd))
+	{
+		return fgProp->extRef;
 	}
 	return "";
 }
