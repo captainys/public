@@ -450,6 +450,7 @@ public:
 	using YsShellExt::GetFaceGroupAttrib;
 	using YsShellExt::GetFaceGroupIdent;
 	using YsShellExt::GetFaceGroupLabel;
+	using YsShellExt::GetFaceGroupExtRef;
 	using YsShellExt::GetNumEdge;
 	using YsShellExt::GetNumPolygonUsingEdge;
 	using YsShellExt::GetNumPolygonUsingVertex;
