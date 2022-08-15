@@ -1269,7 +1269,7 @@ YSRESULT YsShellExtObjReader::ReadObjOneLine(YsShellExt &shl,YsString &str)
 		{
 			if(2<=args.GetN())
 			{
-				mtllib=args[1];
+				mtllib.push_back(args[1]);
 			}
 		}
 		else if(0==strcmp(args[0],"usemtl"))
@@ -1301,17 +1301,18 @@ void YsShellExtObjReader::EndReadObj(YsShellExt &shl)
 		CloseOneFaceGroup(shl);
 	}
 
-	if(0<mtllib.Strlen())
+	auto mdHdPtr=shl.FindMetaData("mtllib");
+	if(nullptr!=mdHdPtr)
 	{
-		auto mdHdPtr=shl.FindMetaData("mtllib");
-		if(nullptr!=mdHdPtr && 0<mdHdPtr->size())
+		for(auto mdHd : *mdHdPtr)
 		{
-			shl.SetMetaDataValue(*(mdHdPtr->begin()),mtllib);
+			shl.DeleteMetaData(mdHd);
 		}
-		else
-		{
-			shl.AddMetaData(YsString("mtllib"),mtllib);
-		}
+	}
+
+	for(auto m : mtllib)
+	{
+		shl.AddMetaData(YsString("mtllib"),m);
 	}
 }
 
@@ -1557,8 +1558,11 @@ YSRESULT YsShellExtObjWriter::WriteObj(YsTextOutputStream &outStream,const YsShe
 	auto mtllib=shl.FindMetaData(YsString("mtllib"));
 	if(nullptr!=mtllib && 0<mtllib->size())
 	{
-		auto str=shl.GetMetaDataValue(*(mtllib->begin()));
-		outStream.Printf("mtllib %s\n",str.data());
+		for(auto mdHd : *mtllib)
+		{
+			auto str=shl.GetMetaDataValue(mdHd);
+			outStream.Printf("mtllib %s\n",str.data());
+		}
 	}
 
 	WriteVertex(outStream,shl);
