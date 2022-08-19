@@ -1304,33 +1304,40 @@ printf("%s %d\n",__FUNCTION__,__LINE__);
 		if(YSOK==pln.GetIntersection(crs,o,v))
 		{
 			auto disp2i=MouseMove_Displacement(crs.x(),crs.y());
-			for(auto mpHd : world.SelectedMapPiece(GetCurrentField()))
+			if(disp2i!=disp2i.Origin())
 			{
-				auto mapPiecePtr=world.GetMapPiece(GetCurrentField(),mpHd);
-				auto shape=mapPiecePtr->GetShape();
-				shape.pos+=disp2i;
-				if(shape.pos!=mapPiecePtr->GetPosition())
+				for(auto mpHd : world.SelectedMapPiece(GetCurrentField()))
 				{
+					auto mapPiecePtr=world.GetMapPiece(GetCurrentField(),mpHd);
+					auto shape=mapPiecePtr->GetShape();
+					shape.pos+=disp2i;
 					world.SetPosition(GetCurrentField(),mpHd,shape.pos);
+				}
+				for(auto muHd : world.SelectedMarkUp(GetCurrentField()))
+				{
+					auto markUpPtr=world.GetMarkUp(GetCurrentField(),muHd);
+					world.MoveMarkUp(GetCurrentField(),muHd,disp2i);
+				}
+
+				for(auto mpHd : world.SelectedMapPiece(GetCurrentField()))
+				{
 					world.ReapplyAnchor(GetCurrentField(),mpHd);
 					world.ReadyVbo(GetCurrentField(),mpHd);
 					world.ReadyVboOfAnchoredMarkUp(GetCurrentField(),mpHd);
 				}
+				for(auto muHd : world.SelectedMarkUp(GetCurrentField()))
+				{
+					// This is for the mark ups that depends on this mark up.
+					world.ReapplyAnchor(GetCurrentField(),muHd);
+
+					// If this mark up is anchored, it may have moved out of the map part/mark up.
+					Reanchor(GetCurrentField(),muHd);
+
+					world.ReadyVbo(GetCurrentField(),muHd);
+					world.ReadyVboOfAnchoredMarkUp(GetCurrentField(),muHd);
+				}
 			}
-			for(auto muHd : world.SelectedMarkUp(GetCurrentField()))
-			{
-				auto markUpPtr=world.GetMarkUp(GetCurrentField(),muHd);
-				world.MoveMarkUp(GetCurrentField(),muHd,disp2i);
 
-				// This is for the mark ups that depends on this mark up.
-				world.ReapplyAnchor(GetCurrentField(),muHd);
-
-				// If this mark up is anchored, it may have moved out of the map part/mark up.
-				Reanchor(GetCurrentField(),muHd);
-
-				world.ReadyVbo(GetCurrentField(),muHd);
-				world.ReadyVboOfAnchoredMarkUp(GetCurrentField(),muHd);
-			}
 			SetNeedRedraw(YSTRUE);
 		}
 	}

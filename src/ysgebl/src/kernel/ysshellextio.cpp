@@ -1142,6 +1142,7 @@ void YsShellExtObjReader::BeginReadObj(const ReadOption &option)
 	currentPlGrpName.Set("");
 	currentSmthShadGrpName.Set("");
 	currentPlGrp.CleanUp();
+	currentUsemtl.Set("");
 }
 
 YSRESULT YsShellExtObjReader::ReadObjOneLine(YsShellExt &shl,YsString &str)
@@ -1241,10 +1242,7 @@ YSRESULT YsShellExtObjReader::ReadObjOneLine(YsShellExt &shl,YsString &str)
 		{
 			if(YSTRUE==inPlGrp)
 			{
-				YsString fgName=currentPlGrpName;
-				fgName.Append(currentSmthShadGrpName);
-				auto fgHd=shl.AddFaceGroup(currentPlGrp);
-				shl.SetFaceGroupLabel(fgHd,fgName);
+				CloseOneFaceGroup(shl);
 			}
 
 			if(2<=args.GetN())
@@ -1258,31 +1256,37 @@ YSRESULT YsShellExtObjReader::ReadObjOneLine(YsShellExt &shl,YsString &str)
 		{
 			if(YSTRUE==inPlGrp)
 			{
-				YsString fgName=currentPlGrpName;
-				fgName.Append(currentSmthShadGrpName);
-				auto fgHd=shl.AddFaceGroup(currentPlGrp);
-				shl.SetFaceGroupLabel(fgHd,fgName);
+				CloseOneFaceGroup(shl);
 			}
 
 			if(2<=args.GetN())
 			{
 				currentSmthShadGrpName=args[1];
 			}
-			currentPlGrp.CleanUp();
 			inPlGrp=YSTRUE;
 		}
 		else if(0==strcmp(args[0],"mtllib"))
 		{
 			if(2<=args.GetN())
 			{
-				mtllib=args[1];
+				mtllib.push_back(args[1]);
 			}
 		}
 		else if(0==strcmp(args[0],"usemtl"))
 		{
 			if(2<=args.GetN())
 			{
-				usemtl=args[1];
+				if(0!=currentUsemtl.Strcmp(args[1]))
+				{
+					// Did material change within a group?
+					if(YSTRUE==inPlGrp && 0<currentPlGrp.size())
+					{
+						// Then need to finish a group and start a new one.
+						CloseOneFaceGroup(shl);
+					}
+					inPlGrp=YSTRUE;
+				}
+				currentUsemtl=args[1];
 			}
 		}
 	}
@@ -1294,34 +1298,32 @@ void YsShellExtObjReader::EndReadObj(YsShellExt &shl)
 {
 	if(YSTRUE==inPlGrp)
 	{
-		auto fgHd=shl.AddFaceGroup(currentPlGrp);
-		shl.SetFaceGroupLabel(fgHd,currentPlGrpName);
+		CloseOneFaceGroup(shl);
 	}
 
-	if(0<mtllib.Strlen())
+	auto mdHdPtr=shl.FindMetaData("mtllib");
+	if(nullptr!=mdHdPtr)
 	{
-		auto mdHdPtr=shl.FindMetaData("mtllib");
-		if(nullptr!=mdHdPtr && 0<mdHdPtr->size())
+		for(auto mdHd : *mdHdPtr)
 		{
-			shl.SetMetaDataValue(*(mdHdPtr->begin()),mtllib);
-		}
-		else
-		{
-			shl.AddMetaData(YsString("mtllib"),mtllib);
+			shl.DeleteMetaData(mdHd);
 		}
 	}
-	if(0<usemtl.Strlen())
+
+	for(auto m : mtllib)
 	{
-		auto mdHdPtr=shl.FindMetaData("usemtl");
-		if(nullptr!=mdHdPtr && 0<mdHdPtr->size())
-		{
-			shl.SetMetaDataValue(*(mdHdPtr->begin()),usemtl);
-		}
-		else
-		{
-			shl.AddMetaData(YsString("usemtl"),usemtl);
-		}
+		shl.AddMetaData(YsString("mtllib"),m);
 	}
+}
+
+void YsShellExtObjReader::CloseOneFaceGroup(YsShellExt &shl)
+{
+	YsString fgName=currentPlGrpName;
+	fgName.Append(currentSmthShadGrpName);
+	auto fgHd=shl.AddFaceGroup(currentPlGrp);
+	shl.SetFaceGroupLabel(fgHd,fgName);
+	shl.SetFaceGroupExtRef(fgHd,currentUsemtl);
+	currentPlGrp.CleanUp();
 }
 
 YSRESULT YsShellExtObjReader::ReadObj(YsShellExt &shl,YsTextInputStream &inStream,const ReadOption &option)
@@ -1473,6 +1475,15 @@ void YsShellExtObjWriter::WritePolygon(YsTextOutputStream &outStream,const YsShe
 		if(0==idx || fgKeyArray[idx-1]!=fgKeyArray[idx])
 		{
 			outStream.Printf("g\n");
+			auto fgHd=shl.FindFaceGroup(fgKeyArray[idx]);
+			if(nullptr!=fgHd)
+			{
+				YsString usemtl=shl.GetFaceGroupExtRef(fgHd);
+				if(0<usemtl.size())
+				{
+					outStream.Printf("usemtl %s\n",usemtl.data());
+				}
+			}
 		}
 
 		auto plVtHd=shl.GetPolygonVertex(plHdArray[idx]);
@@ -1547,21 +1558,17 @@ YSRESULT YsShellExtObjWriter::WriteObj(YsTextOutputStream &outStream,const YsShe
 	auto mtllib=shl.FindMetaData(YsString("mtllib"));
 	if(nullptr!=mtllib && 0<mtllib->size())
 	{
-		auto str=shl.GetMetaDataValue(*(mtllib->begin()));
-		outStream.Printf("mtllib %s\n",str.data());
+		for(auto mdHd : *mtllib)
+		{
+			auto str=shl.GetMetaDataValue(mdHd);
+			outStream.Printf("mtllib %s\n",str.data());
+		}
 	}
 
 	WriteVertex(outStream,shl);
 	WriteTexCoord(outStream,shl);
 	MakeNormalArray(shl);
 	WriteNormal(outStream);
-
-	auto usemtl=shl.FindMetaData(YsString("usemtl"));
-	if(nullptr!=usemtl && 0<usemtl->size())
-	{
-		auto str=shl.GetMetaDataValue(*(usemtl->begin()));
-		outStream.Printf("usemtl %s\n",str.data());
-	}
 
 	SortPolygonByFaceGroupKey(shl);
 	WritePolygon(outStream,shl);

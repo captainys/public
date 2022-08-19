@@ -40,6 +40,7 @@ protected:
 
 private:
 	YsShellExt_Mapping <YsShellVertexHandle,YSSIZE_T> vtHdMap;
+	YsShellExt_Mapping <YsShell::TexCoordHandle,YSSIZE_T> tcHdMap;
 	YsShellExt_Mapping <YsShellPolygonHandle,YSSIZE_T> plHdMap;
 	YsShellExt_Mapping <YsShellExt::ConstEdgeHandle,YSSIZE_T> ceHdMap;
 	YsShellExt_Mapping <YsShellExt::FaceGroupHandle,YSSIZE_T> fgHdMap;
@@ -49,17 +50,25 @@ public:
 	class Vertex
 	{
 	public:
-		YsShellVertexHandle srcVtHd,newVtHd;
+		YsShellVertexHandle srcVtHd,newVtHd=nullptr;
 		YsVec3 pos;
 		YsShellExt::VertexAttrib attrib;
+		YSBOOL derived;
+	};
+	class TexCoord
+	{
+	public:
+		YsShell::TexCoordHandle srcTcHd,newTcHd=nullptr;
+		YsVec2 texCoord;
 		YSBOOL derived;
 	};
 	class Polygon
 	{
 	public:
-		YsShellPolygonHandle srcPlHd,newPlHd;
+		YsShellPolygonHandle srcPlHd,newPlHd=nullptr;
 
 		YsArray <YSSIZE_T> vertexArray;
+		YsArray <YSSIZE_T> texCoordArray;
 		YsShellExt::PolygonAttrib attrib;
 		YsColor col;
 		YsVec3 nom;
@@ -94,6 +103,7 @@ public:
 	{
 	public:
 		YsArray <YsShellVertexHandle> vtHd;
+		YsArray <YsShell::TexCoordHandle> tcHd;
 		YsArray <YsShellPolygonHandle> plHd;
 		YsArray <YsShellExt::ConstEdgeHandle> ceHd;
 		YsArray <YsShellExt::FaceGroupHandle> fgHd;
@@ -101,6 +111,7 @@ public:
 	};
 
 	YsArray <Vertex> vertexArray;
+	YsArray <TexCoord> texCoordArray;
 	YsArray <Polygon> polygonArray;
 	YsArray <ConstEdge> constEdgeArray;
 	YsArray <FaceGroup> faceGroupArray;
@@ -127,6 +138,13 @@ public:
 	void AddVertex(const T &hdStore);
 private:
 	YSSIZE_T AddVertex(YsShellVertexHandle vtHd,YSBOOL derived);
+
+	// Step 2.5
+	void AddTexCoord(YSSIZE_T n,const YsShell::TexCoordHandle hdArray[]);
+	template <class T>
+	void AddTexCoord(const T &hd);
+private:
+	YSSIZE_T AddTexCoord(YsShell::TexCoordHandle tcHd,YSBOOL derived);
 
 public:
 	// Step 3
@@ -311,6 +329,11 @@ YSRESULT YsShellExt_DuplicateUtil::PasteWithTransformation(SHLCLASS &dstShl,YSBO
 {
 	typename SHLCLASS::StopIncUndo incUndo(&dstShl);
 
+	for(auto &tc : texCoordArray)
+	{
+		tc.newTcHd=dstShl.AddTexCoord(tc.texCoord);
+	}
+
 	for(auto &vtx : vertexArray)
 	{
 		auto newPos=vtx.pos;
@@ -324,6 +347,15 @@ YSRESULT YsShellExt_DuplicateUtil::PasteWithTransformation(SHLCLASS &dstShl,YSBO
 
 	for(auto &plg : polygonArray)
 	{
+		YsArray <YsShell::TexCoordHandle> newPlTcHd;
+		newPlTcHd.resize(plg.texCoordArray.size());
+		for(YSSIZE_T idx=0; idx<plg.texCoordArray.size(); ++idx)
+		{
+			auto tcIdx=plg.texCoordArray[idx];
+			auto &texCoord=texCoordArray[tcIdx];
+			newPlTcHd[idx]=texCoord.newTcHd;
+		}
+
 		YsArray <YsShellVertexHandle,4> newPlVtHd;
 		newPlVtHd.Set(plg.vertexArray.GetN(),NULL);
 		for(YSSIZE_T idx=0; idx<plg.vertexArray.GetN(); ++idx)
@@ -339,6 +371,7 @@ YSRESULT YsShellExt_DuplicateUtil::PasteWithTransformation(SHLCLASS &dstShl,YSBO
 		}
 
 		auto newPlHd=dstShl.AddPolygon(newPlVtHd);
+		dstShl.SetPolygonTexCoord(newPlHd,newPlTcHd);
 		dstShl.SetPolygonAttrib(newPlHd,plg.attrib);
 		dstShl.SetPolygonColor(newPlHd,plg.col);
 

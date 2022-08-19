@@ -156,12 +156,12 @@ public:
 	YsArray <YsShell::VertexHandle> vtHdArray;
 	YsArray <YsShell::TexCoordHandle> tcHdArray;
 	YsArray <YsVec3> nomArray;  // Stores normals from "vn" tag.  For future versions.
-	YsString mtllib;
-	YsString usemtl; // Incomplete.
+	YsArray <YsString> mtllib;
 
 	YSBOOL inPlGrp;
 	YsString currentPlGrpName;
 	YsString currentSmthShadGrpName;
+	YsString currentUsemtl;
 	YsArray <YsShellPolygonHandle> currentPlGrp;
 
 public:
@@ -183,6 +183,7 @@ public:
 
 private:
 	void DecodePlVtId(int &vtIdx,int &texCoordIdx,int &nomIdx,const YsString &str) const;
+	void CloseOneFaceGroup(YsShellExt &shl);
 };
 
 class YsShellExtObjWriter

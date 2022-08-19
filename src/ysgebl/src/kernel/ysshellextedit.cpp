@@ -2407,6 +2407,49 @@ YSRESULT YsShellExtEdit::SetFaceGroupLabel(YsShellExt::FaceGroupHandle fgHd,cons
 
 ////////////////////////////////////////////////////////////
 
+class YsShellExtEdit::UndoSetFaceGroupExtRef : public YsShellExtEdit::EditLog
+{
+public:
+	YsShellExt::FaceGroupHandle fgHd;
+	YsString prvExtRef,newExtRef;
+
+	virtual void Undo(YsShellExtEdit *shl);
+	virtual void Redo(YsShellExtEdit *shl);
+};
+
+void YsShellExtEdit::UndoSetFaceGroupExtRef::Undo(YsShellExtEdit *shl)
+{
+	YsShellExt *shlExt=(YsShellExt *)shl;
+	shlExt->SetFaceGroupExtRef(fgHd,prvExtRef);
+}
+
+void YsShellExtEdit::UndoSetFaceGroupExtRef::Redo(YsShellExtEdit *shl)
+{
+	YsShellExt *shlExt=(YsShellExt *)shl;
+	shlExt->SetFaceGroupExtRef(fgHd,newExtRef);
+}
+
+YSRESULT YsShellExtEdit::SetFaceGroupExtRef(YsShellExt::FaceGroupHandle fgHd,const char ExtRef[])
+{
+	YsShellExt *shlExt=(YsShellExt *)this;
+
+	NewUndoLog<UndoSetFaceGroupExtRef> undo(this);
+	if(nullptr!=undo)
+	{
+		undo.Ptr()->prvExtRef=shlExt->GetFaceGroupExtRef(fgHd);
+		undo.Ptr()->newExtRef=ExtRef;
+	}
+
+	auto res=shlExt->SetFaceGroupExtRef(fgHd,ExtRef);
+	if(YSOK!=res)
+	{
+		undo.Discard();
+	}
+	return res;
+}
+
+////////////////////////////////////////////////////////////
+
 class YsShellExtEdit::UndoDeleteFaceGroup : public YsShellExtEdit::EditLog
 {
 public:

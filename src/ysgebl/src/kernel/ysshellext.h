@@ -352,6 +352,7 @@ public:
 		FGFLAG flags;
 		BoundaryLayerSpec bLayerSpec;
 		double elemSize;
+		YsString extRef; // External reference such as usemtl in .OBJ
 
 		// Self-memo.  Make sure to update CopyFrom when adding a new variable.
 
@@ -360,6 +361,7 @@ public:
 			flags=incoming.flags;
 			bLayerSpec=incoming.bLayerSpec;
 			elemSize=incoming.elemSize;
+			extRef=incoming.extRef;
 		}
 
 		void Initialize(void);
@@ -411,6 +413,7 @@ public:
 		{
 			CommonProp::Initialize();
 			FaceGroupCoreAttrib::Initialize();
+			extRef.Set("");
 		}
 		void CopyFrom(const FaceGroupAttrib &incoming)
 		{
@@ -1573,8 +1576,14 @@ public:
 	/*! This function sets a label of the face group. */
 	YSRESULT SetFaceGroupLabel(FaceGroupHandle fgHd,const char label[]);
 
+	/*! Set external reference in the face group. */
+	YSRESULT SetFaceGroupExtRef(FaceGroupHandle fgHd,const char extRef[]);
+
 	/*! This function returns a label of the face group. */
 	const char *GetFaceGroupLabel(FaceGroupHandle fgHd) const;
+
+	/*! This function returns an external reference of the face group. */
+	const char *GetFaceGroupExtRef(FaceGroupHandle fgHd) const;
 
 	/*! This function sets a face-group identification number. */
 	YSRESULT SetFaceGroupIdent(FaceGroupHandle fgHd,YSSIZE_T ident);

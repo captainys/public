@@ -240,6 +240,8 @@ private:
 	friend class UndoSetFaceGroupAttrib;
 	class UndoSetFaceGroupLabel;
 	friend class UndoSetFaceGroupLabel;
+	class UndoSetFaceGroupExtRef;
+	friend class UndoSetFaceGroupExtRef;
 	class UndoModifyConstEdge;
 	friend class UndoModifyConstEdge;
 	class UndoSetConstEdgeAttrib;
@@ -448,6 +450,7 @@ public:
 	using YsShellExt::GetFaceGroupAttrib;
 	using YsShellExt::GetFaceGroupIdent;
 	using YsShellExt::GetFaceGroupLabel;
+	using YsShellExt::GetFaceGroupExtRef;
 	using YsShellExt::GetNumEdge;
 	using YsShellExt::GetNumPolygonUsingEdge;
 	using YsShellExt::GetNumPolygonUsingVertex;
@@ -1015,6 +1018,9 @@ public:
 
 	/*! This function sets a label of the face group. */
 	YSRESULT SetFaceGroupLabel(FaceGroupHandle fgHd,const char label[]);
+
+	/*! Sets an external reference of the face group. */
+	YSRESULT SetFaceGroupExtRef(FaceGroupHandle fgHd,const char extRef[]);
 
 	/*! This function returns YSTRUE if the face group is an INTERIOR_CONST_SURFACE, YSFALSE otherwise. */
 	YSBOOL IsInteriorConstSurface(FaceGroupHandle fgHd) const;

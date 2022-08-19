@@ -138,6 +138,29 @@ YSSIZE_T YsShellExt_DuplicateUtil::AddVertex(YsShellVertexHandle vtHd,YSBOOL der
 }
 
 
+// Step 2.5
+void YsShellExt_DuplicateUtil::AddTexCoord(YSSIZE_T n,const YsShell::TexCoordHandle hdArray[])
+{
+	for(YSSIZE_T i=0; i<n; ++i)
+	{
+		AddTexCoord(hdArray[i],YSFALSE);
+	}
+}
+YSSIZE_T YsShellExt_DuplicateUtil::AddTexCoord(YsShell::TexCoordHandle tcHd,YSBOOL derived)
+{
+	const auto newIdx=texCoordArray.size();
+
+	auto &last=texCoordArray.New();
+	last.srcTcHd=tcHd;
+	last.texCoord=srcShl->GetTexCoordUV(tcHd);
+	last.derived=derived;
+
+	tcHdMap.AddMapping(*srcShl,tcHd,newIdx);
+
+	return newIdx;
+}
+
+
 // Step 3
 void YsShellExt_DuplicateUtil::AddPolygon(YSSIZE_T n,const YsShellPolygonHandle hdArray[])
 {
@@ -153,6 +176,22 @@ YSSIZE_T YsShellExt_DuplicateUtil::AddPolygon(YsShellPolygonHandle plHd,YSBOOL d
 
 	auto &last=polygonArray.New();
 	last.srcPlHd=plHd;
+
+	auto plTcHd=srcShl->GetPolygonTexCoord(plHd);
+	last.texCoordArray.resize(plTcHd.size());
+	for(YSSIZE_T i=0; i<plTcHd.size(); ++i)
+	{
+		YsArray <YSSIZE_T> found;
+		tcHdMap.FindMapping(found,*srcShl,plTcHd[i]);
+		if(0<found.size())
+		{
+			last.texCoordArray[i]=found[0];
+		}
+		else
+		{
+			last.texCoordArray[i]=AddTexCoord(plTcHd[i],YSTRUE);
+		}
+	}
 
 	YsArray <YsShellVertexHandle,4> plVtHd;
 	srcShl->GetPolygon(plVtHd,plHd);
@@ -377,6 +416,10 @@ YsShellExt_DuplicateUtil::Pasted YsShellExt_DuplicateUtil::GetPasted(void) const
 {
 	Pasted pasted;
 
+	for(auto &tc : texCoordArray)
+	{
+		pasted.tcHd.Add(tc.newTcHd);
+	}
 	for(auto &v : vertexArray)
 	{
 		pasted.vtHd.Add(v.newVtHd);
