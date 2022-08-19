@@ -2745,6 +2745,7 @@ public:
 		{
 			hd=NullHandle();
 		}
+		return hd;
 	}
     inline YsFixedLengthToMultiHashElemEnumHandle Null(void) const
     {
