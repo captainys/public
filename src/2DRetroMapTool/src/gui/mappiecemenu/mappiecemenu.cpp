@@ -69,6 +69,29 @@ void FsGui3DMainCanvas::File_InsertImage_Open(FsGuiDialog *dlg,int returnCode)
 	}
 }
 
+YsVec2i FsGui3DMainCanvas::DecodeXYFromFileName(YsWString fName) const
+{
+	int x=0x7FFFFFFF,y=0x7FFFFFFF;
+	for(int i=0; i<fName.size(); ++i)
+	{
+		if('$'==fName[i])
+		{
+			if(('x'==fName[i+1] || 'X'==fName[i+1]) && '='==fName[i+2])
+			{
+				YsWString subStr(fName.data()+i+3);
+				x=subStr.Atoi();
+			}
+			else if(('y'==fName[i+1] || 'Y'==fName[i+1]) && '='==fName[i+2])
+			{
+				YsWString subStr(fName.data()+i+3);
+				y=subStr.Atoi();
+			}
+		}
+	}
+	YsVec2i pos(x,y);
+	return pos;
+}
+
 RetroMap_World::MapPieceHandle FsGui3DMainCanvas::MapPiece_Insert_Insert(RetroMap_World::FieldHandle fdHd,const YsWString &fn)
 {
 	YsFileIO::File fp(fn,"rb");
@@ -90,6 +113,23 @@ RetroMap_World::MapPieceHandle FsGui3DMainCanvas::MapPiece_Insert_Insert(RetroMa
 		pos.Set((int)crs.x(),(int)crs.y());
 	}
 
+	auto decodedPos=DecodeXYFromFileName(fn);
+	if(0x7FFFFFFF!=decodedPos.x())
+	{
+		auto unit=world.GetUnit();
+		pos.SetX(decodedPos.x()*unit.x());
+	}
+	if(0x7FFFFFFF!=decodedPos.y())
+	{
+		auto unit=world.GetUnit();
+		pos.SetY(-decodedPos.y()*unit.y());
+	}
+
+	if(0x7FFFFFFF!=decodedPos.x() || 0x7FFFFFFF!=decodedPos.y())
+	{
+		YsVec3 viewTarget(pos.x(),pos.y(),0);
+		drawEnv.SetViewTarget(viewTarget);
+	}
 
 	auto mpHd=world.LoadImage(fdHd,pos,YsTextureManager::FOM_PNG,binData);
 	world.ReadyVbo(fdHd,mpHd);

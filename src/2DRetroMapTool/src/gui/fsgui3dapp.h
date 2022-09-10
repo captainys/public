@@ -369,6 +369,8 @@ private:
 
 
 
+	YsVec2i DecodeXYFromFileName(YsWString fName) const;
+
 	void MapPiece_InsertNewScreenshot(FsGuiPopUpMenuItem *);
 	RetroMap_World::MapPieceHandle MapPiece_Insert_Insert(RetroMap_World::FieldHandle fdHd,const YsWString &fn);
 	void MapPiece_MoveToFront(FsGuiPopUpMenuItem *);
