@@ -17,6 +17,9 @@ void RetroMap_World::MapPiece::Render(void) const
 	{
 		texUnitPtr->Bind(0);
 
+		// Force turn off interpolation
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+
 		YsGLSLPlain3DRenderer renderer;
 		renderer.SetTextureIdent(0);
 		renderer.SetTextureType(YSGLSL_TEX_TYPE_ATTRIBUTE);
