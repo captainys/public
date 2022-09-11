@@ -156,6 +156,13 @@ void FsGui3DMainCanvas::MapPiece_InsertNewScreenshot(FsGuiPopUpMenuItem *)
 	else
 	{
 		auto fn=config.GetNewScreenshotFileName();
+		auto ext=fn.GetExtension();
+		if(0!=ext.STRCMP(L".PNG") && 0!=ext.STRCMP(L"PNG"))
+		{
+			printf("New file is not a PNG.\n");
+			return;
+		}
+
 		printf("[%s]\n",fn.GetUTF8String().Txt());
 		if(0<fn.Strlen())
 		{

@@ -27,6 +27,8 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //////////////////////////////////////////////////////////// */
 
+#include <time.h>
+
 #include <ysclass.h>
 #include <ysport.h>
 #include <yscompilerwarning.h>
@@ -123,6 +125,10 @@ public:
 	FsGuiButton *showDiffBtn;
 	FsGuiNumberBox *diffThrNbx;
 	FsGuiButton *adjustBtn;
+	FsGuiButton *autoInsertNewScreenShotBtn;
+
+	time_t lastAutoInsertTime=0;
+
 	void Make(FsGui3DMainCanvas *canvasPtr);
 	virtual void OnButtonClick(FsGuiButton *btn);
 	virtual void OnDropListSelChange(FsGuiDropList *drp,int prevSel);
@@ -149,6 +155,8 @@ void FsGui3DMainCanvas::ControlDialog::Make(FsGui3DMainCanvas *canvasPtr)
 	showDiffBtn->SetCheck(YSTRUE);
 	diffThrNbx=AddNumberBox(0,FSKEY_NULL,FSGUI_DLG_CONTROL_DIFFTHR,8,32,1,255,1,YSFALSE);
 	adjustBtn=AddTextButton(0,FSKEY_NULL,FSGUI_PUSHBUTTON,FSGUI_DLG_CONTROL_ADJUSTMENT,YSFALSE);
+
+	autoInsertNewScreenShotBtn=AddTextButton(0,FSKEY_NULL,FSGUI_CHECKBOX,"Auto Add New Screenshot",YSTRUE);
 
 	YsArray <YsArray <FsGuiDialogItem *> > matrix;
 	matrix.Increment();
@@ -651,6 +659,14 @@ void FsGui3DMainCanvas::SnapToUnit(YsVec2i &pos) const
 void FsGui3DMainCanvas::OnInterval(void)
 {
 	FsGuiCanvas::Interval();
+
+	if(nullptr!=controlDlg &&
+	   YSTRUE==controlDlg->autoInsertNewScreenShotBtn->GetCheck() &&
+	   controlDlg->lastAutoInsertTime!=time(nullptr))
+	{
+		MapPiece_InsertNewScreenshot(nullptr);
+		controlDlg->lastAutoInsertTime=time(nullptr);
+	}
 
 	{
 		int key;
