@@ -169,7 +169,7 @@ endif()
 #add_subdirectory("ysgebl/tutorial/kernel/tutorial05")
 #add_subdirectory("ysgebl/tutorial/kernel/tutorial06")
 
-add_subdirectory("2DRetroMapTool/src")
+#2D Retro Map Tool has been moved to an independent repository
 
 add_subdirectory("ir_transceiver")
 
