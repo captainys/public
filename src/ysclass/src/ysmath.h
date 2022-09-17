@@ -90,6 +90,9 @@ inline void YsMakeSmaller(T &a,const T &b)
  */
 template <class T>
 inline const T YsBound(const T &x,const T &a,const T &b)
+/*! Ensures that the output is within the allowable range (between a and b) and if not returns the
+    nearest value that is actually in the range
+ */
 {
 	return ((x)<(a) ? (a) : ((x)>(b) ? (b) : (x)));
 }
