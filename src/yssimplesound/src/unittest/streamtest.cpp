@@ -5,59 +5,77 @@
 #include <yssimplesound.h>
 
 
-const int samplePerChannel=44100;
-
-
-void MakeWaveData(std::vector <unsigned char> &wave)
-{
-	wave.resize(samplePerChannel*4);  // 4-bytes per sample * 44.1KHz = 1 second
-
-	short *waveData=(short *)wave.data();
-
-	// Frequency for A4=440Hz
-	// 44100Hz/440Hz=100  50 high-50 low
-
-	for(int i=0; i<44100; ++i)
-	{
-		if(50<i%100)
-		{
-			waveData[i*2  ]=8000;
-			waveData[i*2+1]=8000;
-		}
-		else
-		{
-			waveData[i*2  ]=-8000;
-			waveData[i*2+1]=-8000;
-		}
-	}
-}
-
 
 int main(int ac,char *av[])
 {
-	std::vector <unsigned char> wave;
-	MakeWaveData(wave);
-
-	YsSoundPlayer::SoundData data;
-	data.CreateFromSigned16bitStereo(44100,wave);
-
-	if(data.GetNumSamplePerChannel()!=samplePerChannel)
+	if(ac<2)
 	{
-		fprintf(stderr,"Sample count error.\n");
+		printf("Usage:\n");
+		printf("streamtest filename.wav\n");
 		return 1;
 	}
 
-	FsOpenWindow(0,0,100,100,0);
+	YsSoundPlayer::SoundData data;
+	if(YSOK!=data.LoadWav(av[1]))
+	{
+		printf("Cannot open file.\n");
+		return 1;
+	}
+
+
+	unsigned int playPtr=0,filledLen=0;
+	const unsigned int pieceSteps=512,pieceLen=pieceSteps*2;
+	std::vector <unsigned char> pieceByte;
+
+	while(playPtr<data.GetNumSamplePerChannel() && filledLen<pieceSteps)
+	{
+		auto ch0=data.GetSignedValue16(0,playPtr);
+		auto ch1=data.GetSignedValue16(1,playPtr);
+		pieceByte.push_back(ch0&0xFF);
+		pieceByte.push_back(ch0>>8);
+		pieceByte.push_back(ch1&0xFF);
+		pieceByte.push_back(ch1>>8);
+		++filledLen;
+		++playPtr;
+	}
+
 
 	YsSoundPlayer sndPlayer;
 	sndPlayer.Start();
-	sndPlayer.PlayOneShot(data);
-	while(YSTRUE==sndPlayer.IsPlaying(data))
-	{
-		FsPollDevice();
-		sndPlayer.KeepPlaying();
 
-		printf("%lf\n",sndPlayer.GetCurrentPosition(data));
+	YsSoundPlayer::SoundData piece;
+	piece.CreateFromSigned16bitStereo(44100,pieceByte);
+
+	YsSoundPlayer::Stream streamer;
+	YsSoundPlayer::StreamingOption opt;
+	sndPlayer.StartStreaming(streamer,opt);
+	sndPlayer.AddNextStreamingSegment(streamer,piece);
+	pieceByte.clear();
+
+	while(playPtr<data.GetNumSamplePerChannel())
+	{
+		if(0==pieceByte.size())
+		{
+			filledLen=0;
+			while(playPtr<data.GetNumSamplePerChannel() && filledLen<pieceSteps)
+			{
+				auto ch0=data.GetSignedValue16(0,playPtr);
+				auto ch1=data.GetSignedValue16(1,playPtr);
+				pieceByte.push_back(ch0&0xFF);
+				pieceByte.push_back(ch0>>8);
+				pieceByte.push_back(ch1&0xFF);
+				pieceByte.push_back(ch1>>8);
+				++filledLen;
+				++playPtr;
+			}
+			printf("%d %d\n",playPtr,filledLen);
+		}
+		if(0!=pieceByte.size() && sndPlayer.StreamPlayerReadyToAcceptNextNumSample(streamer,filledLen))
+		{
+			piece.CreateFromSigned16bitStereo(44100,pieceByte);
+			sndPlayer.AddNextStreamingSegment(streamer,piece);
+			pieceByte.clear();
+		}
 	}
 
 	sndPlayer.End();
