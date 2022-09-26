@@ -695,7 +695,7 @@ YSBOOL YsSoundPlayer::StreamPlayerReadyToAcceptNextNumSampleAPISpecific(const St
 		DWORD playCursor,writeCursor;
 		stream.api->dSoundBuf->GetCurrentPosition(&playCursor,&writeCursor);
 
-		DWORD nextWriteCursor=stream.api->filledPtr;
+		DWORD trueWriteCursor=stream.api->filledPtr;
 		// If playCursor==filledPtr, filled data caught up with playCursor, which means only zero byte can be written.
 		if(playCursor==stream.api->filledPtr)
 		{
@@ -710,7 +710,7 @@ YSBOOL YsSoundPlayer::StreamPlayerReadyToAcceptNextNumSampleAPISpecific(const St
 
 		{
 			// Buffer Underrun real write position will be write cursor
-			nextWriteCursor=writeCursor;
+			trueWriteCursor=writeCursor;
 		}
 
 
@@ -719,18 +719,18 @@ YSBOOL YsSoundPlayer::StreamPlayerReadyToAcceptNextNumSampleAPISpecific(const St
 		// Two possibilies
 		//                    <-Writable-------------------------->
 		// Ring Buffer |-----|------------------------------------|-------|
-		//                 nextWriteCursor                    playCursor
+		//                 trueWriteCursor                    playCursor
 		//
 		//              <-Writable------->                         <----->
 		// Ring Buffer |------------------|-----------------------|-------|
-		//                           playCursor              nextWriteCursor
-		if(nextWriteCursor<playCursor)
+		//                           playCursor              trueWriteCursor
+		if(trueWriteCursor<playCursor)
 		{
-			writableLength=playCursor-nextWriteCursor;
+			writableLength=playCursor-trueWriteCursor;
 		}
 		else
 		{
-			writableLength=stream.api->bufferLengthInBytes-(nextWriteCursor-playCursor);
+			writableLength=stream.api->bufferLengthInBytes-(trueWriteCursor-playCursor);
 		}
 
 		DWORD dataLengthInBytes=numSamples*RINGBUFFER_CHANNELS*(RINGBUFFER_BITS_PER_SAMPLE/8);
@@ -758,12 +758,12 @@ YSRESULT YsSoundPlayer::AddNextStreamingSegmentAPISpecific(Stream &stream,const 
 		DWORD playCursor,writeCursor;
 		stream.api->dSoundBuf->GetCurrentPosition(&playCursor,&writeCursor);
 
-		DWORD nextWriteCursor=stream.api->filledPtr;
+		DWORD trueWriteCursor=stream.api->filledPtr;
 		if((playCursor<writeCursor && playCursor<=stream.api->filledPtr && stream.api->filledPtr<writeCursor))
 			// |-----(playCursor)----(filledPtr)-----(writeCursor)-------|
 		{
 			// Buffer Underrun real write position will be write cursor
-			nextWriteCursor=writeCursor;
+			trueWriteCursor=writeCursor;
 		}
 		if(writeCursor<playCursor && (stream.api->filledPtr<=writeCursor || playCursor<=stream.api->filledPtr))
 		    // |-----(filledPtr)-----(writeCursor)---------(playCursor)--|
@@ -771,24 +771,24 @@ YSRESULT YsSoundPlayer::AddNextStreamingSegmentAPISpecific(Stream &stream,const 
 
 		{
 			// Buffer Underrun real write position will be write cursor
-			nextWriteCursor=writeCursor;
+			trueWriteCursor=writeCursor;
 		}
 
 
 		DWORD bytesCanWrite=0;
 		if(playCursor<writeCursor)
 		{
-			//   0   playCursor     nextWriteCursor
+			//   0   playCursor     trueWriteCursor
 			//   |    |----------------|        |bufferLength
 			//   |<-->                 <-------->Writable
-			bytesCanWrite=stream.api->bufferLengthInBytes-(nextWriteCursor-playCursor);
+			bytesCanWrite=stream.api->bufferLengthInBytes-(trueWriteCursor-playCursor);
 		}
 		else
 		{
-			//   0   nextWriteCursor  playCursor
+			//   0   trueWriteCursor  playCursor
 			//   |----|                |--------|
 			//         <-------------->          Writable
-			bytesCanWrite=playCursor-nextWriteCursor;
+			bytesCanWrite=playCursor-trueWriteCursor;
 		}
 
 
@@ -797,7 +797,7 @@ YSRESULT YsSoundPlayer::AddNextStreamingSegmentAPISpecific(Stream &stream,const 
 
 		DWORD writeBufSize1,writeBufSize2;
 		unsigned char *writeBuf1,*writeBuf2;
-		if(stream.api->dSoundBuf->Lock(nextWriteCursor,bytesWrite,(LPVOID *)&writeBuf1,&writeBufSize1,(LPVOID *)&writeBuf2,&writeBufSize2,0)==DS_OK)
+		if(stream.api->dSoundBuf->Lock(trueWriteCursor,bytesWrite,(LPVOID *)&writeBuf1,&writeBufSize1,(LPVOID *)&writeBuf2,&writeBufSize2,0)==DS_OK)
 		{
 			const unsigned char *readPtr=dat.DataPointer();
 
@@ -868,7 +868,7 @@ YSRESULT YsSoundPlayer::AddNextStreamingSegmentAPISpecific(Stream &stream,const 
 			stream.api->dSoundBuf->Unlock(writeBuf1,writeBufSize1,writeBuf2,writeBufSize2);
 		}
 
-		stream.api->filledPtr+=bytesWrite;
+		stream.api->filledPtr=trueWriteCursor+bytesWrite;
 		stream.api->filledPtr%=stream.api->bufferLengthInBytes;
 		return YSOK;
 	}
