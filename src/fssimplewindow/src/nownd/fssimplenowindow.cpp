@@ -654,3 +654,7 @@ int FsGetNativeTextInputEvent(void)
 void FsShowMouseCursor(int showFlag)
 {
 }
+int FsIsMouseCursorVisible(void)
+{
+	return 1;
+}

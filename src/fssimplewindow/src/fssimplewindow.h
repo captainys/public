@@ -417,6 +417,7 @@ void FsGetWindowPosition(int &x0,int &y0);
 void FsSetWindowTitle(const char windowTitle[]);
 
 void FsShowMouseCursor(int showFlag);
+int FsIsMouseCursorVisible(void);
 
 void FsPollDevice(void);
 void FsSleep(int ms);

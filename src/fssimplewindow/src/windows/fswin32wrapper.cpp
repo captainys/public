@@ -1205,3 +1205,10 @@ void FsShowMouseCursor(int showFlag)
 		while(0<=ShowCursor(FALSE));
 	}
 }
+
+int FsIsMouseCursorVisible(void)
+{
+	ShowCursor(TRUE);
+	auto ctr=ShowCursor(FALSE);
+	return 0<=ctr;
+}
