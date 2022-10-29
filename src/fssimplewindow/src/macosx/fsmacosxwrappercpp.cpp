@@ -311,3 +311,7 @@ int FsGetNativeTextInputEvent(void)
 {
 	return FSNATIVETEXTEVENT_NONE;
 }
+
+void FsShowMouseCursor(int showFlag)
+{
+}

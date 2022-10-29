@@ -1189,3 +1189,19 @@ int FsGetNativeTextInputEvent(void)
 {
 	return FSNATIVETEXTEVENT_NONE;
 }
+
+void FsShowMouseCursor(int showFlag)
+{
+	// Win32 mouse cursor visibility is controlled by a counter.
+	// ShowCursor(TRUE) increments and ShowCursor(FALSE) decrements the counter by one,
+	// and returns the updated counter value.
+	// Cursor is visible if the counter is greater or equal to zero.
+	if(0!=showFlag)
+	{
+		while(ShowCursor(TRUE)<0);
+	}
+	else
+	{
+		while(0<=ShowCursor(FALSE));
+	}
+}
