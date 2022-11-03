@@ -1897,7 +1897,14 @@ YsShellExt::FaceGroupHandle YsShellExt::DeleteFaceGroupPolygon(YsShellPolygonHan
 			return fgHd;
 		}
 	}
-	return NULL;
+	if(YSTRUE!=IsSearchEnabled())
+	{
+		fprintf(stderr,"%s %d\n",__FUNCTION__,__LINE__);
+		fprintf(stderr,"Called without SearchTable attached.\n");
+		int *ptr=nullptr;
+		*ptr=0; // Let it crash.
+	}
+	return nullptr;
 }
 
 YSRESULT YsShellExt::DeleteFaceGroupPolygonMulti(YSSIZE_T nPl,const YsShellPolygonHandle plHdPtr[])
