@@ -45,6 +45,9 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 void FsGuiFileDialog::OnAttach(void)
 {
+	// 2023/04/03 busy flag must be set here before FsPollDevice, or ShowDialog will re-enter and may call OnCloseModalCallBack too early.
+	busy=YSTRUE;
+
 	// 2013/08/14
 	// Event queue must be cleared before the dialog.  'O' key-up event
 	// may be cancelled during the file dialog.
@@ -57,7 +60,7 @@ void FsGuiFileDialog::OnAttach(void)
 	struct FsGuiFileDialog_Mac dlgInfo;
 	FsGuiFileDialog_Mac_InitDialog(&dlgInfo);
 
-	busy=YSTRUE;
+	// Setting busy here is too late.  See comment above.
 
 	dlgInfo.in_multiSelect=(int)multiSelect;
 	dlgInfo.in_mode=(mode==MODE_OPEN ? FSGUIFILEDIALOG_MAC_MODE_OPEN : FSGUIFILEDIALOG_MAC_MODE_SAVE);
