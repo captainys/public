@@ -212,7 +212,7 @@ YSRESULT YsShellExt::ConstEdgeStore::Add(const T &hdStore)
 template <class T>
 YSRESULT YsShellExt::ConstEdgeStore::AddConstEdge(const T &hdStore)
 {
-	Add<T>(hdStore);
+	return Add<T>(hdStore);
 }
 
 ////////////////////////////////////////////////////////////
