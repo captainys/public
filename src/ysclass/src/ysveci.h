@@ -780,5 +780,25 @@ inline YsVec3iRange::iterator rend(const YsVec3iRange &allIndex)
 
 ////////////////////////////////////////////////////////////
 
+#include <functional>
+
+template <>
+struct std::hash <YsVec2i>
+{
+	size_t operator()(const YsVec2i &v) const noexcept
+	{
+		return v.x()*3+v.y()*5;
+	}
+};
+
+template <>
+struct std::hash <YsVec3i>
+{
+	size_t operator()(const YsVec3i &v) const noexcept
+	{
+		return v.x()*3+v.y()*5+v.z()*7;
+	}
+};
+
 /* } */
 #endif
