@@ -66,8 +66,8 @@ protected:
 	int verboseMode;
 	unsigned int adler32_s1,adler32_s2;
 
-	unsigned int nByteExpect;
-	unsigned int nByteReceived;
+	size_t nByteExpect;
+	size_t nByteReceived;
 
 public:
 	YsPngCompressor();
@@ -76,9 +76,9 @@ public:
 	void SaveState(YsPngCompressorState &state);
 	void RestoreState(const YsPngCompressorState &state);
 
-	int BeginCompression(unsigned int nByte);
-	int AddCompressionBlock(unsigned int nByte,unsigned char byteData[],int bFinal);
-	int AddNonCompressionBlock(unsigned int nByte,unsigned char byteData[],int bFinal);
+	int BeginCompression(size_t nByte);
+	int AddCompressionBlock(size_t nByte,unsigned char byteData[],int bFinal);
+	int AddNonCompressionBlock(size_t nByte,unsigned char byteData[],int bFinal);
 	int EndCompression(void);
 
 	unsigned int GetCompressedLength(void) const;

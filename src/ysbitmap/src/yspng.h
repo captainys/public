@@ -32,6 +32,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /* { */
 
 #include <stdio.h>
+#include <stdint.h>
 
 #ifndef YSRESULT_IS_DEFINED
 #define YSRESULT_IS_DEFINED

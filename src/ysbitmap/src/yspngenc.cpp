@@ -635,13 +635,13 @@ void YsPngCompressor::RestoreState(const YsPngCompressorState &state)
 	nByteReceived=state.nByteReceived;
 }
 
-int YsPngCompressor::BeginCompression(unsigned int nByte)
+int YsPngCompressor::BeginCompression(size_t nByte)
 {
 	nByteExpect=nByte;
 	nByteReceived=0;
 
 
-	unsigned int windowSizeExp;
+	size_t windowSizeExp;
 	unsigned int utilBit;
 
 	utilBit=256;
@@ -686,7 +686,7 @@ int YsPngCompressor::BeginCompression(unsigned int nByte)
 	return YSOK;
 }
 
-int YsPngCompressor::AddCompressionBlock(unsigned int nByte,unsigned char byteData[],int bFinal)
+int YsPngCompressor::AddCompressionBlock(size_t nByte,unsigned char byteData[],int bFinal)
 {
 	int i;
 	unsigned int nCode=0;
@@ -1346,7 +1346,7 @@ int YsPngCompressor::MakeLengthBackDist(int &hDist,unsigned int hLenDist[],int n
 }
 
 // nByte needs to be less than 32768
-int YsPngCompressor::AddNonCompressionBlock(unsigned int nByte,unsigned char byteData[],int bFinal)
+int YsPngCompressor::AddNonCompressionBlock(size_t nByte,unsigned char byteData[],int bFinal)
 {
 	nByteReceived+=nByte;
 
@@ -1700,8 +1700,8 @@ int YsGenericPngEncoder::WriteIDATChunk(unsigned int nLine,unsigned int bytePerL
 	YsPngCompressor compressor;
 	unsigned char *chunk;
 
-	unsigned int totalRawPixelByte;
-	totalRawPixelByte=nLine*(bytePerLine+1); // Each line has one extra byte of filter.  Therefore one must be added.
+	uint64_t totalRawPixelByte;
+	totalRawPixelByte=(uint64_t)nLine*(uint64_t)(bytePerLine+1); // Each line has one extra byte of filter.  Therefore one must be added.
 
 	compressor.BeginCompression(totalRawPixelByte);
 
@@ -1738,8 +1738,8 @@ int YsGenericPngEncoder::WriteIDATChunk(unsigned int nLine,unsigned int bytePerL
 
 		for(yInBlock=0; yInBlock<nLineInBlock; yInBlock++)
 		{
-			int headPtrDst,headPtrSrc;
-			headPtrSrc=(y+yInBlock)*bytePerLine;
+			uint64_t headPtrDst,headPtrSrc;
+			headPtrSrc=(uint64_t)(y+yInBlock)*(uint64_t)bytePerLine;
 			headPtrDst=yInBlock*(bytePerLine+1);
 
 			zLibBlock[headPtrDst]=0;  // No Filter.  See section 9 of PNG documentation.
@@ -1752,7 +1752,7 @@ int YsGenericPngEncoder::WriteIDATChunk(unsigned int nLine,unsigned int bytePerL
 
 
 
-		unsigned int totalByte=nLineInBlock*(bytePerLine+1);
+		unsigned int totalByte=(uint64_t)nLineInBlock*(uint64_t)(bytePerLine+1);
 		unsigned int compressedLength0=compressor.GetCompressedLength();
 
 		YsPngCompressorState state;
@@ -1916,7 +1916,7 @@ unsigned int YsGenericPngEncoder::CalculateBytePerLine(int width,int bitDepth,in
 
 int YsGenericPngEncoder::Encode(int width,int height,int bitDepth,int colorType,const unsigned char dat[])
 {
-	unsigned int totalByte,bytePerLine;
+	uint64_t totalByte,bytePerLine;
 	bytePerLine=CalculateBytePerLine(width,bitDepth,colorType);
 	if(bytePerLine==0)
 	{

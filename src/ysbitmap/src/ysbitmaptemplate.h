@@ -31,6 +31,8 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define YSBITMAPTEMPLATE_IS_INCLUDED
 /* { */
 
+#include <stdint.h>
+
 #ifndef YSRESULT_IS_DEFINED
 #define YSRESULT_IS_DEFINED
 typedef enum
@@ -201,28 +203,29 @@ public:
 	/*! Returns the total number of components in the bitmap of given width and height.
 	    If, the number of components per pixel is 4, (100x100) bitmap has 4x100x100 total number of components.
 	*/
-	int GetTotalNumComponent(int wid,int hei) const
+	int64_t GetTotalNumComponent(int wid,int hei) const
 	{
-		return wid*hei*NumComponentPerPixel;
+		int64_t W=wid,H=hei;
+		return W*H*NumComponentPerPixel;
 	}
 	/*! Returns the total number of components in this bitmap.
 	    If, the number of components per pixel is 4, (100x100) bitmap has 4x100x100 total number of components.
 	*/
-	int GetTotalNumComponent(void) const
+	int64_t GetTotalNumComponent(void) const
 	{
 		return GetTotalNumComponent(nx,ny);
 	}
 	/*! Returns the total number of components in one single line for the given width.
 	    If the width of the bitmap is 100, and the total number of components per pixel is 4, 4x100 components per line.
 	*/
-	int GetNumComponentPerLine(int wid) const
+	int64_t GetNumComponentPerLine(int wid) const
 	{
 		return wid*NumComponentPerPixel;
 	}
 	/*! Returns the total number of components in one single line for this bitmap.
 	    If the width of the bitmap is 100, and the total number of components per pixel is 4, 4x100 components per line.
 	*/
-	int GetNumComponentPerLine(void) const
+	int64_t GetNumComponentPerLine(void) const
 	{
 		return GetNumComponentPerLine(nx);
 	}

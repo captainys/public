@@ -349,10 +349,10 @@ YSRESULT YsBitmap::PrepareBitmap(int wid,int hei)
 
 void YsBitmap::Clear(unsigned char r,unsigned char g,unsigned char b,unsigned char a)
 {
-	int i,n;
-	n=GetWidth()*GetHeight()*4;
+	int64_t i,n;
+	n=(int64_t)GetWidth()*(int64_t)GetHeight()*4LL;
 	auto dat=GetEditableBitmapPointer();
-	if(r==g && g==b && b==a)
+	if(r==g && g==b && b==a && n<=0x7FFFFFFF)
 	{
 		memset(dat,r,n);
 	}
