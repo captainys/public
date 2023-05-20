@@ -89,7 +89,7 @@ class YsPngUncompressor
 public:
 	class YsGenericPngDecoder *output;
 
-	inline unsigned int GetNextBit(const unsigned char dat[],unsigned &bytePtr,unsigned &bitPtr)
+	inline unsigned int GetNextBit(const unsigned char dat[],size_t &bytePtr,unsigned &bitPtr)
 	{
 		unsigned a;
 		a=dat[bytePtr]&bitPtr;
@@ -101,7 +101,7 @@ public:
 		}
 		return (a!=0 ? 1 : 0);
 	}
-	inline unsigned int GetNextMultiBit(const unsigned char dat[],unsigned &bytePtr,unsigned &bitPtr,unsigned n)
+	inline unsigned int GetNextMultiBit(const unsigned char dat[],size_t &bytePtr,unsigned &bitPtr,unsigned n)
 	{
 		unsigned value,mask,i;
 		value=0;
@@ -124,15 +124,15 @@ public:
 	    unsigned int *&hLengthLiteral,unsigned int *&hCodeLiteral,
 	    unsigned int *&hLengthDist,unsigned int *&hCodeDist,
 	    unsigned int hLengthBuf[322],unsigned int hCodeBuf[322],
-	    const unsigned char dat[],unsigned int &bytePtr,unsigned int &bitPtr);
+	    const unsigned char dat[],size_t &bytePtr,unsigned int &bitPtr);
 
 	YsPngHuffmanTree *MakeHuffmanTree(unsigned n,unsigned hLength[],unsigned hCode[]);
 	void DeleteHuffmanTree(YsPngHuffmanTree *node);
 
-	unsigned GetCopyLength(unsigned value,unsigned char dat[],unsigned &bytePtr,unsigned &bitPtr);
-	unsigned GetBackwardDistance(unsigned distCode,unsigned char dat[],unsigned &bytePtr,unsigned &bitPtr);
+	unsigned GetCopyLength(unsigned value,unsigned char dat[],size_t &bytePtr,unsigned &bitPtr);
+	unsigned GetBackwardDistance(unsigned distCode,unsigned char dat[],size_t &bytePtr,unsigned &bitPtr);
 
-	int Uncompress(unsigned length,unsigned char dat[]);
+	int Uncompress(size_t length,unsigned char dat[]);
 };
 
 ////////////////////////////////////////////////////////////

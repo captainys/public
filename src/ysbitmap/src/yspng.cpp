@@ -467,7 +467,7 @@ int YsPngUncompressor::DecodeDynamicHuffmanCode
 	    unsigned int *&hLengthLiteral,unsigned int *&hCodeLiteral,
 	    unsigned int *&hLengthDist,unsigned int *&hCodeDist,
 	    unsigned int hLengthBuf[322],unsigned int hCodeBuf[322],
-	    const unsigned char dat[],unsigned int &bytePtr,unsigned int &bitPtr)
+	    const unsigned char dat[],size_t &bytePtr,unsigned int &bitPtr)
 {
 	unsigned int i;
 	hLit=0;
@@ -647,7 +647,7 @@ void YsPngUncompressor::DeleteHuffmanTree(YsPngHuffmanTree *node)
 	YsPngHuffmanTree::DeleteHuffmanTree(node);
 }
 
-unsigned YsPngUncompressor::GetCopyLength(unsigned value,unsigned char dat[],unsigned &bytePtr,unsigned &bitPtr)
+unsigned YsPngUncompressor::GetCopyLength(unsigned value,unsigned char dat[],size_t &bytePtr,unsigned &bitPtr)
 {
 	unsigned copyLength;
 
@@ -674,7 +674,7 @@ unsigned YsPngUncompressor::GetCopyLength(unsigned value,unsigned char dat[],uns
 }
 
 unsigned YsPngUncompressor::GetBackwardDistance
-   (unsigned distCode,unsigned char dat[],unsigned &bytePtr,unsigned &bitPtr)
+   (unsigned distCode,unsigned char dat[],size_t &bytePtr,unsigned &bitPtr)
 {
 	unsigned backDist;
 
@@ -697,19 +697,19 @@ unsigned YsPngUncompressor::GetBackwardDistance
 	return backDist;
 }
 
-int YsPngUncompressor::Uncompress(unsigned length,unsigned char dat[])
+int YsPngUncompressor::Uncompress(size_t length,unsigned char dat[])
 {
-	unsigned windowUsed;
+	size_t windowUsed;
 	unsigned char *windowBuf;
-	unsigned nByteExtracted;
+	size_t nByteExtracted;
 
 	YsPngHuffmanTree *codeTree=NULL;
 	YsPngHuffmanTree *distTree=NULL;
 
-
 	windowBuf=NULL;
 
-	unsigned bytePtr,bitPtr;
+	size_t bytePtr;
+	unsigned int bitPtr;
 	bytePtr=0;
 	bitPtr=1;
 	nByteExtracted=0;
@@ -1019,7 +1019,7 @@ int YsGenericPngDecoder::Decode(YsPngGenericBinaryStream &binStream)
 		return YSERR;
 	}
 
-	unsigned datBufUsed;
+	size_t datBufUsed;
 	unsigned char *datBuf;
 
 
@@ -1315,7 +1315,8 @@ int YsRawPngDecoder::PrepareOutput(void)
 		delete [] rgba;
 		rgba=NULL;
 	}
-	rgba=new unsigned char [wid*hei*4];
+	size_t byteLength=size_t(wid)*size_t(hei)*4;
+	rgba=new unsigned char [byteLength];
 	x=-1;
 	y=0;
 	filter=0;
@@ -1333,7 +1334,7 @@ int YsRawPngDecoder::PrepareOutput(void)
 
 
 	// See PNG Specification 11.2 for Allowed combinations of color type and bit depth
-	unsigned int twoLineBufLngPerLine=0;
+	size_t twoLineBufLngPerLine=0;
 	switch(hdr.colorType)
 	{
 	default:
@@ -2015,9 +2016,9 @@ int YsRawPngDecoder::EndOutput(void)
 
 void YsRawPngDecoder::Flip(void)  // For drawing in OpenGL
 {
-	int x,y,bytePerLine;
+	int x,y;
 	unsigned int swp;
-	bytePerLine=wid*4;
+	size_t bytePerLine=wid*4;
 	for(y=0; y<hei/2; y++)
 	{
 		for(x=0; x<bytePerLine; x++)
