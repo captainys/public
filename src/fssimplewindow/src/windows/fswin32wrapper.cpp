@@ -57,6 +57,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <direct.h>
 #include <gl/gl.h>
 #include <gl/glu.h>
+#include <GL/glext.h>
 
 #include "fssimplewindow.h"
 #include "fswin32keymap.h"
@@ -68,11 +69,35 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #pragma comment(lib,"opengl32.lib")
 #pragma comment(lib,"glu32.lib")
 
+//WGL function pointer signatures
+typedef BOOL WINAPI wglChoosePixelFormatARB_type(HDC hdc, const int* piAttribIList,
+	const FLOAT* pfAttribFList, UINT nMaxFormats, int* piFormats, UINT* nNumFormats);
+wglChoosePixelFormatARB_type* wglChoosePixelFormatARB;
+
+typedef BOOL WINAPI wglGetPixelFormatAttribivARB_type(HDC hdc,
+	int iPixelFormat,
+	int iLayerPlane,
+	UINT nAttributes,
+	int* piAttributes,
+	int* piValues);
+wglGetPixelFormatAttribivARB_type* wglGetPixelFormatAttribivARB;
+
 static FsWin32KeyMapper fsKeyMapper;
 
 
 #define IDC_NATIVE_TEXT_EDIT  101
 
+//WGL ARB values
+#define WGL_DRAW_TO_WINDOW_ARB 0x2001
+#define WGL_SUPPORT_OPENGL_ARB 0x2010
+#define WGL_DOUBLE_BUFFER_ARB  0x2011
+#define WGL_PIXEL_TYPE_ARB     0x2013
+#define WGL_TYPE_RGBA_ARB      0x202B
+#define WGL_COLOR_BITS_ARB     0x2014
+#define WGL_DEPTH_BITS_ARB     0x2022
+#define WGL_STENCIL_BITS_ARB   0x2023
+#define WGL_SAMPLE_BUFFERS_ARB 0x2041
+#define WGL_SAMPLES_ARB        0x2042
 
 #include "fssimplewindowinternal.h"
 
@@ -94,6 +119,7 @@ const FsSimpleWindowInternal *FsGetSimpleWindowInternal(void)
 
 static LRESULT WINAPI WindowFunc(HWND wnd,UINT msg,WPARAM wp,LPARAM lp);
 static void YsSetPixelFormat(HDC dc);
+static void YsSetPixelFormatARB(HDC dc);
 static HPALETTE YsCreatePalette(HDC dc);
 static void InitializeOpenGL(HWND wnd);
 
@@ -632,7 +658,8 @@ static LRESULT WINAPI WindowFunc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp)
 			break;
 		}
 		fsWin32Internal.hDC=GetDC(hWnd);
-		YsSetPixelFormat(fsWin32Internal.hDC);
+		//YsSetPixelFormat(fsWin32Internal.hDC);
+		YsSetPixelFormatARB(fsWin32Internal.hDC);
 		fsWin32Internal.hRC=wglCreateContext(fsWin32Internal.hDC);
 		wglMakeCurrent(fsWin32Internal.hDC,fsWin32Internal.hRC);
 		if(0==doubleBuffer)
@@ -958,6 +985,137 @@ static LRESULT WINAPI WindowFunc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp)
 		return DefWindowProc(hWnd,msg,wp,lp);
 	}
 	return 1;
+}
+
+static void InitOpenGLExtensions()
+{
+	//create dummy window class
+	WNDCLASSA window_class = {};
+	window_class.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+	window_class.lpfnWndProc = DefWindowProcA;
+	window_class.hInstance = GetModuleHandle(0);
+	window_class.lpszClassName = "Dummy_WGL_djuasiodwa";
+
+	if (!RegisterClassA(&window_class)) {
+		MessageBoxA(NULL, "Failed to register dummy OpenGL window.", NULL, MB_OK);
+		exit(1);
+	}
+
+	//create dummy window
+	HWND dummy_window = CreateWindowExA(
+		0,
+		window_class.lpszClassName,
+		"Dummy OpenGL Window",
+		0,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+		0,
+		0,
+		window_class.hInstance,
+		0);
+
+	if (!dummy_window) {
+		MessageBoxA(NULL, "Failed to create dummy OpenGL window.", NULL, MB_OK);
+		exit(1);
+	}
+
+	HDC dummy_dc = GetDC(dummy_window);
+
+	PIXELFORMATDESCRIPTOR pfd = {};
+	pfd.nSize = sizeof(pfd);
+	pfd.nVersion = 1;
+	pfd.iPixelType = PFD_TYPE_RGBA;
+	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+	pfd.cColorBits = 32;
+	pfd.cAlphaBits = 8;
+	pfd.iLayerType = PFD_MAIN_PLANE;
+	pfd.cDepthBits = 24;
+	pfd.cStencilBits = 8;
+
+	int pixel_format = ChoosePixelFormat(dummy_dc, &pfd);
+	if (!pixel_format) {
+		MessageBoxA(NULL, "Failed to find a suitable pixel format.", NULL, MB_OK);
+		exit(1);
+	}
+	if (!SetPixelFormat(dummy_dc, pixel_format, &pfd)) {
+		MessageBoxA(NULL, "Failed to set the pixel format.", NULL, MB_OK);
+		exit(1);
+	}
+
+	HGLRC dummy_context = wglCreateContext(dummy_dc);
+	if (!dummy_context) {
+		MessageBoxA(NULL, "Failed to create a dummy OpenGL rendering context.", NULL, MB_OK);
+		exit(1);
+	}
+
+	if (!wglMakeCurrent(dummy_dc, dummy_context)) {
+		MessageBoxA(NULL, "Failed to activate dummy OpenGL rendering context.", NULL, MB_OK);
+		exit(1);
+	}
+
+	wglChoosePixelFormatARB = (wglChoosePixelFormatARB_type*)wglGetProcAddress(
+		"wglChoosePixelFormatARB");
+	wglGetPixelFormatAttribivARB = (wglGetPixelFormatAttribivARB_type*)wglGetProcAddress("wglGetPixelFormatAttribivARB");
+
+	wglMakeCurrent(dummy_dc, 0);
+	wglDeleteContext(dummy_context);
+	ReleaseDC(dummy_window, dummy_dc);
+	DestroyWindow(dummy_window);
+
+	printf("wglChoosePixleFormatARB function pointer fetched via dummy context\n");
+}
+
+static void YsSetPixelFormatARB(HDC hDC)
+{
+	//get handles to wglChoosePixelFormatARB, wglGetPixelFormatAttribivARB via dummy OpenGL context
+	InitOpenGLExtensions();
+
+	const int attribList[] =
+	{
+		WGL_DRAW_TO_WINDOW_ARB, GL_TRUE,
+		WGL_SUPPORT_OPENGL_ARB, GL_TRUE,
+		WGL_DOUBLE_BUFFER_ARB, GL_TRUE,
+		WGL_PIXEL_TYPE_ARB, WGL_TYPE_RGBA_ARB,
+		WGL_COLOR_BITS_ARB, 32,
+		WGL_DEPTH_BITS_ARB, 24,
+		WGL_STENCIL_BITS_ARB, 8,
+		WGL_SAMPLE_BUFFERS_ARB, 1, //enable multisampling
+		//WGL_SAMPLES_ARB, 8, //number of samples for MSAA (seems to default to 2)
+		0,
+	};
+
+	//choose pixel format
+	int pixel_format;
+	UINT num_formats;
+	wglChoosePixelFormatARB(hDC, attribList, 0, 1, &pixel_format, &num_formats);
+	if (!num_formats) {
+		MessageBoxA(NULL, "Failed to set the OpenGL pixel format.", NULL, MB_OK);
+		exit(1);
+	}
+
+	//attempt to set pixel format
+	PIXELFORMATDESCRIPTOR pfd;
+	DescribePixelFormat(hDC, pixel_format, sizeof(pfd), &pfd);
+	if (SetPixelFormat(hDC, pixel_format, &pfd) != FALSE)
+	{
+		fsWin32Internal.hPlt = YsCreatePalette(hDC);
+		SelectPalette(hDC, fsWin32Internal.hPlt, FALSE);
+		RealizePalette(hDC);
+		printf("pixel format set successfully - pixel_format: %d, num_formats: %d\n", pixel_format, num_formats);
+	}
+	else
+	{
+		MessageBoxA(NULL, "Failed to set the OpenGL pixel format.", NULL, MB_OK);
+		exit(1);
+	}
+
+	//query number of samples
+	int queryAttribs[] = { WGL_SAMPLES_ARB };
+	int queryAttribResults[1];
+	auto result = wglGetPixelFormatAttribivARB(hDC, pixel_format, 0, 1, queryAttribs, queryAttribResults);
+	printf("Multisampling enabled (number of samples = %d)\n", queryAttribResults[0]);
 }
 
 static void YsSetPixelFormat(HDC hDC)
