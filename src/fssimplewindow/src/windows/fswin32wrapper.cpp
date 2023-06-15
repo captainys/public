@@ -140,6 +140,7 @@ static bool FsWin32IsWindowActive(void)
 
 // For OpenGL set up >>
 static int doubleBuffer=0;
+static bool useMSAA = false;
 // For OpenGL set up <<
 
 
@@ -181,7 +182,7 @@ void FsOpenWindow(const FsOpenWindowOption &opt)
 	int wid=opt.wid;
 	int hei=opt.hei;
 	int useDoubleBuffer=(int)opt.useDoubleBuffer;
-	// int useMultiSampleBuffer==(int)opt.useMultiSampleBuffer;
+	useMSAA = opt.useMultiSampleBuffer;
 	const char *windowName=opt.windowTitle;
 
 	if(NULL!=fsWin32Internal.hWnd)
@@ -658,8 +659,16 @@ static LRESULT WINAPI WindowFunc(HWND hWnd,UINT msg,WPARAM wp,LPARAM lp)
 			break;
 		}
 		fsWin32Internal.hDC=GetDC(hWnd);
-		//YsSetPixelFormat(fsWin32Internal.hDC);
-		YsSetPixelFormatARB(fsWin32Internal.hDC);
+
+		//if antialiasing is set via config, enable MSAA via WGL extensions
+		if (useMSAA)
+		{
+			YsSetPixelFormatARB(fsWin32Internal.hDC);
+		}
+		else
+		{
+			YsSetPixelFormat(fsWin32Internal.hDC);
+		}
 		fsWin32Internal.hRC=wglCreateContext(fsWin32Internal.hDC);
 		wglMakeCurrent(fsWin32Internal.hDC,fsWin32Internal.hRC);
 		if(0==doubleBuffer)
