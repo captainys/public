@@ -413,6 +413,22 @@ void FsGuiButton::CalculateButtonSizeFromMessageSize(int &btnWid,int &btnHei,int
 	btnHei=msgHei+defVSpaceUnit;
 }
 
+void FsGuiButton::SetSize(int width, int height)
+{
+	wid = width;
+	hei = height;
+}
+
+void FsGuiButton::SetHeight(int height)
+{
+	hei = height;
+}
+
+void FsGuiButton::SetWidth(int width)
+{
+	wid = width;
+}
+
 void FsGuiButton::SetText(const char label[])
 {
 	YsWString wStr;
