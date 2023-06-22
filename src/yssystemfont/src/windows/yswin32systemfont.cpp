@@ -511,7 +511,7 @@ YSRESULT YsSystemFontCache::RequestDefaultFontWithHeight(int height)
 		DEFAULT_CHARSET, // fdwCharSet
 		OUT_DEFAULT_PRECIS, // fdwOutputPrecision
 		CLIP_DEFAULT_PRECIS, // fdwClipPrecision
-		AANTIALIASED_QUALITY, // WORD fdwQuality
+		ANTIALIASED_QUALITY, // WORD fdwQuality
 		FF_SWISS, // fdwPitchAndFamily
 		NULL); // lpszFace Use whatever found first.
 
