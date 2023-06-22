@@ -192,6 +192,9 @@ public:
 	YSBOOL GetCheck(void) const;
 	void CalculateButtonSizeFromMessageSize(int &btnWid,int &btnHei,int msgWid,int msgHei) const;
 
+	void SetSize(int width,int height);
+	void SetHeight(int height);
+	void SetWidth(int width);
 	void SetText(const char msg[]);
 	void SetText(const wchar_t msg[]);
 
