@@ -504,15 +504,15 @@ YSRESULT YsSystemFontCache::RequestDefaultFontWithHeight(int height)
 	    0, // nWidth auto select
 		0, // nEscapement
 		0, // nOrientation
-		FW_DONTCARE, // fnWeight
+		FW_THIN, // fnWeight
  		FALSE, // fdwItalic
 		FALSE, // fdwUnderline
 		FALSE, // fdwStrikeOut
 		DEFAULT_CHARSET, // fdwCharSet
 		OUT_DEFAULT_PRECIS, // fdwOutputPrecision
 		CLIP_DEFAULT_PRECIS, // fdwClipPrecision
-		DEFAULT_QUALITY, // WORD fdwQuality
-		DEFAULT_PITCH, // fdwPitchAndFamily
+		ANTIALIASED_QUALITY, // WORD fdwQuality
+		FF_SWISS, // fdwPitchAndFamily
 		NULL); // lpszFace Use whatever found first.
 
 	if(NULL==hFont)
