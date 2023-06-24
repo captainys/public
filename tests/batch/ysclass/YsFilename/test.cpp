@@ -96,6 +96,38 @@ YSRESULT YsFilename_YsSeparatePathFileTest_UsingUnixPathSeparators(void)
 	return YSOK;
 }
 
+//test scenario: append extension to filename with separator ('.') included
+YSRESULT YsFilename_YsPutExt_SeparatorIncludedTest(void)
+{
+	char filename[64] = "filename";
+	char ext[] = ".txt";
+	char filenameExpected[] = "filename.txt";
+
+	YsPutExt(filename, ext);
+
+	if (strcmp(filename, filenameExpected) != 0)
+	{
+		return YSERR;
+	}
+	return YSOK;
+}
+
+//test scenario: append extension to filename without separator ('.') included
+YSRESULT YsFilename_YsPutExt_SeparatorNotIncludedTest(void)
+{
+	char filename[64] = "filename";
+	char ext[] = "txt";
+	char filenameExpected[] = "filename.txt";
+
+	YsPutExt(filename, ext);
+
+	if (strcmp(filename, filenameExpected) != 0)
+	{
+		return YSERR;
+	}
+	return YSOK;
+}
+
 int main(void)
 {
 	int nFail = 0;
@@ -115,6 +147,16 @@ int main(void)
 	}
 
 	if (YSOK != YsFilename_YsSeparatePathFileTest_UsingUnixPathSeparators())
+	{
+		++nFail;
+	}
+
+	if (YSOK != YsFilename_YsPutExt_SeparatorIncludedTest())
+	{
+		++nFail;
+	}
+
+	if (YSOK != YsFilename_YsPutExt_SeparatorNotIncludedTest())
 	{
 		++nFail;
 	}
