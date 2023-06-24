@@ -220,7 +220,7 @@ YSRESULT YsSeparatePathFile(char *pth,char *fil,const char *org)
 {
 	char tmp[256],*seekPtr,*cutPtr;
 
-	strcpy(tmp,org);
+	strcpy_s(tmp, 256, org);
 	cutPtr=tmp;
 
 	/* Ysip Drive Name */
