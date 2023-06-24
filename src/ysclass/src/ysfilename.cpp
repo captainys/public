@@ -276,8 +276,8 @@ void YsReplaceExtension(char fn[],const char ext[])  // ext can be "*.???",".???
 
 	if(fn[0]!=0)
 	{
-		strcat(fn,".");
-		strcat(fn,ext+offset);
+		strcat_s(fn, sizeof(fn), ".");
+		strcat_s(fn, sizeof(fn), ext + offset);
 	}
 }
 
