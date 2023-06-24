@@ -176,7 +176,9 @@ void YsPutExt(char *fname,const char *ext)
 		ext++;
 	}
 
-	sprintf(fname,"%s.%s",fname,ext);
+	//buffer size: filename length + extension length + 1 for '.' + 1 for null terminator
+	size_t buffLength = strlen(fname) + strlen(ext) + 2;
+	sprintf_s(fname, buffLength, "%s.%s", fname, ext);
 }
 
 unsigned long YsFileSize(const char *fname)
@@ -218,7 +220,7 @@ YSRESULT YsSeparatePathFile(char *pth,char *fil,const char *org)
 {
 	char tmp[256],*seekPtr,*cutPtr;
 
-	strcpy(tmp,org);
+	strcpy_s(tmp, 256, org);
 	cutPtr=tmp;
 
 	/* Ysip Drive Name */
@@ -262,7 +264,7 @@ void YsDeleteExtension(char def[])
 }
 
 void YsReplaceExtension(char fn[],const char ext[])  // ext can be "*.???",".???" or "???"
-{
+{	
 	int offset;
 	offset=0;
 	while(ext[offset]=='.' || ext[offset]=='*')
@@ -270,12 +272,15 @@ void YsReplaceExtension(char fn[],const char ext[])  // ext can be "*.???",".???
 		offset++;  // Skip first "*.", if it is given.
 	}
 
+	//buffer size: string length of fn + null terminator
+	unsigned long long buffSize = strlen(fn) + 1;
+
 	YsDeleteExtension(fn);
 
 	if(fn[0]!=0)
 	{
-		strcat(fn,".");
-		strcat(fn,ext+offset);
+		strcat_s(fn, buffSize, ".");
+		strcat_s(fn, buffSize, ext + offset);
 	}
 }
 

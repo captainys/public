@@ -85,9 +85,18 @@ YSRESULT YsFileIO::MkDir(const wchar_t dirName[])
 
 FILE *YsFileIO::Fopen(const wchar_t fn[],const char mode[])
 {
+	FILE* stream;
 	YsWString wmode;
 	wmode.SetUTF8String(mode);
-	return _wfopen(fn,wmode);
+
+	_set_errno(0);
+	errno_t err = _wfopen_s(&stream, fn, wmode);
+
+	if (err == 0)
+	{
+		return stream;
+	}
+	return NULL;
 }
 
 FILE *YsFileIO::Fopen(const char fn[],const char mode[])
