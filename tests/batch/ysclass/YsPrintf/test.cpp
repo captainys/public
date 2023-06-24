@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 //placeholder test (want to make sure this compiles and doesn't throw any runtime errors)
-YSRESULT Test(void)
+YSRESULT YsPrintf_TestPrintf(void)
 {
 	YsPrintf("%d\n", 10);
 
@@ -13,7 +13,7 @@ YSRESULT Test(void)
 int main(void)
 {
 	int nFail = 0;
-	if (YSOK != Test())
+	if (YSOK != YsPrintf_TestPrintf())
 	{
 		++nFail;
 	}
