@@ -264,7 +264,7 @@ void YsDeleteExtension(char def[])
 }
 
 void YsReplaceExtension(char fn[],const char ext[])  // ext can be "*.???",".???" or "???"
-{
+{	
 	int offset;
 	offset=0;
 	while(ext[offset]=='.' || ext[offset]=='*')
@@ -272,12 +272,15 @@ void YsReplaceExtension(char fn[],const char ext[])  // ext can be "*.???",".???
 		offset++;  // Skip first "*.", if it is given.
 	}
 
+	//buffer size: string length of fn + null terminator
+	unsigned long long buffSize = strlen(fn) + 1;
+
 	YsDeleteExtension(fn);
 
 	if(fn[0]!=0)
 	{
-		strcat_s(fn, sizeof(fn), ".");
-		strcat_s(fn, sizeof(fn), ext + offset);
+		strcat_s(fn, buffSize, ".");
+		strcat_s(fn, buffSize, ext + offset);
 	}
 }
 
