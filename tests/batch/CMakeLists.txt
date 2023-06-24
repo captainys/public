@@ -38,6 +38,7 @@ add_subdirectory(ysclass/YsPositiveAreaCalculator)
 add_subdirectory(ysclass/YsFindLeastSquarePoint)
 add_subdirectory(ysclass/YsCommandLine)
 add_subdirectory(ysclass/YsFilename)
+add_subdirectory(ysclass/YsPrintf)
 
 add_subdirectory(ysclass11/YsParallelMergeSort)
 add_subdirectory(ysclass11/YsThreadPool)
