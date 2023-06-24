@@ -1672,11 +1672,13 @@ int YsGenericPngEncoder::WritetEXtChunk(const char keyword[],const char text[])
 		chunk[7]='t';
 
 		unsigned char *dataField=chunk+8;
-		strncpy((char *)dataField,keyword,nKeyword);
+		long long buffSize = nChunk - 8;
+		strncpy_s((char*)dataField, buffSize, keyword, nKeyword);
 
 		dataField[nKeyword]=0;
 
-		strncpy((char *)dataField+nKeyword+1,text,nText);
+		buffSize = buffSize - (nKeyword + 1);
+		strncpy_s((char*)dataField + nKeyword + 1, buffSize, text, nText);
 
 		dataField[nKeyword+1+nText  ]=0;
 		dataField[nKeyword+1+nText+1]=0;
