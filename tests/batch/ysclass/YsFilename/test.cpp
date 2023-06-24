@@ -29,6 +29,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <ysclass.h>
 
+//test scenario: replace filename extension with separator ('.') included
 YSRESULT YsFilename_ReplaceExtensionSeparatorIncludedTest(void)
 {
 	char filename[] = "filename.txt";
@@ -43,6 +44,7 @@ YSRESULT YsFilename_ReplaceExtensionSeparatorIncludedTest(void)
 	return YSOK;
 }
 
+//test scenario: replace filename extension without separator ('.') included
 YSRESULT YsFilename_ReplaceExtensionSeparatorNotIncludedTest(void)
 {
 	char filename[] = "filename.txt";
