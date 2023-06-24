@@ -3,3 +3,8 @@ __pycache__
 *.sch-bak
 fp-info-cache
 ir_receiver-cache.lib
+.vs
+.vscode
+out
+CMakeSettings.json
+
