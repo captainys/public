@@ -88,6 +88,8 @@ FILE *YsFileIO::Fopen(const wchar_t fn[],const char mode[])
 	FILE* stream;
 	YsWString wmode;
 	wmode.SetUTF8String(mode);
+
+	_set_errno(0);
 	errno_t err = _wfopen_s(&stream, fn, wmode);
 
 	if (err == 0)

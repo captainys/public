@@ -51,5 +51,7 @@ add_subdirectory(ysgebl/kernelutil/YsShellExt_FindNearestPolygon)
 
 add_subdirectory(ysglcpp/arrowUtil)
 
+add_subdirectory(ysport/windows)
+
 
 set(YS_ALL_BATCH_TEST ${YS_ALL_BATCH_TEST} PARENT_SCOPE)
