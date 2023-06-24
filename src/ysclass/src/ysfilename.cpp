@@ -176,7 +176,9 @@ void YsPutExt(char *fname,const char *ext)
 		ext++;
 	}
 
-	sprintf(fname,"%s.%s",fname,ext);
+	//buffer size: filename length + extension length + 1 for '.'
+	size_t buffLength = strlen(fname) + strlen(ext) + 1;
+	sprintf_s(fname, buffLength, "%s.%s", fname, ext);
 }
 
 unsigned long YsFileSize(const char *fname)
