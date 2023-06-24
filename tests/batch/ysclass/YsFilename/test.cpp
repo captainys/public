@@ -30,7 +30,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ysclass.h>
 
 //test scenario: replace filename extension with separator ('.') included
-YSRESULT YsFilename_ReplaceExtensionSeparatorIncludedTest(void)
+YSRESULT YsFilename_YsReplaceExtension_SeparatorIncludedTest(void)
 {
 	char filename[] = "filename.txt";
 	char replaceExt[] = ".xyz";
@@ -45,11 +45,12 @@ YSRESULT YsFilename_ReplaceExtensionSeparatorIncludedTest(void)
 }
 
 //test scenario: replace filename extension without separator ('.') included
-YSRESULT YsFilename_ReplaceExtensionSeparatorNotIncludedTest(void)
+YSRESULT YsFilename_YsReplaceExtension_SeparatorNotIncludedTest(void)
 {
 	char filename[] = "filename.txt";
 	char replaceExt[] = "xyz";
 	char filenameExpected[] = "filename.xyz";
+
 	YsReplaceExtension(filename, replaceExt);
 
 	if (strcmp(filename, filenameExpected) != 0)
@@ -59,15 +60,61 @@ YSRESULT YsFilename_ReplaceExtensionSeparatorNotIncludedTest(void)
 	return YSOK;
 }
 
+//test scenario: separate filename from path with windows path separators ('\')
+YSRESULT YsFilename_YsSeparatePathFileTest_UsingWindowsPathSeparators(void)
+{
+	char org[] = "C:\\Users\\Soji\\Documents\\somefile.txt";
+	char path[256];
+	char filename[256];
+	char pathExpected[] = "C:\\Users\\Soji\\Documents\\";
+	char filenameExpected[] = "somefile.txt";
+
+	YsSeparatePathFile(path, filename, org);
+
+	if (strcmp(filename, filenameExpected) != 0 || strcmp(path, pathExpected) != 0)
+	{
+		return YSERR;
+	}
+	return YSOK;
+}
+
+//test scenario: separate filename from path with unix path separators ('/')
+YSRESULT YsFilename_YsSeparatePathFileTest_UsingUnixPathSeparators(void)
+{
+	char org[] = "C:/Users/Soji/Documents/somefile.txt";
+	char path[256];
+	char filename[256];
+	char pathExpected[] = "C:/Users/Soji/Documents/";
+	char filenameExpected[] = "somefile.txt";
+
+	YsSeparatePathFile(path, filename, org);
+
+	if (strcmp(filename, filenameExpected) != 0 || strcmp(path, pathExpected) != 0)
+	{
+		return YSERR;
+	}
+	return YSOK;
+}
+
 int main(void)
 {
 	int nFail = 0;
-	if (YSOK != YsFilename_ReplaceExtensionSeparatorIncludedTest())
+	if (YSOK != YsFilename_YsReplaceExtension_SeparatorIncludedTest())
 	{
 		++nFail;
 	}
 
-	if (YSOK != YsFilename_ReplaceExtensionSeparatorNotIncludedTest())
+	if (YSOK != YsFilename_YsReplaceExtension_SeparatorNotIncludedTest())
+	{
+		++nFail;
+	}
+
+	if (YSOK != YsFilename_YsSeparatePathFileTest_UsingWindowsPathSeparators())
+	{
+		++nFail;
+	}
+
+	if (YSOK != YsFilename_YsSeparatePathFileTest_UsingUnixPathSeparators())
 	{
 		++nFail;
 	}
