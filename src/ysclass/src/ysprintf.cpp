@@ -58,7 +58,7 @@ YsPrintf::YsPrintf(const char *fmt,...)
 	va_list arg_ptr;
 
 	va_start(arg_ptr,fmt);
-	a=vsprintf_s(buf, 4096, fmt,arg_ptr);
+	a=vsprintf(buf,fmt,arg_ptr);
 	va_end(arg_ptr);
 
 	if(def!=NULL)

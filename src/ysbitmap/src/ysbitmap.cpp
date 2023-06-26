@@ -116,27 +116,12 @@ YsBitmap YsBitmap::Rotate90L(void) const
 
 YSRESULT YsBitmap::LoadBmp(const char fn[])
 {
-	YSRESULT result;
-	FILE* fp = NULL;
-
-	//attempt to open the file
-	errno_t err = fopen_s(&fp, fn, "rb");
-	if (err != 0)
-	{
-		result = YSERR;
-	}
-
-	//attempt to read the bitmap contents
+	FILE *fp=fopen(fn,"rb");
 	YSRESULT res=LoadBmp(fp);
 	if(NULL!=fp)
 	{
-		err = fclose(fp);
-		if (err != 0)
-		{
-			result = YSERR;
-		}
+		fclose(fp);
 	}
-
 	return res;
 }
 
