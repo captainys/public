@@ -6,6 +6,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+if (MSVC)
+  add_compile_definitions(
+    _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES
+    _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES_COUNT
+    _CRT_SECURE_NO_WARNINGS
+  )
+endif()
+
 # 2016/09/18 Some functions does not seem to work or difficult to use with non-default CMAKE_BINARY_DIR.  Commented out.
 ##Cmake is supposed to set these two variables.  However, it doesn't.
 ##Looks to be something to do with variable cache.  Variable cache is one of the design failures of cmake.

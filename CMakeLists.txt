@@ -3,6 +3,14 @@ project(YS_PUBLIC)
 
 enable_testing()
 
+if (MSVC)
+  add_compile_definitions(
+    _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES
+    _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES_COUNT
+    _CRT_SECURE_NO_WARNINGS
+  )
+endif()
+
 add_subdirectory(src)
 add_subdirectory(tests)
 add_subdirectory(experimental)
