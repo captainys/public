@@ -355,18 +355,18 @@ void FsPollDevice(void)
 	if(true!=busy)
 	{
 	#ifdef _WIN32
-		if(kbhit()!=0)
+		if(_kbhit()!=0)
 		{
 			int ky;
-			ky=getch();
+			ky=_getch();
 
 			FsPushChar(ky);
 
 			if(ky==224)
 			{
-				if(kbhit()!=0)
+				if(_kbhit()!=0)
 				{
-					ky=ky*256+getch();
+					ky=ky*256+_getch();
 				}
 			}
 			FsPushKey(mapVKtoFSKEY[ky]);
