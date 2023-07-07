@@ -59,6 +59,8 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define FS_NUM_XK 65536
 
+#define GLX_SAMPLE_BUFFERS_ARB 100000
+
 extern void FsXCreateKeyMapping(void);
 extern int FsXKeySymToFsInkey(int keysym);
 extern int FsXKeySymToFsGetKeyState(int keysym);
@@ -93,6 +95,8 @@ static const int ysXEventMask=(KeyPressMask|KeyReleaseMask|ButtonPressMask|Butto
 static GLXContext ysGlRC;
 static int ysGlxCfgSingle[]={GLX_RGBA,GLX_DEPTH_SIZE,16,None};
 static int ysGlxCfgDouble[]={GLX_DOUBLEBUFFER,GLX_RGBA,GLX_DEPTH_SIZE,16,None};
+static int ysGlxCfgDoubleMsaa[] = { GLX_SAMPLE_BUFFERS_ARB, 1, GLX_DOUBLEBUFFER, GLX_RGBA, GLX_DEPTH_SIZE, 16, None };
+static int ysGlxCfgSingleMsaa[] = { GLX_SAMPLE_BUFFERS_ARB, 1, GLX_RGBA,GLX_DEPTH_SIZE,16,None };
 
 static int ysXWid,ysXHei,ysXlupX,ysXlupY;
 
@@ -122,6 +126,7 @@ void FsOpenWindow(const FsOpenWindowOption &opt)
 	int wid=opt.wid;
 	int hei=opt.hei;
 	int useDoubleBuffer=(int)opt.useDoubleBuffer;
+	bool useMSAA = opt.useMultiSampleBuffer;
 	// int useMultiSampleBuffer=(int)opt.useMultiSampleBuffer;
 	const char *title=(NULL!=opt.windowTitle ? opt.windowTitle : "Main Window");
 
@@ -154,15 +159,34 @@ void FsOpenWindow(const FsOpenWindowOption &opt)
 			int tryAlternativeSingleBuffer=0;
 			if(useDoubleBuffer!=0)
 			{
-				ysXVis=glXChooseVisual(ysXDsp,DefaultScreen(ysXDsp),ysGlxCfgDouble);
+				if (useMSAA)
+				{
+					ysXVis = glXChooseVisual(ysXDsp, DefaultScreen(ysXDsp), ysGlxCfgDoubleMsaa);
+				}
+				else
+				{
+					ysXVis = glXChooseVisual(ysXDsp, DefaultScreen(ysXDsp), ysGlxCfgDouble);
+				}
 			}
 			else
 			{
-				ysXVis=glXChooseVisual(ysXDsp,DefaultScreen(ysXDsp),ysGlxCfgSingle);
-				if(NULL==ysXVis)
+				if (useMSAA)
 				{
-					ysXVis=glXChooseVisual(ysXDsp,DefaultScreen(ysXDsp),ysGlxCfgDouble);
-					tryAlternativeSingleBuffer=1;
+					ysXVis = glXChooseVisual(ysXDsp, DefaultScreen(ysXDsp), ysGlxCfgSingleMsaa);
+					if (NULL == ysXVis)
+					{
+						ysXVis = glXChooseVisual(ysXDsp, DefaultScreen(ysXDsp), ysGlxCfgDoubleMsaa);
+						tryAlternativeSingleBuffer = 1;
+					}
+				}
+				else
+				{
+					ysXVis = glXChooseVisual(ysXDsp, DefaultScreen(ysXDsp), ysGlxCfgSingle);
+					if (NULL == ysXVis)
+					{
+						ysXVis = glXChooseVisual(ysXDsp, DefaultScreen(ysXDsp), ysGlxCfgDouble);
+						tryAlternativeSingleBuffer = 1;
+					}
 				}
 			}
 
