@@ -459,6 +459,7 @@ void YsVisualDnm::Draw(const YsMatrix4x4 &tfm,Dnm::Node *nodePtr,unsigned int dr
 		}
 
 		YsHasShellExtVboSet::RenderingOption opt;
+		opt.polygonEdge=YSFALSE;
 		if(0!=(YsVisual::DRAWOPAQUE&drawFlag))
 		{
 			opt.solidPolygon=YSTRUE;
