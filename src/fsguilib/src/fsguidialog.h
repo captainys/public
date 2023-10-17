@@ -1205,6 +1205,13 @@ public:
 		stdCloseModalCallBack=std::bind(func,obj,this,std::placeholders::_1);
 	}
 
+	/*! 
+	*/
+	void CallOnCloseModal(std::function <void(int)> lambda)
+	{
+		stdCloseModalCallBack=lambda;
+	}
+
 	void UnbindCloseModalCallBack(void);
 
 
