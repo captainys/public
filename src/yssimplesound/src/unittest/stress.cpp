@@ -73,15 +73,15 @@ bool Position(void)
 
 	auto t0=std::chrono::high_resolution_clock::now();
 	sndPlayer.PlayOneShot(data);
-	int nSampled=0;
 	double nextPrint=0.0;
 
+	std::vector <double> realTime,waveTime;
 	while(YSTRUE==sndPlayer.IsPlaying(data))
 	{
+		auto playPos=sndPlayer.GetCurrentPosition(data);
+
 		FsPollDevice();
 		sndPlayer.KeepPlaying();
-
-		auto playPos=sndPlayer.GetCurrentPosition(data);
 
 		auto dt=std::chrono::high_resolution_clock::now()-t0;
 		auto millisec=std::chrono::duration_cast<std::chrono::milliseconds>(dt).count();
@@ -90,20 +90,16 @@ bool Position(void)
 		// Very likely the data is done after last checking IsPlaying before reaching this point.
 		if(YSTRUE==sndPlayer.IsPlaying(data) && 0.1<fabs(sec-playPos))
 		{
-			result=false;
+			if(nextPrint<sec)
+			{
+				realTime.push_back(sec);
+				waveTime.push_back(playPos);
+				printf("Player says %lf  Timer says %lf\n",playPos,sec);
+				nextPrint+=0.05;
+			}
 		}
-
-		if(nextPrint<sec)
-		{
-			printf("Player says %lf  Timer says %lf\n",playPos,sec);
-			nextPrint+=0.1;
-		}
-
-		++nSampled;
 	}
 	sndPlayer.End();
-
-	printf("Time test.  Sampled %d times.\n",nSampled);
 
 	return result;
 }
