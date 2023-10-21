@@ -82,6 +82,15 @@ inline YSBOOL YsXor(YSBOOL a,YSBOOL b)
 	return YSFALSE;
 }
 
+inline YSBOOL YsNot(YSBOOL a)
+{
+	if (a == YSTRUE)
+	{
+		return YSFALSE;
+	}
+	return YSTRUE;
+}
+
 #endif
 
 
