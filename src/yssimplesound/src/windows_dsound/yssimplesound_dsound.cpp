@@ -79,7 +79,8 @@ private:
 class YsSoundPlayer::SoundData::APISpecificDataPerSoundData
 {
 public:
-	LPDIRECTSOUNDBUFFER dSoundBuf;
+	LPDIRECTSOUND8 dSound8Association=NULL;
+	LPDIRECTSOUNDBUFFER dSoundBuf=NULL;
 	unsigned int playerRecycleCount=~0;
 
 	APISpecificDataPerSoundData();
@@ -467,7 +468,7 @@ void YsSoundPlayer::SoundData::DeleteAPISpecificData(APISpecificDataPerSoundData
 
 bool YsSoundPlayer::SoundData::IsPrepared(YsSoundPlayer &player)
 {
-	if(player.api->recycleCount!=api->playerRecycleCount)
+	if(player.api->recycleCount!=api->playerRecycleCount || player.api->dSound8!=api->dSound8Association)
 	{
 		return false;
 	}
@@ -476,7 +477,7 @@ bool YsSoundPlayer::SoundData::IsPrepared(YsSoundPlayer &player)
 
 YSRESULT YsSoundPlayer::SoundData::PreparePlay(YsSoundPlayer &player)
 {
-	if(player.api->recycleCount!=api->playerRecycleCount)
+	if(player.api->recycleCount!=api->playerRecycleCount || player.api->dSound8!=api->dSound8Association)
 	{
 		// In this case, DirectSoundBuffer is gone with the player.
 		api->dSoundBuf=nullptr;
@@ -492,6 +493,7 @@ YSRESULT YsSoundPlayer::SoundData::PreparePlay(YsSoundPlayer &player)
 
 	api->CreateBuffer(player.api->dSound8,*this);
 	api->playerRecycleCount=player.api->recycleCount;
+	api->dSound8Association=player.api->dSound8;
 	if(nullptr!=api->dSoundBuf)
 	{
 		return YSOK;
