@@ -74,6 +74,7 @@ bool Position(void)
 	auto t0=std::chrono::high_resolution_clock::now();
 	sndPlayer.PlayOneShot(data);
 	int nSampled=0;
+	double nextPrint=0.0;
 
 	while(YSTRUE==sndPlayer.IsPlaying(data))
 	{
@@ -89,9 +90,13 @@ bool Position(void)
 		// Very likely the data is done after last checking IsPlaying before reaching this point.
 		if(YSTRUE==sndPlayer.IsPlaying(data) && 0.1<fabs(sec-playPos))
 		{
-			printf("Player says %lf  Timer says %lf\n",playPos,sec);
 			result=false;
-			break;
+		}
+
+		if(nextPrint<sec)
+		{
+			printf("Player says %lf  Timer says %lf\n",playPos,sec);
+			nextPrint+=0.1;
 		}
 
 		++nSampled;
