@@ -4,6 +4,7 @@
 #include <math.h>
 #include <thread>
 #include <mutex>
+#include <algorithm>
 #include <string.h>
 
 #include <fssimplewindow.h>
@@ -88,7 +89,7 @@ bool Position(void)
 		double sec=(double)millisec/1000.0;
 
 		// Very likely the data is done after last checking IsPlaying before reaching this point.
-		if(YSTRUE==sndPlayer.IsPlaying(data) && 0.1<fabs(sec-playPos))
+		if(YSTRUE==sndPlayer.IsPlaying(data))
 		{
 			if(nextPrint<sec)
 			{
@@ -101,7 +102,47 @@ bool Position(void)
 	}
 	sndPlayer.End();
 
-	return result;
+
+	double a=0,b=0,c=0;
+	double d=0,e=0,f=0;
+	for(int i=0; i<realTime.size(); ++i)
+	{
+		double xi=realTime[i];
+		double yi=waveTime[i];
+		a+=2.0*xi*xi;
+		b+=2.0*xi;
+		c+=2.0*xi*yi;
+
+		d+=2.0*xi;
+		e+=2.0;
+		f+=2.0*yi;
+	}
+
+	double D=a*e-b*d;
+	if(0.0==D)
+	{
+		// Failed to do least square.
+		printf("Failed least square.\n");
+		return false;
+	}
+	std::swap(a,e);
+	b=-b;
+	d=-d;
+
+	a/=D;
+	b/=D;
+	d/=D;
+	e/=D;
+
+	double A=a*c+b*f;
+	double B=d*c+e*f;
+	printf("Fitted  y=%lfx+%lf\n",A,B);
+	if(0.15<fabs(A-1.0))
+	{
+		return false;
+	}
+
+	return true;
 }
 
 std::mutex mtx;
