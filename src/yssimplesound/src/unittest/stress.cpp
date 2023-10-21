@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <vector>
+#include <string.h>
 
 #include <fssimplewindow.h>
 #include <yssimplesound.h>
