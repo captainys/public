@@ -4,6 +4,7 @@
 #include <math.h>
 #include <thread>
 #include <mutex>
+#include <string.h>
 
 #include <fssimplewindow.h>
 #include <yssimplesound.h>
