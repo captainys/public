@@ -303,6 +303,19 @@ void YsSimpleSound_OSX_SetVolume(struct YsAVAudioEngine *engineInfoPtr,struct Ys
 {
 	if(nil!=ptr)
 	{
+#if !__has_feature(objc_arc)
+	    AVAudioEngine *enginePtr=engineInfoPtr->enginePtr;
+	    AVAudioMixerNode *mixerNodePtr=engineInfoPtr->mixerNodePtr;
+		AVAudioPlayerNode *playerNodePtr=ptr->playerNodePtr;
+		AVAudioPCMBuffer *PCMBufferPtr=ptr->PCMBufferPtr;
+#else
+		AVAudioEngine *enginePtr=(__bridge AVAudioEngine *)engineInfoPtr->enginePtr;
+		AVAudioMixerNode *mixerNodePtr=(__bridge AVAudioMixerNode *)engineInfoPtr->mixerNodePtr;
+		AVAudioPlayerNode *playerNodePtr=(__bridge AVAudioPlayerNode *)ptr->playerNodePtr;
+		AVAudioPCMBuffer *PCMBufferPtr=(__bridge AVAudioPCMBuffer *)ptr->PCMBufferPtr;
+#endif
+
+		playerNodePtr.volume=vol;
 	}
 }
 
