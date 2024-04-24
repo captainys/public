@@ -781,6 +781,7 @@ inline YsVec3iRange::iterator rend(const YsVec3iRange &allIndex)
 ////////////////////////////////////////////////////////////
 
 #include <functional>
+#include <unordered_set>
 
 template <>
 struct std::hash <YsVec2i>
