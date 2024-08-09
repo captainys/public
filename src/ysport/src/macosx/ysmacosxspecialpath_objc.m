@@ -41,7 +41,8 @@ bool YsSpecialPath_GetProgramFileName(size_t lBuf,char buf[])
 	}
 	else
 	{
-		_NSGetExecutablePath(buf,lBuf);
+		uint32_t bufsize=(uint32_t)lBuf;
+		_NSGetExecutablePath(buf,&bufsize);
 	}
 	return buf;
 }
