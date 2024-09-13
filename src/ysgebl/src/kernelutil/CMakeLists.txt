@@ -79,7 +79,7 @@ if(NOT DEFINED SINGLE_TARGET)
 endif()
 
 # 2016/09/22 Learned a better way than specifying -std=c++11
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(MSVC)
