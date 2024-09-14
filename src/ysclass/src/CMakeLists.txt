@@ -274,4 +274,4 @@ yscommandline.h
 )
 
 add_library(ysclass ${SRCS} ${HEADERS})
-target_link_libraries(ysclass PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ysclass PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
