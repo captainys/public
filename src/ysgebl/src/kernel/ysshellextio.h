@@ -215,6 +215,17 @@ public:
 	YSRESULT WriteObj(YsTextOutputStream &outStream,const YsShellExt &shl,const WriteOption &option);
 };
 
+class YsShellExtPlyWriter
+{
+public:
+	class WriteOption
+	{
+	};
+
+public:
+	YSRESULT WritePly(YsTextOutputStream &outStream,const YsShellExt &shl,const WriteOption &option);
+};
+
 class YsShellExtFMTOWNSWriter
 {
 public:

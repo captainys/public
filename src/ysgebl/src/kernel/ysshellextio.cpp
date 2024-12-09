@@ -1578,6 +1578,91 @@ YSRESULT YsShellExtObjWriter::WriteObj(YsTextOutputStream &outStream,const YsShe
 	return YSOK;
 }
 
+////////////////////////////////////////////////////////////
+
+YSRESULT YsShellExtPlyWriter::WritePly(YsTextOutputStream &outStream,const YsShellExt &shl,const WriteOption &option)
+{
+	shl.Encache();
+
+	outStream.Printf("ply\n");
+	outStream.Printf("format ascii 1.0\n");
+	outStream.Printf("comment PolygonCrest generated\n");
+
+	auto texFile=shl.FindMetaData(YsString("TextureFile"));
+	if(nullptr!=texFile && 0<texFile->size())
+	{
+		for(auto mdHd : *texFile)
+		{
+			auto str=shl.GetMetaDataValue(mdHd);
+			outStream.Printf("comment TextureFile %s\n",str.data());
+		}
+	}
+
+	bool vtxHasNormal=(nullptr!=shl.FindMetaData(YsString("VertexHasNormal")));
+	outStream.Printf("element vertex %d\n",shl.GetNumVertex());
+	outStream.Printf("property float x\n");
+	outStream.Printf("property float y\n");
+	outStream.Printf("property float z\n");
+	if(true==vtxHasNormal)
+	{
+		outStream.Printf("property float nx\n");
+		outStream.Printf("property float ny\n");
+		outStream.Printf("property float nz\n");
+	}
+
+	bool plgHasTexCoord=(shl.FindNextTexCoord(nullptr)!=nullptr);
+	outStream.Printf("element face %d\n",shl.GetNumPolygon());
+	outStream.Printf("property list uchar int vertex_indices\n");
+	if(true==plgHasTexCoord)
+	{
+		outStream.Printf("property list uchar float texcoord\n");
+	}
+	outStream.Printf("property uchar red\n");
+	outStream.Printf("property uchar green\n");
+	outStream.Printf("property uchar blue\n");
+	outStream.Printf("property uchar alpha\n");
+
+	outStream.Printf("end_header\n");
+
+	for(auto vtHd : shl.AllVertex())
+	{
+		YsVec3 vtx,nom;
+		vtx=shl.GetVertexPosition(vtHd);
+		nom=shl.GetVertexNormal(vtHd);
+		outStream.Printf("%lf %lf %lf",vtx.x(),vtx.y(),vtx.z());
+		if(true==vtxHasNormal)
+		{
+			outStream.Printf(" %lf %lf %lf",nom.x(),nom.y(),nom.z());
+		}
+		outStream.Printf("\n");
+	}
+	for(auto plHd : shl.AllPolygon())
+	{
+		auto plVtHd=shl.GetPolygonVertex(plHd);
+		auto plTcHd=shl.GetPolygonTexCoord(plHd);
+		auto col=shl.GetColor(plHd);
+		outStream.Printf("%d",plVtHd.size());
+		for(auto vtHd : plVtHd)
+		{
+			outStream.Printf(" %d",shl.GetVertexIdFromHandle(vtHd));
+		}
+		if(true==plgHasTexCoord)
+		{
+			outStream.Printf(" %d",plTcHd.size()*2);
+			for(auto tcHd : plTcHd)
+			{
+				auto tcPos=shl.GetTexCoordUV(tcHd);
+				outStream.Printf(" %lf %lf",tcPos.x(),tcPos.y());
+			}
+		}
+		outStream.Printf(" %d %d %d %d\n",col.Ri(),col.Gi(),col.Bi(),col.Ai());
+	}
+
+	return YSOK;
+}
+
+////////////////////////////////////////////////////////////
+
 YSRESULT YsShellExtFMTOWNSWriter::WriteFMTOWNST3D(FILE *ofp,const YsShellExt &shl,const WriteOption &opt)
 {
 	if(nullptr!=ofp)
@@ -2488,6 +2573,21 @@ YSRESULT YsShellExt_SaveGeneral(const char fnIn[],const YsShellExt &shl)
 			YsShellExtObjWriter writer;
 			YsTextFileOutputStream outStream(fp);
 			auto res=writer.WriteObj(outStream,shl,defaultOption);
+
+			fclose(fp);
+			return res;
+		}
+	}
+	else if(0==ext.STRCMP(".PLY"))
+	{
+		FILE *fp=fopen(fn,"w");
+		if(nullptr!=fp)
+		{
+			YsShellExtPlyWriter::WriteOption defaultOption;
+
+			YsShellExtPlyWriter writer;
+			YsTextFileOutputStream outStream(fp);
+			auto res=writer.WritePly(outStream,shl,defaultOption);
 
 			fclose(fp);
 			return res;
