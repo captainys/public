@@ -766,6 +766,13 @@ YSRESULT YsShellExt::LoadObj(YsTextInputStream &inStream)
 	return objReader.ReadObj(*this,inStream,opt);
 }
 
+YSRESULT YsShellExt::LoadPly(YsTextInputStream &inStream)
+{
+	YsShellExtPlyReader::ReadOption opt;
+	YsShellExtPlyReader PlyReader;
+	return PlyReader.ReadPly(*this,inStream,opt);
+}
+
 YsShellExtDrawingBuffer &YsShellExt::GetDrawingBuffer(void) const
 {
 	return *drawingBuffer;

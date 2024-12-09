@@ -1950,9 +1950,358 @@ YSRESULT YsShellExtDxfReader::ReadDxf(YsShellExt &shl,YsTextInputStream &inStrea
 }
 
 
-
 ////////////////////////////////////////////////////////////
 
+
+void YsShellExtPlyReader::BeginRead(const ReadOption &option)
+{
+	state.Initialize();
+	plyOptions.Initialize();
+}
+YSRESULT YsShellExtPlyReader::ReadOneLine(YsShellExt &shl,YsString &str)
+{
+	if(true==state.inHeader)
+	{
+		auto argv=str.Argv();
+		if(0<argv.size())
+		{
+			if(0==argv[0].STRCMP("ply"))
+			{
+				return YSOK;
+			}
+			else if(0==argv[0].STRCMP("FORMAT"))
+			{
+				return YSOK;
+			}
+			else if(0==argv[0].STRCMP("COMMENT"))
+			{
+				if(3<=argv.size())
+				{
+					if(0==argv[1].STRCMP("TEXTUREFILE"))
+					{
+						state.textureFileName=argv[2];
+					}
+					else
+					{
+						// Ignre **cking property
+					}
+				}
+				else
+				{
+					printf("COMMENT gave an error.\n");
+					return YSERR;
+				}
+			}
+			else if(0==argv[0].STRCMP("ELEMENT"))
+			{
+				if(3<=argv.size())
+				{
+					if(0==argv[1].STRCMP("VERTEX"))
+					{
+						state.nVtxLeft=argv[2].Atoi();
+						state.definingVertex=true;
+						state.definingPolygon=false;
+					}
+					else if(0==argv[1].STRCMP("FACE"))
+					{
+						if(0==plyOptions.vtxProp.propList.size())
+						{
+							printf("DO NOT MAKE A BAD PLY THAT DEFINES VERTICES AFTER FACES.\n");
+							return YSERR;
+						}
+
+						state.nFaceLeft=argv[2].Atoi();
+						state.definingVertex=false;
+						state.definingPolygon=true;
+					}
+					else
+					{
+						printf("I do not support elements not FACE nor VERTEX.\n");
+						printf("Make a clean PLY without such evil elements and try again.\n");
+						return YSERR;
+					}
+				}
+				else
+				{
+					printf("ELEMENT has too few arguments.\n");
+					return YSERR;
+				}
+			}
+			else if(0==argv[0].STRCMP("PROPERTY"))
+			{
+				unsigned int propType=PROP_NULL;
+				if(2<=argv.size())
+				{
+					if(3<=argv.size() && 0==argv[2].STRCMP("X"))
+					{
+						propType=PROP_X;
+					}
+					else if(3<=argv.size() && 0==argv[2].STRCMP("Y"))
+					{
+						propType=PROP_Y;
+					}
+					else if(3<=argv.size() && 0==argv[2].STRCMP("Z"))
+					{
+						propType=PROP_Z;
+					}
+					else if(3<=argv.size() && 0==argv[2].STRCMP("NX"))
+					{
+						propType=PROP_NX;
+					}
+					else if(3<=argv.size() && 0==argv[2].STRCMP("NY"))
+					{
+						propType=PROP_NY;
+					}
+					else if(3<=argv.size() && 0==argv[2].STRCMP("NZ"))
+					{
+						propType=PROP_NZ;
+					}
+					else if(3<=argv.size() && 0==argv[1].STRCMP("UCHAR") && 0==argv[2].STRCMP("RED"))
+					{
+						propType=PROP_RED8;
+					}
+					else if(3<=argv.size() && 0==argv[1].STRCMP("UCHAR") && 0==argv[2].STRCMP("GREEN"))
+					{
+						propType=PROP_GREEN8;
+					}
+					else if(3<=argv.size() && 0==argv[1].STRCMP("UCHAR") && 0==argv[2].STRCMP("BLUE"))
+					{
+						propType=PROP_BLUE8;
+					}
+					else if(3<=argv.size() && 0==argv[1].STRCMP("UCHAR") && 0==argv[2].STRCMP("ALPHA"))
+					{
+						propType=PROP_ALPHA8;
+					}
+					else if(5<=argv.size() && 0==argv[1].STRCMP("LIST") && 0==argv[4].STRCMP("VERTEX_INDICES"))
+					{
+						propType=PROP_LIST_VTX_IDX;
+					}
+					else if(5<=argv.size() && 0==argv[1].STRCMP("LIST") && 0==argv[4].STRCMP("TEXCOORD"))
+					{
+						propType=PROP_LIST_TEX_COORDS;
+					}
+					else
+					{
+						printf("I don't understand property.  Go to hell.\n");
+						printf("%s\n",str.c_str());
+						return YSERR;
+					}
+					if(true==state.definingVertex)
+					{
+						plyOptions.vtxProp.propList.push_back(propType);
+					}
+					else if(true==state.definingPolygon)
+					{
+						plyOptions.faceProp.propList.push_back(propType);
+					}
+					else
+					{
+						printf("DO NOT MAKE A BAD PLY THAT HAS PROPERTY WITHOUT FACE OR VERTEX.\n");
+						return YSERR;
+					}
+				}
+				else
+				{
+					printf("PROPERTY has too few arguments.\n");
+					return YSERR;
+				}
+			}
+			else if(0==argv[0].STRCMP("END_HEADER"))
+			{
+				state.inHeader=false;
+			}
+		}
+	}
+	else
+	{
+		auto argv=str.Argv();
+		if(0==argv.size())
+		{
+			return YSOK;
+		}
+		if(0<state.nVtxLeft)
+		{
+			bool vtxSet=false,nomSet=false;
+			YsVec3 vtx,nom;
+			size_t i=0;
+			for(auto opt : plyOptions.vtxProp.propList)
+			{
+				if(argv.size()<=i)
+				{
+					printf("VERY BAD PLY.  WAY TOO FEW ARGUMENTS.\n");
+					return YSERR;
+				}
+				switch(opt)
+				{
+				case PROP_X:
+					vtx.SetX(argv[i++].Atof());
+					break;
+				case PROP_Y:
+					vtx.SetY(argv[i++].Atof());
+					break;
+				case PROP_Z:
+					vtx.SetZ(argv[i++].Atof());
+					vtxSet=true;
+					break;
+				case PROP_NX:
+					nom.SetX(argv[i++].Atof());
+					break;
+				case PROP_NY:
+					nom.SetY(argv[i++].Atof());
+					break;
+				case PROP_NZ:
+					nom.SetZ(argv[i++].Atof());
+					nomSet=true;
+					break;
+				default:
+					printf("Evil property for a vertex.\n");
+					return YSERR;
+				}
+			}
+			if(true==vtxSet)
+			{
+				auto vtHd=shl.AddVertex(vtx);
+				state.vtHdList.push_back(vtHd);
+				--state.nVtxLeft;
+			}
+			else
+			{
+				printf("No XYZ for a vertex?  Do you know what's PLY is?  Are you stupid?\n");
+				return YSERR;
+			}
+		}
+		else if(0<state.nFaceLeft)
+		{
+			bool vtxIdSet=false,texCoordSet=false;
+			unsigned char rgbSet=0,red,green,blue,alpha=255;
+			size_t i=0;
+			YsArray <unsigned int> vtId;
+			YsArray <float> texCoord;
+			for(auto opt : plyOptions.faceProp.propList)
+			{
+				if(argv.size()<=i)
+				{
+					printf("VERY BAD PLY.  WAY TOO FEW ARGUMENTS.\n");
+					return YSERR;
+				}
+				switch(opt)
+				{
+				case PROP_LIST_VTX_IDX:
+					{
+						size_t len=argv[i].Atoi();
+						++i;
+						for(size_t j=0; j<len; ++j)
+						{
+							if(argv.size()<=i)
+							{
+								printf("EXTREMELY BAD PLY.  WAY TOO FEW ARGUMENTS FOR VERTEX INDECES.\n");
+								return YSERR;
+							}
+							vtId.push_back(argv[i].Atoi());
+							++i;
+						}
+						vtxIdSet=true;
+					}
+					break;
+				case PROP_LIST_TEX_COORDS:
+					{
+						size_t len=argv[i].Atoi();
+						++i;
+						for(size_t j=0; j<len; ++j)
+						{
+							if(argv.size()<=i)
+							{
+								printf("EXTREMELY BAD PLY.  WAY TOO FEW ARGUMENTS FOR VERTEX INDECES.\n");
+								return YSERR;
+							}
+							texCoord.push_back(argv[i].Atof());
+							++i;
+						}
+						texCoordSet=true;
+					}
+					break;
+				case PROP_RED8:
+					red=argv[i].Atoi();
+					++i;
+					rgbSet|=1;
+					break;
+				case PROP_GREEN8:
+					green=argv[i].Atoi();
+					++i;
+					rgbSet|=2;
+					break;
+				case PROP_BLUE8:
+					blue=argv[i].Atoi();
+					++i;
+					rgbSet|=4;
+					break;
+				case PROP_ALPHA8:
+					alpha=argv[i].Atoi();
+					++i;
+					break;
+				default:
+					printf("Evil property for a face. %d\n",opt);
+					return YSERR;
+				}
+			}
+
+			if(true==vtxIdSet)
+			{
+				YsShell::PolygonHandle plHd;
+				YsArray <YsShell::VertexHandle> plVtHd;
+
+				for(auto id : vtId)
+				{
+					if(state.vtHdList.size()<id)
+					{
+						printf("***K!  VTID OVERFLOW!\n");
+						return YSERR;
+					}
+					plVtHd.push_back(state.vtHdList[id]);
+				}
+				plHd=shl.AddPolygon(plVtHd);
+
+				YsColor col;
+				col.SetIntRGBA(red,green,blue,alpha);
+				if(7==rgbSet)
+				{
+					shl.SetPolygonColor(plHd,col);
+				}
+			}
+			else
+			{
+				printf("Face missing vertex list.  Are you moron?\n");
+				return YSERR;
+			}
+		}
+	}
+	return YSOK;
+}
+void YsShellExtPlyReader::EndRead(YsShellExt &shl)
+{
+}
+YSRESULT YsShellExtPlyReader::ReadPly(YsShellExt &shl,YsTextInputStream &inStream,const ReadOption &option)
+{
+	YSRESULT res=YSOK;
+
+	BeginRead(option);
+
+	YsString str;
+	while(NULL!=inStream.Gets(str))
+	{
+		if(YSOK!=ReadOneLine(shl,str))
+		{
+			res=YSERR;
+		}
+	}
+
+	EndRead(shl);
+
+	return res;
+}
+
+
+////////////////////////////////////////////////////////////
 
 
 YSRESULT YsShellExt_LoadGeneral(YsShellExt &shl,const char fnIn[])
@@ -2010,6 +2359,23 @@ YSRESULT YsShellExt_LoadGeneral(YsShellExt &shl,const char fnIn[])
 			return res;
 		}
 	}
+	else if(0==ext.STRCMP(".PLY"))
+	{
+		FILE *fp=fopen(fn,"r");
+		if(nullptr!=fp)
+		{
+			shl.CleanUp();
+
+			YsShellExtPlyReader::ReadOption defaultOption;
+
+			YsShellExtPlyReader reader;
+			YsTextFileInputStream inStream(fp);
+			auto res=reader.ReadPly(shl,inStream,defaultOption);
+
+			fclose(fp);
+			return res;
+		}
+	}
 	return YSERR;
 }
 
@@ -2037,6 +2403,11 @@ YSRESULT YsShellExtEdit_LoadGeneral(YsShellExtEdit &shl,const char fnIn[])
 	{
 		YsShellExtObjReader::ReadOption defaultOption;
 		return shl.LoadObj(fn);
+	}
+	else if(0==ext.STRCMP(".PLY"))
+	{
+		YsShellExtPlyReader::ReadOption defaultOption;
+		return shl.LoadPly(fn);
 	}
 	return YSERR;
 }

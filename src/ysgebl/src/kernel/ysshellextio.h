@@ -297,6 +297,100 @@ public:
 
 
 
+
+class YsShellExtPlyReader
+{
+private:
+	enum
+	{
+		PROP_NULL,
+		PROP_X,
+		PROP_Y,
+		PROP_Z,
+		PROP_NX,
+		PROP_NY,
+		PROP_NZ,
+		PROP_LIST_VTX_IDX,
+		PROP_LIST_TEX_COORDS,
+		PROP_RED8,
+		PROP_GREEN8,
+		PROP_BLUE8,
+		PROP_ALPHA8,
+	};
+
+public:
+	class ElementProperties
+	{
+	public:
+		YsArray <unsigned int> propList;
+		void Initialize(void)
+		{
+			propList.clear();
+		}
+	};
+	class VertexProperties : public ElementProperties
+	{
+	};
+	class FaceProperties : public ElementProperties
+	{
+	};
+
+	class ReadOption
+	{
+	};
+	class ReadState
+	{
+	public:
+		bool inHeader=true;
+		bool definingVertex=false;
+		bool definingPolygon=false;
+		unsigned int nVtxLeft=0;
+		unsigned int nFaceLeft=0;
+		YsString textureFileName;
+		YsArray <YsShell::VertexHandle> vtHdList;
+
+		void Initialize(void)
+		{
+			inHeader=true;
+			definingVertex=false;
+			definingPolygon=false;
+			nVtxLeft=0;
+			nFaceLeft=0;
+		}
+	};
+	class PlyOptions
+	{
+	public:
+		VertexProperties vtxProp;
+		FaceProperties faceProp;
+		void Initialize(void)
+		{
+			vtxProp.Initialize();
+			faceProp.Initialize();
+		}
+	};
+
+	ReadState state;
+	PlyOptions plyOptions;
+
+	/*! Begins reading .OBJ file.
+	    It doesn't delete existinv vertices and polygons.  It essentially dumps incoming vertices and polygons to the shell.
+	*/
+	void BeginRead(const ReadOption &option);
+
+	/*! Read one line of .OBJ file. */
+	YSRESULT ReadOneLine(YsShellExt &shl,YsString &str);
+
+	/*! End reading .OBJ file. */
+	void EndRead(YsShellExt &shl);
+
+	/*! This function reads a .OBJ file from a text-input stream.  Internally this uses BeginReadObj, EndReadObj, and ReadObnOneLine.
+	    It doesn't delete existinv vertices and polygons.  It essentially dumps incoming vertices and polygons to the shell.
+	*/
+	YSRESULT ReadPly(YsShellExt &shl,YsTextInputStream &inStream,const ReadOption &option);
+};
+
+
 /*! Convenience function for reading a file into shl.
     The file type will be identified by the file extension.
 */

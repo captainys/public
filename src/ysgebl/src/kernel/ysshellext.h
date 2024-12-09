@@ -1224,6 +1224,9 @@ public:
 	/*! This function loads Wavefront .OBJ data. */
 	YSRESULT LoadObj(YsTextInputStream &inStream);
 
+	/*! This function loads Wavefront .OBJ data. */
+	YSRESULT LoadPly(YsTextInputStream &inStream);
+
 	/*! This function returns a drawing-buffer. 
 	    A drawing buffer stores primitive informations for rendering. */
 	YsShellExtDrawingBuffer &GetDrawingBuffer(void) const;

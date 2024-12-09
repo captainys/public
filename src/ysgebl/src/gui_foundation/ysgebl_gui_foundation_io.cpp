@@ -142,6 +142,30 @@ GeblGuiFoundation::SlhdAndErrorCode GeblGuiFoundation::LoadGeneral(const wchar_t
 			returnValue.errCode=GEBLERROR_FILE_NOT_FOUND;
 		}
 	}
+	else if(0==ext.STRCMP(L".PLY"))
+	{
+		YsFileIO::File fp(fn,"r");
+		if(NULL!=fp)
+		{
+			YsShellDnmContainer <YsShellExtEditGui>::Node *newSlHd=shlGrp.CreateShell(parent);
+
+			auto inStream=fp.InStream();
+			if(YSOK==newSlHd->LoadPly(inStream))
+			{
+				newSlHd->SetFileName(fn);
+				returnValue.slHd=newSlHd;
+			}
+			else
+			{
+				shlGrp.DeleteShell(newSlHd);
+				returnValue.errCode=GEBLERROR_FILE_CORRUPTED;
+			}
+		}
+		else
+		{
+			returnValue.errCode=GEBLERROR_FILE_NOT_FOUND;
+		}
+	}
 	else if(0==ext.STRCMP(L".OFF"))
 	{
 		YsFileIO::File fp(fn,"r");
