@@ -796,6 +796,27 @@ YSRESULT YsShellExt::SetVertexPosition(VertexHandle vtHd,const YsVec3 &pos)
 	return ModifyVertexPosition(vtHd,pos);
 }
 
+YSRESULT YsShellExt::SetVertexNormal(VertexHandle vtHd,const YsVec3 &nom)
+{
+	auto *vtx=YsShell::GetVertex(vtHd);
+	if(nullptr!=vtx)
+	{
+		vtx->SetNormal(nom);
+		return YSOK;
+	}
+	return YSERR;
+}
+
+YsVec3 YsShellExt::GetVertexNormal(VertexHandle vtHd) const
+{
+	auto *vtx=YsShell::GetVertex(vtHd);
+	if(nullptr!=vtx)
+	{
+		return vtx->GetNormal();
+	}
+	return YsVec3::Origin();
+}
+
 YSRESULT YsShellExt::SetVertexRoundFlag(YsShellVertexHandle vtHd,YSBOOL round)
 {
 	VertexAttrib *vtAttrib=GetVertexAttrib(vtHd);

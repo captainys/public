@@ -2162,6 +2162,11 @@ YSRESULT YsShellExtPlyReader::ReadOneLine(YsShellExt &shl,YsString &str)
 			{
 				auto vtHd=shl.AddVertex(vtx);
 				state.vtHdList.push_back(vtHd);
+				if(true==nomSet)
+				{
+					state.vertexHasNormal=true;
+					shl.SetVertexNormal(vtHd,nom);
+				}
 				--state.nVtxLeft;
 			}
 			else
@@ -2261,6 +2266,18 @@ YSRESULT YsShellExtPlyReader::ReadOneLine(YsShellExt &shl,YsString &str)
 				}
 				plHd=shl.AddPolygon(plVtHd);
 
+
+				if(true==texCoordSet && plVtHd.size()*2<=texCoord.size())
+				{
+					YsArray <YsShell::TexCoordHandle> plTxHd;
+					for(size_t i=0; i+1<texCoord.size(); i+=2)
+					{
+						YsVec2 pos(texCoord[i],texCoord[i+1]);
+						plTxHd.push_back(shl.AddTexCoord(pos));
+						shl.SetPolygonTexCoord(plHd,plTxHd);
+					}
+				}
+
 				YsColor col;
 				col.SetIntRGBA(red,green,blue,alpha);
 				if(7==rgbSet)
@@ -2279,7 +2296,16 @@ YSRESULT YsShellExtPlyReader::ReadOneLine(YsShellExt &shl,YsString &str)
 }
 void YsShellExtPlyReader::EndRead(YsShellExt &shl)
 {
+	if(0<state.textureFileName.size())
+	{
+		shl.AddMetaData(YsString("TextureFile"),state.textureFileName);
+	}
+	if(true==state.vertexHasNormal)
+	{
+		shl.AddMetaData(YsString("VertexHasNormal"),YsString("1"));
+	}
 }
+
 YSRESULT YsShellExtPlyReader::ReadPly(YsShellExt &shl,YsTextInputStream &inStream,const ReadOption &option)
 {
 	YSRESULT res=YSOK;

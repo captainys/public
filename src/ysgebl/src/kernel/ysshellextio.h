@@ -349,6 +349,8 @@ public:
 		YsString textureFileName;
 		YsArray <YsShell::VertexHandle> vtHdList;
 
+		bool vertexHasNormal=false;
+
 		void Initialize(void)
 		{
 			inHeader=true;
@@ -356,6 +358,7 @@ public:
 			definingPolygon=false;
 			nVtxLeft=0;
 			nFaceLeft=0;
+			vertexHasNormal=false;
 		}
 	};
 	class PlyOptions

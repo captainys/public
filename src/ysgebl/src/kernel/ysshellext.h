@@ -1243,6 +1243,12 @@ public:
 	/*! This function moves vertex. */
 	YSRESULT SetVertexPosition(VertexHandle VtHd,const YsVec3 &NewPos);
 
+	/*! Vertex normal is not undo/redo target. */
+	YSRESULT SetVertexNormal(VertexHandle vtHd,const YsVec3 &nom);
+
+	/*! Vertex normal is not undo/redo target. */
+	YsVec3 GetVertexNormal(VertexHandle vtHd) const;
+
 	/*! This function sets ROUND flag of the vertex. */
 	YSRESULT SetVertexRoundFlag(YsShellVertexHandle vtHd,YSBOOL round);
 
