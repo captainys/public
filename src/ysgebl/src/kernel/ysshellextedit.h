@@ -634,6 +634,12 @@ public:
 	/*! This function loads Wavefront .OBJ data. */
 	YSRESULT LoadObj(YsTextInputStream &inStream);
 
+	/*! This function loads .PLY data. */
+	YSRESULT LoadPly(const char fn[]);
+
+	/*! This function loads .PLY data. */
+	YSRESULT LoadPly(YsTextInputStream &inStream);
+
 	/*! This function loads Wavefront .OBJ data. */
 	YSRESULT MergeObj(YsTextInputStream &inStream);
 

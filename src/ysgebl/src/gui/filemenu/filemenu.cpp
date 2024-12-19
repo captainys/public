@@ -80,6 +80,7 @@ void GeblGuiEditorBase::File_Open(FsGuiPopUpMenuItem *)
 	fdlg->fileExtensionArray.Append(L".srf");
 	fdlg->fileExtensionArray.Append(L".stl");
 	fdlg->fileExtensionArray.Append(L".obj");
+	fdlg->fileExtensionArray.Append(L".ply");
 	fdlg->fileExtensionArray.Append(L".off");
 	fdlg->fileExtensionArray.Append(L".dxf");
 	fdlg->fileExtensionArray.Append(L".dnm");
@@ -233,6 +234,7 @@ void GeblGuiEditorBase::File_SaveAs(FsGuiPopUpMenuItem *)
 	fdlg->fileExtensionArray.Append(L".dnm");
 	fdlg->fileExtensionArray.Append(L".stl");
 	fdlg->fileExtensionArray.Append(L".obj");
+	fdlg->fileExtensionArray.Append(L".ply");
 	fdlg->fileExtensionArray.Append(L".off");
 	fdlg->fileExtensionArray.Append(L".t3d");
 	fdlg->defaultFileName=def;

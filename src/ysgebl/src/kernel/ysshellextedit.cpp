@@ -397,6 +397,26 @@ YSRESULT YsShellExtEdit::LoadObj(YsTextInputStream &inStream)
 	return objReader.ReadObj(*this,inStream,opt);
 }
 
+YSRESULT YsShellExtEdit::LoadPly(const char fn[])
+{
+	FILE *fp=fopen(fn,"r");
+	if(NULL!=fp)
+	{
+		YsTextFileInputStream inStream(fp);
+		YSRESULT res=LoadPly(inStream);
+		fclose(fp);
+		return res;
+	}
+	return YSERR;
+}
+
+YSRESULT YsShellExtEdit::LoadPly(YsTextInputStream &inStream)
+{
+	YsShellExtPlyReader::ReadOption opt;
+	YsShellExtPlyReader PlyReader;
+	return PlyReader.ReadPly(*this,inStream,opt);
+}
+
 YSRESULT YsShellExtEdit::MergeObj(YsTextInputStream &inStream)
 {
 	YsShellExtObjReader::ReadOption opt;
