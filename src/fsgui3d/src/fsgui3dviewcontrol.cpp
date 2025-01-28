@@ -212,10 +212,10 @@ YSRESULT FsGui3DDrawingEnvironment::LoadViewpoint(int &windowWidth,int &windowHe
 
 	if(20120831==version)
 	{
-		YSBOOL perspective;
+		int perspective;
 		for(buf=""; 0==buf.Strlen() && YSTRUE!=inStream.EndOfFile(); inStream.Gets(buf));
 		sscanf(buf,"%d",&perspective);
-		SetPerspective(perspective);
+		SetPerspective((YSBOOL)perspective);
 
 		for(buf=""; 0==buf.Strlen() && YSTRUE!=inStream.EndOfFile(); inStream.Gets(buf));
 		sscanf(buf,"%lf%lf%lf",&a,&b,&c);
@@ -260,10 +260,10 @@ YSRESULT FsGui3DDrawingEnvironment::LoadViewpoint(int &windowWidth,int &windowHe
 	}
 	else if(20120831>version)
 	{
-		YSBOOL perspective;
+		int perspective;
 		for(buf=""; 0==buf.Strlen() && YSTRUE!=inStream.EndOfFile(); inStream.Gets(buf));
 		sscanf(buf,"%d",&perspective);
-		SetPerspective(perspective);
+		SetPerspective((YSBOOL)perspective);
 
 		for(buf=""; 0==buf.Strlen() && YSTRUE!=inStream.EndOfFile(); inStream.Gets(buf));
 		sscanf(buf,"%lf%lf%lf",&a,&b,&c);
