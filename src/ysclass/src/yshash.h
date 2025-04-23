@@ -1955,7 +1955,7 @@ public:
 				return false;
 			}
 			else if(this->ended!=YSTRUE && from.ended!=YSTRUE &&
-			        this->hashIdx==from.hashIdx && this->arrayIdx==from.arrayIdx)
+			        this->hd.hashIdx==from.hd.hashIdx && this->hd.arrayIdx==from.hd.arrayIdx)
 			{
 				return false;
 			}
