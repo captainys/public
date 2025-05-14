@@ -402,8 +402,6 @@ void YsShellExt_PatchBetweenTwoConstEdge::MergeTriFormQuad(void)
 				maxDotArray.Add(-minDot);
 			}
 		}
-	NEXTEDGE:
-		;
 	}
 
 	YsSimpleMergeSort<double,YsShell::Edge>(maxDotArray.GetN(),maxDotArray,edgeArray);

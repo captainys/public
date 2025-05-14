@@ -1013,6 +1013,7 @@ YsColor YsTextureManager::GetTransparentColor(TexHandle texHd) const
 			return unitPtr->transparentColor;
 		}
 	}
+	return YsWhite();
 }
 YSBOOL YsTextureManager::GetUseTransparency(TexHandle texHd) const
 {

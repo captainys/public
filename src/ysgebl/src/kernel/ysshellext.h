@@ -1224,6 +1224,9 @@ public:
 	/*! This function loads Wavefront .OBJ data. */
 	YSRESULT LoadObj(YsTextInputStream &inStream);
 
+	/*! This function loads Wavefront .OBJ data. */
+	YSRESULT LoadPly(YsTextInputStream &inStream);
+
 	/*! This function returns a drawing-buffer. 
 	    A drawing buffer stores primitive informations for rendering. */
 	YsShellExtDrawingBuffer &GetDrawingBuffer(void) const;
@@ -1239,6 +1242,12 @@ public:
 
 	/*! This function moves vertex. */
 	YSRESULT SetVertexPosition(VertexHandle VtHd,const YsVec3 &NewPos);
+
+	/*! Vertex normal is not undo/redo target. */
+	YSRESULT SetVertexNormal(VertexHandle vtHd,const YsVec3 &nom);
+
+	/*! Vertex normal is not undo/redo target. */
+	YsVec3 GetVertexNormal(VertexHandle vtHd) const;
 
 	/*! This function sets ROUND flag of the vertex. */
 	YSRESULT SetVertexRoundFlag(YsShellVertexHandle vtHd,YSBOOL round);

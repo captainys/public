@@ -766,6 +766,13 @@ YSRESULT YsShellExt::LoadObj(YsTextInputStream &inStream)
 	return objReader.ReadObj(*this,inStream,opt);
 }
 
+YSRESULT YsShellExt::LoadPly(YsTextInputStream &inStream)
+{
+	YsShellExtPlyReader::ReadOption opt;
+	YsShellExtPlyReader PlyReader;
+	return PlyReader.ReadPly(*this,inStream,opt);
+}
+
 YsShellExtDrawingBuffer &YsShellExt::GetDrawingBuffer(void) const
 {
 	return *drawingBuffer;
@@ -787,6 +794,27 @@ YsShellVertexHandle YsShellExt::AddVertex(const YsVec3 &pos)
 YSRESULT YsShellExt::SetVertexPosition(VertexHandle vtHd,const YsVec3 &pos)
 {
 	return ModifyVertexPosition(vtHd,pos);
+}
+
+YSRESULT YsShellExt::SetVertexNormal(VertexHandle vtHd,const YsVec3 &nom)
+{
+	auto *vtx=YsShell::GetVertex(vtHd);
+	if(nullptr!=vtx)
+	{
+		vtx->SetNormal(nom);
+		return YSOK;
+	}
+	return YSERR;
+}
+
+YsVec3 YsShellExt::GetVertexNormal(VertexHandle vtHd) const
+{
+	auto *vtx=YsShell::GetVertex(vtHd);
+	if(nullptr!=vtx)
+	{
+		return vtx->GetNormal();
+	}
+	return YsVec3::Origin();
 }
 
 YSRESULT YsShellExt::SetVertexRoundFlag(YsShellVertexHandle vtHd,YSBOOL round)

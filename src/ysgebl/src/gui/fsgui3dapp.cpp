@@ -1003,6 +1003,33 @@ void GeblGuiEditorBase::SaveGeneral(const YsShellExtEdit &shl,const wchar_t fn[]
 			MessageDialog(FSGUI_COMMON_ERROR,L"Cannot open the file in write-mode.");
 		}
 	}
+	else if(0==ext.STRCMP(".PLY"))
+	{
+		FILE *fp=YsFileIO::Fopen(fn,"w");
+		if(NULL!=fp)
+		{
+			YsTextFileOutputStream outStream(fp);
+
+			YsShellExtPlyWriter writer;
+			YsShellExtPlyWriter::WriteOption option;
+			writer.WritePly(outStream,(const YsShellExt &)shl,option);
+			fclose(fp);
+
+			shl.SetFileName(fn);
+			shl.Saved();
+			lastAccessedFileName.Set(fn);
+			if(YSTRUE==recordRecentFiles)
+			{
+				AddRecentlyUsedFile(fn);
+			}
+
+			MessageDialog(FSGUI_DLG_SAVED_TITLE,savedMsg);
+		}
+		else
+		{
+			MessageDialog(FSGUI_COMMON_ERROR,L"Cannot open the file in write-mode.");
+		}
+	}
 	else if(0==ext.STRCMP(".STL"))
 	{
 		/* for(auto plHd : shl.AllPolygon())
