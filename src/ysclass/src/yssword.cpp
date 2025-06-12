@@ -976,7 +976,7 @@ YSRESULT YsSword::ConvexnizeGo
 	if(newPolygon!=NULL && newPolygon!=target)
 	{
 		plg=target->DeleteFromList();
-		plg=plg->Append(newPolygon);
+		plg=YsList <YsSwordPolygon>::LegacyAppend(plg,newPolygon);
 	}
 
 	return YSOK;
