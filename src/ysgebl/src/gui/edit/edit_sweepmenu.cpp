@@ -1560,8 +1560,54 @@ YSRESULT GeblGuiEditorBase::Edit_Sweep_ExtendOrShrink_SpaceKeyCallBack(void)
 
 ////////////////////////////////////////////////////////////
 
+class GeblGuiEditorBase::Edit_Sweep_PipeDialog : public FsGuiDialog
+{
+public:
+	GeblGuiEditorBase *canvas;
+	FsGuiButton *okBtn,*cancelBtn;
+	FsGuiTextBox *radiusTxt,*divisionTxt;
+	void Make(GeblGuiEditorBase *canvas);
+	void OnButtonClick(FsGuiButton *btn);
+};
+
+void GeblGuiEditorBase::Edit_Sweep_PipeDialog::Make(GeblGuiEditorBase *canvas)
+{
+	this->canvas=canvas;
+
+	Initialize();
+
+	okBtn=AddTextButton(0,FSKEY_SPACE,FSGUI_PUSHBUTTON,FSGUI_COMMON_OK,YSTRUE);
+	cancelBtn=AddTextButton(0,FSKEY_ESC,FSGUI_PUSHBUTTON,FSGUI_COMMON_CANCEL,YSFALSE);
+
+	radiusTxt=AddTextBox(0,FSKEY_NULL,FSGUI_COMMON_RADIUS,L"1.0",5,YSTRUE);
+	radiusTxt->SetTextType(FSGUI_REALNUMBER);
+
+	divisionTxt=AddTextBox(MakeIdent("numdiv"),FSKEY_NULL,FSGUI_DLG_COMMON_DIVCOUNT,L"16",5,YSTRUE);
+	divisionTxt->SetTextType(FSGUI_INTEGER);
+
+	SetArrangeType(FSDIALOG_ARRANGE_TOP_LEFT);
+	SetBackgroundAlpha(0.3);
+	Fit();
+}
+
+void GeblGuiEditorBase::Edit_Sweep_PipeDialog::OnButtonClick(FsGuiButton *btn)
+{
+	if(okBtn==btn)
+	{
+		canvas->Edit_ClearUIMode();
+	}
+	else if(cancelBtn==btn)
+	{
+		canvas->Edit_ClearUIMode();
+	}
+}
+
 // Haven't I written this function already?
 void GeblGuiEditorBase::Edit_Sweep_PipeWithPath(FsGuiPopUpMenuItem *)
 {
-
+	Edit_ClearUIMode();
+	auto dlg=FsGuiDialog::CreateSelfDestructiveDialog<Edit_Sweep_PipeDialog>();
+	dlg->Make(this);
+	AddDialog(dlg);
+	ArrangeDialog();
 }

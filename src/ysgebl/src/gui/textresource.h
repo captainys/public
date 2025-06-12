@@ -79,6 +79,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_COMMON_NO                                   FsGetTextResource("common/no",L"No")
 #define FSGUI_COMMON_ERROR                                FsGetTextResource("common/error",L"Error!")
 #define FSGUI_COMMON_ANGLE                                FsGetTextResource("common/angle",L"Angle")
+#define FSGUI_COMMON_RADIUS                               FsGetTextResource("common/radius",L"Radius")
 
 
 

@@ -39,7 +39,7 @@ $BGCOL 0
 +common/no                                         #No
 +common/error                                      #エラー!
 +common/angle                                      #角度
-
++common/radius                                     #半径
 
 +common/zaxis                                      #Z-Axis
 +dlg/about/donateline1                             #Polygon Crestはフリーでオープンソースのプログラムです。なので、無料ですべての機能をご利用いただけます。\nですが、開発サポートのために、寄付をいただけましたら、大変感謝いたします。
