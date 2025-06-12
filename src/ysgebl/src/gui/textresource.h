@@ -395,6 +395,7 @@ inline const wchar_t *FsGetTextResource(const char *key,const wchar_t *alternati
 #define FSGUI_MENU_EDIT_SWEEP_PARALLEL                    FsGetTextResource("menu/edit/sweep/parallel",L"Parallel Sweeping")
 #define FSGUI_MENU_EDIT_SWEEP_PARALLELWITHPATH            FsGetTextResource("menu/edit/sweep/parallelwithpath",L"Parallel Sweeping with Path")
 #define FSGUI_MENU_EDIT_SWEEP_ROTATIONAL_WITH_PATH        FsGetTextResource("menu/edit/sweep/rotational_with_path",L"Rotational Sweep with Path")
+#define FSGUI_MENU_EDIT_SWEEP_PIPE_WITH_PATH              FsGetTextResource("menu/edit/sweep/pipewithpath",L"Pipe with Path")
 #define FSGUI_MENU_EDIT_UNDO                              FsGetTextResource("menu/edit/undo",L"Undo\tCtrl+Z")
 #define FSGUI_MENU_FILE                                   FsGetTextResource("menu/file",L"File")
 #define FSGUI_MENU_FILE_CLOSE                             FsGetTextResource("menu/file/close",L"Close")

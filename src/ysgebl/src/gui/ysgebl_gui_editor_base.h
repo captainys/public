@@ -745,6 +745,7 @@ public:
 
 	static void Edit_Sweep_AlongSweepPath(void *appPtr,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *);
 
+	void Edit_Sweep_PipeWithPath(FsGuiPopUpMenuItem *);
 
 	void Edit_Align_MinimumX(FsGuiPopUpMenuItem *);
 	void Edit_Align_CenterX(FsGuiPopUpMenuItem *);

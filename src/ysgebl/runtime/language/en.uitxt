@@ -355,6 +355,7 @@ $BGCOL 0
 +menu/edit/sweep/nonparallelsweepwithpath          #Non-Parallel Sweeping with Path
 +menu/edit/sweep/parallel                          #Parallel Sweeping
 +menu/edit/sweep/parallelwithpath                  #Parallel Sweeping with Path
++menu/edit/sweep/pipewithpath                      #Pipe with Path
 +menu/edit/undo                                    #Undo\tCtrl+Z
 +menu/file                                         #File
 +menu/file/close                                   #Close

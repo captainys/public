@@ -353,7 +353,8 @@ $BGCOL 0
 +menu/edit/sweep/nonparallelsweepwithpath          #経路を指定してくねくねスイープ
 +menu/edit/sweep/parallel                          #平行スイープ
 +menu/edit/sweep/parallelwithpath                  #経路を指定して平行スイープ
-+menu/edit/sweep/rotational_with_path                   #経路を指定して回転スイープ
++menu/edit/sweep/rotational_with_path              #経路を指定して回転スイープ
++menu/edit/sweep/pipewithpath                      #経路を指定してパイプ
 +menu/edit/undo                                    #やり直し\tCtrl+Z
 +menu/file                                         #ファイル
 +menu/file/close                                   #閉じる

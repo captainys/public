@@ -1560,3 +1560,8 @@ YSRESULT GeblGuiEditorBase::Edit_Sweep_ExtendOrShrink_SpaceKeyCallBack(void)
 
 ////////////////////////////////////////////////////////////
 
+// Haven't I written this function already?
+void GeblGuiEditorBase::Edit_Sweep_PipeWithPath(FsGuiPopUpMenuItem *)
+{
+
+}

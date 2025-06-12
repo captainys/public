@@ -321,6 +321,7 @@ void GeblGuiEditorBase::MakeMainMenu(void)
 			edit_sweep->GetSubMenu()->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_EDIT_SWEEP_PARALLELWITHPATH,Edit_Sweep_ParallelSweepWithPath,this);
 			edit_sweep->GetSubMenu()->AddTextItem(0,FSKEY_C,FSGUI_MENU_EDIT_SWEEP_BETWEENCE)->BindCallBack(&THISCLASS::Edit_Sweep_BetweenConstEdge,this);
 			edit_sweep->GetSubMenu()->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_EDIT_SWEEP_EXTENDORSHRINK)->BindCallBack(&THISCLASS::Edit_Sweep_ExtendOrShrink,this);
+			edit_sweep->GetSubMenu()->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_EDIT_SWEEP_PIPE_WITH_PATH)->BindCallBack(&THISCLASS::Edit_Sweep_PipeWithPath,this);
 
 
 			edit_align->AddTextItem(0,FSKEY_NULL,FSGUI_MENU_EDIT_ALIGN_MINIMUMX)->BindCallBack(&THISCLASS::Edit_Align_MinimumX,this);
