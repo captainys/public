@@ -1594,6 +1594,9 @@ void GeblGuiEditorBase::Edit_Sweep_PipeDialog::OnButtonClick(FsGuiButton *btn)
 {
 	if(okBtn==btn)
 	{
+		int nDiv=divisionTxt->GetInteger();
+		double radius=radiusTxt->GetRealNumber();
+		canvas->Edit_Sweep_PipeWithPath_Execute(nDiv,radius);
 		canvas->Edit_ClearUIMode();
 	}
 	else if(cancelBtn==btn)
@@ -1610,4 +1613,110 @@ void GeblGuiEditorBase::Edit_Sweep_PipeWithPath(FsGuiPopUpMenuItem *)
 	dlg->Make(this);
 	AddDialog(dlg);
 	ArrangeDialog();
+}
+
+void GeblGuiEditorBase::Edit_Sweep_PipeWithPath_Execute(int nDiv,double radius)
+{
+	if(NULL==Slhd())
+	{
+		MessageDialog(FSGUI_COMMON_ERROR,FSGUI_ERROR_NEEDSELECTCONSTEDGE);
+		return;
+	}
+
+	YsShellExtEdit &shl=*Slhd();
+	YsShellExtEdit::StopIncUndo incUndo(shl);
+	for(auto ceHd : shl.GetSelectedConstEdge())
+	{
+		auto path=shl.GetConstEdgeVertex(ceHd);
+		auto pathIsLoop=shl.IsConstEdgeLoop(ceHd);
+
+		YsArray <double> scaling(path.size(),NULL);
+		for(auto &s : scaling)
+		{
+			s=1.0;
+		}
+
+		if(2<=path.size())
+		{
+			auto zVec=shl.GetEdgeVector(path[0],path[1]);
+			auto xVec=zVec.GetArbitraryPerpendicularVector();
+			xVec.Normalize();
+			auto yVec=zVec^xVec;
+
+			YsMatrix3x3 R;
+			R.SetColumnVector(1,xVec);
+			R.SetColumnVector(2,yVec);
+			R.SetColumnVector(3,zVec);
+
+			std::vector <YsShell::VertexHandle> loopVtHd;
+			for(int i=0; i<nDiv; ++i)
+			{
+				double a=2.0*YsPi*double(i)/double(nDiv);
+				double c=cos(a),s=sin(a);
+				YsVec3 p(c,s,0);
+				p*=radius;
+				p=R*p;
+				p+=shl.GetVertexPosition(path[0]);
+				loopVtHd.push_back(shl.AddVertex(p));
+			}
+
+			YsArray <YsShell::PolygonHandle> srcPlHd;
+			srcPlHd.push_back(shl.AddPolygon(loopVtHd.size(),loopVtHd.data()));
+
+			YsArray <YsShellExt::ConstEdgeHandle> empty;
+			YsShellExt_SweepInfoMultiStep sweepUtil;
+			sweepUtil.CleanUp();
+			sweepUtil.MakeInfo(shl.Conv(),srcPlHd,empty);
+			if(YSOK==sweepUtil.SetUpNonParallelSweepWithPath(shl.Conv(),path,pathIsLoop,scaling,YsShellExt_SweepInfoMultiStep::ORICON_AVERAGE_ANGLE,YsShellExt_SweepInfoMultiStep::ORICON_AVERAGE_ANGLE))
+			{
+				for(auto &layer : sweepUtil.layerArray)
+				{
+					for(auto &point : layer.pointArray)
+					{
+						if(NULL==point.vtHd)
+						{
+							point.vtHd=shl.AddVertex(point.pos);
+						}
+					}
+				}
+			}
+
+			for(auto &quad : sweepUtil.MakeSideFaceAndFirstToLastVertexMapping(shl.Conv()))
+			{
+				auto plHd=shl.AddPolygon(4,quad.quadVtHd);
+				shl.SetPolygonColor(plHd,colorPaletteDlg->GetColor());
+			}
+
+			if(YSTRUE==pathIsLoop)
+			{
+				for(auto plHd : srcPlHd)
+				{
+					shl.DeletePolygon(plHd);
+				}
+			}
+			else
+			{
+				for(auto plHd : srcPlHd)
+				{
+					YsArray <YsShellVertexHandle,4> plVtHd;
+					shl.GetPolygon(plVtHd,plHd);
+
+					if(YSOK==sweepUtil.MapVertexArray(plVtHd,shl.Conv()))
+					{
+						auto newPlHd=shl.AddPolygon(plVtHd);
+						auto attrib=shl.GetPolygonAttrib(plHd);
+						auto nom=shl.GetNormal(plHd);
+						auto col=shl.GetColor(plHd);
+
+						shl.SetPolygonAttrib(newPlHd,*attrib);
+						shl.SetPolygonNormal(newPlHd,nom);
+						shl.SetPolygonColor(newPlHd,col);
+					}
+				}
+			}
+		}
+	}
+
+	needRemakeDrawingBuffer|=(NEED_REMAKE_DRAWING_VERTEX|NEED_REMAKE_DRAWING_POLYGON);
+	SetNeedRedraw(YSTRUE);
 }

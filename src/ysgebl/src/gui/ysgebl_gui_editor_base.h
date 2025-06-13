@@ -747,6 +747,7 @@ public:
 
 	class Edit_Sweep_PipeDialog;
 	void Edit_Sweep_PipeWithPath(FsGuiPopUpMenuItem *);
+	void Edit_Sweep_PipeWithPath_Execute(int nDiv,double radius);
 
 	void Edit_Align_MinimumX(FsGuiPopUpMenuItem *);
 	void Edit_Align_CenterX(FsGuiPopUpMenuItem *);
