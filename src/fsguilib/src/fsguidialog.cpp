@@ -6906,6 +6906,11 @@ void FsGuiDialog::SetUpStatic(FsGuiStatic *item,int msgWid,int msgHei,int id,int
 
 
 
+FsGuiButton *FsGuiDialog::AddTextButton(int id,int fsKey,FSGUIBUTTONTYPE btnType,std::string utf8,YSBOOL newLine)
+{
+	return AddTextButton(id,fsKey,btnType,utf8.c_str(),newLine);
+}
+
 FsGuiButton *FsGuiDialog::AddTextButton(int id,int fsKey,FSGUIBUTTONTYPE btnType,const char label[],YSBOOL newLine)
 {
 	YsListItem <FsGuiButton> *neo=btnList.Create();
@@ -7003,6 +7008,10 @@ void FsGuiDialog::SetUpButton(FsGuiButton *item,int msgWid,int msgHei,FSGUIBUTTO
 
 
 
+FsGuiTextBox *FsGuiDialog::AddTextBox(int id,int fsKey,FsGuiTextBox::LAYOUT layout,std::string label,int nShow,YSBOOL newLine)
+{
+	return AddTextBox(id,fsKey,layout,label.c_str(),nShow,newLine);
+}
 FsGuiTextBox *FsGuiDialog::AddTextBox(int id,int fsKey,const char label[],int nShow,YSBOOL newLine)
 {
 	return AddTextBox(id,fsKey,FsGuiTextBox::VERTICAL,label,nShow,newLine);

@@ -33,6 +33,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <functional>
 #include <fssimplewindow.h>
+#include <string>
 
 #include "fsguibase.h"
 
@@ -1363,6 +1364,7 @@ protected:
 
 	// Button
 public:
+	FsGuiButton *AddTextButton(int id,int fsKey,FSGUIBUTTONTYPE btnType,std::string utf8,YSBOOL newLine);
 	FsGuiButton *AddTextButton(int id,int fsKey,FSGUIBUTTONTYPE btnType,const char label[],YSBOOL newLine);
 	FsGuiButton *AddTextButton(int id,int fsKey,FSGUIBUTTONTYPE btnType,const wchar_t label[],YSBOOL newLine);
 	FsGuiButton *AddBmpButton(int id,int fsKey,FSGUIBUTTONTYPE btnType,const YsBitmap &bmpIn,const wchar_t label[],YSBOOL newLine);
@@ -1394,6 +1396,7 @@ public:
 
 	/*! layout can be FsGuiTextBox::HORIZONTAL or FsGuiTextBox::VERTICAL
 	*/
+	FsGuiTextBox *AddTextBox(int id,int fsKey,FsGuiTextBox::LAYOUT layout,std::string label,int nShow,YSBOOL newLine);
 	FsGuiTextBox *AddTextBox(int id,int fsKey,FsGuiTextBox::LAYOUT layout,const char label[],int nShow,YSBOOL newLine);
 	FsGuiTextBox *AddTextBox(int id,int fsKey,FsGuiTextBox::LAYOUT layout,const wchar_t label[],int nShow,YSBOOL newLine);
 	FsGuiTextBox *AddBmpTextBox(int id,int fsKey,FsGuiTextBox::LAYOUT layout,const YsBitmap &bmpIn,const char label[],int nShow,YSBOOL newLine);
