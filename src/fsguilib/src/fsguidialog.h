@@ -1348,6 +1348,9 @@ public:
 
 	// Static
 public:
+	FsGuiStatic *AddStaticText(int id,int fsKey,std::string label,int nWidth,int nLine,YSBOOL newLine);  // This reserves size for nWidth, nLine
+	FsGuiStatic *AddStaticText(int id,int fsKey,std::string label,YSBOOL newLine);
+
 	FsGuiStatic *AddStaticText(int id,int fsKey,const char label[],int nWidth,int nLine,YSBOOL newLine);  // This reserves size for nWidth, nLine
 	FsGuiStatic *AddStaticText(int id,int fsKey,const char label[],YSBOOL newLine);
 
@@ -1489,6 +1492,9 @@ public:
 
 	/*! Adds a tab control in the dialog and returns a pointer. */
 	FsGuiTabControl *AddTabControl(int id,int fsKey,YSBOOL newLine);
+
+	/*! Adds a tab in the tab control (tabCtrl).  str is the label of the tab. */
+	int AddTab(FsGuiTabControl *tabCtrl,std::string utf8);
 
 	/*! Adds a tab in the tab control (tabCtrl).  str is the label of the tab. */
 	int AddTab(FsGuiTabControl *tabCtrl,const char str[]);

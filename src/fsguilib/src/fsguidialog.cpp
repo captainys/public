@@ -6777,6 +6777,15 @@ void FsGuiDialog::InsertVerticalSpace(int hei)
 	lastY+=hei;
 }
 
+FsGuiStatic *FsGuiDialog::AddStaticText(int id,int fsKey,std::string label,int nWidth,int nLine,YSBOOL newLine)
+{
+	return AddStaticText(id,fsKey,label.c_str(),nWidth,nLine,newLine);
+}
+FsGuiStatic *FsGuiDialog::AddStaticText(int id,int fsKey,std::string label,YSBOOL newLine)
+{
+	return AddStaticText(id,fsKey,label.c_str(),newLine);
+}
+
 FsGuiStatic *FsGuiDialog::AddStaticText(int id,int fsKey,const char label[],int nWidth,int nLine,YSBOOL newLine)
 {
 	YsListItem <FsGuiStatic> *neo=sttList.Create();
@@ -7765,6 +7774,11 @@ FsGuiTabControl *FsGuiDialog::AddTabControl(int /*id*/,int /*fsKey*/,YSBOOL newL
 void FsGuiDialog::ExpandTab(FsGuiTabControl *tabCtrl)
 {
 	tabCtrl->ExpandTab();
+}
+
+int FsGuiDialog::AddTab(FsGuiTabControl *tabCtrl,std::string utf8)
+{
+	return AddTab(tabCtrl,utf8.c_str());
 }
 
 int FsGuiDialog::AddTab(FsGuiTabControl *tabCtrl,const char str[])
