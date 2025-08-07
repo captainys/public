@@ -31,6 +31,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define FSGUIDIALOGUTIL_IS_INCLUDED
 /* { */
 
+#include <string>
 #include <ysclass.h>
 #include "fsguidialog.h"
 #include "fsguiclipboard.h"
@@ -45,6 +46,9 @@ private:
 	int returnCodeYes,returnCodeNo;
 
 public:
+	void Make(
+	    std::string title,std::string msg,std::string yesBtn,std::string noBtn,
+	    int returnCodeYes=(int)YSOK,int returnCodeNo=(int)YSERR,YSBOOL okBtnBottom=YSFALSE);
 	void Make(
 	    const wchar_t title[],const wchar_t msg[],const wchar_t yesBtn[],const wchar_t noBtn[],
 	    int returnCodeYes=(int)YSOK,int returnCodeNo=(int)YSERR,YSBOOL okBtnBottom=YSFALSE);

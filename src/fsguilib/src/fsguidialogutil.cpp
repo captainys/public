@@ -34,6 +34,25 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ////////////////////////////////////////////////////////////
 
 void FsGuiMessageBoxDialog::Make(
+    std::string title,std::string msg,std::string yesBtn,std::string noBtn,
+    int returnCodeYes,int returnCodeNo,YSBOOL okBtnBottom)
+{
+	YsWString titleW,msgW,yesW,noW;
+	titleW.SetUTF8String(title.c_str());
+	msgW.SetUTF8String(msg.c_str());
+	yesW.SetUTF8String(yesBtn.c_str());
+	if(""!=noBtn)
+	{
+		noW.SetUTF8String(noBtn.c_str());
+		Make(titleW,msgW,yesW,noW,returnCodeYes,returnCodeNo,okBtnBottom);
+	}
+	else
+	{
+		Make(titleW,msgW,yesW,nullptr,returnCodeYes,returnCodeNo,okBtnBottom);
+	}
+}
+
+void FsGuiMessageBoxDialog::Make(
     const wchar_t title[],const wchar_t msg[],const wchar_t yesBtn[],const wchar_t noBtn[],
     int returnCodeYes,int returnCodeNo,YSBOOL okBtnBottom)
 {
