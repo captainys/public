@@ -459,6 +459,11 @@ static void FsDecomposeStringByTab(STRTYPE &left,STRTYPE &right,const CHARTYPE s
 	right.Set(src+i);
 }
 
+FsGuiPopUpMenuItem *FsGuiPopUpMenu::AddTextItem(int menuId,int fsKey,std::string utf8,void (*callback)(void *,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *),void *contextPtr)
+{
+	return AddTextItem(menuId,fsKey,utf8.c_str(),callback,contextPtr);
+}
+
 FsGuiPopUpMenuItem *FsGuiPopUpMenu::AddTextItem(int menuId,int fsKey,const char label[],void (*callback)(void *,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *),void *contextPtr)
 {
 	YsWString wLabel,wLabelLeft,wLabelRight;

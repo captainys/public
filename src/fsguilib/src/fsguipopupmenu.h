@@ -31,6 +31,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define FSGUIPOPUPMENU_IS_INCLUDED
 /* { */
 
+#include <string>
 #include <functional>
 
 #include "fsguibase.h"
@@ -219,6 +220,7 @@ public:
 	    If you don't assign a short-cut key, give 0 or FSKEY_NULL as fsKey.
 	    You can assign a call-back function here, but it is recommended to use BindCallBack function rather than assigning as the last parameters.
 	*/
+	FsGuiPopUpMenuItem *AddTextItem(int menuId,int fsKey,std::string utf8,void (*callback)(void *,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *)=NULL,void *contextPtr=NULL);
 	FsGuiPopUpMenuItem *AddTextItem(int menuId,int fsKey,const char label[],void (*callback)(void *,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *)=NULL,void *contextPtr=NULL);
 	FsGuiPopUpMenuItem *AddTextItem(int menuId,int fsKey,const wchar_t wLabel[],void (*callback)(void *,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *)=NULL,void *contextPtr=NULL);
 	FsGuiPopUpMenuItem *AddBmpItem(int menuId,int fsKey,const YsBitmap &bmp,const wchar_t wLabel[],void (*callback)(void *,FsGuiPopUpMenu *,FsGuiPopUpMenuItem *)=NULL,void *contextPtr=NULL);
