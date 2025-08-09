@@ -53,6 +53,12 @@ void FsGuiMessageBoxDialog::Make(
 }
 
 void FsGuiMessageBoxDialog::Make(
+    std::string title,std::string msg,std::string yesBtn,int returnCode,YSBOOL okBtnBottom)
+{
+	Make(title,msg,yesBtn,std::string(""),returnCode,okBtnBottom);
+}
+
+void FsGuiMessageBoxDialog::Make(
     const wchar_t title[],const wchar_t msg[],const wchar_t yesBtn[],const wchar_t noBtn[],
     int returnCodeYes,int returnCodeNo,YSBOOL okBtnBottom)
 {

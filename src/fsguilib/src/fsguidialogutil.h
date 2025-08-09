@@ -50,6 +50,10 @@ public:
 	    std::string title,std::string msg,std::string yesBtn,std::string noBtn,
 	    int returnCodeYes=(int)YSOK,int returnCodeNo=(int)YSERR,YSBOOL okBtnBottom=YSFALSE);
 	void Make(
+	    std::string title,std::string msg,std::string yesBtn,
+	    int returnCodeYes=(int)YSOK,YSBOOL okBtnBottom=YSFALSE);
+
+	void Make(
 	    const wchar_t title[],const wchar_t msg[],const wchar_t yesBtn[],const wchar_t noBtn[],
 	    int returnCodeYes=(int)YSOK,int returnCodeNo=(int)YSERR,YSBOOL okBtnBottom=YSFALSE);
 	void Make(
