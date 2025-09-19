@@ -66,7 +66,7 @@ YsSystemFontCache::InternalData::InternalData()
 	}
 
 	dsp=NULL;
-	rootWin=NULL;
+	rootWin=0;
 	fontSet=NULL;
 
 	dsp=XOpenDisplay(NULL);

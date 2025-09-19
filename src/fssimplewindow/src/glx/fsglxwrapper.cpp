@@ -339,7 +339,7 @@ void FsResizeWindow(int newWid,int newHei)
 
 int FsCheckWindowOpen(void)
 {
-	if(ysXWnd!=NULL)
+	if(ysXWnd!=0)
 	{
 		return 1;
 	}
@@ -456,7 +456,7 @@ void FsSetWindowTitle(const char windowTitle[])
 
 void FsPollDevice(void)
 {
-	if(NULL==ysXWnd)
+	if(0==ysXWnd)
 	{
 		return;
 	}
