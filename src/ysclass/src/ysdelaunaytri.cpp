@@ -1106,6 +1106,11 @@ YSRESULT YsUnconstrainedDelaunayTriangulation::SaveSrf(const char fn[]) const
 }
 
 
+void YsUnconstrainedDelaunayTriangulation::RegisterBoundaryEdge(YSSIZE_T ndIdx0,YSSIZE_T ndIdx1)
+{
+	boundaryEdge.push_back(ndIdx0);
+	boundaryEdge.push_back(ndIdx1);
+}
 
 #include "ysshell2d.h"
 YSRESULT YsUnconstrainedDelaunayTriangulation::DeleteOutsideTriAfterEdgeRegistration(void)

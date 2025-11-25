@@ -163,10 +163,11 @@ public:
 		}
 		return DeleteOutsideTriAfterEdgeRegistration();
 	}
-	
+
+	void RegisterBoundaryEdge(YSSIZE_T ndIdx0,YSSIZE_T ndIdx1);
+	YSRESULT DeleteOutsideTriAfterEdgeRegistration(void);
 
 private:
-	YSRESULT DeleteOutsideTriAfterEdgeRegistration(void);
 	YSSIZE_T FindStartingTriangle(void) const;
 	YSSIZE_T StepToNextTriangle(YSSIZE_T curTriIdx,const YsVec2 &goalPos) const;
 	YSRESULT CheckPipeValidity(YsArray <int> &pipe) const;
