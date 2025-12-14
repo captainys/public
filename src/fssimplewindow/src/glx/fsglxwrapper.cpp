@@ -953,7 +953,7 @@ void FsSetMousePosition(int mx,int my)
 	// This should move the mouse cursor to the given location.
 	// However, it doesn't in VirtualBox.
 	// This function may no longer implemented.
-	XWarpPointer(ysXDsp,ysXWnd,ysXWnd,0,0,ysXWid,ysXHei,mx,my);
+	XWarpPointer(ysXDsp,None,ysXWnd,0,0,0,0,mx,my);
 }
 
 int FsGetMouseEvent(int &lb,int &mb,int &rb,int &mx,int &my)
