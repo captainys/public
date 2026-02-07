@@ -210,7 +210,7 @@ static HWND GetApplicationMainWindow(void)
 	return hWndLargest;
 }
 
-static UINT_PTR CALLBACK FileDialogCallBack(HWND /*hDlg*/,UINT msg,WPARAM /*wp*/,LPARAM /*lp*/)
+static UINT_PTR CALLBACK FileDialogCallBack(HWND hDlg,UINT msg,WPARAM /*wp*/,LPARAM /*lp*/)
 {
 	// Attempted to relocate the file dialog so that it covers the parent window.
 	// However, it didn't work for the reason unknown.
@@ -235,6 +235,11 @@ static UINT_PTR CALLBACK FileDialogCallBack(HWND /*hDlg*/,UINT msg,WPARAM /*wp*/
 			const int wid=rect.right-rect.left;
 			const int hei=rect.bottom-rect.top;
 			SetWindowPos(hDlg,HWND_TOP,rect.left,rect.top,wid,hei,SWP_NOZORDER); */
+
+			// A user reported that the File Dialog hides behind the main window if the main window is in the full-screen mode.
+			// I could not confirm the issue in my environment, but as a weak defense, I make it TOPMOST.
+			SetWindowPos(hDlg,HWND_TOPMOST,0,0,0,0,SWP_NOMOVE|SWP_NOSIZE);
+			return TRUE;
 		}
 		break;
 	}
