@@ -387,7 +387,11 @@ YSRESULT YsSoundPlayer::APISpecificData::Start(void)
 	// Apparently 8000Hz has some problems in play back.
 	// 
 	unsigned int rateRequest=44100;
-	int dir;  // What's dir?
+	// dir is a direction hint, not an output-only field.  Left uninitialised, ALSA
+	// reads whatever is on the stack; a positive value asks for the next rate
+	// ABOVE the request, which on a device advertising a continuous rate range
+	// (PipeWire's ALSA plugin reports [1 384000]) is 44101Hz.  0 = exact.
+	int dir=0;
 	snd_pcm_hw_params_set_rate_near(handle,hwParam,&rateRequest,&dir);
 
 	// Make buffer size small, otherwise it's going to give me too much latency.
@@ -714,25 +718,32 @@ bool YsSoundPlayer::APISpecificData::PopulateWriteBuffer(unsigned int &writePtr,
 				writeBuf[writePtr*bytePerTimeStep+outCh*2  ]=v&0xff;
 				writeBuf[writePtr*bytePerTimeStep+outCh*2+1]=((v>>8)&0xff);
 			}
-			++writePtr;
+		}
+		// These advance once per FRAME, not once per channel.  They used to sit
+		// inside the outCh loop above, which on a 2-channel device stepped
+		// writePtr and wavPtr twice per source sample: the left channel landed on
+		// even output frames and the right on odd ones, the bytes in between were
+		// never written, and every second source sample was skipped.  Each channel
+		// came out decimated 2:1 and zero-stuffed back up, aliasing everything
+		// above 11kHz down into the audible band.
+		++writePtr;
 
-			balance-=wavFile->PlayBackRate();
-			while(balance<0)
+		balance-=wavFile->PlayBackRate();
+		while(balance<0)
+		{
+			balance+=playbackRate;
+			++wavPtr;
+		}
+
+		if(wavFile->NTimeStep()<=wavPtr)
+		{
+			if(YSTRUE!=loop)
 			{
-				balance+=playbackRate;
-				++wavPtr;
+				notLoopAndAllTheWayToEnd=true;
 			}
-
-			if(wavFile->NTimeStep()<=wavPtr)
+			else
 			{
-				if(YSTRUE!=loop)
-				{
-					notLoopAndAllTheWayToEnd=true;
-				}
-				else
-				{
-					wavPtr=0;
-				}
+				wavPtr=0;
 			}
 		}
 	}
