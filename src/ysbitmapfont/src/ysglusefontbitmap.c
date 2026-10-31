@@ -219,7 +219,7 @@ void YsGlDrawFontBitmap28x44(const char str[])
 
 void YsGlSelectAndUseFontBitmapByHeight(int *selectedWidth,int *selectedHeight,int listBase,int fontHeight)
 {
-	const unsigned char * const *ptr=YsGlSelectFontBitmapPointerByHeight(selectedWidth,selectedHeight,fontHeight);
+	unsigned char **ptr=(unsigned char **)YsGlSelectFontBitmapPointerByHeight(selectedWidth,selectedHeight,fontHeight);
 	if(NULL!=ptr)
 	{
 		YsGlMakeFontBitmapDisplayList(listBase,ptr,*selectedWidth,*selectedHeight);
