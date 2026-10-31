@@ -119,8 +119,8 @@ int YsGLSLCompileAndLinkVertexAndFragmentShader(
 	    NULL); // Last NULL assumes each line is C string
 	 */
 
-	glShaderSource(vertexShaderId,1,&vertexShaderProgramLinear,NULL);
-	glShaderSource(fragmentShaderId,1,&fragmentShaderProgramLinear,NULL);
+	glShaderSource(vertexShaderId,1,(const GLchar* const *)&vertexShaderProgramLinear,NULL);
+	glShaderSource(fragmentShaderId,1,(const GLchar* const *)&fragmentShaderProgramLinear,NULL);
 
 
 
