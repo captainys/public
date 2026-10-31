@@ -58,9 +58,14 @@ extern int YsFont14P_Wid[256];
 extern unsigned char *YsFont16P_Ptn[256];
 extern int YsFont16P_Wid[256];
 
-void YsGlMakeFontBitmapDisplayList(int listBase,const unsigned char *const fontPtr[],int wid,int hei);
-void YsGlDrawFontBitmapDirect(const char str[],const unsigned char *const fontPtr[],int wid,int hei);
-void YsGlDrawFontBitmapDirectWithLength(int nChar,const char str[],const unsigned char *const fontPtr[],int wid,int hei);
+
+// 2026/10/31 I've just learned C still did not import concept of const-correctness back to its spec.
+//            C cannot do multi-level const like this.
+// void YsGlMakeFontBitmapDisplayList(int listBase,unsigned char *const fontPtr[],int wid,int hei);
+
+void YsGlMakeFontBitmapDisplayList(int listBase,unsigned char *fontPtr[],int wid,int hei);
+void YsGlDrawFontBitmapDirect(const char str[],unsigned char *fontPtr[],int wid,int hei);
+void YsGlDrawFontBitmapDirectWithLength(int nChar,const char str[],unsigned char *fontPtr[],int wid,int hei);
 
 void YsGlUseFontBitmap6x7(int listBase);
 void YsGlDrawFontBitmap6x7(const char str[]);

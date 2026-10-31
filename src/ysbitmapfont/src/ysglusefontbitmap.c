@@ -34,7 +34,7 @@ OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "ysglfontdata.h"
 
 
-void YsGlMakeFontBitmapDisplayList(int listBase,const unsigned char *const fontPtr[],int wid,int hei)
+void YsGlMakeFontBitmapDisplayList(int listBase,unsigned char *fontPtr[],int wid,int hei)
 {
 	int i;
 	glRasterPos2i(0,0);
@@ -46,7 +46,7 @@ void YsGlMakeFontBitmapDisplayList(int listBase,const unsigned char *const fontP
 	}
 }
 
-void YsGlDrawFontBitmapDirect(const char str[],const unsigned char *const fontPtr[],int wid,int hei)
+void YsGlDrawFontBitmapDirect(const char str[],unsigned char *fontPtr[],int wid,int hei)
 {
 	int i;
 	for(i=0; 0!=str[i]; i++)
@@ -55,7 +55,7 @@ void YsGlDrawFontBitmapDirect(const char str[],const unsigned char *const fontPt
 	}
 }
 
-void YsGlDrawFontBitmapDirectWithLength(int nChar,const char str[],const unsigned char *const fontPtr[],int wid,int hei)
+void YsGlDrawFontBitmapDirectWithLength(int nChar,const char str[],unsigned char *fontPtr[],int wid,int hei)
 {
 	int i;
 	for(i=0; i<nChar; i++)
