@@ -398,7 +398,9 @@ static void RenderTexture2D(
 	}
 
 	glUniform1i(renderer->transformationTypePos,1);
-	glUniform1i(renderer->texturePos,samplerIdent);
+	/* A sampler uniform takes a texture-unit index, not a texture object
+	   id.  All callers bind the texture on unit 0. */
+	glUniform1i(renderer->texturePos,0);
 
 	glVertexAttribPointer(renderer->vertexPos,4,GL_FLOAT,GL_FALSE,0,vertex);
 	glVertexAttribPointer(renderer->offsetPos,2,GL_FLOAT,GL_FALSE,0,offset);
